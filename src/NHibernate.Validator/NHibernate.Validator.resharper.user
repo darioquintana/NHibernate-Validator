@@ -1,0 +1,105 @@
+<Configuration>
+  <SharedSolutionDisabledTemplatesManager>
+    <DisabledTemplates />
+  </SharedSolutionDisabledTemplatesManager>
+  <UnitTestRunner>
+    <CustomStartDirectory>
+    </CustomStartDirectory>
+    <UseShadowCopy>True</UseShadowCopy>
+    <UseCustomFolder>False</UseCustomFolder>
+    <Providers />
+  </UnitTestRunner>
+  <UserSolutionDisabledTemplatesManager>
+    <DisabledTemplates />
+  </UserSolutionDisabledTemplatesManager>
+  <FileStructureView>
+    <AutoScrollToSource>False</AutoScrollToSource>
+    <TrackCaretLocation>False</TrackCaretLocation>
+  </FileStructureView>
+  <ReFormatCode>
+    <ReorderMembers>True</ReorderMembers>
+    <OptimizeUsings>True</OptimizeUsings>
+    <RemoveRedundantThis>True</RemoveRedundantThis>
+    <ShortenReferences>True</ShortenReferences>
+  </ReFormatCode>
+  <NAntValidationSettings>
+    <NAntPath value="" />
+  </NAntValidationSettings>
+  <EditorManager>
+    <RecentFiles>
+      <File id="3B96A3A6-685A-43CF-B746-4F2EB69D2D49/d:Valid/f:Form.cs" caret="264" scrollPosition="0|0" />
+      <File id="3B96A3A6-685A-43CF-B746-4F2EB69D2D49/d:Valid/f:Address.cs" caret="258" scrollPosition="0|0" />
+      <File id="3B96A3A6-685A-43CF-B746-4F2EB69D2D49/d:Valid/f:ValidTestCase.cs" caret="746" scrollPosition="0|0" />
+      <File id="599516E0-E10D-4F44-B5E1-B7B67EFC931A/f:ValidAttribute.cs" caret="128" scrollPosition="0|0" />
+      <File id="599516E0-E10D-4F44-B5E1-B7B67EFC931A/f:NotEmptyNotNullPropertyConstraint.cs" caret="395" scrollPosition="0|0" />
+      <File id="3B96A3A6-685A-43CF-B746-4F2EB69D2D49/d:Validators/f:FooLength.cs" caret="324" scrollPosition="0|9" />
+      <File id="3B96A3A6-685A-43CF-B746-4F2EB69D2D49/d:Validators/f:FooNotEmpty.cs" caret="447" scrollPosition="0|0" />
+      <File id="599516E0-E10D-4F44-B5E1-B7B67EFC931A/f:NotEmptyAttribute.cs" caret="128" scrollPosition="0|0" />
+      <File id="599516E0-E10D-4F44-B5E1-B7B67EFC931A/f:IMessageInterpolator.cs" caret="288" scrollPosition="0|0" />
+      <File id="599516E0-E10D-4F44-B5E1-B7B67EFC931A/f:LengthAttribute.cs" caret="194" scrollPosition="0|0" />
+      <File id="599516E0-E10D-4F44-B5E1-B7B67EFC931A/d:Interpolator/f:DefaultMessageInterpolatorAggregator.cs" caret="1180" scrollPosition="0|27" />
+      <File id="599516E0-E10D-4F44-B5E1-B7B67EFC931A/d:Interpolator/f:DefaultMessageInterpolator.cs" caret="5356" scrollPosition="0|129" />
+      <File id="3B96A3A6-685A-43CF-B746-4F2EB69D2D49/d:Inheritance/f:Dog.cs" caret="236" scrollPosition="0|0" />
+      <File id="599516E0-E10D-4F44-B5E1-B7B67EFC931A/f:NotNullAttribute.cs" caret="56" scrollPosition="0|0" />
+      <File id="599516E0-E10D-4F44-B5E1-B7B67EFC931A/f:NotNullValidator.cs" caret="0" scrollPosition="0|0" />
+      <File id="599516E0-E10D-4F44-B5E1-B7B67EFC931A/f:LengthValidator.cs" caret="0" scrollPosition="0|0" />
+      <File id="599516E0-E10D-4F44-B5E1-B7B67EFC931A/f:NotEmptyValidator.cs" caret="0" scrollPosition="0|0" />
+      <File id="599516E0-E10D-4F44-B5E1-B7B67EFC931A/f:IValidator.Generic.cs" caret="0" scrollPosition="0|0" />
+      <File id="599516E0-E10D-4F44-B5E1-B7B67EFC931A/f:IValidator.cs" caret="0" scrollPosition="0|0" />
+      <File id="599516E0-E10D-4F44-B5E1-B7B67EFC931A/f:ValidatorClassAttribute.cs" caret="0" scrollPosition="0|0" />
+      <File id="599516E0-E10D-4F44-B5E1-B7B67EFC931A/f:MinValidator.cs" caret="0" scrollPosition="0|0" />
+      <File id="3B96A3A6-685A-43CF-B746-4F2EB69D2D49/d:Inheritance/f:InheritanceFixture.cs" caret="0" scrollPosition="0|0" />
+      <File id="3B96A3A6-685A-43CF-B746-4F2EB69D2D49/d:Inheritance/f:IEater.cs" caret="0" scrollPosition="0|0" />
+      <File id="599516E0-E10D-4F44-B5E1-B7B67EFC931A/f:MinAttribute.cs" caret="0" scrollPosition="0|0" />
+      <File id="3B96A3A6-685A-43CF-B746-4F2EB69D2D49/d:Inheritance/f:IName.cs" caret="0" scrollPosition="0|0" />
+      <File id="3B96A3A6-685A-43CF-B746-4F2EB69D2D49/d:Inheritance/f:Animal.cs" caret="0" scrollPosition="0|0" />
+      <File id="599516E0-E10D-4F44-B5E1-B7B67EFC931A/f:ClassValidator.cs" caret="0" scrollPosition="0|0" />
+      <File id="3B96A3A6-685A-43CF-B746-4F2EB69D2D49/d:Inheritance/f:IBoneEater.cs" caret="0" scrollPosition="0|0" />
+      <File id="3B96A3A6-685A-43CF-B746-4F2EB69D2D49/d:Validators/f:ValidatorsFixture.cs" caret="181" scrollPosition="0|0" />
+      <File id="3B96A3A6-685A-43CF-B746-4F2EB69D2D49/f:App.config" caret="0" scrollPosition="0|0" />
+    </RecentFiles>
+  </EditorManager>
+  <CompletionStatisticsManager>
+    <ItemStatistics item="Qualified:@System.String">
+      <Item value="Empty" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:NHibernate.Validator.ClassValidator">
+      <Item value="AssertValid" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Reflection.MemberInfo">
+      <Item value="MemberType" priority="3" />
+      <Item value="DeclaringType" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.Generic.IDictionary&lt;NHibernate.Validator.IValidator,NHibernate.Validator.Interpolator.DefaultMessageInterpolator&gt;">
+      <Item value="Values" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:string">
+      <Item value="Equals" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Attribute">
+      <Item value="GetType" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Type">
+      <Item value="GetProperties" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.Generic.Dictionary&lt;string,object&gt;">
+      <Item value="Add" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Reflection.PropertyInfo">
+      <Item value="Name" priority="0" />
+      <Item value="GetValue" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:NHibernate.Validator.InvalidValue[]">
+      <Item value="Length" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Int32">
+      <Item value="Parse" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Decimal">
+      <Item value="Parse" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:long">
+      <Item value="ToString" priority="0" />
+    </ItemStatistics>
+  </CompletionStatisticsManager>
+</Configuration>
