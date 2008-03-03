@@ -100,6 +100,8 @@
     <Compile Include="Integration\PrefixMessageInterpolator.cs" />
     <Compile Include="Integration\Rock.cs" />
     <Compile Include="Integration\User.cs" />
+    <Compile Include="Polimorphism\BaseClass.cs" />
+    <Compile Include="Polimorphism\Fixture.cs" />
     <Compile Include="ResourceFixture\ResourcesTest.cs" />
     <Compile Include="Suricato.cs" />
     <Compile Include="Tv.cs" />
