@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="AssertTrueAttribute.cs" />
     <Compile Include="AssertTrueValidator.cs" />
+    <Compile Include="Cfg\CfgXmlHelper.cs" />
     <Compile Include="Cfg\ValidatorConfiguration.cs" />
     <Compile Include="DigitsAttribute.cs" />
     <Compile Include="DigitsValidator.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Environment.cs" />
     <Compile Include="FutureAttribute.cs" />
     <Compile Include="FutureValidator.cs" />
+    <Compile Include="HibernateValidatorException.cs" />
     <Compile Include="IClassValidator.cs" />
     <Compile Include="MaxAttribute.cs" />
     <Compile Include="MaxValidator.cs" />
@@ -104,6 +106,8 @@
     <Compile Include="Validator.cs" />
     <Compile Include="Validator.Generic.cs" />
     <Compile Include="ValidatorClassAttribute.cs" />
+    <Compile Include="ValidatorConfigurationException.cs" />
+    <Compile Include="ValidatorMode.cs" />
     <Compile Include="ValidAttribute.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -82,6 +82,7 @@
     <Compile Include="Collections\Presenter.cs" />
     <Compile Include="Collections\Show.cs" />
     <Compile Include="Collections\Tv.cs" />
+    <Compile Include="Configuration\CfgXmlHelperFixture.cs" />
     <Compile Include="Contact.cs" />
     <Compile Include="EmailFixture.cs" />
     <Compile Include="Engine.cs" />

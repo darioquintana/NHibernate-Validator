@@ -21,5 +21,14 @@ namespace NHibernate.Validator
 		/// Message interpolator class used. The same instance is shared across all ClassValidators 
 		/// </summary>
 		public static readonly string MessageInterpolatorClass = "validator.message_interpolator_class";
+
+		/// <summary>
+		/// Define validation mode.
+		/// </summary>
+		/// <remarks>
+		/// Allowed values are available in <see cref="NHibernate.Validator.ValidatorMode"/>.
+		/// </remarks>
+		/// <seealso cref="NHibernate.Validator.ValidatorMode"/>
+		public static readonly string ValidatorMode = "validator.mode";
 	}
 }
