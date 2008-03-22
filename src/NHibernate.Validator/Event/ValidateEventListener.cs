@@ -33,8 +33,7 @@ namespace NHibernate.Validator.Event
 			foreach(PersistentClass clazz in classes)
 			{
 				System.Type mappedClass = clazz.MappedClass;
-				ClassValidator validator =
-					new ClassValidator(mappedClass, null, null, interpolator, new Dictionary<System.Type, ClassValidator>());
+				ClassValidator validator = GetClassValidator(mappedClass, interpolator);
 
 				ValidatableElement element = new ValidatableElement(mappedClass, validator);
 				AddSubElement(clazz.IdentifierProperty, element);
@@ -52,6 +51,11 @@ namespace NHibernate.Validator.Event
 		}
 
 		#endregion
+
+		protected virtual ClassValidator GetClassValidator(System.Type mappedClass, IMessageInterpolator interpolator)
+		{
+			return new ClassValidator(mappedClass, null, null, interpolator, new Dictionary<System.Type, ClassValidator>());
+		}
 
 		#region IPreInsertEventListener Members
 
@@ -90,7 +94,7 @@ namespace NHibernate.Validator.Event
 		/// <returns></returns>
 		private IMessageInterpolator GetInterpolator(Configuration cfg)
 		{
-			string interpolatorString = cfg.GetProperty(NHibernate.Validator.Environment.MESSAGE_INTERPOLATOR_CLASS);
+			string interpolatorString = cfg.GetProperty(Environment.MessageInterpolatorClass);
 			IMessageInterpolator interpolator = null;
 
 			if (!string.IsNullOrEmpty(interpolatorString))
@@ -237,7 +241,7 @@ namespace NHibernate.Validator.Event
 
 			public IList<ValidatableElement> SubElements
 			{
-				get { return this.subElements; }
+				get { return subElements; }
 			}
 
 			public IGetter Getter

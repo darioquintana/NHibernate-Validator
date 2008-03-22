@@ -1,12 +1,13 @@
+using System;
+using log4net;
+using NHibernate.Cfg;
+using NHibernate.Event;
+using NHibernate.Mapping;
+using NHibernate.Util;
+using NHibernate.Validator.Event;
+
 namespace NHibernate.Validator.Cfg
 {
-	using System;
-	using Event;
-	using log4net;
-	using Mapping;
-	using NHibernate.Cfg;
-	using NHibernate.Event;
-	using Environment=NHibernate.Validator.Environment;
 
 	public class ValidatorInitializer
 	{
@@ -18,23 +19,9 @@ namespace NHibernate.Validator.Cfg
 
 		public static void Initialize(Configuration cfg)
 		{
-			bool ApplyToDDL = true;
-			bool AutoRegisterListeners = true;
-
-			string string_ApplyToDDL = cfg.GetProperty(Environment.APPLY_TO_DDL);
-			string string_AutoRegisterListeners = cfg.GetProperty(Environment.AUTOREGISTER_LISTENERS);
-
-			if (string.IsNullOrEmpty(string_ApplyToDDL))
-				ApplyToDDL = true;
-			else 
-				ApplyToDDL = string_ApplyToDDL.Equals("true");
-
-
-			if (string.IsNullOrEmpty(string_AutoRegisterListeners))
-				AutoRegisterListeners = true;
-			else
-				AutoRegisterListeners = string_AutoRegisterListeners.Equals("true");
-
+			bool ApplyToDDL = PropertiesHelper.GetBoolean(Environment.ApplyToDDL, cfg.Properties, true);
+			bool AutoRegisterListeners = PropertiesHelper.GetBoolean(Environment.AutoregisterListeners, cfg.Properties, true);
+			
 			//Apply To DDL
 			if (ApplyToDDL)
 			{
