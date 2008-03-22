@@ -32,7 +32,7 @@ namespace NHibernate.Validator.Tests.Integration
 
 		protected override void Configure(Configuration configuration)
 		{
-			cfg.SetProperty(NHibernate.Validator.Environment.MESSAGE_INTERPOLATOR_CLASS,
+			cfg.SetProperty(NHibernate.Validator.Environment.MessageInterpolatorClass,
 			                typeof(PrefixMessageInterpolator).AssemblyQualifiedName);
 			
 			ValidatorInitializer.Initialize(configuration);
