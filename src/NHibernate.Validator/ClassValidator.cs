@@ -10,6 +10,10 @@ using NHibernate.Mapping;
 using NHibernate.Properties;
 using NHibernate.Util;
 using NHibernate.Validator.Interpolator;
+using log4net;
+using System.IO;
+using NHibernate.Validator.MappingSchema;
+using NHibernate.Validator.Cfg;
 
 namespace NHibernate.Validator
 {
@@ -19,8 +23,7 @@ namespace NHibernate.Validator
 	[Serializable]
 	public class ClassValidator : IClassValidator
 	{
-		//TODO: Logging
-		//private static Log log = LogFactory.getLog( ClassValidator.class );
+        private static ILog log = LogManager.GetLogger(typeof(ClassValidator));
 
 		private readonly BindingFlags AnyVisibilityInstanceAndStatic = (BindingFlags.NonPublic | BindingFlags.Public
 		                                                                | BindingFlags.Instance | BindingFlags.Static);
@@ -55,7 +58,7 @@ namespace NHibernate.Validator
 		/// </summary>
 		/// <param name="beanClass"></param>
 		public ClassValidator(System.Type beanClass)
-			: this(beanClass, null, null) {}
+			: this(beanClass, null, null, null) {}
 
 		/// <summary>
 		/// Create the validator engine for a particular bean class, using a resource bundle
@@ -64,8 +67,8 @@ namespace NHibernate.Validator
 		/// <param name="beanClass">bean type</param>
 		/// <param name="resourceManager"></param>
 		/// <param name="culture">The CultureInfo for the <paramref name="beanClass"/>.</param>
-		public ClassValidator(System.Type beanClass, ResourceManager resourceManager, CultureInfo culture)
-			: this(beanClass, resourceManager, culture, null, new Dictionary<System.Type, ClassValidator>())
+		public ClassValidator(System.Type beanClass, ResourceManager resourceManager, CultureInfo culture, string validatorMode)
+			: this(beanClass, resourceManager, culture, null, new Dictionary<System.Type, ClassValidator>(), validatorMode)
 		{
 		}
 
@@ -76,7 +79,7 @@ namespace NHibernate.Validator
 		/// <param name="beanClass"></param>
 		/// <param name="interpolator"></param>
 		public ClassValidator(System.Type beanClass, IMessageInterpolator interpolator)
-			: this(beanClass, null, null, interpolator, new Dictionary<System.Type, ClassValidator>())
+			: this(beanClass, null, null, interpolator, new Dictionary<System.Type, ClassValidator>(), null)
 		{
 		}
 
@@ -93,7 +96,7 @@ namespace NHibernate.Validator
 			ResourceManager resourceManager,
 			CultureInfo culture,
 			IMessageInterpolator userInterpolator,
-			Dictionary<System.Type, ClassValidator> childClassValidators)
+			Dictionary<System.Type, ClassValidator> childClassValidators, string validatorMode)
 		{
 			beanClass = clazz;
 
@@ -104,7 +107,7 @@ namespace NHibernate.Validator
 			this.childClassValidators = childClassValidators;
 
 			//Initialize the ClassValidator
-			InitValidator(beanClass, childClassValidators);
+			InitValidator(beanClass, childClassValidators, validatorMode);
 		}
 
 		public ClassValidator(System.Type type, CultureInfo culture)
@@ -135,7 +138,7 @@ namespace NHibernate.Validator
 		/// </summary>
 		/// <param name="clazz"></param>
 		/// <param name="childClassValidators"></param>
-		private void InitValidator(System.Type clazz, IDictionary<System.Type, ClassValidator> childClassValidators)
+		private void InitValidator(System.Type clazz, IDictionary<System.Type, ClassValidator> childClassValidators, string validatorMode)
 		{
 			beanValidators = new List<IValidator>();
 			memberValidators = new List<IValidator>();
@@ -168,19 +171,152 @@ namespace NHibernate.Validator
 			//Check on all selected classes
 			foreach(System.Type currentClass in classes)
 			{
-				foreach(PropertyInfo currentProperty in currentClass.GetProperties())
-				{
-					CreateMemberValidator(currentProperty);
-					CreateChildValidator(currentProperty);
-				}
+                if (CfgXmlHelper.ValidatorModeConvertFrom(validatorMode) == ValidatorMode.UseXml)
+                {
+                    CreateMembersFromXml(currentClass);
+                }
+                else
+                {
 
-				foreach(FieldInfo currentField in currentClass.GetFields(AnyVisibilityInstanceAndStatic))
-				{
-					CreateMemberValidator(currentField);
-					CreateChildValidator(currentField);
-				}
+                    foreach (PropertyInfo currentProperty in currentClass.GetProperties())
+                    {
+                        CreateMemberValidator(currentProperty);
+                        CreateChildValidator(currentProperty);
+                    }
+
+                    foreach (FieldInfo currentField in currentClass.GetFields(AnyVisibilityInstanceAndStatic))
+                    {
+                        CreateMemberValidator(currentField);
+                        CreateChildValidator(currentField);
+                    }
+                }
 			}
 		}
+
+        // TODO: AddDirectoryInfo(DirectoryInfo directory), AddFile(string xmlFile) AddXmlFile(string XmlFile)
+
+        private static List<string> GetAllNHVXmlResourceNames(Assembly assembly)
+        {
+            List<string> result = new List<string>();
+
+            foreach (string resource in assembly.GetManifestResourceNames())
+            {
+                if (resource.EndsWith(".nhv.xml"))
+                {
+                    log.Info(resource);
+                    result.Add(resource);
+                }
+            }
+
+            return result;
+        }
+
+        private void CreateMembersFromXml(System.Type currentClass)
+        {
+            IMappingDocumentParser parser = new MappingDocumentParser();
+            List<string> assemblies = GetAllNHVXmlResourceNames(Assembly.GetAssembly(currentClass));
+            Stream stream = Assembly.GetAssembly(currentClass).GetManifestResourceStream(currentClass.FullName + ".nhv.xml");
+
+            if (stream != null)
+            {
+                NhvValidator validator = parser.Parse(stream);
+
+                foreach (NhvProperty property in validator.property)
+                {
+                    // TODO: it might not be a property but a field and it may be a static one, check if it is different for PropertyInfo
+                    MemberInfo currentProperty = currentClass.GetProperty(property.name);
+                    // FieldInfo currentField = currentClass.GetField(property.name);
+
+                    if (currentProperty == null)
+                    {
+                        currentProperty = currentClass.GetField(property.name);
+
+                        if (currentProperty == null)
+                        {
+                            log.Error("Property or field name was not found in the class");
+                            continue;
+                        }
+                    }
+
+                    CreateMemberValidatorFromRules(currentProperty, property.rules);
+                }
+            }
+        }
+
+        private void CreateMemberValidatorFromRules(MemberInfo member, NhvRules rules)
+        {
+            foreach (object rule in rules.Items)
+            {
+                log.Info(string.Format("Found rule {0} for property {1}", rule.ToString(), member.Name));
+                IValidator propertyValidator = CreateValidatorFromRule(rule);
+
+                if (propertyValidator != null)
+                {
+                    memberValidators.Add(propertyValidator);
+                    memberGetters.Add(member);
+                }
+            }
+        }
+
+        private IValidator CreateValidatorFromRule(object rule)
+        {
+            Attribute thisAttribute = null;
+            if (rule is NhvNotNull)
+            {
+                log.Info("Not null rule found");
+                thisAttribute = new NotNullAttribute();
+            }
+
+            if (rule is NhvNotEmpty)
+            {
+                log.Info("Not empty rule found");
+                thisAttribute = new NotEmptyAttribute();
+            }
+
+            if (rule is NhvLength)
+            {
+                NhvLength lengthRule = rule as NhvLength;
+                int min = int.MinValue;
+                int max = int.MaxValue;
+
+                if (lengthRule.minSpecified)
+                    min = lengthRule.min;
+
+                if (lengthRule.maxSpecified)
+                    max = lengthRule.max;
+
+                log.Info(string.Format("Length rule found with min {0}, max {1}", min, max));
+                thisAttribute = new LengthAttribute(lengthRule.min, lengthRule.max);
+            }
+
+            if (rule is NhvFuture)
+            {
+                NhvFuture futureRule = rule as NhvFuture;
+                thisAttribute = new FutureAttribute();
+                if (futureRule.message != null)
+                {
+                    ((FutureAttribute)(thisAttribute)).Message = futureRule.message;
+                }
+            }
+
+            if (rule is NhvPast)
+            {
+                NhvPast pastRule = rule as NhvPast;
+                thisAttribute = new PastAttribute();
+                if (pastRule.message != null)
+                {
+                    ((PastAttribute)(thisAttribute)).Message = pastRule.message;
+                }
+            }
+
+            if (thisAttribute != null)
+            {
+                return CreateValidator(thisAttribute);
+            }
+
+            log.Info("No rule found");
+            return null;
+        }
 
 		/// <summary>
 		/// apply constraints on a bean instance and return all the failures.
@@ -470,9 +606,9 @@ namespace NHibernate.Validator
 			{
 				clazzDictionary = GetGenericTypesOfDictionary(member);
 				if(!childClassValidators.ContainsKey(clazzDictionary.Key))
-					new ClassValidator(clazzDictionary.Key, messageBundle, culture, userInterpolator, childClassValidators);
+					new ClassValidator(clazzDictionary.Key, messageBundle, culture, userInterpolator, childClassValidators, null);
 				if (!childClassValidators.ContainsKey(clazzDictionary.Value))
-					new ClassValidator(clazzDictionary.Value, messageBundle, culture, userInterpolator, childClassValidators);
+					new ClassValidator(clazzDictionary.Value, messageBundle, culture, userInterpolator, childClassValidators, null);
 
 				return;
 			}
@@ -483,7 +619,7 @@ namespace NHibernate.Validator
 			
 			if (!childClassValidators.ContainsKey(clazz))
 			{
-				new ClassValidator(clazz, messageBundle, culture, userInterpolator, childClassValidators);
+				new ClassValidator(clazz, messageBundle, culture, userInterpolator, childClassValidators, null);
 			}
 		}
 

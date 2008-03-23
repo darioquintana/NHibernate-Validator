@@ -1,0 +1,68 @@
+<xs:schema targetNamespace="urn:nhibernate-validator-0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="urn:nhibernate-validator-0.1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="rules">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:sequence maxOccurs="unbounded">
+					<xs:choice>
+						<xs:element ref="not-null" />
+						<xs:element ref="not-empty" />
+						<xs:element ref="length" />
+						<xs:element ref="future" />
+						<xs:element ref="past" />
+					</xs:choice>
+				</xs:sequence>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="property">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="rules" maxOccurs="1" minOccurs="1" />
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="validator">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="property" maxOccurs="unbounded" minOccurs="1" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="not-null">
+		<xs:complexType>
+			<xs:sequence>
+			</xs:sequence>
+			<xs:attribute name="message" type="xs:string" use="optional" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="not-empty">
+		<xs:complexType>
+			<xs:sequence>
+			</xs:sequence>
+			<xs:attribute name="message" type="xs:string" use="optional" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="length">
+		<xs:complexType>
+			<xs:sequence>
+			</xs:sequence>
+			<xs:attribute name="min" type="xs:int" use="optional" />
+			<xs:attribute name="max" type="xs:int" use="optional" />
+			<xs:attribute name="message" type="xs:string" use="optional" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="future">
+		<xs:complexType>
+			<xs:sequence>
+			</xs:sequence>
+			<xs:attribute name="message" type="xs:string" use="optional" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="past">
+		<xs:complexType>
+			<xs:sequence />
+			<xs:attribute name="message" type="xs:string" use="optional" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

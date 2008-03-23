@@ -25,7 +25,7 @@ namespace NHibernate.Validator.Tests
 			                                                   new ResourceManager(
 			                                                   	"NHibernate.Validator.Tests.Resource.Messages",
 			                                                   	Assembly.GetExecutingAssembly()),
-			                                                   new CultureInfo("en"));
+			                                                   new CultureInfo("en"), null);
 			InvalidValue[] validationMessages = classValidator.GetInvalidValues(a);
 			Assert.AreEqual(2, validationMessages.Length); //static field is tested also
 			Address.blacklistedZipCode = "323232";

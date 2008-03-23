@@ -109,6 +109,12 @@
     <Compile Include="ValidatorConfigurationException.cs" />
     <Compile Include="ValidatorMode.cs" />
     <Compile Include="ValidAttribute.cs" />
+    <Compile Include="XmlConfiguration\IMappingDocumentParser.cs" />
+    <Compile Include="XmlConfiguration\MappingDocumentParser.cs" />
+    <Compile Include="XmlConfiguration\Validator.GeneratedSchema.cs">
+      <SubType>
+      </SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\DefaultValidatorMessages.de.resx">
