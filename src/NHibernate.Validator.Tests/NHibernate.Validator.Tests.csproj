@@ -48,14 +48,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\lib\net\2.0\NHibernate.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate.DomainModel, Version=2.0.0.1001, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\lib\net\2.0\NHibernate.DomainModel.dll</HintPath>
-    </Reference>
-    <Reference Include="NHibernate.Test, Version=2.0.0.1001, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\lib\net\2.0\NHibernate.Test.dll</HintPath>
-    </Reference>
     <Reference Include="nunit.core, Version=2.2.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\lib\net\2.0\nunit.core.dll</HintPath>
@@ -101,10 +93,12 @@
     <Compile Include="Integration\PrefixMessageInterpolator.cs" />
     <Compile Include="Integration\Rock.cs" />
     <Compile Include="Integration\User.cs" />
+    <Compile Include="PersistenceTest.cs" />
     <Compile Include="Polimorphism\BaseClass.cs" />
     <Compile Include="Polimorphism\Fixture.cs" />
     <Compile Include="ResourceFixture\ResourcesTest.cs" />
     <Compile Include="Suricato.cs" />
+    <Compile Include="TestConfigurationHelper.cs" />
     <Compile Include="Tv.cs" />
     <Compile Include="TvOwner.cs" />
     <Compile Include="User.cs" />

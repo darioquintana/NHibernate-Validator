@@ -5,16 +5,10 @@ namespace NHibernate.Validator.Tests.Integration
 	using Mapping;
 	using NHibernate.Cfg;
 	using NUnit.Framework;
-	using TestCase=NHibernate.Test.TestCase;
 
 	[TestFixture]
-	public class HibernateAnnotationIntegrationFixture : TestCase
+	public class HibernateAnnotationIntegrationFixture : PersistenceTest
 	{
-		protected override string MappingsAssembly
-		{
-			get { return "NHibernate.Validator.Tests"; }
-		}
-
 		protected override IList Mappings
 		{
 			get
