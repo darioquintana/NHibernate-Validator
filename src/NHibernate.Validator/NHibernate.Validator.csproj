@@ -56,7 +56,7 @@
     <Compile Include="AssertTrueAttribute.cs" />
     <Compile Include="AssertTrueValidator.cs" />
     <Compile Include="Cfg\CfgXmlHelper.cs" />
-    <Compile Include="Cfg\ValidatorConfiguration.cs" />
+    <Compile Include="Cfg\ValidatorInitializer.cs" />
     <Compile Include="DigitsAttribute.cs" />
     <Compile Include="DigitsValidator.cs" />
     <Compile Include="EmailAttribute.cs" />
