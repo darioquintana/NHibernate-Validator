@@ -9,6 +9,7 @@
 						<xs:element ref="length" />
 						<xs:element ref="future" />
 						<xs:element ref="past" />
+						<xs:element ref="valid" />
 					</xs:choice>
 				</xs:sequence>
 			</xs:sequence>
@@ -63,6 +64,11 @@
 		<xs:complexType>
 			<xs:sequence />
 			<xs:attribute name="message" type="xs:string" use="optional" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="valid">
+		<xs:complexType>
+			<xs:sequence />
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

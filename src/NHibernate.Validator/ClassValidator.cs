@@ -229,31 +229,35 @@ namespace NHibernate.Validator
 
 				foreach (NhvProperty property in validator.property)
 				{
-					// TODO: it might not be a property but a field and it may be a static one, check if it is different for PropertyInfo
-					MemberInfo currentProperty = currentClass.GetProperty(property.name);
-					// FieldInfo currentField = currentClass.GetField(property.name);
+					MemberInfo currentMember = GetPropertyOrField(currentClass, property.name);
 
-					if (currentProperty == null)
-					{
-						currentProperty = currentClass.GetField(property.name);
-
-						if (currentProperty == null)
-						{
-							log.Error("Property or field name was not found in the class");
-							continue;
-						}
-					}
-
-					CreateMemberValidatorFromRules(currentProperty, property.rules);
+                    if (currentMember == null)
+                    {
+                        log.Error("Property or field name was not found in the class");
+                        continue;
+                    }
+                    log.Info("Looking for rules for property : {0}" + property.name);
+                    CreateMemberValidatorFromRules(currentMember, property.rules);
+                    CreateChildValidator(currentMember);
 				}
 			}
 		}
+
+        private MemberInfo GetPropertyOrField(System.Type currentClass, string name)
+        {
+            MemberInfo memberInfo = currentClass.GetProperty(name);
+            if (memberInfo == null)
+            {
+                memberInfo = currentClass.GetField(name);
+            }
+
+            return memberInfo;
+        }
 
 		private void CreateMemberValidatorFromRules(MemberInfo member, NhvRules rules)
 		{
 			foreach (object rule in rules.Items)
 			{
-				log.Info(string.Format("Found rule {0} for property {1}", rule, member.Name));
 				IValidator propertyValidator = CreateValidatorFromRule(rule);
 
 				if (propertyValidator != null)
@@ -269,13 +273,13 @@ namespace NHibernate.Validator
 			Attribute thisAttribute = null;
 			if (rule is NhvNotNull)
 			{
-				log.Info("Not null rule found");
+				log.Info("Converting to NotNullAttribute");
 				thisAttribute = new NotNullAttribute();
 			}
 
 			if (rule is NhvNotEmpty)
 			{
-				log.Info("Not empty rule found");
+				log.Info("Converting to NotEmptyAttribute");
 				thisAttribute = new NotEmptyAttribute();
 			}
 
@@ -291,12 +295,13 @@ namespace NHibernate.Validator
 				if (lengthRule.maxSpecified)
 					max = lengthRule.max;
 
-				log.Info(string.Format("Length rule found with min {0}, max {1}", min, max));
+				log.Info(string.Format("Converting to Length attribute with min {0}, max {1}", min, max));
 				thisAttribute = new LengthAttribute(lengthRule.min, lengthRule.max);
 			}
 
 			if (rule is NhvFuture)
 			{
+                log.Info("Converting to future attribute");
 				NhvFuture futureRule = rule as NhvFuture;
 				thisAttribute = new FutureAttribute();
 				if (futureRule.message != null)
@@ -306,7 +311,8 @@ namespace NHibernate.Validator
 			}
 
 			if (rule is NhvPast)
-			{
+            {
+                log.Info("Converting to Past attribute");
 				NhvPast pastRule = rule as NhvPast;
 				thisAttribute = new PastAttribute();
 				if (pastRule.message != null)
@@ -314,6 +320,12 @@ namespace NHibernate.Validator
 					((PastAttribute)(thisAttribute)).Message = pastRule.message;
 				}
 			}
+
+            if (rule is NhvValid)
+            {
+                log.Info("Converting to valid attribute");
+                thisAttribute = new ValidAttribute();
+            }
 
 			if (thisAttribute != null)
 			{

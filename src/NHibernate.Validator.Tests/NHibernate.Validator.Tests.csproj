@@ -115,6 +115,7 @@
     <Compile Include="Valid\Form.cs" />
     <Compile Include="Valid\Member.cs" />
     <Compile Include="Valid\ValidTestCase.cs" />
+    <Compile Include="Valid\XmlValidTestCase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -153,6 +154,18 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Validators\FooDate.nhv.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Valid\Address.nhv.xml" />
+    <EmbeddedResource Include="Valid\Blog.nhv.xml" />
+    <EmbeddedResource Include="Valid\Form.nhv.xml" />
+    <EmbeddedResource Include="Valid\Member.nhv.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Valid\Author.nhv.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

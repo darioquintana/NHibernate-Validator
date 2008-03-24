@@ -3,12 +3,12 @@ namespace NHibernate.Validator.Tests.Valid
     using NUnit.Framework;
 
     [TestFixture]
-    public class ValidTest
+    public class ValidTest : BaseValidatorFixture
     {
         [Test]
         public void TestDeepValid()
         {
-            ClassValidator formValidator = new ClassValidator(typeof(Form));
+            ClassValidator formValidator = GetClassValidator(typeof(Form));
 
             Address a = new Address();
             Member m = new Member();
@@ -23,14 +23,14 @@ namespace NHibernate.Validator.Tests.Valid
             Assert.AreEqual(0, values2.Length);
         }
 
-		[Test]
-		public void OneToOneValid()
-		{
-			ClassValidator vtor = new ClassValidator(typeof(Blog));
-			Blog b = new Blog();
-			b.Author = new Author();
-			InvalidValue[] values = vtor.GetInvalidValues(b);
-			Assert.AreEqual(2,values.Length);
-		}
+        [Test]
+        public void OneToOneValid()
+        {
+            ClassValidator vtor = GetClassValidator(typeof(Blog));
+            Blog b = new Blog();
+            b.Author = new Author();
+            InvalidValue[] values = vtor.GetInvalidValues(b);
+            Assert.AreEqual(2, values.Length);
+        }
     }
 }
