@@ -115,6 +115,7 @@
       <SubType>
       </SubType>
     </Compile>
+    <Compile Include="XmlConfiguration\XmlRulesFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\DefaultValidatorMessages.de.resx">

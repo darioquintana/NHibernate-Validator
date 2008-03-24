@@ -4,7 +4,7 @@ namespace NHibernate.Validator.Tests.Collections
 	using NUnit.Framework;
 
 	[TestFixture]
-	public class CollectionFixture
+	public class CollectionFixture : BaseValidatorFixture
 	{
 		/// <summary>
 		/// Validate Generic Collections
@@ -20,7 +20,7 @@ namespace NHibernate.Validator.Tests.Collections
 			presOk.name = "Thierry Ardisson";
 			tv.presenters.Add(presOk);
 			tv.presenters.Add(presNok);
-			ClassValidator validator = new ClassValidator(typeof(Tv));
+			ClassValidator validator = GetClassValidator(typeof(Tv));
 
 			InvalidValue[] values = validator.GetInvalidValues(tv);
 			Assert.AreEqual(1, values.Length);
@@ -41,7 +41,7 @@ namespace NHibernate.Validator.Tests.Collections
 			showNok.name = null;
 			tv.shows.Add("Midnight", showOk);
 			tv.shows.Add("Primetime", showNok);
-			ClassValidator validator = new ClassValidator(typeof(Tv));
+			ClassValidator validator = GetClassValidator(typeof(Tv));
 			InvalidValue[] values = validator.GetInvalidValues(tv);
 			Assert.AreEqual(1, values.Length);
 			Assert.AreEqual("shows[1].name", values[0].PropertyPath);
@@ -61,7 +61,7 @@ namespace NHibernate.Validator.Tests.Collections
 			Movie movieNok = new Movie();
 			movieNok.Name = null;
 			tv.movies = new Movie[] {movieOk, null, movieNok};
-			ClassValidator validator = new ClassValidator(typeof(Tv));
+			ClassValidator validator = GetClassValidator(typeof(Tv));
 			InvalidValue[] values = validator.GetInvalidValues(tv);
 			Assert.AreEqual(1, values.Length);
 			Assert.AreEqual("movies[2].Name", values[0].PropertyPath);
@@ -71,7 +71,7 @@ namespace NHibernate.Validator.Tests.Collections
 		public void Size()
 		{
 			HasCollection hc = new HasCollection();
-			ClassValidator vtor = new ClassValidator(typeof(HasCollection));
+			ClassValidator vtor = GetClassValidator(typeof(HasCollection));
 
 			hc.StringCollection = new List<string>(new string[] {"cuidado", "con", "el", "carancho!"});
 			Assert.AreEqual(0, vtor.GetInvalidValues(hc).Length);
@@ -87,7 +87,7 @@ namespace NHibernate.Validator.Tests.Collections
 		public void SizeWithValid()
 		{
 			HasShowCollection hsc = new HasShowCollection();
-			ClassValidator vtor = new ClassValidator(typeof(HasShowCollection));
+			ClassValidator vtor = GetClassValidator(typeof(HasShowCollection));
 
 			hsc.Shows = new List<Show>( new Show[] {new Show("s1"), new Show("s2")} );
 			Assert.AreEqual(0, vtor.GetInvalidValues(hsc).Length);
@@ -109,7 +109,7 @@ namespace NHibernate.Validator.Tests.Collections
 		public void SizeArrayWithValid()
 		{
 			HasArrayWithValid hsc = new HasArrayWithValid();
-			ClassValidator vtor = new ClassValidator(typeof(HasArrayWithValid));
+			ClassValidator vtor = GetClassValidator(typeof(HasArrayWithValid));
 
 			hsc.Shows = new Show[] {new Show("s1"), new Show("s2")};
 			Assert.AreEqual(0, vtor.GetInvalidValues(hsc).Length);

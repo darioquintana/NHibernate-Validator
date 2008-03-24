@@ -3,14 +3,14 @@ namespace NHibernate.Validator.Tests
 	using NUnit.Framework;
 
 	[TestFixture]
-	public class EmailFixture
+	public class EmailFixture : BaseValidatorFixture
 	{
 		private ClassValidator userValidator;
 
 		[Test]
 		public void testEmail()
 		{
-			userValidator = new ClassValidator(typeof(User));
+			userValidator = GetClassValidator(typeof(User));
 			
 			isRightEmail("emmanuel@hibernate.org");
 			isRightEmail("");

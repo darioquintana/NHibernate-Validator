@@ -1,8 +1,10 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-
-namespace NHibernate.Validator.Tests.Validators
+namespace NHibernate.Validator.Tests
 {
-	public class XmlValidatorsFixture : ValidatorsFixture
+	public class XmlEmailFixture : EmailFixture
 	{
 		public override ClassValidator GetClassValidator(System.Type type)
 		{

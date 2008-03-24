@@ -13,6 +13,7 @@ using NHibernate.Properties;
 using NHibernate.Util;
 using NHibernate.Validator.Interpolator;
 using NHibernate.Validator.MappingSchema;
+using NHibernate.Validator.XmlConfiguration;
 
 namespace NHibernate.Validator
 {
@@ -270,62 +271,7 @@ namespace NHibernate.Validator
 
 		private IValidator CreateValidatorFromRule(object rule)
 		{
-			Attribute thisAttribute = null;
-			if (rule is NhvNotNull)
-			{
-				log.Info("Converting to NotNullAttribute");
-				thisAttribute = new NotNullAttribute();
-			}
-
-			if (rule is NhvNotEmpty)
-			{
-				log.Info("Converting to NotEmptyAttribute");
-				thisAttribute = new NotEmptyAttribute();
-			}
-
-			if (rule is NhvLength)
-			{
-				NhvLength lengthRule = rule as NhvLength;
-				int min = int.MinValue;
-				int max = int.MaxValue;
-
-				if (lengthRule.minSpecified)
-					min = lengthRule.min;
-
-				if (lengthRule.maxSpecified)
-					max = lengthRule.max;
-
-				log.Info(string.Format("Converting to Length attribute with min {0}, max {1}", min, max));
-				thisAttribute = new LengthAttribute(lengthRule.min, lengthRule.max);
-			}
-
-			if (rule is NhvFuture)
-			{
-                log.Info("Converting to future attribute");
-				NhvFuture futureRule = rule as NhvFuture;
-				thisAttribute = new FutureAttribute();
-				if (futureRule.message != null)
-				{
-					((FutureAttribute)(thisAttribute)).Message = futureRule.message;
-				}
-			}
-
-			if (rule is NhvPast)
-            {
-                log.Info("Converting to Past attribute");
-				NhvPast pastRule = rule as NhvPast;
-				thisAttribute = new PastAttribute();
-				if (pastRule.message != null)
-				{
-					((PastAttribute)(thisAttribute)).Message = pastRule.message;
-				}
-			}
-
-            if (rule is NhvValid)
-            {
-                log.Info("Converting to valid attribute");
-                thisAttribute = new ValidAttribute();
-            }
+			Attribute thisAttribute = XmlRulesFactory.CreateAttributeFromRule(rule);
 
 			if (thisAttribute != null)
 			{

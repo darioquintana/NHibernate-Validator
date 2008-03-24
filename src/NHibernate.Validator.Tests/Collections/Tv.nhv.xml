@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<validator xmlns="urn:nhibernate-validator-0.1">
+	<property name="name">
+		<rules>
+			<not-null/>
+		</rules>
+	</property>
+	<property name="presenters">
+		<rules>
+			<valid/>
+		</rules>
+	</property>
+	<property name="shows">
+		<rules>
+			<valid/>
+		</rules>
+	</property>
+	<property name="movies">
+		<rules>
+			<valid/>
+		</rules>
+	</property>
+</validator>

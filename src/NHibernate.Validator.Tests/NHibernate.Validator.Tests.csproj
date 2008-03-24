@@ -67,6 +67,7 @@
     <Compile Include="BaseValidatorFixture.cs" />
     <Compile Include="Brother.cs" />
     <Compile Include="Building.cs" />
+    <Compile Include="ClassValidatorFactory.cs" />
     <Compile Include="Collections\CollectionFixture.cs" />
     <Compile Include="Collections\HasArrayWithValid.cs" />
     <Compile Include="Collections\HasCollection.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Collections\Presenter.cs" />
     <Compile Include="Collections\Show.cs" />
     <Compile Include="Collections\Tv.cs" />
+    <Compile Include="Collections\XmlCollectionFixture.cs" />
     <Compile Include="Configuration\CfgXmlHelperFixture.cs" />
     <Compile Include="Contact.cs" />
     <Compile Include="EmailFixture.cs" />
@@ -115,7 +117,8 @@
     <Compile Include="Valid\Form.cs" />
     <Compile Include="Valid\Member.cs" />
     <Compile Include="Valid\ValidTestCase.cs" />
-    <Compile Include="Valid\XmlValidTestCase.cs" />
+    <Compile Include="Valid\XmlValidTest.cs" />
+    <Compile Include="XmlEmailFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -166,6 +169,20 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Valid\Author.nhv.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="User.nhv.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Collections\Movie.nhv.xml" />
+    <EmbeddedResource Include="Collections\Presenter.nhv.xml" />
+    <EmbeddedResource Include="Collections\Show.nhv.xml" />
+    <EmbeddedResource Include="Collections\Tv.nhv.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Collections\HasArrayWithValid.nhv.xml" />
+    <EmbeddedResource Include="Collections\HasCollection.nhv.xml" />
+    <EmbeddedResource Include="Collections\HasShowCollection.nhv.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -10,6 +10,8 @@
 						<xs:element ref="future" />
 						<xs:element ref="past" />
 						<xs:element ref="valid" />
+						<xs:element ref="email" />
+						<xs:element ref="size" />
 					</xs:choice>
 				</xs:sequence>
 			</xs:sequence>
@@ -69,6 +71,21 @@
 	<xs:element name="valid">
 		<xs:complexType>
 			<xs:sequence />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="email">
+		<xs:complexType>
+			<xs:sequence>
+			</xs:sequence>
+			<xs:attribute name="message" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="size">
+		<xs:complexType>
+			<xs:sequence />
+			<xs:attribute name="min" type="xs:int" use="optional" />
+			<xs:attribute name="max" type="xs:int" use="optional" />
+			<xs:attribute name="message" type="xs:string" use="optional" />
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

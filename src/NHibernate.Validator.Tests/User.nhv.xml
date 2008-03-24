@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<validator xmlns="urn:nhibernate-validator-0.1">
+	<property name="name">
+		<rules>
+			<not-null/>
+		</rules>
+	</property>
+	<property name="email">
+		<rules>
+			<email />
+		</rules>
+	</property>
+</validator>
