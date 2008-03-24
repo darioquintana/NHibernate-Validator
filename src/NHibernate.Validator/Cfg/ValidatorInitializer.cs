@@ -19,21 +19,26 @@ namespace NHibernate.Validator.Cfg
 
 		public static void Initialize(Configuration cfg)
 		{
-			bool ApplyToDDL = PropertiesHelper.GetBoolean(Environment.ApplyToDDL, cfg.Properties, true);
-			bool AutoRegisterListeners = PropertiesHelper.GetBoolean(Environment.AutoregisterListeners, cfg.Properties, true);
-			// ValidatorMode vm = CfgXmlHelper.ValidatorModeConvertFrom(PropertiesHelper.GetString(Environment.ValidatorMode, cfg.Properties, string.Empty));
+			bool applyToDDL = PropertiesHelper.GetBoolean(Environment.ApplyToDDL, cfg.Properties, true);
+			bool autoRegisterListeners = PropertiesHelper.GetBoolean(Environment.AutoregisterListeners, cfg.Properties, true);
+			ValidatorMode vm = CfgXmlHelper.ValidatorModeConvertFrom(PropertiesHelper.GetString(Environment.ValidatorMode, cfg.Properties, string.Empty));
 
+			Initialize(cfg, applyToDDL, autoRegisterListeners, vm);
+		}
+
+		public static void Initialize(Configuration cfg, bool applyToDDL, bool autoRegisterListeners, ValidatorMode validatorMode)
+		{
 			//Apply To DDL
-			if (ApplyToDDL)
+			if (applyToDDL)
 			{
-				foreach(PersistentClass persistentClazz in cfg.ClassMappings)
+				foreach (PersistentClass persistentClazz in cfg.ClassMappings)
 				{
 					try
 					{
-						ClassValidator classValidator = new ClassValidator(persistentClazz.MappedClass);
+						ClassValidator classValidator = new ClassValidator(persistentClazz.MappedClass, validatorMode);
 						classValidator.Apply(persistentClazz);
 					}
-					catch(Exception ex)
+					catch (Exception ex)
 					{
 						log.Warn("Unable to apply constraints on DDL for " + persistentClazz.ClassName, ex);
 					}
@@ -41,7 +46,7 @@ namespace NHibernate.Validator.Cfg
 			}
 
 			//Autoregister Listeners
-			if(AutoRegisterListeners)
+			if (autoRegisterListeners)
 			{
 				cfg.SetListener(ListenerType.PreInsert, new ValidatePreInsertEventListener());
 				cfg.SetListener(ListenerType.PreUpdate, new ValidatePreUpdateEventListener());

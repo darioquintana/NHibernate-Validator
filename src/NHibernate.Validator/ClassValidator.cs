@@ -66,6 +66,14 @@ namespace NHibernate.Validator
 			: this(beanClass, null, null, ValidatorMode.UseAttribute) { }
 
 		/// <summary>
+		/// Create the validator engine for this bean type
+		/// </summary>
+		/// <param name="beanClass"></param>
+		/// <param name="validatorMode">Validator definition mode</param>
+		public ClassValidator(System.Type beanClass, ValidatorMode validatorMode)
+			: this(beanClass, null, null, validatorMode) { }
+
+		/// <summary>
 		/// Create the validator engine for a particular bean class, using a resource bundle
 		/// for message rendering on violation
 		/// </summary>
