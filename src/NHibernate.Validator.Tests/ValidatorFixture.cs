@@ -21,11 +21,11 @@ namespace NHibernate.Validator.Tests
 			a.State = "Vic";
 			a.Line1 = "Karbarook Ave";
 			a.Id = 3;
-			ClassValidator classValidator = new ClassValidator(typeof(Address),
-			                                                   new ResourceManager(
-			                                                   	"NHibernate.Validator.Tests.Resource.Messages",
-			                                                   	Assembly.GetExecutingAssembly()),
-			                                                   new CultureInfo("en"), null);
+			ClassValidator classValidator =
+				new ClassValidator(typeof (Address),
+				                   new ResourceManager("NHibernate.Validator.Tests.Resource.Messages",
+				                                       Assembly.GetExecutingAssembly()), new CultureInfo("en"),
+				                   ValidatorMode.UseAttribute);
 			InvalidValue[] validationMessages = classValidator.GetInvalidValues(a);
 			Assert.AreEqual(2, validationMessages.Length); //static field is tested also
 			Address.blacklistedZipCode = "323232";

@@ -2,18 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Reflection;
 using System.Resources;
 using Iesi.Collections;
 using Iesi.Collections.Generic;
+using log4net;
 using NHibernate.Mapping;
 using NHibernate.Properties;
 using NHibernate.Util;
 using NHibernate.Validator.Interpolator;
-using log4net;
-using System.IO;
 using NHibernate.Validator.MappingSchema;
-using NHibernate.Validator.Cfg;
 
 namespace NHibernate.Validator
 {
@@ -23,20 +22,23 @@ namespace NHibernate.Validator
 	[Serializable]
 	public class ClassValidator : IClassValidator
 	{
-        private static ILog log = LogManager.GetLogger(typeof(ClassValidator));
+		private static readonly ILog log = LogManager.GetLogger(typeof(ClassValidator));
 
 		private readonly BindingFlags AnyVisibilityInstanceAndStatic = (BindingFlags.NonPublic | BindingFlags.Public
-		                                                                | BindingFlags.Instance | BindingFlags.Static);
+																																		| BindingFlags.Instance | BindingFlags.Static);
 
 		private readonly System.Type beanClass;
 
 		private DefaultMessageInterpolatorAggregator defaultInterpolator;
 
-		[NonSerialized] private readonly ResourceManager messageBundle;
+		[NonSerialized]
+		private readonly ResourceManager messageBundle;
 
-		[NonSerialized] private readonly ResourceManager defaultMessageBundle;
+		[NonSerialized]
+		private readonly ResourceManager defaultMessageBundle;
 
-		[NonSerialized] private readonly IMessageInterpolator userInterpolator;
+		[NonSerialized]
+		private readonly IMessageInterpolator userInterpolator;
 
 		private readonly Dictionary<System.Type, ClassValidator> childClassValidators;
 
@@ -48,17 +50,19 @@ namespace NHibernate.Validator
 
 		private List<MemberInfo> childGetters;
 
-		private static readonly InvalidValue[] EMPTY_INVALID_VALUE_ARRAY = new InvalidValue[] {};
+		private static readonly InvalidValue[] EMPTY_INVALID_VALUE_ARRAY = new InvalidValue[] { };
 
 		private readonly CultureInfo culture;
-		
+
+		private readonly ValidatorMode validatorMode;
+
 
 		/// <summary>
 		/// Create the validator engine for this bean type
 		/// </summary>
 		/// <param name="beanClass"></param>
 		public ClassValidator(System.Type beanClass)
-			: this(beanClass, null, null, null) {}
+			: this(beanClass, null, null, ValidatorMode.UseAttribute) { }
 
 		/// <summary>
 		/// Create the validator engine for a particular bean class, using a resource bundle
@@ -67,7 +71,8 @@ namespace NHibernate.Validator
 		/// <param name="beanClass">bean type</param>
 		/// <param name="resourceManager"></param>
 		/// <param name="culture">The CultureInfo for the <paramref name="beanClass"/>.</param>
-		public ClassValidator(System.Type beanClass, ResourceManager resourceManager, CultureInfo culture, string validatorMode)
+		/// <param name="validatorMode">Validator definition mode</param>
+		public ClassValidator(System.Type beanClass, ResourceManager resourceManager, CultureInfo culture, ValidatorMode validatorMode)
 			: this(beanClass, resourceManager, culture, null, new Dictionary<System.Type, ClassValidator>(), validatorMode)
 		{
 		}
@@ -79,7 +84,7 @@ namespace NHibernate.Validator
 		/// <param name="beanClass"></param>
 		/// <param name="interpolator"></param>
 		public ClassValidator(System.Type beanClass, IMessageInterpolator interpolator)
-			: this(beanClass, null, null, interpolator, new Dictionary<System.Type, ClassValidator>(), null)
+			: this(beanClass, null, null, interpolator, new Dictionary<System.Type, ClassValidator>(), ValidatorMode.UseAttribute)
 		{
 		}
 
@@ -91,12 +96,14 @@ namespace NHibernate.Validator
 		/// <param name="culture"></param>
 		/// <param name="userInterpolator"></param>
 		/// <param name="childClassValidators"></param>
+		/// <param name="validatorMode">Validator definition mode.</param>
 		internal ClassValidator(
 			System.Type clazz,
 			ResourceManager resourceManager,
 			CultureInfo culture,
 			IMessageInterpolator userInterpolator,
-			Dictionary<System.Type, ClassValidator> childClassValidators, string validatorMode)
+			Dictionary<System.Type, ClassValidator> childClassValidators, 
+			ValidatorMode validatorMode)
 		{
 			beanClass = clazz;
 
@@ -105,9 +112,10 @@ namespace NHibernate.Validator
 			this.culture = culture;
 			this.userInterpolator = userInterpolator;
 			this.childClassValidators = childClassValidators;
+			this.validatorMode = validatorMode;
 
 			//Initialize the ClassValidator
-			InitValidator(beanClass, childClassValidators, validatorMode);
+			InitValidator(beanClass, childClassValidators);
 		}
 
 		public ClassValidator(System.Type type, CultureInfo culture)
@@ -130,7 +138,7 @@ namespace NHibernate.Validator
 		private static ResourceManager GetDefaultResourceManager()
 		{
 			return new ResourceManager("NHibernate.Validator.Resources.DefaultValidatorMessages",
-			                           Assembly.GetExecutingAssembly());
+																 Assembly.GetExecutingAssembly());
 		}
 
 		/// <summary>
@@ -138,7 +146,7 @@ namespace NHibernate.Validator
 		/// </summary>
 		/// <param name="clazz"></param>
 		/// <param name="childClassValidators"></param>
-		private void InitValidator(System.Type clazz, IDictionary<System.Type, ClassValidator> childClassValidators, string validatorMode)
+		private void InitValidator(System.Type clazz, IDictionary<System.Type, ClassValidator> childClassValidators)
 		{
 			beanValidators = new List<IValidator>();
 			memberValidators = new List<IValidator>();
@@ -152,9 +160,9 @@ namespace NHibernate.Validator
 			ISet<System.Type> classes = new HashedSet<System.Type>();
 			AddSuperClassesAndInterfaces(clazz, classes);
 
-			foreach(System.Type currentClass in classes)
+			foreach (System.Type currentClass in classes)
 			{
-				foreach(Attribute classAttribute in currentClass.GetCustomAttributes(false))
+				foreach (Attribute classAttribute in currentClass.GetCustomAttributes(false))
 				{
 					IValidator validator = CreateValidator(classAttribute);
 
@@ -169,154 +177,152 @@ namespace NHibernate.Validator
 			}
 
 			//Check on all selected classes
-			foreach(System.Type currentClass in classes)
+			foreach (System.Type currentClass in classes)
 			{
-                if (CfgXmlHelper.ValidatorModeConvertFrom(validatorMode) == ValidatorMode.UseXml)
-                {
-                    CreateMembersFromXml(currentClass);
-                }
-                else
-                {
+				if (validatorMode == ValidatorMode.UseXml)
+				{
+					CreateMembersFromXml(currentClass);
+				}
+				else
+				{
+					foreach (PropertyInfo currentProperty in currentClass.GetProperties())
+					{
+						CreateMemberValidator(currentProperty);
+						CreateChildValidator(currentProperty);
+					}
 
-                    foreach (PropertyInfo currentProperty in currentClass.GetProperties())
-                    {
-                        CreateMemberValidator(currentProperty);
-                        CreateChildValidator(currentProperty);
-                    }
-
-                    foreach (FieldInfo currentField in currentClass.GetFields(AnyVisibilityInstanceAndStatic))
-                    {
-                        CreateMemberValidator(currentField);
-                        CreateChildValidator(currentField);
-                    }
-                }
+					foreach (FieldInfo currentField in currentClass.GetFields(AnyVisibilityInstanceAndStatic))
+					{
+						CreateMemberValidator(currentField);
+						CreateChildValidator(currentField);
+					}
+				}
 			}
 		}
 
-        // TODO: AddDirectoryInfo(DirectoryInfo directory), AddFile(string xmlFile) AddXmlFile(string XmlFile)
+		// TODO: AddDirectoryInfo(DirectoryInfo directory), AddFile(string xmlFile) AddXmlFile(string XmlFile)
 
-        private static List<string> GetAllNHVXmlResourceNames(Assembly assembly)
-        {
-            List<string> result = new List<string>();
+		private static List<string> GetAllNHVXmlResourceNames(Assembly assembly)
+		{
+			List<string> result = new List<string>();
 
-            foreach (string resource in assembly.GetManifestResourceNames())
-            {
-                if (resource.EndsWith(".nhv.xml"))
-                {
-                    log.Info(resource);
-                    result.Add(resource);
-                }
-            }
+			foreach (string resource in assembly.GetManifestResourceNames())
+			{
+				if (resource.EndsWith(".nhv.xml"))
+				{
+					log.Info(resource);
+					result.Add(resource);
+				}
+			}
 
-            return result;
-        }
+			return result;
+		}
 
-        private void CreateMembersFromXml(System.Type currentClass)
-        {
-            IMappingDocumentParser parser = new MappingDocumentParser();
-            List<string> assemblies = GetAllNHVXmlResourceNames(Assembly.GetAssembly(currentClass));
-            Stream stream = Assembly.GetAssembly(currentClass).GetManifestResourceStream(currentClass.FullName + ".nhv.xml");
+		private void CreateMembersFromXml(System.Type currentClass)
+		{
+			IMappingDocumentParser parser = new MappingDocumentParser();
+			Stream stream = Assembly.GetAssembly(currentClass).GetManifestResourceStream(currentClass.FullName + ".nhv.xml");
 
-            if (stream != null)
-            {
-                NhvValidator validator = parser.Parse(stream);
+			if (stream != null)
+			{
+				NhvValidator validator = parser.Parse(stream);
 
-                foreach (NhvProperty property in validator.property)
-                {
-                    // TODO: it might not be a property but a field and it may be a static one, check if it is different for PropertyInfo
-                    MemberInfo currentProperty = currentClass.GetProperty(property.name);
-                    // FieldInfo currentField = currentClass.GetField(property.name);
+				foreach (NhvProperty property in validator.property)
+				{
+					// TODO: it might not be a property but a field and it may be a static one, check if it is different for PropertyInfo
+					MemberInfo currentProperty = currentClass.GetProperty(property.name);
+					// FieldInfo currentField = currentClass.GetField(property.name);
 
-                    if (currentProperty == null)
-                    {
-                        currentProperty = currentClass.GetField(property.name);
+					if (currentProperty == null)
+					{
+						currentProperty = currentClass.GetField(property.name);
 
-                        if (currentProperty == null)
-                        {
-                            log.Error("Property or field name was not found in the class");
-                            continue;
-                        }
-                    }
+						if (currentProperty == null)
+						{
+							log.Error("Property or field name was not found in the class");
+							continue;
+						}
+					}
 
-                    CreateMemberValidatorFromRules(currentProperty, property.rules);
-                }
-            }
-        }
+					CreateMemberValidatorFromRules(currentProperty, property.rules);
+				}
+			}
+		}
 
-        private void CreateMemberValidatorFromRules(MemberInfo member, NhvRules rules)
-        {
-            foreach (object rule in rules.Items)
-            {
-                log.Info(string.Format("Found rule {0} for property {1}", rule.ToString(), member.Name));
-                IValidator propertyValidator = CreateValidatorFromRule(rule);
+		private void CreateMemberValidatorFromRules(MemberInfo member, NhvRules rules)
+		{
+			foreach (object rule in rules.Items)
+			{
+				log.Info(string.Format("Found rule {0} for property {1}", rule, member.Name));
+				IValidator propertyValidator = CreateValidatorFromRule(rule);
 
-                if (propertyValidator != null)
-                {
-                    memberValidators.Add(propertyValidator);
-                    memberGetters.Add(member);
-                }
-            }
-        }
+				if (propertyValidator != null)
+				{
+					memberValidators.Add(propertyValidator);
+					memberGetters.Add(member);
+				}
+			}
+		}
 
-        private IValidator CreateValidatorFromRule(object rule)
-        {
-            Attribute thisAttribute = null;
-            if (rule is NhvNotNull)
-            {
-                log.Info("Not null rule found");
-                thisAttribute = new NotNullAttribute();
-            }
+		private IValidator CreateValidatorFromRule(object rule)
+		{
+			Attribute thisAttribute = null;
+			if (rule is NhvNotNull)
+			{
+				log.Info("Not null rule found");
+				thisAttribute = new NotNullAttribute();
+			}
 
-            if (rule is NhvNotEmpty)
-            {
-                log.Info("Not empty rule found");
-                thisAttribute = new NotEmptyAttribute();
-            }
+			if (rule is NhvNotEmpty)
+			{
+				log.Info("Not empty rule found");
+				thisAttribute = new NotEmptyAttribute();
+			}
 
-            if (rule is NhvLength)
-            {
-                NhvLength lengthRule = rule as NhvLength;
-                int min = int.MinValue;
-                int max = int.MaxValue;
+			if (rule is NhvLength)
+			{
+				NhvLength lengthRule = rule as NhvLength;
+				int min = int.MinValue;
+				int max = int.MaxValue;
 
-                if (lengthRule.minSpecified)
-                    min = lengthRule.min;
+				if (lengthRule.minSpecified)
+					min = lengthRule.min;
 
-                if (lengthRule.maxSpecified)
-                    max = lengthRule.max;
+				if (lengthRule.maxSpecified)
+					max = lengthRule.max;
 
-                log.Info(string.Format("Length rule found with min {0}, max {1}", min, max));
-                thisAttribute = new LengthAttribute(lengthRule.min, lengthRule.max);
-            }
+				log.Info(string.Format("Length rule found with min {0}, max {1}", min, max));
+				thisAttribute = new LengthAttribute(lengthRule.min, lengthRule.max);
+			}
 
-            if (rule is NhvFuture)
-            {
-                NhvFuture futureRule = rule as NhvFuture;
-                thisAttribute = new FutureAttribute();
-                if (futureRule.message != null)
-                {
-                    ((FutureAttribute)(thisAttribute)).Message = futureRule.message;
-                }
-            }
+			if (rule is NhvFuture)
+			{
+				NhvFuture futureRule = rule as NhvFuture;
+				thisAttribute = new FutureAttribute();
+				if (futureRule.message != null)
+				{
+					((FutureAttribute)(thisAttribute)).Message = futureRule.message;
+				}
+			}
 
-            if (rule is NhvPast)
-            {
-                NhvPast pastRule = rule as NhvPast;
-                thisAttribute = new PastAttribute();
-                if (pastRule.message != null)
-                {
-                    ((PastAttribute)(thisAttribute)).Message = pastRule.message;
-                }
-            }
+			if (rule is NhvPast)
+			{
+				NhvPast pastRule = rule as NhvPast;
+				thisAttribute = new PastAttribute();
+				if (pastRule.message != null)
+				{
+					((PastAttribute)(thisAttribute)).Message = pastRule.message;
+				}
+			}
 
-            if (thisAttribute != null)
-            {
-                return CreateValidator(thisAttribute);
-            }
+			if (thisAttribute != null)
+			{
+				return CreateValidator(thisAttribute);
+			}
 
-            log.Info("No rule found");
-            return null;
-        }
+			log.Info("No rule found");
+			return null;
+		}
 
 		/// <summary>
 		/// apply constraints on a bean instance and return all the failures.
@@ -354,7 +360,7 @@ namespace NHibernate.Validator
 			List<InvalidValue> results = new List<InvalidValue>();
 
 			//Bean Validation
-			foreach(IValidator validator in beanValidators)
+			foreach (IValidator validator in beanValidators)
 			{
 				if (!validator.IsValid(bean))
 				{
@@ -363,7 +369,7 @@ namespace NHibernate.Validator
 			}
 
 			//Property & Field Validation
-			for(int i = 0; i < memberValidators.Count; i++)
+			for (int i = 0; i < memberValidators.Count; i++)
 			{
 				MemberInfo member = memberGetters[i];
 
@@ -381,7 +387,7 @@ namespace NHibernate.Validator
 			}
 
 			//Child validation
-			for(int i = 0; i < childGetters.Count; i++)
+			for (int i = 0; i < childGetters.Count; i++)
 			{
 				MemberInfo member = childGetters[i];
 
@@ -391,7 +397,7 @@ namespace NHibernate.Validator
 
 					if (value != null && NHibernateUtil.IsInitialized(value))
 					{
-						MakeChildValidation(value,bean,member,circularityState,results);
+						MakeChildValidation(value, bean, member, circularityState, results);
 					}
 				}
 			}
@@ -406,7 +412,7 @@ namespace NHibernate.Validator
 		/// <param name="member"></param>
 		/// <param name="circularityState"></param>
 		/// <param name="results"></param>
-		private void MakeChildValidation(object value, object bean, MemberInfo member,ISet circularityState, IList<InvalidValue> results)
+		private void MakeChildValidation(object value, object bean, MemberInfo member, ISet circularityState, IList<InvalidValue> results)
 		{
 			IEnumerable valueEnum = value as IEnumerable;
 			if (valueEnum != null)
@@ -419,7 +425,7 @@ namespace NHibernate.Validator
 				InvalidValue[] invalidValues = GetClassValidator(value)
 					.GetInvalidValues(value, circularityState);
 
-				foreach(InvalidValue invalidValue in invalidValues)
+				foreach (InvalidValue invalidValue in invalidValues)
 				{
 					invalidValue.AddParentBean(bean, member.Name);
 					results.Add(invalidValue);
@@ -435,14 +441,14 @@ namespace NHibernate.Validator
 		/// <param name="member"></param>
 		/// <param name="circularityState"></param>
 		/// <param name="results"></param>
-		private void MakeChildValidation(IEnumerable value, object bean, MemberInfo member,ISet circularityState, IList<InvalidValue> results)
+		private void MakeChildValidation(IEnumerable value, object bean, MemberInfo member, ISet circularityState, IList<InvalidValue> results)
 		{
-			if(IsGenericDictionary(value.GetType())) //Generic Dictionary
+			if (IsGenericDictionary(value.GetType())) //Generic Dictionary
 			{
 				int index = 0;
-				foreach (object item in value) 
+				foreach (object item in value)
 				{
-					if (item == null) 
+					if (item == null)
 					{
 						index++;
 						continue;
@@ -453,8 +459,8 @@ namespace NHibernate.Validator
 
 					InvalidValue[] invalidValuesKey = GetClassValidator(ValueProperty.Get(item)).GetInvalidValues(ValueProperty.Get(item), circularityState);
 					String indexedPropName = string.Format("{0}[{1}]", member.Name, index);
-					
-					foreach (InvalidValue invalidValue in invalidValuesKey) 
+
+					foreach (InvalidValue invalidValue in invalidValuesKey)
 					{
 						invalidValue.AddParentBean(bean, indexedPropName);
 						results.Add(invalidValue);
@@ -463,7 +469,7 @@ namespace NHibernate.Validator
 					InvalidValue[] invalidValuesValue = GetClassValidator(KeyProperty.Get(item)).GetInvalidValues(KeyProperty.Get(item), circularityState);
 					indexedPropName = string.Format("{0}[{1}]", member.Name, index);
 
-					foreach (InvalidValue invalidValue in invalidValuesValue) 
+					foreach (InvalidValue invalidValue in invalidValuesValue)
 					{
 						invalidValue.AddParentBean(bean, indexedPropName);
 						results.Add(invalidValue);
@@ -475,7 +481,7 @@ namespace NHibernate.Validator
 			else //Generic collection
 			{
 				int index = 0;
-				foreach(object item in value)
+				foreach (object item in value)
 				{
 					if (item == null)
 					{
@@ -489,7 +495,7 @@ namespace NHibernate.Validator
 
 					index++;
 
-					foreach(InvalidValue invalidValue in invalidValues)
+					foreach (InvalidValue invalidValue in invalidValues)
 					{
 						invalidValue.AddParentBean(bean, indexedPropName);
 						results.Add(invalidValue);
@@ -549,7 +555,7 @@ namespace NHibernate.Validator
 
 				if (AttributesInTheAttribute.Length > 0)
 				{
-					validatorClass = (ValidatorClassAttribute) AttributesInTheAttribute[0];
+					validatorClass = (ValidatorClassAttribute)AttributesInTheAttribute[0];
 				}
 
 				if (validatorClass == null)
@@ -557,12 +563,12 @@ namespace NHibernate.Validator
 					return null;
 				}
 
-				IValidator beanValidator = (IValidator) Activator.CreateInstance(validatorClass.Value);
+				IValidator beanValidator = (IValidator)Activator.CreateInstance(validatorClass.Value);
 				beanValidator.Initialize(attribute);
 				defaultInterpolator.AddInterpolator(attribute, beanValidator);
 				return beanValidator;
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				throw new ArgumentException("could not instantiate ClassValidator", ex);
 			}
@@ -576,7 +582,7 @@ namespace NHibernate.Validator
 		{
 			object[] memberAttributes = member.GetCustomAttributes(false);
 
-			foreach(Attribute memberAttribute in memberAttributes)
+			foreach (Attribute memberAttribute in memberAttributes)
 			{
 				IValidator propertyValidator = CreateValidator(memberAttribute);
 
@@ -605,21 +611,21 @@ namespace NHibernate.Validator
 			if (IsGenericDictionary(GetType(member)))
 			{
 				clazzDictionary = GetGenericTypesOfDictionary(member);
-				if(!childClassValidators.ContainsKey(clazzDictionary.Key))
-					new ClassValidator(clazzDictionary.Key, messageBundle, culture, userInterpolator, childClassValidators, null);
+				if (!childClassValidators.ContainsKey(clazzDictionary.Key))
+					new ClassValidator(clazzDictionary.Key, messageBundle, culture, userInterpolator, childClassValidators, validatorMode);
 				if (!childClassValidators.ContainsKey(clazzDictionary.Value))
-					new ClassValidator(clazzDictionary.Value, messageBundle, culture, userInterpolator, childClassValidators, null);
+					new ClassValidator(clazzDictionary.Value, messageBundle, culture, userInterpolator, childClassValidators, validatorMode);
 
 				return;
 			}
 			else
 			{
 				clazz = GetTypeOfMember(member);
-			} 
-			
+			}
+
 			if (!childClassValidators.ContainsKey(clazz))
 			{
-				new ClassValidator(clazz, messageBundle, culture, userInterpolator, childClassValidators, null);
+				new ClassValidator(clazz, messageBundle, culture, userInterpolator, childClassValidators, validatorMode);
 			}
 		}
 
@@ -632,7 +638,7 @@ namespace NHibernate.Validator
 		{
 			System.Type clazz = GetType(member);
 
-			return new KeyValuePair<System.Type, System.Type> (clazz.GetGenericArguments()[0], clazz.GetGenericArguments()[1]);
+			return new KeyValuePair<System.Type, System.Type>(clazz.GetGenericArguments()[0], clazz.GetGenericArguments()[1]);
 		}
 
 		/// <summary>
@@ -649,8 +655,8 @@ namespace NHibernate.Validator
 			if (clazz.IsArray) // Is Array
 			{
 				return clazz.GetElementType();
-			} 
-			else if (IsEnumerable(clazz)  && clazz.IsGenericType) //Is Collection Generic  
+			}
+			else if (IsEnumerable(clazz) && clazz.IsGenericType) //Is Collection Generic  
 			{
 				return clazz.GetGenericArguments()[0];
 			}
@@ -670,9 +676,9 @@ namespace NHibernate.Validator
 
 		private static bool IsGenericDictionary(System.Type clazz)
 		{
-			if(clazz.IsInterface&&clazz.IsGenericType)
+			if (clazz.IsInterface && clazz.IsGenericType)
 				return typeof(IDictionary<,>).Equals(clazz.GetGenericTypeDefinition());
-			else 
+			else
 				return clazz.GetInterface(typeof(IDictionary<,>).Name) == null ? false : true;
 		}
 
@@ -684,15 +690,15 @@ namespace NHibernate.Validator
 		/// <returns></returns>
 		private static System.Type GetType(MemberInfo member)
 		{
-			switch(member.MemberType)
+			switch (member.MemberType)
 			{
 				case MemberTypes.Field:
-					return ((FieldInfo) member).FieldType;
+					return ((FieldInfo)member).FieldType;
 
 				case MemberTypes.Property:
-					return ((PropertyInfo) member).PropertyType;
+					return ((PropertyInfo)member).PropertyType;
 				default:
-					throw new ArgumentException("The argument must be a property or field","member");
+					throw new ArgumentException("The argument must be a property or field", "member");
 			}
 		}
 
@@ -713,7 +719,7 @@ namespace NHibernate.Validator
 			PropertyInfo pi = member as PropertyInfo;
 			if (pi != null)
 				return pi.GetValue(bean, ReflectHelper.AnyVisibilityInstance | BindingFlags.GetProperty, null, null, null);
-			
+
 			return null;
 		}
 
@@ -726,7 +732,7 @@ namespace NHibernate.Validator
 		private static void AddSuperClassesAndInterfaces(System.Type clazz, ISet<System.Type> classes)
 		{
 			//iterate for all SuperClasses
-			for(System.Type currentClass = clazz; currentClass != null; currentClass = currentClass.BaseType)
+			for (System.Type currentClass = clazz; currentClass != null; currentClass = currentClass.BaseType)
 			{
 				if (!classes.Add(clazz))
 				{
@@ -735,7 +741,7 @@ namespace NHibernate.Validator
 
 				System.Type[] interfaces = currentClass.GetInterfaces();
 
-				foreach(System.Type @interface in interfaces)
+				foreach (System.Type @interface in interfaces)
 				{
 					AddSuperClassesAndInterfaces(@interface, classes);
 				}
@@ -768,13 +774,13 @@ namespace NHibernate.Validator
 		{
 			List<InvalidValue> results = new List<InvalidValue>();
 
-			for (int i = 0; i < memberValidators.Count; i++) 
+			for (int i = 0; i < memberValidators.Count; i++)
 			{
 				MemberInfo getter = memberGetters[i];
-				if (getter.Name.Equals(propertyName)) 
+				if (getter.Name.Equals(propertyName))
 				{
 					IValidator validator = memberValidators[i];
-					if (!validator.IsValid(value)) 
+					if (!validator.IsValid(value))
 						results.Add(new InvalidValue(Interpolate(validator), beanClass, propertyName, value, null));
 				}
 			}
@@ -794,22 +800,22 @@ namespace NHibernate.Validator
 					((IPersistentClassConstraint)validator).Apply(persistentClass);
 			}
 
-			for (int i = 0; i < memberValidators.Count;i++ ) 
+			for (int i = 0; i < memberValidators.Count; i++)
 			{
 				IValidator validator = memberValidators[i];
 				MemberInfo getter = memberGetters[i];
 
 				string propertyName = getter.Name;
 
-				if(	validator is IPropertyConstraint )
+				if (validator is IPropertyConstraint)
 				{
 					try
 					{
 						Property property = FindPropertyByName(persistentClass, propertyName);
-						if(property != null)
+						if (property != null)
 							((IPropertyConstraint)validator).Apply(property);
 					}
-					catch(MappingException)
+					catch (MappingException)
 					{
 					}
 				}
@@ -828,54 +834,54 @@ namespace NHibernate.Validator
 					property = idProperty;
 				else //if it's a property
 				{
-					if (propertyName.IndexOf(idName + ".") == 0) 
+					if (propertyName.IndexOf(idName + ".") == 0)
 					{
 						property = idProperty;
 						propertyName = propertyName.Substring(idName.Length + 1);
 					}
-					
-					foreach(string element in new StringTokenizer(propertyName, ".", false))
+
+					foreach (string element in new StringTokenizer(propertyName, ".", false))
 					{
 						if (property == null)
 							property = associatedClass.GetProperty(element);
 						else
 						{
-							if (property.IsComposite) 
-								property = ((Component) property.Value).GetProperty(element);
+							if (property.IsComposite)
+								property = ((Component)property.Value).GetProperty(element);
 							else
 								return null;
 						}
 					}
 				}
 			}
-			catch(MappingException)
+			catch (MappingException)
 			{
-				try 
+				try
 				{
 					//if we do not find it try to check the identifier mapper
 					if (associatedClass.IdentifierMapper == null) return null;
 					StringTokenizer st = new StringTokenizer(propertyName, ".", false);
 
-					foreach(string element in st)
+					foreach (string element in st)
 					{
-						if (property == null) 
+						if (property == null)
 						{
 							property = associatedClass.IdentifierMapper.GetProperty(element);
-						} 
-						else 
+						}
+						else
 						{
-							if (property.IsComposite) 
+							if (property.IsComposite)
 								property = ((Component)property.Value).GetProperty(element);
 							else
 								return null;
 						}
 					}
-				} 
-				catch (MappingException) 
+				}
+				catch (MappingException)
 				{
 					return null;
 				}
-				
+
 			}
 
 			return property;

@@ -54,7 +54,9 @@ namespace NHibernate.Validator.Event
 
 		protected virtual ClassValidator GetClassValidator(System.Type mappedClass, IMessageInterpolator interpolator)
 		{
-			return new ClassValidator(mappedClass, null, null, interpolator, new Dictionary<System.Type, ClassValidator>(),null);
+			return
+				new ClassValidator(mappedClass, null, null, interpolator, new Dictionary<System.Type, ClassValidator>(),
+				                   ValidatorMode.UseAttribute);
 		}
 
 		#region IPreInsertEventListener Members
