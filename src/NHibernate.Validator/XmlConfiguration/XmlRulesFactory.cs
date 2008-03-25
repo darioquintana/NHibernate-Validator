@@ -52,7 +52,98 @@ namespace NHibernate.Validator.XmlConfiguration
 				return ConvertToEmail(rule);
 			}
 
+			if (rule is NhvRange)
+			{
+				return ConvertToRange(rule);
+			}
+
+			if (rule is NhvMin)
+			{
+				return ConvertToMin(rule);
+			}
+
+			if (rule is NhvAsserttrue)
+			{
+				return ConvertToAssertTrue(rule);
+			}
+
+			if (rule is NhvPattern)
+			{
+				return ConvertToPattern(rule);
+			}
+
 			return null;
+		}
+
+		private static Attribute ConvertToRange(object rule)
+		{
+			NhvRange rangeRule = rule as NhvRange;
+			long min = long.MinValue;
+			long max = long.MaxValue;
+
+			if (rangeRule.minSpecified)
+				min = rangeRule.min;
+
+			if (rangeRule.maxSpecified)
+				max = rangeRule.max;
+
+			log.Info(string.Format("Converting to Range attribute with min {0}, max {1}", min, max));
+			RangeAttribute thisAttribute = new RangeAttribute();
+			thisAttribute.Min = min;
+			thisAttribute.Max = max;
+			if (rangeRule.message != null)
+			{
+				thisAttribute.Message = rangeRule.message;
+			}
+
+			return thisAttribute;
+		}
+
+		private static Attribute ConvertToPattern(object rule)
+		{
+			log.Info("Converting to Pattern attribute");
+			NhvPattern patternRule = rule as NhvPattern;
+			PatternAttribute thisAttribute = new PatternAttribute();
+			thisAttribute.Regex = patternRule.regex;
+			if (patternRule.message != null)
+			{
+				thisAttribute.Message = patternRule.message;
+			}
+
+			return thisAttribute;
+		}
+
+		private static Attribute ConvertToAssertTrue(object rule)
+		{
+			log.Info("Converting to AssertTrue attribute");
+			NhvAsserttrue assertTrueRule = rule as NhvAsserttrue;
+			AssertTrueAttribute thisAttribute = new AssertTrueAttribute();
+			if (assertTrueRule.message != null)
+			{
+				thisAttribute.Message = assertTrueRule.message;
+			}
+
+			return thisAttribute;
+		}
+
+		private static Attribute ConvertToMin(object rule)
+		{
+			NhvMin minRule = rule as NhvMin;
+			long value = 0;
+			
+			if (minRule.valueSpecified)
+				value = minRule.value;
+
+			log.Info(string.Format("Converting to Min attribute with value {0}", value));
+			MinAttribute thisAttribute = new MinAttribute();
+			thisAttribute.Value = value;
+
+			if (minRule.message != null)
+			{
+				thisAttribute.Message = minRule.message;
+			}
+
+			return thisAttribute;
 		}
 
 		private static Attribute ConvertToEmail(object rule)

@@ -109,7 +109,7 @@ namespace NHibernate.Validator.Interpolator
 							else
 								_string = messageBundle != null ? messageBundle.GetString(token,culture) : null;
 						}
-						catch(MissingManifestResourceException e)
+						catch(MissingManifestResourceException)
 						{
 							//give a second chance with the default resource bundle
 							if (messageBundle.Equals(defaultMessageBundle))
@@ -129,7 +129,7 @@ namespace NHibernate.Validator.Interpolator
 								else
 									_string = defaultMessageBundle.GetString(token,culture);
 							}
-							catch(MissingManifestResourceException e)
+							catch(MissingManifestResourceException)
 							{
 								//return the unchanged string
 								buf.Append('{').Append(token).Append('}');

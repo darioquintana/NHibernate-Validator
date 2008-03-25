@@ -29,7 +29,7 @@ namespace NHibernate.Validator
 					return	Convert.ToDecimal(value) >= Convert.ToDecimal(min) &&
 							Convert.ToDecimal(value) <= Convert.ToDecimal(max);
 				} 
-				catch (FormatException fe) 
+				catch (FormatException) 
 				{
 					return false;
 				}

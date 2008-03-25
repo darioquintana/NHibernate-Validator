@@ -242,10 +242,10 @@ namespace NHibernate.Validator
 
                     if (currentMember == null)
                     {
-                        log.Error("Property or field name was not found in the class");
+                        log.Error(string.Format("Property or field \"{0}\" was not found in the class: \"{1}\" ", property.name, currentClass.FullName));
                         continue;
                     }
-                    log.Info("Looking for rules for property : {0}" + property.name);
+                    log.Info("Looking for rules for property : " + property.name);
                     CreateMemberValidatorFromRules(currentMember, property.rules);
                     CreateChildValidator(currentMember);
 				}
@@ -254,10 +254,10 @@ namespace NHibernate.Validator
 
         private MemberInfo GetPropertyOrField(System.Type currentClass, string name)
         {
-            MemberInfo memberInfo = currentClass.GetProperty(name);
+			MemberInfo memberInfo = currentClass.GetProperty(name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
             if (memberInfo == null)
             {
-                memberInfo = currentClass.GetField(name);
+				memberInfo = currentClass.GetField(name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static );
             }
 
             return memberInfo;

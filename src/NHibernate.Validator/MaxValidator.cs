@@ -21,7 +21,7 @@ namespace NHibernate.Validator
 				{
 					return Convert.ToDecimal(value) <= Convert.ToDecimal(max);
 				}
-				catch(FormatException nfe)
+				catch(FormatException)
 				{
 					return false;
 				}

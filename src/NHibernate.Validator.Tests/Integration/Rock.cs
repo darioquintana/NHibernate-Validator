@@ -1,4 +1,4 @@
-namespace NHibernate.Validator.Tests.Integration
+ namespace NHibernate.Validator.Tests.Integration
 {
 	public class Rock : Music
 	{

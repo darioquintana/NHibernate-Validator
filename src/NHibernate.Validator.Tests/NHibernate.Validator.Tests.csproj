@@ -67,7 +67,7 @@
     <Compile Include="BaseValidatorFixture.cs" />
     <Compile Include="Brother.cs" />
     <Compile Include="Building.cs" />
-    <Compile Include="ClassValidatorFactory.cs" />
+    <Compile Include="Configuration\ClassValidatorFactory.cs" />
     <Compile Include="Collections\CollectionFixture.cs" />
     <Compile Include="Collections\HasArrayWithValid.cs" />
     <Compile Include="Collections\HasCollection.cs" />
@@ -79,7 +79,7 @@
     <Compile Include="Collections\XmlCollectionFixture.cs" />
     <Compile Include="Configuration\CfgXmlHelperFixture.cs" />
     <Compile Include="Contact.cs" />
-    <Compile Include="EmailFixture.cs" />
+    <Compile Include="Email\EmailFixture.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="Inheritance\Dog.cs" />
     <Compile Include="Inheritance\IBoneEater.cs" />
@@ -106,6 +106,7 @@
     <Compile Include="TvOwner.cs" />
     <Compile Include="User.cs" />
     <Compile Include="ValidatorFixture.cs" />
+    <Compile Include="ValidatorFixtureXml.cs" />
     <Compile Include="Validators\FooDate.cs" />
     <Compile Include="Validators\FooLength.cs" />
     <Compile Include="Validators\FooNotEmpty.cs" />
@@ -118,7 +119,7 @@
     <Compile Include="Valid\Member.cs" />
     <Compile Include="Valid\ValidTestCase.cs" />
     <Compile Include="Valid\XmlValidTest.cs" />
-    <Compile Include="XmlEmailFixture.cs" />
+    <Compile Include="Email\XmlEmailFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -183,6 +184,15 @@
     <EmbeddedResource Include="Collections\HasArrayWithValid.nhv.xml" />
     <EmbeddedResource Include="Collections\HasCollection.nhv.xml" />
     <EmbeddedResource Include="Collections\HasShowCollection.nhv.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Address.nhv.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Brother.nhv.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Engine.nhv.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

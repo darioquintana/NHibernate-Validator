@@ -1,4 +1,4 @@
-namespace NHibernate.Validator.Tests
+namespace NHibernate.Validator.Tests.Email
 {
 	using NUnit.Framework;
 

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NHibernate.Validator.Tests
+namespace NHibernate.Validator.Tests.Email
 {
 	public class XmlEmailFixture : EmailFixture
 	{

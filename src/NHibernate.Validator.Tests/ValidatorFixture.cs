@@ -7,7 +7,7 @@ namespace NHibernate.Validator.Tests
 	using NUnit.Framework;
 
 	[TestFixture]
-	public class ValidatorFixture
+	public class ValidatorFixture : BaseValidatorFixture
 	{
 		public static readonly string ESCAPING_EL = "(escaping #{el})";
 
@@ -21,11 +21,7 @@ namespace NHibernate.Validator.Tests
 			a.State = "Vic";
 			a.Line1 = "Karbarook Ave";
 			a.Id = 3;
-			ClassValidator classValidator =
-				new ClassValidator(typeof (Address),
-				                   new ResourceManager("NHibernate.Validator.Tests.Resource.Messages",
-				                                       Assembly.GetExecutingAssembly()), new CultureInfo("en"),
-				                   ValidatorMode.UseAttribute);
+			ClassValidator classValidator = GetClassValidator(typeof(Address), new ResourceManager("NHibernate.Validator.Tests.Resource.Messages", Assembly.GetExecutingAssembly()), new CultureInfo("en"));
 			InvalidValue[] validationMessages = classValidator.GetInvalidValues(a);
 			Assert.AreEqual(2, validationMessages.Length); //static field is tested also
 			Address.blacklistedZipCode = "323232";
@@ -74,12 +70,12 @@ namespace NHibernate.Validator.Tests
 			christophe.Address = address;
 			emmanuel.YoungerBrother = christophe;
 			christophe.Elder= emmanuel;
-			ClassValidator classValidator = new ClassValidator(typeof(Brother));
+			ClassValidator classValidator = GetClassValidator(typeof(Brother));
 			InvalidValue[] invalidValues = classValidator.GetInvalidValues(emmanuel);
 			Assert.AreEqual(0, invalidValues.Length);
 			christophe.Name = null;
 			invalidValues = classValidator.GetInvalidValues(emmanuel);
-			Assert.AreEqual(1, invalidValues.Length);
+			Assert.AreEqual(1, invalidValues.Length, "Name cannot be null");
 			Assert.AreEqual(emmanuel, invalidValues[0].RootBean);
 			Assert.AreEqual("YoungerBrother.Name", invalidValues[0].PropertyPath);
 			christophe.Name = "Christophe";
@@ -93,14 +89,14 @@ namespace NHibernate.Validator.Tests
 			address.floor = -100;
 			christophe.Address=address;
 			invalidValues = classValidator.GetInvalidValues(emmanuel);
-			Assert.AreEqual(1, invalidValues.Length);
+			Assert.AreEqual(1, invalidValues.Length, "Floor cannot be less than 2");
 		}
 
 		[Test]
 		public void BeanValidator()
 		{
 			Suricato s = new Suricato();
-			ClassValidator vtor = new ClassValidator(typeof(Suricato));
+			ClassValidator vtor = GetClassValidator(typeof(Suricato));
 
 			Assert.IsTrue(vtor.HasValidationRules);
 			Assert.AreEqual(1,vtor.GetInvalidValues(s).Length);
@@ -124,7 +120,7 @@ namespace NHibernate.Validator.Tests
 			Engine eng = new Engine();
 			eng.HorsePower = 23;
 			eng.SerialNumber = "23-43###4";
-			ClassValidator classValidator = new ClassValidator(typeof(Engine));
+			ClassValidator classValidator = GetClassValidator(typeof(Engine));
 			InvalidValue[] invalidValues = classValidator.GetInvalidValues(eng);
 			Assert.AreEqual( 2, invalidValues.Length);
 
