@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using NHibernate.Validator.MappingSchema;
 using log4net;
+using System.Reflection;
 
 namespace NHibernate.Validator.XmlConfiguration
 {
@@ -130,7 +131,7 @@ namespace NHibernate.Validator.XmlConfiguration
 		{
 			NhvMin minRule = rule as NhvMin;
 			long value = 0;
-			
+
 			if (minRule.valueSpecified)
 				value = minRule.value;
 
@@ -228,7 +229,7 @@ namespace NHibernate.Validator.XmlConfiguration
 				max = lengthRule.max;
 			LengthAttribute thisAttribute = new LengthAttribute(lengthRule.min, lengthRule.max);
 			log.Info(string.Format("Converting to Length attribute with min {0}, max {1}", min, max));
-			
+
 			if (lengthRule.message != null)
 			{
 				thisAttribute.Message = lengthRule.message;
@@ -261,6 +262,18 @@ namespace NHibernate.Validator.XmlConfiguration
 			}
 
 			return thisAttribute;
+		}
+
+		internal static Attribute CreateAttributeFromClass(System.Type currentClass, string attributename)
+		{
+			Assembly assembly = currentClass.Assembly;
+			log.Info("Assembly = " + assembly.FullName);
+			log.Info("Looking for = " + currentClass.Namespace + "." + attributename + "Attribute");
+			System.Type type = assembly.GetType(currentClass.Namespace + "." + attributename + "Attribute", true);
+			log.Info("Found type = " + (type != null ? type.Name : "unknown"));
+			if (type == null) return null;
+
+			return (Attribute)Activator.CreateInstance(type);
 		}
 	}
 }

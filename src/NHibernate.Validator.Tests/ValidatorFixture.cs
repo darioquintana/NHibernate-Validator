@@ -47,14 +47,14 @@ namespace NHibernate.Validator.Tests
 			validationMessages = classValidator.GetInvalidValues(a);
 			Assert.AreEqual(1, validationMessages.Length);
 			Assert.AreEqual("Floor cannot " + ESCAPING_EL + " be lower that -2 and greater than 50 " + ESCAPING_EL,
-			                validationMessages[0].Message);
+							validationMessages[0].Message);
 		}
 
 		[Test]
 		public void Circularity()
 		{
 			Brother emmanuel = new Brother();
-			emmanuel.Name ="Emmanuel";
+			emmanuel.Name = "Emmanuel";
 			Address.blacklistedZipCode = "666";
 			Address address = new Address();
 			address.InternalValid = true;
@@ -66,10 +66,10 @@ namespace NHibernate.Validator.Tests
 			address.floor = 4;
 			emmanuel.Address = address;
 			Brother christophe = new Brother();
-			christophe.Name = "Christophe" ;
+			christophe.Name = "Christophe";
 			christophe.Address = address;
 			emmanuel.YoungerBrother = christophe;
-			christophe.Elder= emmanuel;
+			christophe.Elder = emmanuel;
 			ClassValidator classValidator = GetClassValidator(typeof(Brother));
 			InvalidValue[] invalidValues = classValidator.GetInvalidValues(emmanuel);
 			Assert.AreEqual(0, invalidValues.Length);
@@ -81,13 +81,13 @@ namespace NHibernate.Validator.Tests
 			christophe.Name = "Christophe";
 			address = new Address();
 			address.InternalValid = true;
-			address.Country="France";
+			address.Country = "France";
 			address.Id = 4;
-			address.Line1="Rue des plantes";
-			address.State="NYC";
-			address.Zip="33333";
+			address.Line1 = "Rue des plantes";
+			address.State = "NYC";
+			address.Zip = "33333";
 			address.floor = -100;
-			christophe.Address=address;
+			christophe.Address = address;
 			invalidValues = classValidator.GetInvalidValues(emmanuel);
 			Assert.AreEqual(1, invalidValues.Length, "Floor cannot be less than 2");
 		}
@@ -99,7 +99,7 @@ namespace NHibernate.Validator.Tests
 			ClassValidator vtor = GetClassValidator(typeof(Suricato));
 
 			Assert.IsTrue(vtor.HasValidationRules);
-			Assert.AreEqual(1,vtor.GetInvalidValues(s).Length);
+			Assert.AreEqual(1, vtor.GetInvalidValues(s).Length);
 		}
 
 		/// <summary>
@@ -122,7 +122,7 @@ namespace NHibernate.Validator.Tests
 			eng.SerialNumber = "23-43###4";
 			ClassValidator classValidator = GetClassValidator(typeof(Engine));
 			InvalidValue[] invalidValues = classValidator.GetInvalidValues(eng);
-			Assert.AreEqual( 2, invalidValues.Length);
+			Assert.AreEqual(2, invalidValues.Length);
 
 			//This cannot be tested, the order is random
 			//Assert.AreEqual("must contain alphabetical characters only", invalidValues[0].Message);
@@ -134,8 +134,8 @@ namespace NHibernate.Validator.Tests
 			Assert.IsTrue(list_invalidValues.Contains("must contain alphabetical characters only"));
 			Assert.IsTrue(list_invalidValues.Contains("must match ....-....-...."));
 
-			
-			eng.SerialNumber =  "1234-5678-9012";
+
+			eng.SerialNumber = "1234-5678-9012";
 			invalidValues = classValidator.GetInvalidValues(eng);
 			Assert.AreEqual(0, invalidValues.Length);
 		}

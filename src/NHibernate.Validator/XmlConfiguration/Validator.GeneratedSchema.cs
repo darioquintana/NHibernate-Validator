@@ -277,7 +277,24 @@ namespace NHibernate.Validator.MappingSchema {
     public partial class NhvValidator {
         
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("class")]
+        public NhvClass[] @class;
+        
+        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("property")]
         public NhvProperty[] property;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-0.1")]
+    [System.Xml.Serialization.XmlRootAttribute("class", Namespace="urn:nhibernate-validator-0.1", IsNullable=false)]
+    public partial class NhvClass {
+        
+        /// <remarks/>
+        public string attributename;
     }
 }

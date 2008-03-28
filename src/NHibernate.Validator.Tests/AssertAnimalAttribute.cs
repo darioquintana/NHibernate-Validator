@@ -6,7 +6,7 @@ namespace NHibernate.Validator.Tests
 	[ValidatorClass(typeof(AssertAnimalValidator))]
 	public class AssertAnimalAttribute : Attribute
 	{
-		private string message = "not a animal";
+		private string message = "not an animal";
 
 		public string Message
 		{
