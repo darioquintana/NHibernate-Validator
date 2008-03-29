@@ -3,12 +3,12 @@ namespace NHibernate.Validator.Tests.Inheritance
     using NUnit.Framework;
 
     [TestFixture]
-    public class InheritanceFixture
+    public class InheritanceFixture : BaseValidatorFixture
     {
         [Test]
         public void TestInh()
         {
-            ClassValidator classValidator = new ClassValidator(typeof(Dog));
+            ClassValidator classValidator = GetClassValidator(typeof(Dog));
             Dog dog = new Dog();
             InvalidValue[] invalidValues = classValidator.GetInvalidValues(dog);
             Assert.AreEqual(3, invalidValues.Length);

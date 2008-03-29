@@ -22,7 +22,7 @@ namespace NHibernate.Validator.Cfg
 			bool applyToDDL = PropertiesHelper.GetBoolean(Environment.ApplyToDDL, cfg.Properties, true);
 			bool autoRegisterListeners = PropertiesHelper.GetBoolean(Environment.AutoregisterListeners, cfg.Properties, true);
 			ValidatorMode vm = CfgXmlHelper.ValidatorModeConvertFrom(PropertiesHelper.GetString(Environment.ValidatorMode, cfg.Properties, string.Empty));
-
+			log.Info("Using validation mode = " + vm.ToString());
 			Initialize(cfg, applyToDDL, autoRegisterListeners, vm);
 		}
 

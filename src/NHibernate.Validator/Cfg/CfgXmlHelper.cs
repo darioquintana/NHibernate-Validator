@@ -26,7 +26,7 @@ namespace NHibernate.Validator.Cfg
 					return ValidatorMode.OverrideXmlWithAttribute;
 
 				default:
-					throw new ValidatorConfigurationException("Unespected ValidatorMode :" + validatorMode);
+					throw new ValidatorConfigurationException("Unexpected ValidatorMode :" + validatorMode);
 			}
 		}
 	}

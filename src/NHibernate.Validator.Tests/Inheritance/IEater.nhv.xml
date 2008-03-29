@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<validator xmlns="urn:nhibernate-validator-0.1">
+	<property name="Frequency">
+		<rules>
+			<min value="2" />
+		</rules>
+	</property>
+</validator>

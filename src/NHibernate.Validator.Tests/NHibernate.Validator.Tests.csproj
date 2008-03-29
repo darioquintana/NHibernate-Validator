@@ -87,6 +87,7 @@
     <Compile Include="Inheritance\Animal.cs" />
     <Compile Include="Inheritance\IName.cs" />
     <Compile Include="Inheritance\InheritanceFixture.cs" />
+    <Compile Include="Inheritance\XmlInheritanceFixture.cs" />
     <Compile Include="Integration\CreditCard.cs" />
     <Compile Include="Integration\MarsAddress.cs" />
     <Compile Include="Integration\Martian.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Integration\PrefixMessageInterpolator.cs" />
     <Compile Include="Integration\Rock.cs" />
     <Compile Include="Integration\User.cs" />
+    <Compile Include="Integration\XmlHibernateAnnotationIntegrationFixture.cs" />
     <Compile Include="PersistenceTest.cs" />
     <Compile Include="Polimorphism\BaseClass.cs" />
     <Compile Include="Polimorphism\Fixture.cs" />
@@ -196,6 +198,20 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Suricato.nhv.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Inheritance\Dog.nhv.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Inheritance\IBoneEater.nhv.xml" />
+    <EmbeddedResource Include="Inheritance\IEater.nhv.xml" />
+    <EmbeddedResource Include="Inheritance\IName.nhv.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Tv.nhv.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TvOwner.nhv.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
