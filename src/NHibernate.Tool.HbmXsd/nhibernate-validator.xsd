@@ -32,10 +32,7 @@
 	<xs:element name="validator">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:sequence maxOccurs="unbounded" minOccurs="1">
-					<xs:element ref="class" minOccurs="0" maxOccurs="1" />
-					<xs:element ref="property" minOccurs="0" />
-				</xs:sequence>
+				<xs:element maxOccurs="unbounded" minOccurs="1" ref="class" />
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
@@ -126,8 +123,14 @@
 	<xs:element name="class">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="attributename" type="xs:string" minOccurs="1" />
+				<xs:element name="attributename" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+				<xs:sequence maxOccurs="unbounded" minOccurs="0">
+					<xs:element ref="property" minOccurs="0" maxOccurs="unbounded" />
+				</xs:sequence>
 			</xs:sequence>
+			<xs:attribute name="namespace" type="xs:string" use="required" />
+			<xs:attribute name="assembly" type="xs:string" use="required" />
+			<xs:attribute name="name" type="xs:string" use="required" />
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

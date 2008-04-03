@@ -1,8 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <validator xmlns="urn:nhibernate-validator-0.1">
-	<property name="name">
-		<rules>
-			<not-null/>
-		</rules>
-	</property>
+	<class name="Show" namespace="NHibernate.Validator.Tests.Collections" assembly="NHibernate.Validator.Tests">
+		<property name="name">
+			<rules>
+				<not-null/>
+			</rules>
+		</property>
+	</class>
 </validator>

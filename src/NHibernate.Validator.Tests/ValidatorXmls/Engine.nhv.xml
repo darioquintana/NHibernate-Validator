@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<validator xmlns="urn:nhibernate-validator-0.1">
+	<class name="Engine" namespace="NHibernate.Validator.Tests" assembly="NHibernate.Validator.Tests">
+		<property name="serialNumber">
+			<rules>
+				<pattern regex="^[A-Z0-9-]+$" message="must contain alphabetical characters only"/>
+				<pattern regex="^....-....-....$" message="must match ....-....-...."/>
+			</rules>
+		</property>
+	</class>
+</validator>

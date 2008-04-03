@@ -279,10 +279,6 @@ namespace NHibernate.Validator.MappingSchema {
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("class")]
         public NhvClass[] @class;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("property")]
-        public NhvProperty[] property;
     }
     
     /// <remarks/>
@@ -295,6 +291,23 @@ namespace NHibernate.Validator.MappingSchema {
     public partial class NhvClass {
         
         /// <remarks/>
-        public string attributename;
+        [System.Xml.Serialization.XmlElementAttribute("attributename")]
+        public string[] attributename;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("property")]
+        public NhvProperty[] property;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string @namespace;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string assembly;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string name;
     }
 }

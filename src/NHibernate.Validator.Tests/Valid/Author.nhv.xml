@@ -1,13 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <validator xmlns="urn:nhibernate-validator-0.1">
-	<property name="Blog">
-		<rules>
-			<valid/>
-		</rules>
-	</property>
-	<property name="Name">
-		<rules>
-			<not-empty/>
-		</rules>
-	</property>
+	<class name="Author" namespace="NHibernate.Validator.Tests.Valid" assembly="NHibernate.Validator.Tests">
+		<property name="Blog">
+			<rules>
+				<valid/>
+			</rules>
+		</property>
+		<property name="Name">
+			<rules>
+				<not-empty/>
+			</rules>
+		</property>
+	</class>
 </validator>

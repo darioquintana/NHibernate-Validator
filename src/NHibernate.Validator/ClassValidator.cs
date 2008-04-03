@@ -14,6 +14,7 @@ using NHibernate.Util;
 using NHibernate.Validator.Interpolator;
 using NHibernate.Validator.MappingSchema;
 using NHibernate.Validator.XmlConfiguration;
+using System.Xml;
 
 namespace NHibernate.Validator
 {
@@ -25,9 +26,9 @@ namespace NHibernate.Validator
 	{
 		private static readonly ILog log = LogManager.GetLogger(typeof(ClassValidator));
 
-		private readonly BindingFlags AnyVisibilityInstanceAndStatic = (BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
-
 		private readonly System.Type beanClass;
+
+		private static Dictionary<AssemblyQualifiedTypeName, NhvClass> validatorMappings;
 
 		private DefaultMessageInterpolatorAggregator defaultInterpolator;
 
@@ -121,6 +122,11 @@ namespace NHibernate.Validator
 			this.userInterpolator = userInterpolator;
 			this.childClassValidators = childClassValidators;
 			this.validatorMode = validatorMode;
+			if (validatorMappings == null)
+			{
+				validatorMappings = new Dictionary<AssemblyQualifiedTypeName, NhvClass>();
+				GetAllNHVXmlResourceNames(clazz.Assembly);
+			}
 
 			//Initialize the ClassValidator
 			InitValidator(beanClass, childClassValidators);
@@ -198,7 +204,7 @@ namespace NHibernate.Validator
 						CreateChildValidator(currentProperty);
 					}
 
-					foreach (FieldInfo currentField in currentClass.GetFields(AnyVisibilityInstanceAndStatic))
+					foreach (FieldInfo currentField in currentClass.GetFields(ReflectHelper.AnyVisibilityInstance | BindingFlags.Static))
 					{
 						CreateMemberValidator(currentField);
 						CreateChildValidator(currentField);
@@ -222,13 +228,13 @@ namespace NHibernate.Validator
 
 		private void CreateClassMembersFromXml(System.Type currentClass)
 		{
-			NhvValidator validator = GetXmlValidatorFrom(currentClass);
-			if (validator == null || validator.@class == null) return;
-			log.Info("Looking for class attributes");
-			foreach (NhvClass nhvclass in validator.@class)
+			NhvClass clazz = GetNhvClassFor(currentClass);
+			if (clazz == null || clazz.attributename == null) return;
+			log.Debug("Looking for class attributes");
+			foreach (string attributeName in clazz.attributename)
 			{
-				log.Info("Attribute to look for = " + nhvclass.attributename);
-				Attribute classAttribute = XmlRulesFactory.CreateAttributeFromClass(currentClass, nhvclass.attributename);
+				log.Info("Attribute to look for = " + attributeName);
+				Attribute classAttribute = XmlRulesFactory.CreateAttributeFromClass(currentClass, attributeName);
 				if (classAttribute != null)
 				{
 					ValidateClassAtribute(classAttribute);
@@ -238,28 +244,34 @@ namespace NHibernate.Validator
 
 		// TODO: AddDirectoryInfo(DirectoryInfo directory), AddFile(string xmlFile) AddXmlFile(string XmlFile)
 
-		private static List<string> GetAllNHVXmlResourceNames(Assembly assembly)
+		private void GetAllNHVXmlResourceNames(Assembly assembly)
 		{
-			List<string> result = new List<string>();
+			IMappingDocumentParser parser = new MappingDocumentParser();
 
 			foreach (string resource in assembly.GetManifestResourceNames())
 			{
 				if (resource.EndsWith(".nhv.xml"))
 				{
-					log.Info(resource);
-					result.Add(resource);
+					NhvValidator validator = parser.Parse(assembly.GetManifestResourceStream(resource));
+					foreach (NhvClass clazz in validator.@class)
+					{
+						AssemblyQualifiedTypeName fullClassName = TypeNameParser.Parse(clazz.name, clazz.@namespace, clazz.assembly);
+						log.Info("Full class name = " + fullClassName);
+						if (!validatorMappings.ContainsKey(fullClassName))
+						{
+							validatorMappings.Add(fullClassName, clazz);
+						}
+					}
 				}
 			}
-
-			return result;
 		}
 
 		private void CreateMembersFromXml(System.Type currentClass)
 		{
-			NhvValidator validator = GetXmlValidatorFrom(currentClass);
-			if (validator == null || validator.property == null) return;
-
-			foreach (NhvProperty property in validator.property)
+			NhvClass clazz = GetNhvClassFor(currentClass);
+			if (clazz == null || clazz.property == null) return;
+			
+			foreach (NhvProperty property in clazz.property)
 			{
 				MemberInfo currentMember = GetPropertyOrField(currentClass, property.name);
 
@@ -274,28 +286,26 @@ namespace NHibernate.Validator
 			}
 		}
 
-		private NhvValidator GetXmlValidatorFrom(System.Type currentClass)
+		private NhvClass GetNhvClassFor(System.Type currentClass)
 		{
-			Stream stream = GetStreamForClass(currentClass);
-			if (stream != null)
+			AssemblyQualifiedTypeName fullClassName = TypeNameParser.Parse(currentClass.Name, currentClass.Namespace, currentClass.Assembly.GetName().Name);
+
+			log.Info("Looking for class name = " + fullClassName);
+
+			if (validatorMappings.ContainsKey(fullClassName))
 			{
-				IMappingDocumentParser parser = new MappingDocumentParser();
-				return parser.Parse(stream);
+				return validatorMappings[fullClassName];
 			}
 
 			return null;
 		}
 
-		private static Stream GetStreamForClass(System.Type currentClass)
-		{
-			return Assembly.GetAssembly(currentClass).GetManifestResourceStream(currentClass.FullName + ".nhv.xml");		}
-
 		private MemberInfo GetPropertyOrField(System.Type currentClass, string name)
 		{
-			MemberInfo memberInfo = currentClass.GetProperty(name, AnyVisibilityInstanceAndStatic);
+			MemberInfo memberInfo = currentClass.GetProperty(name, ReflectHelper.AnyVisibilityInstance | BindingFlags.Static);
 			if (memberInfo == null)
 			{
-				memberInfo = currentClass.GetField(name, AnyVisibilityInstanceAndStatic);
+				memberInfo = currentClass.GetField(name, ReflectHelper.AnyVisibilityInstance | BindingFlags.Static);
 			}
 
 			return memberInfo;

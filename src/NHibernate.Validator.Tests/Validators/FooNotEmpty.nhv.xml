@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <validator xmlns="urn:nhibernate-validator-0.1">
-	<property name="Message">
-		<rules>
-			<not-empty />
-		</rules>
-	</property>
+	<class name="FooNotEmpty" namespace="NHibernate.Validator.Tests.Validators" assembly="NHibernate.Validator.Tests">
+		<property name="Message">
+			<rules>
+				<not-empty />
+			</rules>
+		</property>
+	</class>
 </validator>

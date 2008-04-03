@@ -102,6 +102,7 @@
     <Compile Include="Polimorphism\BaseClass.cs" />
     <Compile Include="Polimorphism\Fixture.cs" />
     <Compile Include="ResourceFixture\ResourcesTest.cs" />
+    <Compile Include="Serialization\SerializaitonFixture.cs" />
     <Compile Include="Suricato.cs" />
     <Compile Include="TestConfigurationHelper.cs" />
     <Compile Include="Tv.cs" />
@@ -174,9 +175,6 @@
     <EmbeddedResource Include="Valid\Author.nhv.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="User.nhv.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Collections\Movie.nhv.xml" />
     <EmbeddedResource Include="Collections\Presenter.nhv.xml" />
     <EmbeddedResource Include="Collections\Show.nhv.xml" />
@@ -188,18 +186,6 @@
     <EmbeddedResource Include="Collections\HasShowCollection.nhv.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Address.nhv.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Brother.nhv.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Engine.nhv.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Suricato.nhv.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Inheritance\Dog.nhv.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -208,10 +194,13 @@
     <EmbeddedResource Include="Inheritance\IName.nhv.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Tv.nhv.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TvOwner.nhv.xml" />
+    <EmbeddedResource Include="ValidatorXmls\Address.nhv.xml" />
+    <EmbeddedResource Include="ValidatorXmls\Brother.nhv.xml" />
+    <EmbeddedResource Include="ValidatorXmls\Engine.nhv.xml" />
+    <EmbeddedResource Include="ValidatorXmls\Suricato.nhv.xml" />
+    <EmbeddedResource Include="ValidatorXmls\Tv.nhv.xml" />
+    <EmbeddedResource Include="ValidatorXmls\TvOwner.nhv.xml" />
+    <EmbeddedResource Include="ValidatorXmls\User.nhv.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
