@@ -25,7 +25,10 @@ namespace NHibernate.Validator.Tests.Email
 			isRightEmail("emma=nuel@hibernate.org");
 			isWrongEmail("emma\nnuel@hibernate.org");
 			isWrongEmail("emma@nuel@hibernate.org");
+			isWrongEmail("emmanuel@@hibernate.org");
+			isWrongEmail("emmanuel @ hibernate.org");
 			isRightEmail("emmanuel@[123.12.2.11]");
+			isWrongEmail(".emma@nuel@hibernate.org");
 		}
 
 		private void isRightEmail(string email)
