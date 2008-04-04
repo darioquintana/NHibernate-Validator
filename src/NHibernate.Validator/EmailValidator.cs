@@ -15,7 +15,7 @@ namespace NHibernate.Validator
 			if (value == null) return true;
 			if (!(value is string)) return false;
 			string @string = (String) value;
-			if ( @string.Length == 0 ) return true; //TODO: See if it's well done.
+			if ( @string.Length == 0 ) return true;
 			return regex.IsMatch(@string);
 		}
 
