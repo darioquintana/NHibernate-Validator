@@ -95,6 +95,7 @@
     </Compile>
     <Compile Include="SizeAttribute.cs" />
     <Compile Include="SizeValidator.cs" />
+    <Compile Include="Util\TypeUtils.cs" />
     <Compile Include="Validator.cs" />
     <Compile Include="Validator.Generic.cs" />
     <Compile Include="ValidatorClassAttribute.cs" />

@@ -1,3 +1,5 @@
+using NHibernate.Util;
+
 namespace NHibernate.Validator.Interpolator
 {
 	using System;
@@ -7,11 +9,10 @@ namespace NHibernate.Validator.Interpolator
 	using System.Reflection;
 	using System.Resources;
 	using System.Text;
-	using Util;
 
 	public class DefaultMessageInterpolator : IMessageInterpolator
 	{
-		//TODO: Log !
+		//TODO: Log this class!
 		//private static Log log = LogFactory.getLog( DefaultMessageInterpolator.class );
 
 		private CultureInfo culture = null;
@@ -51,11 +52,6 @@ namespace NHibernate.Validator.Interpolator
 			
 		}
 
-		/// <summary>
-		/// TODO: this method is ported using copy-paste, take a look to make it better
-		/// </summary>
-		/// <param name="message"></param>
-		/// <returns></returns>
 		private String Replace(String message)
 		{
 			StringTokenizer tokens = new StringTokenizer(message, "#{}", true);

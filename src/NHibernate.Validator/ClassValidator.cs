@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Reflection;
 using System.Resources;
 using Iesi.Collections;
@@ -13,8 +12,8 @@ using NHibernate.Properties;
 using NHibernate.Util;
 using NHibernate.Validator.Interpolator;
 using NHibernate.Validator.MappingSchema;
+using NHibernate.Validator.Util;
 using NHibernate.Validator.XmlConfiguration;
-using System.Xml;
 
 namespace NHibernate.Validator
 {
@@ -273,7 +272,7 @@ namespace NHibernate.Validator
 			
 			foreach (NhvProperty property in clazz.property)
 			{
-				MemberInfo currentMember = GetPropertyOrField(currentClass, property.name);
+				MemberInfo currentMember = TypeUtils.GetPropertyOrField(currentClass, property.name);
 
 				if (currentMember == null)
 				{
@@ -298,17 +297,6 @@ namespace NHibernate.Validator
 			}
 
 			return null;
-		}
-
-		private MemberInfo GetPropertyOrField(System.Type currentClass, string name)
-		{
-			MemberInfo memberInfo = currentClass.GetProperty(name, ReflectHelper.AnyVisibilityInstance | BindingFlags.Static);
-			if (memberInfo == null)
-			{
-				memberInfo = currentClass.GetField(name, ReflectHelper.AnyVisibilityInstance | BindingFlags.Static);
-			}
-
-			return memberInfo;
 		}
 
 		private void CreateMemberValidatorFromRules(MemberInfo member, NhvRules rules)
@@ -389,7 +377,7 @@ namespace NHibernate.Validator
 
 				if (NHibernateUtil.IsPropertyInitialized(bean, member.Name))
 				{
-					object value = GetMemberValue(bean, member);
+					object value = TypeUtils.GetMemberValue(bean, member);
 
 					IValidator validator = memberValidators[i];
 
@@ -407,7 +395,7 @@ namespace NHibernate.Validator
 
 				if (NHibernateUtil.IsPropertyInitialized(bean, member.Name))
 				{
-					object value = GetMemberValue(bean, member);
+					object value = TypeUtils.GetMemberValue(bean, member);
 
 					if (value != null && NHibernateUtil.IsInitialized(value))
 					{
@@ -457,7 +445,7 @@ namespace NHibernate.Validator
 		/// <param name="results"></param>
 		private void MakeChildValidation(IEnumerable value, object bean, MemberInfo member, ISet circularityState, IList<InvalidValue> results)
 		{
-			if (IsGenericDictionary(value.GetType())) //Generic Dictionary
+			if (TypeUtils.IsGenericDictionary(value.GetType())) //Generic Dictionary
 			{
 				int index = 0;
 				foreach (object item in value)
@@ -622,9 +610,9 @@ namespace NHibernate.Validator
 
 			childGetters.Add(member);
 
-			if (IsGenericDictionary(GetType(member)))
+			if (TypeUtils.IsGenericDictionary(TypeUtils.GetType(member)))
 			{
-				clazzDictionary = GetGenericTypesOfDictionary(member);
+				clazzDictionary = TypeUtils.GetGenericTypesOfDictionary(member);
 				if (!childClassValidators.ContainsKey(clazzDictionary.Key))
 					new ClassValidator(clazzDictionary.Key, messageBundle, culture, userInterpolator, childClassValidators, validatorMode);
 				if (!childClassValidators.ContainsKey(clazzDictionary.Value))
@@ -634,7 +622,7 @@ namespace NHibernate.Validator
 			}
 			else
 			{
-				clazz = GetTypeOfMember(member);
+				clazz = TypeUtils.GetTypeOfMember(member);
 			}
 
 			if (!childClassValidators.ContainsKey(clazz))
@@ -643,99 +631,6 @@ namespace NHibernate.Validator
 			}
 		}
 
-		/// <summary>
-		/// Get the Generic Arguments of a <see cref="IDictionary{TKey,TValue}"/>
-		/// </summary>
-		/// <param name="member"></param>
-		/// <returns></returns>
-		private static KeyValuePair<System.Type, System.Type> GetGenericTypesOfDictionary(MemberInfo member)
-		{
-			System.Type clazz = GetType(member);
-
-			return new KeyValuePair<System.Type, System.Type>(clazz.GetGenericArguments()[0], clazz.GetGenericArguments()[1]);
-		}
-
-		/// <summary>
-		/// Get the type of the a Field or Property. 
-		/// If is a: Generic Collection or a Array, return the type of the elements.
-		/// TODO: Refactor this method to some Utils.
-		/// </summary>
-		/// <param name="member">MemberInfo, represent a property or field</param>
-		/// <returns>type of the member or collection member</returns>
-		private static System.Type GetTypeOfMember(MemberInfo member)
-		{
-			System.Type clazz = GetType(member);
-
-			if (clazz.IsArray) // Is Array
-			{
-				return clazz.GetElementType();
-			}
-			else if (IsEnumerable(clazz) && clazz.IsGenericType) //Is Collection Generic  
-			{
-				return clazz.GetGenericArguments()[0];
-			}
-
-			return clazz; //Single type, not a collection/array
-		}
-
-		/// <summary>
-		/// Indicates if a <see cref="Type"/> is <see cref="IEnumerable"/>
-		/// </summary>
-		/// <param name="clazz"></param>
-		/// <returns>is enumerable or not</returns>
-		private static bool IsEnumerable(System.Type clazz)
-		{
-			return clazz.GetInterface(typeof(IEnumerable).FullName) == null ? false : true;
-		}
-
-		private static bool IsGenericDictionary(System.Type clazz)
-		{
-			if (clazz.IsInterface && clazz.IsGenericType)
-				return typeof(IDictionary<,>).Equals(clazz.GetGenericTypeDefinition());
-			else
-				return clazz.GetInterface(typeof(IDictionary<,>).Name) == null ? false : true;
-		}
-
-		/// <summary>
-		/// Get the <see cref="Type"/> of a <see cref="MemberInfo"/>.
-		/// TODO: works only with properties and fields.
-		/// </summary>
-		/// <param name="member"></param>
-		/// <returns></returns>
-		private static System.Type GetType(MemberInfo member)
-		{
-			switch (member.MemberType)
-			{
-				case MemberTypes.Field:
-					return ((FieldInfo)member).FieldType;
-
-				case MemberTypes.Property:
-					return ((PropertyInfo)member).PropertyType;
-				default:
-					throw new ArgumentException("The argument must be a property or field", "member");
-			}
-		}
-
-
-		/// <summary>
-		/// Get the value of some Property or Field.
-		/// TODO: refactor this to some Utils.
-		/// </summary>
-		/// <param name="bean"></param>
-		/// <param name="member"></param>
-		/// <returns></returns>
-		private static object GetMemberValue(object bean, MemberInfo member)
-		{
-			FieldInfo fi = member as FieldInfo;
-			if (fi != null)
-				return fi.GetValue(bean);
-
-			PropertyInfo pi = member as PropertyInfo;
-			if (pi != null)
-				return pi.GetValue(bean, ReflectHelper.AnyVisibilityInstance | BindingFlags.GetProperty, null, null, null);
-
-			return null;
-		}
 
 		/// <summary>
 		/// Add recursively the inheritance tree of types (Classes and Interfaces)
