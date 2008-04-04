@@ -20,7 +20,7 @@ namespace NHibernate.Validator.Cfg
 					return ValidatorMode.UseXml;
 
 				case "ovverrideattributewithxml":
-					return ValidatorMode.OvverrideAttributeWithXml;
+					return ValidatorMode.OverrideAttributeWithXml;
 
 				case "overridexmlwithattribute":
 					return ValidatorMode.OverrideXmlWithAttribute;

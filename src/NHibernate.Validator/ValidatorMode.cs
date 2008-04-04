@@ -20,7 +20,7 @@ namespace NHibernate.Validator
 		/// and then using the xml, merging both.
 		/// Conflicts are solved using xml-configuration over attribute-configuration.
 		/// </summary>
-		OvverrideAttributeWithXml,
+		OverrideAttributeWithXml,
 
 		/// <summary>
 		/// Validators are discovered, by reflection, investigating the class attributes
