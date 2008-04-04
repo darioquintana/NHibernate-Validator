@@ -4,6 +4,8 @@ using System.Text;
 using NHibernate.Validator.MappingSchema;
 using log4net;
 using System.Reflection;
+using NHibernate.Util;
+using NHibernate.Validator.Util;
 
 namespace NHibernate.Validator.XmlConfiguration
 {
@@ -73,7 +75,39 @@ namespace NHibernate.Validator.XmlConfiguration
 				return ConvertToPattern(rule);
 			}
 
+			if (rule is NhvRule)
+			{
+				return ConvertToRule(rule);
+			}
+
 			return null;
+		}
+
+		private static Attribute ConvertToRule(object rule)
+		{
+			NhvRule ruleRule = rule as NhvRule;
+			string attribute = ruleRule.attribute;
+			AssemblyQualifiedTypeName fullClassName = TypeNameParser.Parse(attribute, "NHibernate.Validator.Tests.CustomValidator", "NHibernate.Validator.Tests");
+
+			System.Type type = ReflectHelper.ClassForFullName(fullClassName.Type);
+			log.Info("The type found for ruleRule = " + type.FullName);
+			Attribute thisattribute = (Attribute)Activator.CreateInstance(type);
+			log.Info("Attribute found = " + thisattribute.ToString());
+			foreach (NhvParam parameter in ruleRule.param)
+			{
+				PropertyInfo propInfo = type.GetProperty(parameter.name);
+				if (propInfo != null)
+				{
+					log.Info("propInfo value = " + parameter.value);
+					propInfo.SetValue(thisattribute, parameter.value, null);
+				}
+				else
+				{
+					log.Info("Could not get the property for name = " + parameter.name);
+				}
+			}
+
+			return thisattribute;
 		}
 
 		private static Attribute ConvertToRange(object rule)
@@ -268,8 +302,8 @@ namespace NHibernate.Validator.XmlConfiguration
 		{
 			Assembly assembly = currentClass.Assembly;
 			System.Type type = assembly.GetType(currentClass.Namespace + "." + attributename + "Attribute");
-			
-			if (type == null) 
+
+			if (type == null)
 				return null;
 
 			return (Attribute)Activator.CreateInstance(type);

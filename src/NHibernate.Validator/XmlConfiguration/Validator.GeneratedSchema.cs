@@ -21,6 +21,7 @@ namespace NHibernate.Validator.MappingSchema {
         [System.Xml.Serialization.XmlElementAttribute("past", typeof(NhvPast))]
         [System.Xml.Serialization.XmlElementAttribute("pattern", typeof(NhvPattern))]
         [System.Xml.Serialization.XmlElementAttribute("range", typeof(NhvRange))]
+        [System.Xml.Serialization.XmlElementAttribute("rule", typeof(NhvRule))]
         [System.Xml.Serialization.XmlElementAttribute("size", typeof(NhvSize))]
         [System.Xml.Serialization.XmlElementAttribute("valid", typeof(NhvValid))]
         public object[] Items;
@@ -208,6 +209,42 @@ namespace NHibernate.Validator.MappingSchema {
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string message;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-0.1")]
+    [System.Xml.Serialization.XmlRootAttribute("rule", Namespace="urn:nhibernate-validator-0.1", IsNullable=false)]
+    public partial class NhvRule {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("param")]
+        public NhvParam[] param;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string attribute;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-0.1")]
+    [System.Xml.Serialization.XmlRootAttribute("param", Namespace="urn:nhibernate-validator-0.1", IsNullable=false)]
+    public partial class NhvParam {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string name;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string value;
     }
     
     /// <remarks/>

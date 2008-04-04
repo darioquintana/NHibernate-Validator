@@ -16,6 +16,7 @@
 						<xs:element ref="min" />
 						<xs:element ref="pattern" />
 						<xs:element ref="asserttrue" />
+						<xs:element ref="rule" />
 					</xs:choice>
 				</xs:sequence>
 			</xs:sequence>
@@ -131,6 +132,24 @@
 			<xs:attribute name="namespace" type="xs:string" use="required" />
 			<xs:attribute name="assembly" type="xs:string" use="required" />
 			<xs:attribute name="name" type="xs:string" use="required" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="rule">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:sequence maxOccurs="unbounded">
+					<xs:element ref="param" />
+				</xs:sequence>
+			</xs:sequence>
+			<xs:attribute name="attribute" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="param">
+		<xs:complexType>
+			<xs:sequence>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" />
+			<xs:attribute name="value" type="xs:string" />
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

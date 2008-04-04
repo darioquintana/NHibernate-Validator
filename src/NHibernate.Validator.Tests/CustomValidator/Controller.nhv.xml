@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<validator xmlns="urn:nhibernate-validator-0.1">
+	<class name="Controller" assembly="NHibernate.Validator.Tests" namespace="NHibernate.Validator.Tests.CustomValidator">
+		<property name="IP">
+			<rules>
+				<rule attribute="IPSubnetAttribute">
+					<param name="SubnetPrefix" value="192.168.2"/>
+				</rule>
+			</rules>
+		</property>
+
+		<property name="Name">
+			<rules>
+				<not-empty/>
+				<not-null/>
+			</rules>
+		</property>
+	</class>
+</validator>

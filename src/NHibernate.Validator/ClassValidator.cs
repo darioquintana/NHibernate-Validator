@@ -241,26 +241,29 @@ namespace NHibernate.Validator
 			}
 		}
 
-		// TODO: AddDirectoryInfo(DirectoryInfo directory), AddFile(string xmlFile) AddXmlFile(string XmlFile)
-
 		private void GetAllNHVXmlResourceNames(Assembly assembly)
 		{
-			IMappingDocumentParser parser = new MappingDocumentParser();
-
 			foreach (string resource in assembly.GetManifestResourceNames())
 			{
 				if (resource.EndsWith(".nhv.xml"))
 				{
-					NhvValidator validator = parser.Parse(assembly.GetManifestResourceStream(resource));
-					foreach (NhvClass clazz in validator.@class)
-					{
-						AssemblyQualifiedTypeName fullClassName = TypeNameParser.Parse(clazz.name, clazz.@namespace, clazz.assembly);
-						log.Info("Full class name = " + fullClassName);
-						if (!validatorMappings.ContainsKey(fullClassName))
-						{
-							validatorMappings.Add(fullClassName, clazz);
-						}
-					}
+					AddNhvClasses(assembly, resource);
+				}
+			}
+		}
+
+		private void AddNhvClasses(Assembly assembly, string resource)
+		{
+			IMappingDocumentParser parser = new MappingDocumentParser();
+			
+			NhvValidator validator = parser.Parse(assembly.GetManifestResourceStream(resource));
+			foreach (NhvClass clazz in validator.@class)
+			{
+				AssemblyQualifiedTypeName fullClassName = TypeNameParser.Parse(clazz.name, clazz.@namespace, clazz.assembly);
+				log.Info("Full class name = " + fullClassName);
+				if (!validatorMappings.ContainsKey(fullClassName))
+				{
+					validatorMappings.Add(fullClassName, clazz);
 				}
 			}
 		}
