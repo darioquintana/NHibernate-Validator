@@ -87,7 +87,7 @@ namespace NHibernate.Validator.XmlConfiguration
 		{
 			NhvRule ruleRule = rule as NhvRule;
 			string attribute = ruleRule.attribute;
-			AssemblyQualifiedTypeName fullClassName = TypeNameParser.Parse(attribute, "NHibernate.Validator.Tests.CustomValidator", "NHibernate.Validator.Tests");
+			AssemblyQualifiedTypeName fullClassName = TypeNameParser.Parse(attribute, ruleRule.@namespace, ruleRule.assembly);
 
 			System.Type type = ReflectHelper.ClassForFullName(fullClassName.Type);
 			log.Info("The type found for ruleRule = " + type.FullName);

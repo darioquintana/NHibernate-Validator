@@ -3,7 +3,7 @@
 	<class name="Controller" assembly="NHibernate.Validator.Tests" namespace="NHibernate.Validator.Tests.CustomValidator">
 		<property name="IP">
 			<rules>
-				<rule attribute="IPSubnetAttribute">
+				<rule attribute="IPSubnetAttribute" assembly="NHibernate.Validator.Tests" namespace="NHibernate.Validator.Tests.CustomValidator">
 					<param name="SubnetPrefix" value="192.168.2"/>
 				</rule>
 			</rules>

@@ -142,6 +142,8 @@
 				</xs:sequence>
 			</xs:sequence>
 			<xs:attribute name="attribute" type="xs:string" />
+			<xs:attribute name="namespace" type="xs:string" />
+			<xs:attribute name="assembly" type="xs:string" />
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="param">
