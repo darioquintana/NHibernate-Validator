@@ -102,6 +102,8 @@
     <Compile Include="Integration\Rock.cs" />
     <Compile Include="Integration\User.cs" />
     <Compile Include="Integration\XmlHibernateAnnotationIntegrationFixture.cs" />
+    <Compile Include="IPFixture\Computer.cs" />
+    <Compile Include="IPFixture\IPAddressFixture.cs" />
     <Compile Include="PersistenceTest.cs" />
     <Compile Include="Polimorphism\BaseClass.cs" />
     <Compile Include="Polimorphism\Fixture.cs" />

@@ -9,7 +9,7 @@ namespace NHibernate.Validator.Tests.CustomValidator
 	public class IPSubnetAttribute : Attribute
 	{
 		private string subnetPrefix;
-		private string message = "validator.ipSubnet";
+		private string message = "{validator.ipSubnet}";
 
 		public string SubnetPrefix
 		{
