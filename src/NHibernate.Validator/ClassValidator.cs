@@ -14,6 +14,7 @@ using NHibernate.Validator.Interpolator;
 using NHibernate.Validator.MappingSchema;
 using NHibernate.Validator.Util;
 using NHibernate.Validator.XmlConfiguration;
+using NHibernate.Validator.Cfg;
 
 namespace NHibernate.Validator
 {
@@ -191,22 +192,17 @@ namespace NHibernate.Validator
 			//Check on all selected classes
 			foreach (System.Type currentClass in classes)
 			{
-				if (validatorMode == ValidatorMode.UseXml)
+				if (CfgXmlHelper.ModeAcceptsXML(validatorMode))
 				{
-					CreateMembersFromXml(currentClass);
+					CreateMemberValidatorsFromXml(currentClass);
 				}
-				else
-				{
-					foreach (PropertyInfo currentProperty in currentClass.GetProperties())
-					{
-						CreateMemberValidator(currentProperty);
-						CreateChildValidator(currentProperty);
-					}
 
-					foreach (FieldInfo currentField in currentClass.GetFields(ReflectHelper.AnyVisibilityInstance | BindingFlags.Static))
+				if (CfgXmlHelper.ModeAcceptsAttributes(validatorMode))
+				{
+					foreach (MemberInfo member in currentClass.GetMembers(ReflectHelper.AnyVisibilityInstance | BindingFlags.Static))
 					{
-						CreateMemberValidator(currentField);
-						CreateChildValidator(currentField);
+						CreateMemberValidator(member);
+						CreateChildValidator(member);
 					}
 				}
 			}
@@ -268,7 +264,7 @@ namespace NHibernate.Validator
 			}
 		}
 
-		private void CreateMembersFromXml(System.Type currentClass)
+		private void CreateMemberValidatorsFromXml(System.Type currentClass)
 		{
 			NhvClass clazz = GetNhvClassFor(currentClass);
 			if (clazz == null || clazz.property == null) return;
