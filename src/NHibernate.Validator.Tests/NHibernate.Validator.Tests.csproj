@@ -109,7 +109,7 @@
     <Compile Include="Polimorphism\PolimorphismFixture.cs" />
     <Compile Include="Polimorphism\IContract.cs" />
     <Compile Include="ResourceFixture\ResourcesTest.cs" />
-    <Compile Include="Serialization\SerializaitonFixture.cs" />
+    <Compile Include="Serialization\SerializationFixture.cs" />
     <Compile Include="Suricato.cs" />
     <Compile Include="TestConfigurationHelper.cs" />
     <Compile Include="Tv.cs" />

@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.Text;
-using NUnit.Core;
 using System.IO;
 using NHibernate.Validator.MappingSchema;
 using NUnit.Framework;
