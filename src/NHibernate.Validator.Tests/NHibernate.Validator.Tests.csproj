@@ -106,7 +106,8 @@
     <Compile Include="IPFixture\IPAddressFixture.cs" />
     <Compile Include="PersistenceTest.cs" />
     <Compile Include="Polimorphism\BaseClass.cs" />
-    <Compile Include="Polimorphism\Fixture.cs" />
+    <Compile Include="Polimorphism\PolimorphismFixture.cs" />
+    <Compile Include="Polimorphism\IContract.cs" />
     <Compile Include="ResourceFixture\ResourcesTest.cs" />
     <Compile Include="Serialization\SerializaitonFixture.cs" />
     <Compile Include="Suricato.cs" />

@@ -43,6 +43,8 @@ namespace NHibernate.Validator
 
 		private readonly Dictionary<System.Type, ClassValidator> childClassValidators;
 
+		private static Dictionary<System.Type, IClassValidator> polimorphicClasses;
+
 		private IList<IValidator> beanValidators;
 
 		private IList<IValidator> memberValidators;
@@ -146,6 +148,17 @@ namespace NHibernate.Validator
 			get
 			{
 				return beanValidators.Count != 0 || memberValidators.Count != 0;
+			}
+		}
+
+		private static Dictionary<System.Type, IClassValidator> PolimorphicClasses
+		{
+			get 
+			{
+				if (polimorphicClasses == null)
+					polimorphicClasses = new Dictionary<System.Type, IClassValidator>();
+
+				return polimorphicClasses; 
 			}
 		}
 
@@ -333,7 +346,42 @@ namespace NHibernate.Validator
 		/// <returns></returns>
 		public InvalidValue[] GetInvalidValues(object bean)
 		{
+			System.Type type = bean.GetType();
+
+			if(!type.Equals(beanClass))
+			{
+				return HandlePolimorphicBehaviour(bean, type);
+			}
+
 			return GetInvalidValues(bean, new IdentitySet());
+		}
+		
+		private InvalidValue[] HandlePolimorphicBehaviour(object bean, System.Type type)
+		{
+			log.WarnFormat("the type of the object to validate is {0}, but the ClassValidator was declared as {1}",type.FullName,beanClass.FullName);
+
+			IClassValidator polimorphicValidator;
+
+			if (PolimorphicClasses.ContainsKey(type))
+			{
+				polimorphicValidator = PolimorphicClasses[type];
+			}
+			else
+			{
+				polimorphicValidator =
+					new ClassValidator(
+						bean.GetType(),
+						defaultMessageBundle,
+						culture,
+						userInterpolator,
+						new Dictionary<System.Type, ClassValidator>(),
+						validatorMode);
+
+				//recycling this construction.
+				PolimorphicClasses.Add(type, polimorphicValidator);
+			}
+
+			return polimorphicValidator.GetInvalidValues(bean);
 		}
 
 		/// <summary>
