@@ -1,4 +1,3 @@
-using System;
 using NUnit.Framework;
 
 namespace NHibernate.Validator.Tests.CustomValidator
@@ -13,7 +12,7 @@ namespace NHibernate.Validator.Tests.CustomValidator
 		}
 
 
-		[Test,ExpectedException(typeof(ArgumentException))]
+		[Test,ExpectedException(typeof(HibernateValidatorException))]
 		public void ExceptionMustBeThrown()
 		{
 			IClassValidator vtor = new ClassValidator(typeof (Foo));
