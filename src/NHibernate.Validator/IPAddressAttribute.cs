@@ -1,12 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NHibernate.Validator
 {
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	[ValidatorClass(typeof(IPAddressValidator))]
-	public class IPAddressAttribute : Attribute
+	[ValidatorClass(typeof (IPAddressValidator))]
+	public class IPAddressAttribute : Attribute, IHasMessage
 	{
 		private string message = "{validator.ipAddress}";
 
@@ -15,6 +13,5 @@ namespace NHibernate.Validator
 			get { return message; }
 			set { message = value; }
 		}
-
 	}
 }

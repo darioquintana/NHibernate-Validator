@@ -58,6 +58,7 @@
     <Compile Include="FutureValidator.cs" />
     <Compile Include="HibernateValidatorException.cs" />
     <Compile Include="IClassValidator.cs" />
+    <Compile Include="IHasMessage.cs" />
     <Compile Include="IPAddressAttribute.cs" />
     <Compile Include="IPAddressValidator.cs" />
     <Compile Include="MaxAttribute.cs" />

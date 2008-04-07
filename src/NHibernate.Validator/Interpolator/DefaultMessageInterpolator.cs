@@ -40,15 +40,23 @@ namespace NHibernate.Validator.Interpolator
 			//For example:
 			//In LengthAttribute the parametter are Min and Max.
 			Type clazz = attribute.GetType();
+			
+			IHasMessage HasMessage = attribute as IHasMessage;
+
+			if (HasMessage == null)
+				throw new ArgumentException("Attribute " + clazz + " doesn't implements IHasMessage interface.");
+			else
+				this.attributeMessage = HasMessage.Message;
+
 			foreach(PropertyInfo property in clazz.GetProperties())
 			{
 				attributeParameters.Add(property.Name, property.GetValue(attribute, null));
 			}
 
-			if (attributeParameters.ContainsKey("Message"))
-				attributeMessage = (string) attributeParameters["Message"];
-			else 
-				throw new ArgumentException("Attribute " + clazz + " does not have an (accessible) Message attribute");
+			//if (attributeParameters.ContainsKey("Message"))
+			//    attributeMessage = (string) attributeParameters["Message"];
+			//else 
+			//    throw new ArgumentException("Attribute " + clazz + " does not have an (accessible) Message attribute");
 			
 		}
 

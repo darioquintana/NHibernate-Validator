@@ -1,12 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NHibernate.Validator.Tests.CustomValidator
 {
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof(IPSubnetValidator))]
-	public class IPSubnetAttribute : Attribute
+	public class IPSubnetAttribute : Attribute, IHasMessage
 	{
 		private string subnetPrefix;
 		private string message = "{validator.ipSubnet}";

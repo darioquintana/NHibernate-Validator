@@ -7,7 +7,7 @@ namespace NHibernate.Validator
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof(SizeValidator))]
-	public class SizeAttribute : Attribute
+	public class SizeAttribute : Attribute, IHasMessage
 	{
 		private int max = int.MaxValue;
 		private string message = "{validator.size}";

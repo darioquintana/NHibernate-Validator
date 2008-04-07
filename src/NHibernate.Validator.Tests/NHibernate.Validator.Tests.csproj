@@ -79,6 +79,8 @@
     <Compile Include="Collections\XmlCollectionFixture.cs" />
     <Compile Include="Configuration\CfgXmlHelperFixture.cs" />
     <Compile Include="Contact.cs" />
+    <Compile Include="CustomValidator\BadValidator.cs" />
+    <Compile Include="CustomValidator\BadValidatorFixture.cs" />
     <Compile Include="CustomValidator\Controller.cs" />
     <Compile Include="CustomValidator\IPSubnetAttribute.cs" />
     <Compile Include="CustomValidator\IPSubnetFixture.cs" />

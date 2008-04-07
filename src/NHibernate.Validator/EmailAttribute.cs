@@ -7,7 +7,7 @@ namespace NHibernate.Validator
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof(EmailValidator))]
-	public class EmailAttribute : Attribute 
+	public class EmailAttribute : Attribute, IHasMessage
 	{
 		private string message = "{validator.email}";
 
