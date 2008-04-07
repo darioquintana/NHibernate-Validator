@@ -6,6 +6,9 @@ using NHibernate.Util;
 
 namespace NHibernate.Validator.Util
 {
+	/// <summary>
+	/// Utils methods for type issues.
+	/// </summary>
 	public sealed class TypeUtils
 	{
 		/// <summary>
@@ -107,6 +110,32 @@ namespace NHibernate.Validator.Util
 			}
 
 			return memberInfo;
+		}
+
+		/// <summary>
+		/// Tell if a type implements a interface.
+		/// </summary>
+		/// <param name="type"></param>
+		/// <param name="interfaceType">Implements this interface?</param>
+		/// <returns>
+		/// True if the type implements the interface and 
+		/// false if the doesn't or the interfaceType param isn't an interface
+		/// </returns>
+		public static bool IsImplementationOf(System.Type type, System.Type interfaceType)
+		{
+			if(!interfaceType.IsInterface)
+			{
+				return false;
+			}
+			else
+			{
+				foreach (System.Type @interface in type.GetInterfaces())
+				{
+					if (@interface.Equals(interfaceType)) 
+						return true;
+				}
+				return false;
+			}
 		}
 	}
 }

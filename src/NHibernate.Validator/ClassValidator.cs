@@ -348,7 +348,7 @@ namespace NHibernate.Validator
 		{
 			System.Type type = bean.GetType();
 
-			if(!type.Equals(beanClass))
+			if(!type.Equals(beanClass) && (type.IsSubclassOf(beanClass)|| TypeUtils.IsImplementationOf(type,beanClass)))
 			{
 				return HandlePolimorphicBehaviour(bean, type);
 			}
