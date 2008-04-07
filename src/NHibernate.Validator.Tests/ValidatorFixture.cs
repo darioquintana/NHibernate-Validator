@@ -138,5 +138,21 @@ namespace NHibernate.Validator.Tests
 			invalidValues = classValidator.GetInvalidValues(eng);
 			Assert.AreEqual(0, invalidValues.Length);
 		}
+
+		[Test]
+		public void FieldIsNotNullOrEmpty()
+		{
+			Boo boo = new Boo();
+			boo.field = null;
+
+			ClassValidator validator = GetClassValidator(typeof(Boo));
+			InvalidValue[] invalids = validator.GetInvalidValues(boo);
+			Assert.AreEqual(1, invalids.Length, "null value cannot be valid");
+
+			boo.field = string.Empty;
+			invalids = validator.GetInvalidValues(boo);
+
+			Assert.AreEqual(1, invalids.Length, "empty value cannot be valid");
+		}
 	}
 }

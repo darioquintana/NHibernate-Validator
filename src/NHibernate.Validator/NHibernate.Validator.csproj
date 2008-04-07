@@ -85,6 +85,8 @@
     <Compile Include="NotNullAttribute.cs" />
     <Compile Include="NotNullValidator.cs" />
     <Compile Include="IPersistentClassConstraint.cs" />
+    <Compile Include="NullOrEmptyAttribute.cs" />
+    <Compile Include="NullOrEmptyValidator.cs" />
     <Compile Include="PastAttribute.cs" />
     <Compile Include="PastValidator.cs" />
     <Compile Include="PatternAttribute.cs" />

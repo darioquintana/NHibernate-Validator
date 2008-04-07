@@ -9,6 +9,7 @@ namespace NHibernate.Validator.Tests.CustomValidator
 		{
 			return ClassValidatorFactory.GetValidatorForUseXmlTest(type);
 		}
+
 		[Test]
 		public void IPIsInSubnetByPrefix()
 		{

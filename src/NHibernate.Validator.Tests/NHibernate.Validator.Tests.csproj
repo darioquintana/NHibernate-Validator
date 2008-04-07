@@ -66,6 +66,7 @@
     <Compile Include="AssertAnimalAttribute.cs" />
     <Compile Include="Attributes\AttributesFixture.cs" />
     <Compile Include="BaseValidatorFixture.cs" />
+    <Compile Include="Boo.cs" />
     <Compile Include="Brother.cs" />
     <Compile Include="Building.cs" />
     <Compile Include="Configuration\ClassValidatorFactory.cs" />
@@ -220,6 +221,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="XmlAndAttributesMix\Person.nhv.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ValidatorXmls\Boo.nhv.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

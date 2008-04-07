@@ -12,5 +12,11 @@
 				<length max="20"/>
 			</rules>
 		</property>
+
+		<property name="friends">
+			<rules>
+				<max value="20"/>
+			</rules>
+		</property>
 	</class>
 </validator>

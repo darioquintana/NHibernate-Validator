@@ -35,7 +35,7 @@ namespace NHibernate.Validator.Cfg
 			return validatorMode != ValidatorMode.UseXml;
 		}
 
-		public static bool ModeAcceptsXML(ValidatorMode validatorMode)
+		public static bool ModeAcceptsXml(ValidatorMode validatorMode)
 		{
 			return validatorMode != ValidatorMode.UseAttribute;
 		}

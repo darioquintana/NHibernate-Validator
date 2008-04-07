@@ -20,6 +20,7 @@ namespace NHibernate.Validator.Tests.XmlAndAttributesMix
 			person.Name = "MyName";
 			person.IsMale = true;
 			person.Address = "aaa";
+			person.friends = 2;
 
 			ClassValidator validator = GetClassValidator(typeof(Person));
 

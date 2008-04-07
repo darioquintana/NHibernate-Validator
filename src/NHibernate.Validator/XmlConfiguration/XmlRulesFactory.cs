@@ -25,6 +25,12 @@ namespace NHibernate.Validator.XmlConfiguration
 				return ConvertToNotEmpty(rule);
 			}
 
+
+			if (rule is NhvNotnullorempty)
+			{
+				return ConvertToNotNullOrEmpty(rule);
+			}
+
 			if (rule is NhvLength)
 			{
 				return ConvertToLength(rule);
@@ -63,6 +69,11 @@ namespace NHibernate.Validator.XmlConfiguration
 			if (rule is NhvMin)
 			{
 				return ConvertToMin(rule);
+			}
+
+			if (rule is NhvMax)
+			{
+				return ConvertToMax(rule);
 			}
 
 			if (rule is NhvAsserttrue)
@@ -181,6 +192,26 @@ namespace NHibernate.Validator.XmlConfiguration
 			return thisAttribute;
 		}
 
+		private static Attribute ConvertToMax(object rule)
+		{
+			NhvMax maxRule = rule as NhvMax;
+			long value = long.MaxValue;
+
+			if (maxRule.valueSpecified)
+				value = maxRule.value;
+
+			log.Info(string.Format("Converting to Max attribute with value {0}", value));
+			MaxAttribute thisAttribute = new MaxAttribute();
+			thisAttribute.Value = value;
+
+			if (maxRule.message != null)
+			{
+				thisAttribute.Message = maxRule.message;
+			}
+
+			return thisAttribute;
+		}
+
 		private static Attribute ConvertToEmail(object rule)
 		{
 			log.Info("Converting to Email attribute");
@@ -280,6 +311,19 @@ namespace NHibernate.Validator.XmlConfiguration
 			if (notEmptyRule.message != null)
 			{
 				thisAttribute.Message = notEmptyRule.message;
+			}
+
+			return thisAttribute;
+		}
+
+		private static Attribute ConvertToNotNullOrEmpty(object rule)
+		{
+			NotNullOrEmptyAttribute thisAttribute = new NotNullOrEmptyAttribute();
+			log.Info("Converting to NotEmptyAttribute");
+			NhvNotnullorempty notNullOrEmptyRule = rule as NhvNotnullorempty;
+			if (notNullOrEmptyRule.message != null)
+			{
+				thisAttribute.Message = notNullOrEmptyRule.message;
 			}
 
 			return thisAttribute;

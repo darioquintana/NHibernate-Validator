@@ -133,7 +133,7 @@ namespace NHibernate.Validator
 
 		private void SetXmlValidators(Assembly assembly, ValidatorMode validatorMode)
 		{
-			if (CfgXmlHelper.ModeAcceptsXML(validatorMode) && validatorMappings == null)
+			if (CfgXmlHelper.ModeAcceptsXml(validatorMode) && validatorMappings == null)
 			{
 				validatorMappings = new Dictionary<AssemblyQualifiedTypeName, NhvClass>();
 				GetAllNHVXmlResourceNames(assembly);
@@ -212,7 +212,7 @@ namespace NHibernate.Validator
 			//Check on all selected classes
 			foreach (System.Type currentClass in classes)
 			{
-				if (CfgXmlHelper.ModeAcceptsXML(validatorMode))
+				if (CfgXmlHelper.ModeAcceptsXml(validatorMode))
 				{
 					CreateAttributesFromXml(currentClass);
 				}

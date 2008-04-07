@@ -21,5 +21,8 @@ namespace NHibernate.Validator.Tests.XmlAndAttributesMix
 			get { return isMale; }
 			set { isMale = value; }
 		}
+
+		[Min(2)]
+		public int friends;
 	}
 }
