@@ -29,6 +29,7 @@ namespace NHibernate.Validator
 		private readonly System.Type beanClass;
 
 		private static Dictionary<AssemblyQualifiedTypeName, NhvClass> validatorMappings;
+		private Dictionary<MemberInfo, List<Attribute>> membersAttributesDictionary = new Dictionary<MemberInfo,List<Attribute>>();
 
 		private DefaultMessageInterpolatorAggregator defaultInterpolator;
 
@@ -124,14 +125,19 @@ namespace NHibernate.Validator
 			this.userInterpolator = userInterpolator;
 			this.childClassValidators = childClassValidators;
 			this.validatorMode = validatorMode;
-			if (validatorMappings == null)
-			{
-				validatorMappings = new Dictionary<AssemblyQualifiedTypeName, NhvClass>();
-				GetAllNHVXmlResourceNames(clazz.Assembly);
-			}
+			SetXmlValidators(clazz.Assembly, validatorMode);
 
 			//Initialize the ClassValidator
 			InitValidator(beanClass, childClassValidators);
+		}
+
+		private void SetXmlValidators(Assembly assembly, ValidatorMode validatorMode)
+		{
+			if (CfgXmlHelper.ModeAcceptsXML(validatorMode) && validatorMappings == null)
+			{
+				validatorMappings = new Dictionary<AssemblyQualifiedTypeName, NhvClass>();
+				GetAllNHVXmlResourceNames(assembly);
+			}
 		}
 
 		public ClassValidator(System.Type type, CultureInfo culture)
@@ -189,6 +195,7 @@ namespace NHibernate.Validator
 
 			foreach (System.Type currentClass in classes)
 			{
+				// TODO: Support override in class Attributes
 				if (validatorMode == ValidatorMode.UseXml)
 				{
 					CreateClassMembersFromXml(currentClass);
@@ -207,18 +214,61 @@ namespace NHibernate.Validator
 			{
 				if (CfgXmlHelper.ModeAcceptsXML(validatorMode))
 				{
-					CreateMemberValidatorsFromXml(currentClass);
+					CreateAttributesFromXml(currentClass);
 				}
 
 				if (CfgXmlHelper.ModeAcceptsAttributes(validatorMode))
 				{
 					foreach (MemberInfo member in currentClass.GetMembers(ReflectHelper.AnyVisibilityInstance | BindingFlags.Static))
 					{
-						CreateMemberValidator(member);
+						CreateMemberAttributes(member);
 						CreateChildValidator(member);
 					}
 				}
 			}
+
+			foreach (MemberInfo member in membersAttributesDictionary.Keys)
+			{
+				foreach (Attribute memberAttribute in membersAttributesDictionary[member])
+				{
+					IValidator propertyValidator = CreateValidator(memberAttribute);
+
+					if (propertyValidator != null)
+					{
+						memberValidators.Add(propertyValidator);
+						memberGetters.Add(member);
+					}
+				}
+			}
+		}
+
+		private void AddAttributeToMember(MemberInfo currentMember, Attribute thisattribute, bool overrideAttribute)
+		{
+			log.Info(string.Format("Adding member {0} to dictionary with attribute {1}", currentMember.Name, thisattribute.ToString()));
+			if (!membersAttributesDictionary.ContainsKey(currentMember))
+			{
+				membersAttributesDictionary.Add(currentMember, new List<Attribute>());
+			}
+			else
+			{
+				bool exists = membersAttributesDictionary[currentMember].Exists(
+					delegate(Attribute theattribute)
+					{
+						return thisattribute.ToString() == theattribute.ToString();
+					});
+
+				if (exists && !AttributeUtils.AttributeAllowsMultiple(thisattribute))
+				{
+					log.Info(string.Format("Attribute {0} was found , override was {1}", thisattribute.ToString(), overrideAttribute));
+					// If we cannot override then exit without changing
+					if (!overrideAttribute)
+						return;
+
+					membersAttributesDictionary[currentMember].Remove(thisattribute);
+				}
+			}
+
+			membersAttributesDictionary[currentMember].Add(thisattribute);
 		}
 
 		private void ValidateClassAtribute(Attribute classAttribute)
@@ -277,7 +327,7 @@ namespace NHibernate.Validator
 			}
 		}
 
-		private void CreateMemberValidatorsFromXml(System.Type currentClass)
+		private void CreateAttributesFromXml(System.Type currentClass)
 		{
 			NhvClass clazz = GetNhvClassFor(currentClass);
 			if (clazz == null || clazz.property == null) return;
@@ -292,7 +342,7 @@ namespace NHibernate.Validator
 					continue;
 				}
 				log.Info("Looking for rules for property : " + property.name);
-				CreateMemberValidatorFromRules(currentMember, property.rules);
+				CreateMemberAttributesFromRules(currentMember, property.rules);
 				CreateChildValidator(currentMember);
 			}
 		}
@@ -311,31 +361,17 @@ namespace NHibernate.Validator
 			return null;
 		}
 
-		private void CreateMemberValidatorFromRules(MemberInfo member, NhvRules rules)
+		private void CreateMemberAttributesFromRules(MemberInfo member, NhvRules rules)
 		{
 			foreach (object rule in rules.Items)
 			{
-				IValidator propertyValidator = CreateValidatorFromRule(rule);
+				Attribute thisAttribute = XmlRulesFactory.CreateAttributeFromRule(rule);
 
-				if (propertyValidator != null)
+				if (thisAttribute != null)
 				{
-					memberValidators.Add(propertyValidator);
-					memberGetters.Add(member);
+					AddAttributeToMember(member, thisAttribute, validatorMode == ValidatorMode.OverrideAttributeWithXml);
 				}
 			}
-		}
-
-		private IValidator CreateValidatorFromRule(object rule)
-		{
-			Attribute thisAttribute = XmlRulesFactory.CreateAttributeFromRule(rule);
-
-			if (thisAttribute != null)
-			{
-				return CreateValidator(thisAttribute);
-			}
-
-			log.Info("No rule found");
-			return null;
 		}
 
 		/// <summary>
@@ -627,25 +663,35 @@ namespace NHibernate.Validator
 			}
 		}
 
-		/// <summary>
-		/// Create a Validator from a property or field.
-		/// </summary>
-		/// <param name="member"></param>
-		private void CreateMemberValidator(MemberInfo member)
+		private void CreateMemberAttributes(MemberInfo member)
 		{
 			object[] memberAttributes = member.GetCustomAttributes(false);
 
 			foreach (Attribute memberAttribute in memberAttributes)
 			{
-				IValidator propertyValidator = CreateValidator(memberAttribute);
-
-				if (propertyValidator != null)
-				{
-					memberValidators.Add(propertyValidator);
-					memberGetters.Add(member);
-				}
+				AddAttributeToMember(member, memberAttribute, validatorMode== ValidatorMode.OverrideXmlWithAttribute);
 			}
 		}
+
+		/// <summary>
+		/// Create a Validator from a property or field.
+		/// </summary>
+		/// <param name="member"></param>
+		//private void CreateMemberValidator(MemberInfo member)
+		//{
+		//    object[] memberAttributes = member.GetCustomAttributes(false);
+
+		//    foreach (Attribute memberAttribute in memberAttributes)
+		//    {
+		//        IValidator propertyValidator = CreateValidator(memberAttribute);
+
+		//        if (propertyValidator != null)
+		//        {
+		//            memberValidators.Add(propertyValidator);
+		//            memberGetters.Add(member);
+		//        }
+		//    }
+		//}
 
 		/// <summary>
 		/// Create the validator for the children, who got the <see cref="ValidAttribute"/>

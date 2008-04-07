@@ -253,7 +253,7 @@ namespace NHibernate.Validator.XmlConfiguration
 		private static Attribute ConvertToLength(object rule)
 		{
 			NhvLength lengthRule = rule as NhvLength;
-			int min = int.MinValue;
+			int min = 0;
 			int max = int.MaxValue;
 
 			if (lengthRule.minSpecified)

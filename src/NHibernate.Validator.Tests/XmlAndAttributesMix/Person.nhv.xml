@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<validator xmlns="urn:nhibernate-validator-0.1">
+	<class name="Person" assembly="NHibernate.Validator.Tests" namespace="NHibernate.Validator.Tests.XmlAndAttributesMix">
+		<property name="Name">
+			<rules>
+				<not-null/>
+			</rules>
+		</property>
+
+		<property name="Address">
+			<rules>
+				<length max="20"/>
+			</rules>
+		</property>
+	</class>
+</validator>

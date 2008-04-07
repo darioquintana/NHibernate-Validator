@@ -64,6 +64,7 @@
     <Compile Include="Address.cs" />
     <Compile Include="Animal.cs" />
     <Compile Include="AssertAnimalAttribute.cs" />
+    <Compile Include="Attributes\AttributesFixture.cs" />
     <Compile Include="BaseValidatorFixture.cs" />
     <Compile Include="Brother.cs" />
     <Compile Include="Building.cs" />
@@ -132,6 +133,9 @@
     <Compile Include="Valid\ValidTestCase.cs" />
     <Compile Include="Valid\XmlValidTest.cs" />
     <Compile Include="Email\XmlEmailFixture.cs" />
+    <Compile Include="XmlAndAttributesMix\OverrideAtributeWithXml.cs" />
+    <Compile Include="XmlAndAttributesMix\Person.cs" />
+    <Compile Include="XmlAndAttributesMix\OverrideXmlWithAttributeFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -213,6 +217,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CustomValidator\Controller.nhv.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="XmlAndAttributesMix\Person.nhv.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

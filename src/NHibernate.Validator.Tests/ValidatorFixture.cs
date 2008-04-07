@@ -46,8 +46,7 @@ namespace NHibernate.Validator.Tests
 			a.floor = 4000;
 			validationMessages = classValidator.GetInvalidValues(a);
 			Assert.AreEqual(1, validationMessages.Length);
-			Assert.AreEqual("Floor cannot " + ESCAPING_EL + " be lower that -2 and greater than 50 " + ESCAPING_EL,
-							validationMessages[0].Message);
+			Assert.AreEqual("Floor cannot " + ESCAPING_EL + " be lower that -2 and greater than 50 " + ESCAPING_EL, validationMessages[0].Message);
 		}
 
 		[Test]
