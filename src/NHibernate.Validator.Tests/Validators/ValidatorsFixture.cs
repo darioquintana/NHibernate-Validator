@@ -67,5 +67,15 @@ namespace NHibernate.Validator.Tests.Validators
             f.Past = DateTime.Now;
             Assert.AreEqual(2, validator.GetInvalidValues(f).Length);
         }
+
+		[Test]
+		public void NullString()
+		{
+			FooNotEmpty f = new FooNotEmpty(null);
+
+			IClassValidator vtor = GetClassValidator(typeof (FooNotEmpty));
+
+			Assert.AreEqual(1, vtor.GetInvalidValues(f).Length);
+		}
     }
 }
