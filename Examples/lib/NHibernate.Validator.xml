@@ -1,0 +1,894 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NHibernate.Validator</name>
+    </assembly>
+    <members>
+        <member name="T:NHibernate.Validator.Validator`1">
+            <summary>
+            Represent a Validator for a Type. In order to get your own validator
+            you can extend this class.
+            </summary>
+            <typeparam name="A"></typeparam>
+        </member>
+        <member name="T:NHibernate.Validator.IValidator`1">
+            <summary>
+            A constraint validator for a particular annotation
+            </summary>
+        </member>
+        <member name="M:NHibernate.Validator.IValidator.IsValid(System.Object)">
+            <summary>
+            does the object/element pass the constraints
+            </summary>
+            <param name="value">Object to be validated</param>
+            <returns>if the instance is valid</returns>
+        </member>
+        <member name="M:NHibernate.Validator.IValidator.Initialize(System.Attribute)">
+            <summary>
+            Take the annotations values and Initialize the Validator
+            </summary>
+            <param name="parameters">parameters</param>
+        </member>
+        <member name="M:NHibernate.Validator.IValidator`1.IsValid(System.Object)">
+            <summary>
+            does the object/element pass the constraints
+            </summary>
+            <param name="value">Object to be validated</param>
+            <returns>if the instance is valid</returns>
+        </member>
+        <member name="M:NHibernate.Validator.IValidator`1.Initialize(`0)">
+            <summary>
+            Take the annotations values and Initialize the Validator
+            </summary>
+            <param name="parameters">parameters</param>
+        </member>
+        <member name="M:NHibernate.Validator.Validator`1.IsValid(System.Object)">
+            <summary>
+            does the object/element pass the constraints
+            </summary>
+            <param name="value">Object to be validated</param>
+            <returns>if the instance is valid</returns>
+        </member>
+        <member name="M:NHibernate.Validator.Validator`1.Initialize(`0)">
+            <summary>
+            Take the annotations values and Initialize the Validator
+            </summary>
+            <param name="parameters">parameters</param>
+        </member>
+        <member name="M:NHibernate.Validator.Validator`1.Initialize(System.Attribute)">
+            <summary>
+            Take the annotations values and Initialize the Validator
+            </summary>
+            <param name="parameters">parameters</param>
+        </member>
+        <member name="T:NHibernate.Validator.IPersistentClassConstraint">
+            <summary>
+            Interface implemented by the validator
+            when a constraint may be represented in the
+            hibernate metadata
+            </summary>
+        </member>
+        <member name="M:NHibernate.Validator.IPersistentClassConstraint.Apply(NHibernate.Mapping.PersistentClass)">
+            <summary>
+             Apply the constraint in the hibernate metadata
+            </summary>
+            <param name="persistentClass">PersistentClass</param>
+        </member>
+        <member name="T:NHibernate.Validator.ValidAttribute">
+            <summary>
+            Enables recursive validation of an associated object
+            </summary>
+        </member>
+        <member name="T:NHibernate.Validator.Validator">
+            <summary>
+            Represent a Validator for a Type. In order to get your own validator
+            you can extend this class.
+            </summary>
+        </member>
+        <member name="M:NHibernate.Validator.Validator.IsValid(System.Object)">
+            <summary>
+            does the object/element pass the constraints
+            </summary>
+            <param name="value">Object to be validated</param>
+            <returns>if the instance is valid</returns>
+        </member>
+        <member name="M:NHibernate.Validator.Validator.Initialize(System.Attribute)">
+            <summary>
+            Take the annotations values and Initialize the Validator
+            </summary>
+            <param name="parameters">parameters</param>
+        </member>
+        <member name="T:NHibernate.Validator.LengthAttribute">
+            <summary>
+            Apply some length restrictions to the annotated element. It has to be a string
+            </summary>
+        </member>
+        <member name="T:NHibernate.Validator.IHasMessage">
+            <summary>
+            All validators attributes must implement this interface.
+            </summary>
+        </member>
+        <member name="T:NHibernate.Validator.IPropertyConstraint">
+            <summary>
+            Interface implemented by the validator
+            when a constraint may be represented in a
+            hibernate metadata property
+            </summary>
+        </member>
+        <member name="M:NHibernate.Validator.DigitsValidator.IsValid(System.Object)">
+            <summary>
+            does the object/element pass the constraints
+            </summary>
+            <param name="value">Object to be validated</param>
+            <returns>if the instance is valid</returns>
+        </member>
+        <member name="M:NHibernate.Validator.DigitsValidator.Initialize(NHibernate.Validator.DigitsAttribute)">
+            <summary>
+            Take the annotations values and Initialize the Validator
+            </summary>
+            <param name="parameters">parameters</param>
+        </member>
+        <member name="T:NHibernate.Validator.NotNullOrEmptyAttribute">
+            <summary>
+            Not empty and not null constraint
+            </summary>
+        </member>
+        <member name="P:NHibernate.Validator.NotNullOrEmptyAttribute.Message">
+            <summary>
+            The message to be sent to the user if it is not valid
+            </summary>
+        </member>
+        <member name="T:NHibernate.Validator.IMessageInterpolator">
+            <summary>
+            Responsible for validator message interpolation (variable replacement etc)
+            this extension point is useful if the call has some contextual informations to
+            interpolate in validator messages
+            </summary>
+        </member>
+        <member name="M:NHibernate.Validator.IClassValidator.GetInvalidValues(System.Object)">
+            <summary>
+            apply constraints on a bean instance and return all the failures.
+            if <see cref="!:bean"/> is null, an empty array is returned 
+            </summary>
+            <param name="bean">object to apply the constraints</param>
+            <returns></returns>
+        </member>
+        <member name="M:NHibernate.Validator.IClassValidator.AssertValid(System.Object)">
+            <summary>
+            Assert a valid Object. A <see cref="T:NHibernate.Validator.InvalidStateException"/> 
+            will be throw in a Invalid state.
+            </summary>
+            <param name="bean">Object to be asserted</param>
+        </member>
+        <member name="M:NHibernate.Validator.IClassValidator.GetPotentialInvalidValues(System.String,System.Object)">
+            <summary>
+            Apply constraints of a particular property value of a bean type and return all the failures.
+            The InvalidValue objects returns return null for InvalidValue#getBean() and InvalidValue#getRootBean()
+            </summary>
+            <param name="propertyName"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NHibernate.Validator.IClassValidator.Apply(NHibernate.Mapping.PersistentClass)">
+            <summary>
+            Apply the registred constraints rules on the hibernate metadata (to be applied on DB schema)
+            </summary>
+            <param name="persistentClass">hibernate metadata</param>
+        </member>
+        <member name="P:NHibernate.Validator.IClassValidator.HasValidationRules">
+            <summary>
+            Return true if this <see cref="T:NHibernate.Validator.ClassValidator"/> contains rules for apply, false in other case. 
+            </summary>
+        </member>
+        <member name="T:NHibernate.Validator.Environment">
+            <summary>
+            Hibernate Validator Event properties
+            The properties are retrieved from Hibernate
+            (hibernate.properties, hibernate.cfg.xml, persistence.xml or Configuration API)
+            </summary>
+        </member>
+        <member name="F:NHibernate.Validator.Environment.ApplyToDDL">
+            <summary>
+            Apply DDL changes on Hibernate metamodel when using validator with Hibernate Annotations. Default to true.
+            </summary>
+        </member>
+        <member name="F:NHibernate.Validator.Environment.AutoregisterListeners">
+            <summary>
+            Enable listeners auto registration in Hibernate Annotations and EntityManager. Default to true.
+            </summary>
+        </member>
+        <member name="F:NHibernate.Validator.Environment.MessageInterpolatorClass">
+            <summary>
+            Message interpolator class used. The same instance is shared across all ClassValidators 
+            </summary>
+        </member>
+        <member name="F:NHibernate.Validator.Environment.ValidatorMode">
+            <summary>
+            Define validation mode.
+            </summary>
+            <remarks>
+            Allowed values are available in <see cref="T:NHibernate.Validator.ValidatorMode"/>.
+            </remarks>
+            <seealso cref="T:NHibernate.Validator.ValidatorMode"/>
+        </member>
+        <member name="T:NHibernate.Validator.Util.AttributeUtils">
+            <summary>
+            Utils metods for attributes
+            </summary>
+        </member>
+        <member name="M:NHibernate.Validator.Util.AttributeUtils.AttributeAllowsMultiple(System.Attribute)">
+            <summary>
+            Returns true if the attribute can be declared more than one time for the same element
+            </summary>
+            <param name="attribute"></param>
+            <returns></returns>
+        </member>
+        <member name="T:NHibernate.Validator.Event.ValidateEventListener">
+            <summary>
+            Before insert and update, executes the validator framework
+            </summary>
+        </member>
+        <member name="M:NHibernate.Validator.Event.ValidateEventListener.Initialize(NHibernate.Cfg.Configuration)">
+            <summary>
+            Initialize the validators, any non significant validators are not kept
+            </summary>
+            <param name="cfg"></param>
+        </member>
+        <member name="M:NHibernate.Validator.Event.ValidateEventListener.OnPreInsert(NHibernate.Event.PreInsertEvent)">
+            <summary>
+            
+            </summary>
+            <param name="event"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NHibernate.Validator.Event.ValidateEventListener.OnPreUpdate(NHibernate.Event.PreUpdateEvent)">
+            <summary>
+            
+            </summary>
+            <param name="event"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NHibernate.Validator.Event.ValidateEventListener.GetInterpolator(NHibernate.Cfg.Configuration)">
+            <summary>
+            Get the custom <see cref="T:NHibernate.Validator.IMessageInterpolator"/> from the <see cref="T:NHibernate.Cfg.Configuration"/>
+            </summary>
+            <param name="cfg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NHibernate.Validator.Event.ValidateEventListener.AddSubElement(NHibernate.Mapping.Property,NHibernate.Validator.Event.ValidateEventListener.ValidatableElement)">
+            <summary>
+            Add sub elements. Composite Elements.
+            </summary>
+            <param name="property"></param>
+            <param name="element"></param>
+        </member>
+        <member name="M:NHibernate.Validator.Event.ValidateEventListener.Validate(System.Object,NHibernate.EntityMode)">
+            <summary>
+            
+            </summary>
+            <param name="entity"></param>
+            <param name="mode"></param>
+        </member>
+        <member name="M:NHibernate.Validator.Event.ValidateEventListener.ValidateSubElements(NHibernate.Validator.Event.ValidateEventListener.ValidatableElement,System.Object,System.Collections.Generic.IList{NHibernate.Validator.InvalidValue})">
+            <summary>
+            
+            </summary>
+            <param name="element"></param>
+            <param name="entity"></param>
+            <param name="consolidatedInvalidValues"></param>
+        </member>
+        <member name="T:NHibernate.Validator.Event.ValidateEventListener.ValidatableElement">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:NHibernate.Validator.Event.ValidatePreUpdateEventListener">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:NHibernate.Validator.NotEmptyAttribute">
+            <summary>
+            Check that a String is not empty (not null and length > 0)
+            or that a Collection (or array) is not empty (not null and length > 0)
+            </summary>
+        </member>
+        <member name="T:NHibernate.Validator.Util.TypeUtils">
+            <summary>
+            Utils methods for type issues.
+            </summary>
+        </member>
+        <member name="M:NHibernate.Validator.Util.TypeUtils.GetGenericTypesOfDictionary(System.Reflection.MemberInfo)">
+            <summary>
+            Get the Generic Arguments of a <see cref="T:System.Collections.Generic.IDictionary`2"/>
+            </summary>
+            <param name="member"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NHibernate.Validator.Util.TypeUtils.GetTypeOfMember(System.Reflection.MemberInfo)">
+            <summary>
+            Get the type of the a Field or Property. 
+            If is a: Generic Collection or a Array, return the type of the elements.
+            </summary>
+            <param name="member">MemberInfo, represent a property or field</param>
+            <returns>type of the member or collection member</returns>
+        </member>
+        <member name="M:NHibernate.Validator.Util.TypeUtils.IsEnumerable(System.Type)">
+            <summary>
+            Indicates if a <see cref="N:NHibernate.Type"/> is <see cref="T:System.Collections.IEnumerable"/>
+            </summary>
+            <param name="clazz"></param>
+            <returns>is enumerable or not</returns>
+        </member>
+        <member name="M:NHibernate.Validator.Util.TypeUtils.GetType(System.Reflection.MemberInfo)">
+            <summary>
+            Get the <see cref="N:NHibernate.Type"/> of a <see cref="T:System.Reflection.MemberInfo"/>.
+            </summary>
+            <param name="member"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NHibernate.Validator.Util.TypeUtils.GetMemberValue(System.Object,System.Reflection.MemberInfo)">
+            <summary>
+            Get the value of some Property or Field.
+            </summary>
+            <param name="bean"></param>
+            <param name="member"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NHibernate.Validator.Util.TypeUtils.IsImplementationOf(System.Type,System.Type)">
+            <summary>
+            Tell if a type implements a interface.
+            </summary>
+            <param name="type"></param>
+            <param name="interfaceType">Implements this interface?</param>
+            <returns>
+            True if the type implements the interface and 
+            false if the doesn't or the interfaceType param isn't an interface
+            </returns>
+        </member>
+        <member name="T:NHibernate.Validator.SizeAttribute">
+            <summary>
+            Size range for Arrays, Collections
+            </summary>
+        </member>
+        <member name="T:NHibernate.Validator.PatternAttribute">
+            <summary>
+            The annotated element must follow the regex pattern
+            </summary>
+        </member>
+        <member name="T:NHibernate.Validator.MinAttribute">
+            <summary>
+            Min restriction on a numeric annotated elemnt (or the string representation of a numeric)
+            </summary>
+        </member>
+        <member name="T:NHibernate.Validator.MaxAttribute">
+            <summary>
+            Max restriction on a numeric annotated element
+            </summary>
+        </member>
+        <member name="T:NHibernate.Validator.AssertTrueAttribute">
+            <summary>
+            The annotated element has to be true
+            </summary>
+        </member>
+        <member name="T:NHibernate.Validator.RangeAttribute">
+            <summary>
+            The annotated elemnt has to be in the appropriate range. Apply on numeric values or string
+            representation of the numeric value.
+            </summary>
+        </member>
+        <member name="T:NHibernate.Validator.PastAttribute">
+            <summary>
+            Check that a Date representation apply in the past
+            </summary>
+        </member>
+        <member name="T:NHibernate.Validator.NotNullAttribute">
+            <summary>
+            Not null constraint
+            </summary>
+        </member>
+        <member name="T:NHibernate.Validator.ClassValidator">
+            <summary>
+            Engine that take a object and check every expressed attribute restrictions
+            </summary>
+        </member>
+        <member name="M:NHibernate.Validator.ClassValidator.#ctor(System.Type)">
+            <summary>
+            Create the validator engine for this bean type
+            </summary>
+            <param name="beanClass"></param>
+        </member>
+        <member name="M:NHibernate.Validator.ClassValidator.#ctor(System.Type,NHibernate.Validator.ValidatorMode)">
+            <summary>
+            Create the validator engine for this bean type
+            </summary>
+            <param name="beanClass"></param>
+            <param name="validatorMode">Validator definition mode</param>
+        </member>
+        <member name="M:NHibernate.Validator.ClassValidator.#ctor(System.Type,System.Resources.ResourceManager,System.Globalization.CultureInfo,NHibernate.Validator.ValidatorMode)">
+            <summary>
+            Create the validator engine for a particular bean class, using a resource bundle
+            for message rendering on violation
+            </summary>
+            <param name="beanClass">bean type</param>
+            <param name="resourceManager"></param>
+            <param name="culture">The CultureInfo for the <paramref name="beanClass"/>.</param>
+            <param name="validatorMode">Validator definition mode</param>
+        </member>
+        <member name="M:NHibernate.Validator.ClassValidator.#ctor(System.Type,NHibernate.Validator.IMessageInterpolator)">
+            <summary>
+            Create the validator engine for a particular bean class, using a custom message interpolator
+            for message rendering on violation
+            </summary>
+            <param name="beanClass"></param>
+            <param name="interpolator"></param>
+        </member>
+        <member name="M:NHibernate.Validator.ClassValidator.#ctor(System.Type,System.Resources.ResourceManager,System.Globalization.CultureInfo,NHibernate.Validator.IMessageInterpolator,System.Collections.Generic.Dictionary{System.Type,NHibernate.Validator.ClassValidator},NHibernate.Validator.ValidatorMode)">
+            <summary>
+            Not a public API
+            </summary>
+            <param name="clazz"></param>
+            <param name="resourceManager"></param>
+            <param name="culture"></param>
+            <param name="userInterpolator"></param>
+            <param name="childClassValidators"></param>
+            <param name="validatorMode">Validator definition mode.</param>
+        </member>
+        <member name="M:NHibernate.Validator.ClassValidator.InitValidator(System.Type,System.Collections.Generic.IDictionary{System.Type,NHibernate.Validator.ClassValidator})">
+            <summary>
+            Initialize the <see cref="T:NHibernate.Validator.ClassValidator"/> type.
+            </summary>
+            <param name="clazz"></param>
+            <param name="childClassValidators"></param>
+        </member>
+        <member name="M:NHibernate.Validator.ClassValidator.GetInvalidValues(System.Object)">
+            <summary>
+            apply constraints on a bean instance and return all the failures.
+            if <see cref="!:bean"/> is null, an empty array is returned 
+            </summary>
+            <param name="bean">object to apply the constraints</param>
+            <returns></returns>
+        </member>
+        <member name="M:NHibernate.Validator.ClassValidator.GetInvalidValues(System.Object,Iesi.Collections.ISet)">
+            <summary>
+            Not a public API
+            </summary>
+            <param name="bean"></param>
+            <param name="circularityState"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NHibernate.Validator.ClassValidator.MakeChildValidation(System.Object,System.Object,System.Reflection.MemberInfo,Iesi.Collections.ISet,System.Collections.Generic.IList{NHibernate.Validator.InvalidValue})">
+            <summary>
+            Validate the child validation to objects and collections
+            </summary>
+            <param name="value">value to validate</param>
+            <param name="bean"></param>
+            <param name="member"></param>
+            <param name="circularityState"></param>
+            <param name="results"></param>
+        </member>
+        <member name="M:NHibernate.Validator.ClassValidator.MakeChildValidation(System.Collections.IEnumerable,System.Object,System.Reflection.MemberInfo,Iesi.Collections.ISet,System.Collections.Generic.IList{NHibernate.Validator.InvalidValue})">
+            <summary>
+            Validate the child validation to collections
+            </summary>
+            <param name="value"></param>
+            <param name="bean"></param>
+            <param name="member"></param>
+            <param name="circularityState"></param>
+            <param name="results"></param>
+        </member>
+        <member name="M:NHibernate.Validator.ClassValidator.GetClassValidator(System.Object)">
+            <summary>
+            Get the ClassValidator for the <see cref="N:NHibernate.Type"/> of the <see cref="!:value"/>
+            parametter  from <see cref="F:NHibernate.Validator.ClassValidator.childClassValidators"/>. If doesn't exist, a 
+            new <see cref="T:NHibernate.Validator.ClassValidator"/> is returned.
+            </summary>
+            <param name="value">object to get type</param>
+            <returns></returns>
+        </member>
+        <member name="M:NHibernate.Validator.ClassValidator.Interpolate(NHibernate.Validator.IValidator)">
+            <summary>
+            Get the message of the <see cref="T:NHibernate.Validator.IValidator"/> and 
+            interpolate it.
+            </summary>
+            <param name="validator"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NHibernate.Validator.ClassValidator.CreateValidator(System.Attribute)">
+            <summary>
+            Create a <see cref="T:NHibernate.Validator.IValidator`1"/> from a <see cref="T:NHibernate.Validator.ValidatorClassAttribute"/> attribute.
+            If the attribute is not a <see cref="T:NHibernate.Validator.ValidatorClassAttribute"/> type return null.
+            </summary>
+            <param name="attribute">attribute</param>
+            <returns>the validator for the attribute</returns>
+        </member>
+        <member name="M:NHibernate.Validator.ClassValidator.CreateChildValidator(System.Reflection.MemberInfo)">
+            <summary>
+            Create the validator for the children, who got the <see cref="T:NHibernate.Validator.ValidAttribute"/>
+            on the fields or properties
+            </summary>
+            <param name="member"></param>
+        </member>
+        <member name="M:NHibernate.Validator.ClassValidator.AddSuperClassesAndInterfaces(System.Type,Iesi.Collections.Generic.ISet{System.Type})">
+            <summary>
+            Add recursively the inheritance tree of types (Classes and Interfaces)
+            to the parameter <paramref name="classes"/>
+            </summary>
+            <param name="clazz">Type to be analyzed</param>
+            <param name="classes">Collections of types</param>
+        </member>
+        <member name="M:NHibernate.Validator.ClassValidator.AssertValid(System.Object)">
+            <summary>
+            Assert a valid Object. A <see cref="T:NHibernate.Validator.InvalidStateException"/> 
+            will be throw in a Invalid state.
+            </summary>
+            <param name="bean">Object to be asserted</param>
+        </member>
+        <member name="M:NHibernate.Validator.ClassValidator.GetPotentialInvalidValues(System.String,System.Object)">
+            <summary>
+            Apply constraints of a particular property value of a bean type and return all the failures.
+            The InvalidValue objects returns return null for InvalidValue#getBean() and InvalidValue#getRootBean()
+            Note: this is not recursive.
+            </summary>
+            <param name="propertyName"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NHibernate.Validator.ClassValidator.Apply(NHibernate.Mapping.PersistentClass)">
+            <summary>
+            Apply the registred constraints rules on the hibernate metadata (to be applied on DB schema)
+            </summary>
+            <param name="persistentClass">hibernate metadata</param>
+        </member>
+        <member name="P:NHibernate.Validator.ClassValidator.HasValidationRules">
+            <summary>
+            Return true if this <see cref="T:NHibernate.Validator.ClassValidator"/> contains rules for apply, false in other case. 
+            </summary>
+        </member>
+        <member name="T:NHibernate.Validator.EmailAttribute">
+            <summary>
+            The string has to be a well-formed email address
+            </summary>
+        </member>
+        <member name="T:NHibernate.Validator.ValidatorMode">
+            <summary>
+            Define how to investigate validators of a class.
+            </summary>
+        </member>
+        <member name="F:NHibernate.Validator.ValidatorMode.UseAttribute">
+            <summary>
+            Validators are discovered, by reflection, only investigating the class attributes
+            </summary>
+        </member>
+        <member name="F:NHibernate.Validator.ValidatorMode.UseXml">
+            <summary>
+            Validator are discovered only parsing the xml of the class
+            </summary>
+        </member>
+        <member name="F:NHibernate.Validator.ValidatorMode.OverrideAttributeWithXml">
+            <summary>
+            Validators are discovered, by reflection, investigating the class attributes
+            and then using the xml, merging both.
+            Conflicts are solved using xml-configuration over attribute-configuration.
+            </summary>
+        </member>
+        <member name="F:NHibernate.Validator.ValidatorMode.OverrideXmlWithAttribute">
+            <summary>
+            Validators are discovered, by reflection, investigating the class attributes
+            and then using the xml, merging both.
+            Conflicts are solved using attribute-configuration over xml-configuration.
+            </summary>
+        </member>
+        <member name="T:NHibernate.Validator.Resources.DefaultValidatorMessages">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:NHibernate.Validator.Resources.DefaultValidatorMessages.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:NHibernate.Validator.Resources.DefaultValidatorMessages.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:NHibernate.Validator.Resources.DefaultValidatorMessages.validator_assertFalse">
+            <summary>
+              Looks up a localized string similar to assertion failed.
+            </summary>
+        </member>
+        <member name="P:NHibernate.Validator.Resources.DefaultValidatorMessages.validator_assertTrue">
+            <summary>
+              Looks up a localized string similar to assertion failed.
+            </summary>
+        </member>
+        <member name="P:NHibernate.Validator.Resources.DefaultValidatorMessages.validator_creditCard">
+            <summary>
+              Looks up a localized string similar to Invalid credit card number.
+            </summary>
+        </member>
+        <member name="P:NHibernate.Validator.Resources.DefaultValidatorMessages.validator_digits">
+            <summary>
+              Looks up a localized string similar to Numeric value out of bounds (&lt;{integerDigits} digits&gt;.&lt;{fractionalDigits} digits&gt; expected).
+            </summary>
+        </member>
+        <member name="P:NHibernate.Validator.Resources.DefaultValidatorMessages.validator_ean">
+            <summary>
+              Looks up a localized string similar to Invalid EAN.
+            </summary>
+        </member>
+        <member name="P:NHibernate.Validator.Resources.DefaultValidatorMessages.validator_email">
+            <summary>
+              Looks up a localized string similar to not a well-formed email address.
+            </summary>
+        </member>
+        <member name="P:NHibernate.Validator.Resources.DefaultValidatorMessages.validator_future">
+            <summary>
+              Looks up a localized string similar to must be a future date.
+            </summary>
+        </member>
+        <member name="P:NHibernate.Validator.Resources.DefaultValidatorMessages.validator_length">
+            <summary>
+              Looks up a localized string similar to length must be between {Min} and {Max}.
+            </summary>
+        </member>
+        <member name="P:NHibernate.Validator.Resources.DefaultValidatorMessages.validator_max">
+            <summary>
+              Looks up a localized string similar to must be less than or equal to {Value}.
+            </summary>
+        </member>
+        <member name="P:NHibernate.Validator.Resources.DefaultValidatorMessages.validator_min">
+            <summary>
+              Looks up a localized string similar to must be greater than or equal to {Value}.
+            </summary>
+        </member>
+        <member name="P:NHibernate.Validator.Resources.DefaultValidatorMessages.validator_notEmpty">
+            <summary>
+              Looks up a localized string similar to may not be null or empty.
+            </summary>
+        </member>
+        <member name="P:NHibernate.Validator.Resources.DefaultValidatorMessages.validator_notNull">
+            <summary>
+              Looks up a localized string similar to may not be null.
+            </summary>
+        </member>
+        <member name="P:NHibernate.Validator.Resources.DefaultValidatorMessages.validator_past">
+            <summary>
+              Looks up a localized string similar to must be a past date.
+            </summary>
+        </member>
+        <member name="P:NHibernate.Validator.Resources.DefaultValidatorMessages.validator_pattern">
+            <summary>
+              Looks up a localized string similar to must match &quot;{Regex}&quot;.
+            </summary>
+        </member>
+        <member name="P:NHibernate.Validator.Resources.DefaultValidatorMessages.validator_range">
+            <summary>
+              Looks up a localized string similar to must be between {Min} and {Max}.
+            </summary>
+        </member>
+        <member name="P:NHibernate.Validator.Resources.DefaultValidatorMessages.validator_size">
+            <summary>
+              Looks up a localized string similar to size must be between {Min} and {Max}.
+            </summary>
+        </member>
+        <member name="T:NHibernate.Validator.Event.ValidatePreInsertEventListener">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:NHibernate.Validator.Cfg.CfgXmlHelper">
+            <summary>
+            Helper to parse validator-configuration XmlNode.
+            </summary>
+        </member>
+        <member name="T:NHibernate.Validator.MappingSchema.NhvRules">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvRules.Items">
+            <remarks/>
+        </member>
+        <member name="T:NHibernate.Validator.MappingSchema.NhvAsserttrue">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvAsserttrue.message">
+            <remarks/>
+        </member>
+        <member name="T:NHibernate.Validator.MappingSchema.NhvEmail">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvEmail.message">
+            <remarks/>
+        </member>
+        <member name="T:NHibernate.Validator.MappingSchema.NhvFuture">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvFuture.message">
+            <remarks/>
+        </member>
+        <member name="T:NHibernate.Validator.MappingSchema.NhvLength">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvLength.min">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvLength.minSpecified">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvLength.max">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvLength.maxSpecified">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvLength.message">
+            <remarks/>
+        </member>
+        <member name="T:NHibernate.Validator.MappingSchema.NhvMax">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvMax.value">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvMax.valueSpecified">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvMax.message">
+            <remarks/>
+        </member>
+        <member name="T:NHibernate.Validator.MappingSchema.NhvMin">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvMin.value">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvMin.valueSpecified">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvMin.message">
+            <remarks/>
+        </member>
+        <member name="T:NHibernate.Validator.MappingSchema.NhvNotEmpty">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvNotEmpty.message">
+            <remarks/>
+        </member>
+        <member name="T:NHibernate.Validator.MappingSchema.NhvNotNull">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvNotNull.message">
+            <remarks/>
+        </member>
+        <member name="T:NHibernate.Validator.MappingSchema.NhvNotnullorempty">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvNotnullorempty.message">
+            <remarks/>
+        </member>
+        <member name="T:NHibernate.Validator.MappingSchema.NhvPast">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvPast.message">
+            <remarks/>
+        </member>
+        <member name="T:NHibernate.Validator.MappingSchema.NhvPattern">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvPattern.regex">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvPattern.message">
+            <remarks/>
+        </member>
+        <member name="T:NHibernate.Validator.MappingSchema.NhvRange">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvRange.min">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvRange.minSpecified">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvRange.max">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvRange.maxSpecified">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvRange.message">
+            <remarks/>
+        </member>
+        <member name="T:NHibernate.Validator.MappingSchema.NhvRule">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvRule.param">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvRule.attribute">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvRule.namespace">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvRule.assembly">
+            <remarks/>
+        </member>
+        <member name="T:NHibernate.Validator.MappingSchema.NhvParam">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvParam.name">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvParam.value">
+            <remarks/>
+        </member>
+        <member name="T:NHibernate.Validator.MappingSchema.NhvSize">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvSize.min">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvSize.minSpecified">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvSize.max">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvSize.maxSpecified">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvSize.message">
+            <remarks/>
+        </member>
+        <member name="T:NHibernate.Validator.MappingSchema.NhvValid">
+            <remarks/>
+        </member>
+        <member name="T:NHibernate.Validator.MappingSchema.NhvProperty">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvProperty.rules">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvProperty.name">
+            <remarks/>
+        </member>
+        <member name="T:NHibernate.Validator.MappingSchema.NhvValidator">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvValidator.class">
+            <remarks/>
+        </member>
+        <member name="T:NHibernate.Validator.MappingSchema.NhvClass">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvClass.attributename">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvClass.property">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvClass.namespace">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvClass.assembly">
+            <remarks/>
+        </member>
+        <member name="F:NHibernate.Validator.MappingSchema.NhvClass.name">
+            <remarks/>
+        </member>
+        <member name="T:NHibernate.Validator.InvalidValue">
+            <summary>
+            A single violation of a class level or method level constraint.
+            </summary>
+        </member>
+        <member name="T:NHibernate.Validator.FutureAttribute">
+            <summary>
+            Check that a Date representation apply in the future
+            </summary>
+        </member>
+    </members>
+</doc>
