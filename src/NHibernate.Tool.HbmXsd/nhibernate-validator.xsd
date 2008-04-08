@@ -19,6 +19,7 @@
 					<xs:element ref="max" />
 					<xs:element ref="notnullorempty" />
 					<xs:element ref="ipAddress" />
+					<xs:element ref="digits" />
 				</xs:choice>
 			</xs:sequence>
 			<xs:attribute name="name" type="xs:string" use="required" />
@@ -164,6 +165,14 @@
 	<xs:element name="ipAddress">
 		<xs:complexType>
 			<xs:sequence />
+			<xs:attribute name="message" type="xs:string" use="optional" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="digits">
+		<xs:complexType>
+			<xs:sequence />
+			<xs:attribute name="integerDigits" type="xs:int" use="required" />
+			<xs:attribute name="fractionalDigits" type="xs:int" use="optional" />
 			<xs:attribute name="message" type="xs:string" use="optional" />
 		</xs:complexType>
 	</xs:element>

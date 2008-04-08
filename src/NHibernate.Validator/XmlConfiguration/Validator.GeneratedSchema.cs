@@ -12,6 +12,7 @@ namespace NHibernate.Validator.MappingSchema {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("asserttrue", typeof(NhvAsserttrue))]
+        [System.Xml.Serialization.XmlElementAttribute("digits", typeof(NhvDigits))]
         [System.Xml.Serialization.XmlElementAttribute("email", typeof(NhvEmail))]
         [System.Xml.Serialization.XmlElementAttribute("future", typeof(NhvFuture))]
         [System.Xml.Serialization.XmlElementAttribute("ipAddress", typeof(NhvIpAddress))]
@@ -42,6 +43,32 @@ namespace NHibernate.Validator.MappingSchema {
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-0.1")]
     [System.Xml.Serialization.XmlRootAttribute("asserttrue", Namespace="urn:nhibernate-validator-0.1", IsNullable=false)]
     public partial class NhvAsserttrue {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string message;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-0.1")]
+    [System.Xml.Serialization.XmlRootAttribute("digits", Namespace="urn:nhibernate-validator-0.1", IsNullable=false)]
+    public partial class NhvDigits {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public int integerDigits;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public int fractionalDigits;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool fractionalDigitsSpecified;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]

@@ -96,7 +96,33 @@ namespace NHibernate.Validator.XmlConfiguration
 				return ConvertToIPAddress(rule);
 			}
 
+			if (rule is NhvDigits)
+			{
+				return ConvertToDigits(rule);
+			}
+
 			return null;
+		}
+
+		private static Attribute ConvertToDigits(object rule)
+		{
+			NhvDigits digitsRule = rule as NhvDigits;
+			int fractionalDigits = 0;
+
+			if (digitsRule.fractionalDigitsSpecified)
+				fractionalDigits = digitsRule.fractionalDigits;
+
+			int intDigits = digitsRule.integerDigits;
+
+			DigitsAttribute thisAttribute = new DigitsAttribute(digitsRule.integerDigits, digitsRule.fractionalDigits);
+			log.Info(string.Format("Converting to Digits attribute with integer digits {0}, fractional digits {1}", intDigits, fractionalDigits));
+
+			if (digitsRule.message != null)
+			{
+				thisAttribute.Message = digitsRule.message;
+			}
+
+			return thisAttribute;
 		}
 
 		private static Attribute ConvertToRule(object rule)

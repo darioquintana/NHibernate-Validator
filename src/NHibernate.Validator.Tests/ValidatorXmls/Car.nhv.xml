@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<validator xmlns="urn:nhibernate-validator-0.1">
+	<class name="Car" namespace="NHibernate.Validator.Tests" assembly="NHibernate.Validator.Tests">
+		<property name="name">
+			<not-empty/>
+		</property>
+
+		<property name="insurances">
+			<not-empty/> 
+		</property>
+
+		<property name="length">
+			<digits integerDigits="1" fractionalDigits="2"/>
+		</property>
+
+		<property name="gallons">
+			<digits integerDigits="2" fractionalDigits="1"/>
+		</property>
+	</class>
+</validator>

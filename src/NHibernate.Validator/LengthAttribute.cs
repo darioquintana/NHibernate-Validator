@@ -14,9 +14,8 @@ namespace NHibernate.Validator
 		private int max = int.MaxValue;
 		private string message = "{validator.length}";
 
-		public LengthAttribute(int min, int max)
+		public LengthAttribute(int min, int max) : this(max)
 		{
-			this.max = max;
 			this.min = min;
 		}
 

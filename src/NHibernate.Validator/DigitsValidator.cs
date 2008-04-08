@@ -1,9 +1,13 @@
 using NHibernate.Validator.Engine;
+using System;
+using System.Globalization;
 
 namespace NHibernate.Validator
 {
 	public class DigitsValidator : Validator<DigitsAttribute>
 	{
+		int integerDigits;
+		int fractionalDigits;
 		/// <summary>
 		/// does the object/element pass the constraints
 		/// </summary>
@@ -11,7 +15,51 @@ namespace NHibernate.Validator
 		/// <returns>if the instance is valid</returns>
 		public override bool IsValid(object value)
 		{
-			return false;
+			if (value == null)
+			{
+				return true;
+			}
+
+			string stringValue = null;
+
+			if (value is string)
+			{
+				try
+				{
+					stringValue = Convert.ToDouble(value).ToString();
+				}
+				catch (FormatException)
+				{
+					return false;
+				}
+			}
+			else if (IsNumeric(value))
+			{
+				stringValue = value.ToString();
+			}
+			else
+			{
+				return false;
+			}
+
+			int pos = stringValue.IndexOf(".");
+
+			int left = (pos == -1) ? stringValue.Length : pos;
+			int right = (pos == -1) ? 0 : stringValue.Length - pos - 1;
+
+			if (left == 1 && stringValue[0] == '0')
+			{
+				left--;
+			}
+
+			return !(left > integerDigits || right > fractionalDigits);
+		}
+
+		static bool IsNumeric(object Expression)
+		{
+			double retNum;
+
+			return double.TryParse(Convert.ToString(Expression), NumberStyles.Any, NumberFormatInfo.InvariantInfo, out retNum);
 		}
 
 		/// <summary>
@@ -20,7 +68,8 @@ namespace NHibernate.Validator
 		/// <param name="parameters">parameters</param>
 		public override void Initialize(DigitsAttribute parameters)
 		{
-			
+			integerDigits = parameters.IntegerDigits;
+			fractionalDigits = parameters.FractionalDigits;
 		}
 	}
 }

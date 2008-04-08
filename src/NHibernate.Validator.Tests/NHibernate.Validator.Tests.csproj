@@ -69,6 +69,7 @@
     <Compile Include="Boo.cs" />
     <Compile Include="Brother.cs" />
     <Compile Include="Building.cs" />
+    <Compile Include="Car.cs" />
     <Compile Include="Configuration\ClassValidatorFactory.cs" />
     <Compile Include="Collections\CollectionFixture.cs" />
     <Compile Include="Collections\HasArrayWithValid.cs" />
@@ -87,6 +88,8 @@
     <Compile Include="CustomValidator\IPSubnetAttribute.cs" />
     <Compile Include="CustomValidator\IPSubnetFixture.cs" />
     <Compile Include="CustomValidator\IPSubnetValidator.cs" />
+    <Compile Include="DigitsFixture.cs" />
+    <Compile Include="DigitsFixtureXml.cs" />
     <Compile Include="Email\EmailFixture.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="Inheritance\Dog.cs" />
@@ -224,6 +227,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="IPFixture\Computer.nhv.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ValidatorXmls\Car.nhv.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
