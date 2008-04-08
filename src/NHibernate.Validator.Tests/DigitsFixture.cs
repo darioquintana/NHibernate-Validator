@@ -9,7 +9,7 @@ namespace NHibernate.Validator.Tests
 	[TestFixture]
 	public class DigitsFixture : BaseValidatorFixture
 	{
-		[Test]
+		[Test,Ignore("Not implemented feature")]
 		public void TestDigits()
 		{
 			Car car = new Car();
