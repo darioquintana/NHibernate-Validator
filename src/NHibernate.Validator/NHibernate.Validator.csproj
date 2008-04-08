@@ -140,6 +140,20 @@
   <ItemGroup>
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Cfg\nhv-configuration.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="Cfg\nhv-configuration.xsx">
+      <DependentUpon>nhv-configuration.xsd</DependentUpon>
+    </None>
+    <None Include="XmlConfiguration\nhibernate-validator.xsx">
+      <DependentUpon>nhibernate-validator.xsd</DependentUpon>
+    </None>
+    <EmbeddedResource Include="XmlConfiguration\nhibernate-validator.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -148,4 +162,8 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(ProjectDir)Cfg\nhv-configuration.xsd" nhv-configuration.xsd
+copy "$(ProjectDir)XmlConfiguration\nhibernate-validator.xsd" nhibernate-validator.xsd</PostBuildEvent>
+  </PropertyGroup>
 </Project>

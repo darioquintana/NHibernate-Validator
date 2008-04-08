@@ -33,6 +33,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="..\NHibernate.Validator\XmlConfiguration\nhibernate-validator.xsd">
+      <Link>nhibernate-validator.xsd</Link>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <Compile Include="NhvCodeGenerator.cs" />
     <Compile Include="ImproveEnumFieldsCommand.cs" />
     <Compile Include="ImproveNhvTypeNamesCommand.cs" />
@@ -43,14 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="nhibernate-validator.xsd">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <None Include="nhibernate-validator.xsx">
-      <DependentUpon>nhibernate-validator.xsd</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
