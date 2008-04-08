@@ -1,7 +1,7 @@
+using System;
+
 namespace NHibernate.Validator
 {
-	using System;
-
 	/// <summary>
 	/// Max restriction on a numeric annotated element
 	/// </summary>

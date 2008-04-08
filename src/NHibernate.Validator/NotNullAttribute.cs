@@ -1,7 +1,7 @@
+using System;
+
 namespace NHibernate.Validator
 {
-    using System;
-
 	/// <summary>
 	/// Not null constraint
 	/// </summary>

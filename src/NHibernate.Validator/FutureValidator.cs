@@ -1,7 +1,7 @@
+using System;
+
 namespace NHibernate.Validator
 {
-	using System;
-
 	[Serializable]
 	public class FutureValidator : Validator<FutureAttribute>
 	{

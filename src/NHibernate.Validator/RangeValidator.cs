@@ -1,9 +1,9 @@
+using System;
+using System.Collections;
+using NHibernate.Mapping;
+
 namespace NHibernate.Validator
 {
-	using System;
-	using System.Collections;
-	using Mapping;
-
 	public class RangeValidator : Validator<RangeAttribute>, IPropertyConstraint
 	{
 		private long min;

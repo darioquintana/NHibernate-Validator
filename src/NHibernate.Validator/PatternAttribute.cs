@@ -1,8 +1,8 @@
+using System;
+using System.Text.RegularExpressions;
+
 namespace NHibernate.Validator
 {
-	using System;
-	using System.Text.RegularExpressions;
-
 	/// <summary>
 	/// The annotated element must follow the regex pattern
 	/// </summary>

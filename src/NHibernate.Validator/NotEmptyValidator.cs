@@ -1,9 +1,9 @@
+using System;
+using System.Collections;
+using NHibernate.Mapping;
+
 namespace NHibernate.Validator
 {
-    using System;
-    using System.Collections;
-    using Mapping;
-
     public class NotEmptyValidator : Validator<NotEmptyAttribute>, IPropertyConstraint
     {
         public override bool IsValid(object value) 

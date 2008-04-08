@@ -1,22 +1,22 @@
 namespace NHibernate.Validator
 {
-    using System;
+	using System;
 
-	/// <summary>
+    /// <summary>
 	/// A single violation of a class level or method level constraint.
 	/// </summary>
     [Serializable]
     public class InvalidValue
     {
         private readonly string message;
-        private readonly Object value;
+        private readonly object value;
         private readonly Type beanClass;
-        private readonly String propertyName;
-        private readonly Object bean;
-        private Object rootBean;
-        private String propertyPath;
+        private readonly string propertyName;
+        private readonly object bean;
+        private object rootBean;
+        private string propertyPath;
 
-        public InvalidValue(String message, Type beanClass, String propertyName, Object value, Object bean)
+        public InvalidValue(string message, Type beanClass, string propertyName, object value, object bean)
         {
             this.message = message;
             this.value = value;
@@ -27,18 +27,18 @@ namespace NHibernate.Validator
             propertyPath = propertyName;
         }
 
-        public void AddParentBean(Object parentBean, String propertyName) 
+        public void AddParentBean(object parentBean, string propertyName) 
         {
             rootBean = parentBean;
             propertyPath = propertyName + "." + propertyPath;
         }
 
-        public Object RootBean
+        public object RootBean
         {
             get { return rootBean; }
         }
 
-        public String PropertyPath
+        public string PropertyPath
         {
             get { return propertyPath; }
         }
@@ -48,22 +48,22 @@ namespace NHibernate.Validator
             get { return beanClass; }
         }
 
-        public String Message
+        public string Message
         {
             get { return message; }
         }
 
-        public String PropertyName
+        public string PropertyName
         {
             get { return propertyName; }
         }
 
-        public Object Value
+        public object Value
         {
             get { return value; }
         }
 
-        public Object Bean
+        public object Bean
         {
             get { return bean; }
         }

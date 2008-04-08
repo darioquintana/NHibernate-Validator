@@ -1,7 +1,7 @@
+using System;
+
 namespace NHibernate.Validator
 {
-	using System;
-	
 	/// <summary>
 	/// Check that a Date representation apply in the future
 	/// </summary>

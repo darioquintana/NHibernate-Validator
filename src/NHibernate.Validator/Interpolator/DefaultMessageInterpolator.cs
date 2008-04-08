@@ -1,15 +1,14 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Reflection;
+using System.Resources;
+using System.Text;
 using NHibernate.Util;
 
 namespace NHibernate.Validator.Interpolator
 {
-	using System;
-	using System.Collections;
-	using System.Collections.Generic;
-	using System.Globalization;
-	using System.Reflection;
-	using System.Resources;
-	using System.Text;
-
 	public class DefaultMessageInterpolator : IMessageInterpolator
 	{
 		//TODO: Log this class!
@@ -39,7 +38,7 @@ namespace NHibernate.Validator.Interpolator
 			//Get all parametters of the Attribute: the name and their values.
 			//For example:
 			//In LengthAttribute the parametter are Min and Max.
-			Type clazz = attribute.GetType();
+			System.Type clazz = attribute.GetType();
 			
 			IHasMessage HasMessage = attribute as IHasMessage;
 

@@ -1,6 +1,6 @@
 namespace NHibernate.Validator
 {
-    using System;
+	using System;
 
     public class ValidatorClassAttribute : Attribute
     {

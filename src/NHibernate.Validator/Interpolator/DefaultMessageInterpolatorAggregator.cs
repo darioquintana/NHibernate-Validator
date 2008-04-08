@@ -1,10 +1,10 @@
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Resources;
+
 namespace NHibernate.Validator.Interpolator
 {
-	using System;
-	using System.Collections.Generic;
-	using System.Globalization;
-	using System.Resources;
-
 	[Serializable]
 	public class DefaultMessageInterpolatorAggregator : IMessageInterpolator
 	{

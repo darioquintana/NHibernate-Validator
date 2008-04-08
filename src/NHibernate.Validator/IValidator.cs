@@ -1,7 +1,7 @@
+using System;
+
 namespace NHibernate.Validator
 {
-    using System;
-
     public interface IValidator
     {
 		/// <summary>

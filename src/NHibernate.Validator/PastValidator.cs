@@ -1,7 +1,7 @@
+using System;
+
 namespace NHibernate.Validator
 {
-	using System;
-
 	public class PastValidator : Validator<PastAttribute>
 	{
 		public override bool IsValid(object value)

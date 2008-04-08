@@ -1,7 +1,7 @@
+using System;
+
 namespace NHibernate.Validator
 {
-    using System;
-
     /// <summary>
     /// Responsible for validator message interpolation (variable replacement etc)
     /// this extension point is useful if the call has some contextual informations to

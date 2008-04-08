@@ -1,7 +1,7 @@
+using System;
+
 namespace NHibernate.Validator
 {
-	using System;
-	
 	/// <summary>
 	/// Represent a Validator for a Type. In order to get your own validator
 	/// you can extend this class.

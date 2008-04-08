@@ -1,8 +1,7 @@
+using System.Collections;
+
 namespace NHibernate.Validator
 {
-	using System;
-	using System.Collections;
-
 	public class SizeValidator : Validator<SizeAttribute>
 	{
 		private int min;

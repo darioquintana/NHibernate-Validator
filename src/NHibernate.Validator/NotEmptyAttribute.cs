@@ -1,8 +1,8 @@
+using System;
+
 namespace NHibernate.Validator
 {
-    using System;
-
-	/// <summary>
+    /// <summary>
 	/// Check that a String is not empty (not null and length > 0)
 	/// or that a Collection (or array) is not empty (not null and length > 0)
 	/// </summary>

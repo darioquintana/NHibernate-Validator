@@ -1,8 +1,8 @@
+using System;
+
 namespace NHibernate.Validator
 {
-    using System;
-
-	/// <summary>
+    /// <summary>
 	/// Enables recursive validation of an associated object
 	/// </summary>
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]

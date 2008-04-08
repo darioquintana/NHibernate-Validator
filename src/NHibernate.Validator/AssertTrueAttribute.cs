@@ -1,12 +1,12 @@
+using System;
+
 namespace NHibernate.Validator
 {
-	using System;
-
 	/// <summary>
 	/// The annotated element has to be true
 	/// </summary>
-	[AttributeUsage(AttributeTargets.Field|AttributeTargets.Property)]
-	[ValidatorClass(typeof(AssertTrueValidator))]
+	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
+	[ValidatorClass(typeof (AssertTrueValidator))]
 	public class AssertTrueAttribute : Attribute, IHasMessage
 	{
 		private string message = "{validator.assertTrue}";

@@ -1,8 +1,8 @@
+using System;
+using System.Text.RegularExpressions;
+
 namespace NHibernate.Validator
 {
-	using System;
-	using System.Text.RegularExpressions;
-
 	public class EmailValidator : Validator<EmailAttribute>
 	{
 		private static String ATOM = "[^\\x00-\\x1F^\\(^\\)^\\<^\\>^\\@^\\,^\\(;^\\:^\\\\^\\\"^\\.^\\[^\\]^\\s]";

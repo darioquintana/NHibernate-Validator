@@ -1,7 +1,7 @@
+using System;
+
 namespace NHibernate.Validator
 {
-	using System;
-
 	/// <summary>
 	/// The annotated elemnt has to be in the appropriate range. Apply on numeric values or string
 	/// representation of the numeric value.

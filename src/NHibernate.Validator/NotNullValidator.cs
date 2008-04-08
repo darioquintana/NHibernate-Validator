@@ -1,7 +1,7 @@
+using NHibernate.Mapping;
+
 namespace NHibernate.Validator
 {
-    using Mapping;
-
 	public class NotNullValidator : Validator<NotNullAttribute>, IPropertyConstraint
     {
         public override bool IsValid(object value)

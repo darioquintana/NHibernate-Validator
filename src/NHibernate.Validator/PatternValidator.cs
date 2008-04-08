@@ -1,8 +1,7 @@
+using System.Text.RegularExpressions;
+
 namespace NHibernate.Validator
 {
-	using System;
-	using System.Text.RegularExpressions;
-
 	public class PatternValidator : Validator<PatternAttribute>
 	{
 		private Regex regex;

@@ -1,7 +1,7 @@
+using NHibernate.Mapping;
+
 namespace NHibernate.Validator
 {
-	using Mapping;
-
 	public interface IClassValidator
 	{
 		/// <summary>

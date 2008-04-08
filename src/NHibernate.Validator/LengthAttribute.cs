@@ -1,7 +1,7 @@
+using System;
+
 namespace NHibernate.Validator
 {
-	using System;
-
 	/// <summary>
 	/// Apply some length restrictions to the annotated element. It has to be a string
 	/// </summary>

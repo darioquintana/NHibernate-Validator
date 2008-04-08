@@ -1,7 +1,7 @@
+using System;
+
 namespace NHibernate.Validator
 {
-	using System;
-
 	/// <summary>
 	/// Min restriction on a numeric annotated elemnt (or the string representation of a numeric)
 	/// </summary>
