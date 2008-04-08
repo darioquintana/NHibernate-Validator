@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using NUnit.Framework;
 using NHibernate.Validator.Engine;
 
@@ -9,7 +7,7 @@ namespace NHibernate.Validator.Tests
 	[TestFixture]
 	public class DigitsFixture : BaseValidatorFixture
 	{
-		[Test,Ignore("Not implemented feature")]
+		[Test]
 		public void TestDigits()
 		{
 			Car car = new Car();

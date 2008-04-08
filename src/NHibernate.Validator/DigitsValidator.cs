@@ -42,7 +42,9 @@ namespace NHibernate.Validator
 				return false;
 			}
 
-			int pos = stringValue.IndexOf(".");
+			string separator = CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
+
+			int pos = stringValue.IndexOf(separator);
 
 			int left = (pos == -1) ? stringValue.Length : pos;
 			int right = (pos == -1) ? 0 : stringValue.Length - pos - 1;
