@@ -91,6 +91,11 @@ namespace NHibernate.Validator.XmlConfiguration
 				return ConvertToRule(rule);
 			}
 
+			if (rule is NhvIpAddress)
+			{
+				return ConvertToIPAddress(rule);
+			}
+
 			return null;
 		}
 
@@ -154,6 +159,20 @@ namespace NHibernate.Validator.XmlConfiguration
 			if (patternRule.message != null)
 			{
 				thisAttribute.Message = patternRule.message;
+			}
+
+			return thisAttribute;
+		}
+
+		private static Attribute ConvertToIPAddress(object rule)
+		{
+			log.Info("Converting to IP Address attribute");
+			NhvIpAddress ipAddressRule = rule as NhvIpAddress;
+			IPAddressAttribute thisAttribute = new IPAddressAttribute();
+			
+			if (ipAddressRule.message != null)
+			{
+				thisAttribute.Message = ipAddressRule.message;
 			}
 
 			return thisAttribute;

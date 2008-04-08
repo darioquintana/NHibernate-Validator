@@ -2,29 +2,19 @@
 <validator xmlns="urn:nhibernate-validator-0.1">
 	<class name="Tv" namespace="NHibernate.Validator.Tests" assembly="NHibernate.Validator.Tests">
 		<property name="description">
-			<rules>
-				<length min="0"/>
-			</rules>
+			<length min="0"/>
 		</property>
 		<property name="expDate">
-			<rules>
-				<future/>
-			</rules>
+			<future/>
 		</property>
 		<property name="lifetime">
-			<rules>
-				<min value="1000"/>
-			</rules>
+			<min value="1000"/>
 		</property>
 		<property name="name">
-			<rules>
-				<length max="2" />
-			</rules>
+			<length max="2" />
 		</property>
 		<property name="serial">
-			<rules>
-				<length max="2" />
-			</rules>
+			<length max="2" />
 		</property>
 	</class>
 </validator>

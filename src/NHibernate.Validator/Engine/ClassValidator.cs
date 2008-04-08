@@ -343,7 +343,7 @@ namespace NHibernate.Validator.Engine
 					continue;
 				}
 				log.Info("Looking for rules for property : " + property.name);
-				CreateMemberAttributesFromRules(currentMember, property.rules);
+				CreateMemberAttributesFromRules(currentMember, property.Items);
 				CreateChildValidator(currentMember);
 			}
 		}
@@ -362,9 +362,9 @@ namespace NHibernate.Validator.Engine
 			return null;
 		}
 
-		private void CreateMemberAttributesFromRules(MemberInfo member, NhvRules rules)
+		private void CreateMemberAttributesFromRules(MemberInfo member, object[] rules)
 		{
-			foreach (object rule in rules.Items)
+			foreach (object rule in rules)
 			{
 				Attribute thisAttribute = XmlRulesFactory.CreateAttributeFromRule(rule);
 

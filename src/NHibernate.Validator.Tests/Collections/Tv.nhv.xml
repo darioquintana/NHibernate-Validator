@@ -2,24 +2,16 @@
 <validator xmlns="urn:nhibernate-validator-0.1">
 	<class name="Tv" namespace="NHibernate.Validator.Tests.Collections" assembly="NHibernate.Validator.Tests">
 		<property name="name">
-			<rules>
-				<not-null/>
-			</rules>
+			<not-null/>
 		</property>
 		<property name="presenters">
-			<rules>
-				<valid/>
-			</rules>
+			<valid/>
 		</property>
 		<property name="shows">
-			<rules>
-				<valid/>
-			</rules>
+			<valid/>
 		</property>
 		<property name="movies">
-			<rules>
-				<valid/>
-			</rules>
+			<valid/>
 		</property>
 	</class>
 </validator>

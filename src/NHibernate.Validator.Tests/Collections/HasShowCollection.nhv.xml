@@ -2,10 +2,8 @@
 <validator xmlns="urn:nhibernate-validator-0.1">
 	<class name="HasShowCollection" namespace="NHibernate.Validator.Tests.Collections" assembly="NHibernate.Validator.Tests">
 		<property name="Shows">
-			<rules>
-				<valid/>
-				<size min="2" max="3"/>
-			</rules>
+			<valid/>
+			<size min="2" max="3"/>
 		</property>
 	</class>
 </validator>

@@ -2,14 +2,11 @@
 <validator xmlns="urn:nhibernate-validator-0.1">
 	<class name="FooDate" namespace="NHibernate.Validator.Tests.ValidatorsTest" assembly="NHibernate.Validator.Tests">
 		<property name="Future">
-			<rules>
-				<future />
-			</rules>
+			<future />
 		</property>
+
 		<property name="Past">
-			<rules>
-				<past />
-			</rules>
+			<past />
 		</property>
 	</class>
 </validator>

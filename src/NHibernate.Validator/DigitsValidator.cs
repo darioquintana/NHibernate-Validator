@@ -11,7 +11,7 @@ namespace NHibernate.Validator
 		/// <returns>if the instance is valid</returns>
 		public override bool IsValid(object value)
 		{
-			throw new System.NotImplementedException();
+			return false;
 		}
 
 		/// <summary>
@@ -20,7 +20,7 @@ namespace NHibernate.Validator
 		/// <param name="parameters">parameters</param>
 		public override void Initialize(DigitsAttribute parameters)
 		{
-			throw new System.NotImplementedException();
+			
 		}
 	}
 }

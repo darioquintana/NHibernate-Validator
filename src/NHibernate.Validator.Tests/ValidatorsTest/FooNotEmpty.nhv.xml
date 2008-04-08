@@ -2,9 +2,7 @@
 <validator xmlns="urn:nhibernate-validator-0.1">
 	<class name="FooNotEmpty" namespace="NHibernate.Validator.Tests.ValidatorsTest" assembly="NHibernate.Validator.Tests">
 		<property name="Message">
-			<rules>
-				<not-empty />
-			</rules>
+			<not-empty />
 		</property>
 	</class>
 </validator>

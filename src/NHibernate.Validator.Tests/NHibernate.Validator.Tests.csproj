@@ -108,6 +108,7 @@
     <Compile Include="Integration\XmlHibernateAnnotationIntegrationFixture.cs" />
     <Compile Include="IPFixture\Computer.cs" />
     <Compile Include="IPFixture\IPAddressFixture.cs" />
+    <Compile Include="IPFixture\XmlIPAddressFixture.cs" />
     <Compile Include="PersistenceTest.cs" />
     <Compile Include="Polimorphism\BaseClass.cs" />
     <Compile Include="Polimorphism\PolimorphismFixture.cs" />
@@ -220,6 +221,9 @@
     <EmbeddedResource Include="ValidatorsTest\FooDate.nhv.xml" />
     <EmbeddedResource Include="ValidatorsTest\FooLength.nhv.xml" />
     <EmbeddedResource Include="ValidatorsTest\FooNotEmpty.nhv.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="IPFixture\Computer.nhv.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

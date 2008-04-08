@@ -2,10 +2,8 @@
 <validator xmlns="urn:nhibernate-validator-0.1">
 	<class name="TvOwner" namespace="NHibernate.Validator.Tests" assembly="NHibernate.Validator.Tests">
 		<property name="tv">
-			<rules>
-				<not-null/>
-				<valid/>
-			</rules>
+			<not-null/>
+			<valid/>
 		</property>
 	</class>
 </validator>

@@ -2,21 +2,15 @@
 <validator xmlns="urn:nhibernate-validator-0.1">
 	<class name="Person" assembly="NHibernate.Validator.Tests" namespace="NHibernate.Validator.Tests.XmlAndAttributesMix">
 		<property name="Name">
-			<rules>
-				<not-null/>
-			</rules>
+			<not-null/>
 		</property>
 
 		<property name="Address">
-			<rules>
-				<length max="20"/>
-			</rules>
+			<length max="20"/>
 		</property>
-
+		
 		<property name="friends">
-			<rules>
-				<max value="20"/>
-			</rules>
+			<max value="20"/>
 		</property>
 	</class>
 </validator>

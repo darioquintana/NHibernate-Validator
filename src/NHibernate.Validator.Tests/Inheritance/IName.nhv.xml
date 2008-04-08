@@ -2,9 +2,7 @@
 <validator xmlns="urn:nhibernate-validator-0.1">
 	<class name="IName" namespace="NHibernate.Validator.Tests.Inheritance" assembly="NHibernate.Validator.Tests">
 		<property name="Name">
-			<rules>
-				<not-null/>
-			</rules>
+			<not-null/>
 		</property>
 	</class>
 </validator>

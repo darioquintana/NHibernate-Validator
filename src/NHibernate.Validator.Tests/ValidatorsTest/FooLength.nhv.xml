@@ -2,10 +2,8 @@
 <validator xmlns="urn:nhibernate-validator-0.1">
 	<class name="FooLength" namespace="NHibernate.Validator.Tests.ValidatorsTest" assembly="NHibernate.Validator.Tests">
 		<property name="Message">
-			<rules>
-				<not-null/>
-				<length min="1" max="10"/>
-			</rules>
+			<not-null/>
+			<length min="1" max="10"/>
 		</property>
 	</class>
 </validator>

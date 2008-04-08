@@ -22,9 +22,7 @@ namespace NHibernate.Validator.Tests.Serialization
 			validatorString.AppendLine("<validator xmlns=\"urn:nhibernate-validator-0.1\">");
 			validatorString.AppendLine("<class name=\"TvOwner\" namespace=\"Validator.Test\" assembly=\"Validator.Test\">");
 			validatorString.AppendLine("<property name=\"tv\">");
-			validatorString.AppendLine("<rules>");
 			validatorString.AppendLine("<not-null />");
-			validatorString.AppendLine("</rules>");
 			validatorString.AppendLine("</property>");
 			validatorString.AppendLine("</class>");
 			validatorString.AppendLine("</validator>");

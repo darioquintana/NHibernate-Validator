@@ -7,10 +7,12 @@ namespace NHibernate.Validator
 	[ValidatorClass(typeof(DigitsValidator))]
 	public class DigitsAttribute : Attribute, IHasMessage
 	{
+		private string message = "{validator.digits}";
+
 		public string Message
 		{
-			get { throw new NotImplementedException(); }
-			set { throw new NotImplementedException(); }
+			get { return message; }
+			set { message = value; }
 		}
 	}
 }

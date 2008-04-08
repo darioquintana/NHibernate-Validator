@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<validator xmlns="urn:nhibernate-validator-0.1">
+	<class name="Computer" namespace="NHibernate.Validator.Tests.IPFixture" assembly="NHibernate.Validator.Tests">
+		<property name="IpAddress">
+			<ipAddress/>
+		</property>
+	</class>
+</validator>

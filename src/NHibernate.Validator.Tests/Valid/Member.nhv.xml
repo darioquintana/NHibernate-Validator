@@ -2,9 +2,7 @@
 <validator xmlns="urn:nhibernate-validator-0.1">
 	<class name="Member" namespace="NHibernate.Validator.Tests.Valid" assembly="NHibernate.Validator.Tests">
 		<property name="Address">
-			<rules>
-				<valid />
-			</rules>
+			<valid />
 		</property>
 	</class>
 </validator>

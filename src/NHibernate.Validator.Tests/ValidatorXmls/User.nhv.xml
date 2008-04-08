@@ -2,14 +2,11 @@
 <validator xmlns="urn:nhibernate-validator-0.1">
 	<class name="User" namespace="NHibernate.Validator.Tests" assembly="NHibernate.Validator.Tests">
 		<property name="name">
-			<rules>
 				<not-null/>
-			</rules>
 		</property>
-		<property name="email">
-			<rules>
+		
+		<property name="email">	
 				<email />
-			</rules>
 		</property>
 	</class>
 </validator>

@@ -2,18 +2,14 @@
 <validator xmlns="urn:nhibernate-validator-0.1">
 	<class name="Controller" assembly="NHibernate.Validator.Tests" namespace="NHibernate.Validator.Tests.CustomValidator">
 		<property name="IP">
-			<rules>
-				<rule attribute="IPSubnetAttribute" assembly="NHibernate.Validator.Tests" namespace="NHibernate.Validator.Tests.CustomValidator">
-					<param name="SubnetPrefix" value="192.168.2"/>
-				</rule>
-			</rules>
+			<rule attribute="IPSubnetAttribute" assembly="NHibernate.Validator.Tests" namespace="NHibernate.Validator.Tests.CustomValidator">
+				<param name="SubnetPrefix" value="192.168.2"/>
+			</rule>
 		</property>
 
 		<property name="Name">
-			<rules>
-				<not-empty/>
-				<not-null/>
-			</rules>
+			<not-empty/>
+			<not-null/>
 		</property>
 	</class>
 </validator>

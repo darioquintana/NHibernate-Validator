@@ -2,25 +2,19 @@
 <validator xmlns="urn:nhibernate-validator-0.1">
 	<class name="Brother" namespace="NHibernate.Validator.Tests" assembly="NHibernate.Validator.Tests">
 		<property name="address"  >
-			<rules> 
-				<not-null/>
-				<valid/>
-			</rules>
+			<not-null/>
+			<valid/>
 		</property>
 		<property name="Name">
-			<rules>
-				<not-null/>
-			</rules>
+			<not-null/>
 		</property>
+
 		<property name="Elder">
-			<rules>
-				<valid/>
-			</rules>
+			<valid/>
 		</property>
+
 		<property name="YoungerBrother">
-			<rules>
-				<valid/>
-			</rules>
+			<valid/>
 		</property>
 	</class>
 </validator>
