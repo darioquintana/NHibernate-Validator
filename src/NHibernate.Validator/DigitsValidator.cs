@@ -1,3 +1,5 @@
+using NHibernate.Validator.Engine;
+
 namespace NHibernate.Validator
 {
 	public class DigitsValidator : Validator<DigitsAttribute>

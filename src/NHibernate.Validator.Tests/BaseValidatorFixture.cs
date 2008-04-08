@@ -1,6 +1,7 @@
 using log4net.Config;
 using System.Resources;
 using System.Globalization;
+using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Tests
 {

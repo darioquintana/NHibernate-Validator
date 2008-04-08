@@ -1,6 +1,8 @@
 using NHibernate.Mapping;
+using NHibernate.Validator.Engine;
+using NHibernate.Validator.Exceptions;
 
-namespace NHibernate.Validator
+namespace NHibernate.Validator.Engine
 {
 	public interface IClassValidator
 	{

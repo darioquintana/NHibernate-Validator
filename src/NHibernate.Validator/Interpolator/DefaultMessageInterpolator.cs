@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Resources;
 using System.Text;
 using NHibernate.Util;
+using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Interpolator
 {

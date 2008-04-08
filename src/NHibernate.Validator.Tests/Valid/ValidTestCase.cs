@@ -1,3 +1,5 @@
+using NHibernate.Validator.Engine;
+
 namespace NHibernate.Validator.Tests.Valid
 {
     using NUnit.Framework;

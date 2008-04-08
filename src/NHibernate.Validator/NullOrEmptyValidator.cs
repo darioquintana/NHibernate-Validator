@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using log4net;
+using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {

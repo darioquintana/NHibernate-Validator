@@ -1,4 +1,6 @@
 using NHibernate.Validator.Cfg;
+using NHibernate.Validator.Engine;
+using NHibernate.Validator.Exceptions;
 using NUnit.Framework;
 
 namespace NHibernate.Validator.Tests.Configuration

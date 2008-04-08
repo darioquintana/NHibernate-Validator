@@ -1,7 +1,7 @@
-namespace NHibernate.Validator.Tests.Validators
-{
-	using System;
+using System;
 
+namespace NHibernate.Validator.Tests.ValidatorsTest
+{
 	public class FooDate
 	{
 		[Future]

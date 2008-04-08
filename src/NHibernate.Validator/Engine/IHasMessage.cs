@@ -1,4 +1,4 @@
-namespace NHibernate.Validator
+namespace NHibernate.Validator.Engine
 {
 	/// <summary>
 	/// All validators attributes must implement this interface.

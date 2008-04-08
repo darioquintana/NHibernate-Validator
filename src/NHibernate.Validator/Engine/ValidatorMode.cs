@@ -1,4 +1,4 @@
-namespace NHibernate.Validator
+namespace NHibernate.Validator.Engine
 {
 	/// <summary>
 	/// Define how to investigate validators of a class.

@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Reflection;
 using log4net;
@@ -53,7 +52,7 @@ namespace NHibernate.Validator.Tests
 				CreateSchema();
 				BuildSessionFactory();
 			}
-			catch (Exception e)
+			catch (System.Exception e)
 			{
 				log.Error("Error while setting up the test fixture", e);
 				throw;

@@ -1,4 +1,5 @@
 using NHibernate.Mapping;
+using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {

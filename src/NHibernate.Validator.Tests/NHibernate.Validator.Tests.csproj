@@ -121,11 +121,11 @@
     <Compile Include="User.cs" />
     <Compile Include="ValidatorFixture.cs" />
     <Compile Include="ValidatorFixtureXml.cs" />
-    <Compile Include="Validators\FooDate.cs" />
-    <Compile Include="Validators\FooLength.cs" />
-    <Compile Include="Validators\FooNotEmpty.cs" />
-    <Compile Include="Validators\ValidatorsFixture.cs" />
-    <Compile Include="Validators\XmlValidatorFixture.cs" />
+    <Compile Include="ValidatorsTest\FooDate.cs" />
+    <Compile Include="ValidatorsTest\FooLength.cs" />
+    <Compile Include="ValidatorsTest\FooNotEmpty.cs" />
+    <Compile Include="ValidatorsTest\ValidatorsFixture.cs" />
+    <Compile Include="ValidatorsTest\XmlValidatorFixture.cs" />
     <Compile Include="Valid\Address.cs" />
     <Compile Include="Valid\Author.cs" />
     <Compile Include="Valid\Blog.cs" />
@@ -166,15 +166,6 @@
       <Project>{599516E0-E10D-4F44-B5E1-B7B67EFC931A}</Project>
       <Name>NHibernate.Validator</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Validators\FooNotEmpty.nhv.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Validators\FooLength.nhv.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Validators\FooDate.nhv.xml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
@@ -224,6 +215,11 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ValidatorXmls\Boo.nhv.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ValidatorsTest\FooDate.nhv.xml" />
+    <EmbeddedResource Include="ValidatorsTest\FooLength.nhv.xml" />
+    <EmbeddedResource Include="ValidatorsTest\FooNotEmpty.nhv.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

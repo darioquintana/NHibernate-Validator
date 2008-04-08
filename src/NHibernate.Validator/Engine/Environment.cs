@@ -1,4 +1,4 @@
-namespace NHibernate.Validator
+namespace NHibernate.Validator.Engine
 {
 	/// <summary>
 	/// Hibernate Validator Event properties
@@ -26,9 +26,9 @@ namespace NHibernate.Validator
 		/// Define validation mode.
 		/// </summary>
 		/// <remarks>
-		/// Allowed values are available in <see cref="NHibernate.Validator.ValidatorMode"/>.
+		/// Allowed values are available in <see cref="Engine.ValidatorMode"/>.
 		/// </remarks>
-		/// <seealso cref="NHibernate.Validator.ValidatorMode"/>
+		/// <seealso cref="Engine.ValidatorMode"/>
 		public static readonly string ValidatorMode = "validator.mode";
 	}
 }

@@ -1,7 +1,8 @@
 using System;
 using System.Runtime.Serialization;
+using NHibernate.Validator.Exceptions;
 
-namespace NHibernate.Validator
+namespace NHibernate.Validator.Exceptions
 {
 	[Serializable]
 	public class ValidatorConfigurationException : HibernateValidatorException

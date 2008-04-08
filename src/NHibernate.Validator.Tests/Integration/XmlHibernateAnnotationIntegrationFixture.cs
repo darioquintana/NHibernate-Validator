@@ -4,6 +4,7 @@ using System.Text;
 using NUnit.Framework;
 using NHibernate.Validator.Cfg;
 using NHibernate.Util;
+using Environment=NHibernate.Validator.Engine.Environment;
 
 namespace NHibernate.Validator.Tests.Integration
 {
@@ -11,7 +12,7 @@ namespace NHibernate.Validator.Tests.Integration
 	{
 		protected override void Configure(NHibernate.Cfg.Configuration configuration)
 		{
-			cfg.SetProperty(Environment.MessageInterpolatorClass,
+			cfg.SetProperty(NHibernate.Validator.Engine.Environment.MessageInterpolatorClass,
 							   typeof(PrefixMessageInterpolator).AssemblyQualifiedName);
 			cfg.SetProperty(Environment.ValidatorMode, "usexml");
 			ValidatorInitializer.Initialize(cfg);

@@ -1,3 +1,4 @@
+using NHibernate.Validator.Engine;
 using NUnit.Framework;
 
 namespace NHibernate.Validator.Tests.Polimorphism

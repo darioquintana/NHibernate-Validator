@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Tests
 {

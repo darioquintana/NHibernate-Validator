@@ -1,6 +1,7 @@
 using System;
+using NHibernate.Validator.Engine;
 
-namespace NHibernate.Validator
+namespace NHibernate.Validator.Engine
 {
 	/// <summary>
 	/// Represent a Validator for a Type. In order to get your own validator

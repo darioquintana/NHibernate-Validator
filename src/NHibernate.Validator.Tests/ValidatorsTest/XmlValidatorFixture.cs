@@ -1,6 +1,7 @@
+using NHibernate.Validator.Engine;
+using NHibernate.Validator.Tests.ValidatorsTest;
 
-
-namespace NHibernate.Validator.Tests.Validators
+namespace NHibernate.Validator.Tests.ValidatorsTest
 {
 	public class XmlValidatorsFixture : ValidatorsFixture
 	{

@@ -10,13 +10,14 @@ using log4net;
 using NHibernate.Mapping;
 using NHibernate.Properties;
 using NHibernate.Util;
+using NHibernate.Validator.Exceptions;
 using NHibernate.Validator.Interpolator;
 using NHibernate.Validator.MappingSchema;
 using NHibernate.Validator.Util;
 using NHibernate.Validator.XmlConfiguration;
 using NHibernate.Validator.Cfg;
 
-namespace NHibernate.Validator
+namespace NHibernate.Validator.Engine
 {
 	/// <summary>
 	/// Engine that take a object and check every expressed attribute restrictions
@@ -171,7 +172,7 @@ namespace NHibernate.Validator
 		private static ResourceManager GetDefaultResourceManager()
 		{
 			return new ResourceManager("NHibernate.Validator.Resources.DefaultValidatorMessages",
-																 Assembly.GetExecutingAssembly());
+			                           Assembly.GetExecutingAssembly());
 		}
 
 		/// <summary>
@@ -253,9 +254,9 @@ namespace NHibernate.Validator
 			{
 				bool exists = membersAttributesDictionary[currentMember].Exists(
 					delegate(Attribute theattribute)
-					{
-						return thisattribute.ToString() == theattribute.ToString();
-					});
+						{
+							return thisattribute.ToString() == theattribute.ToString();
+						});
 
 				if (exists && !AttributeUtils.AttributeAllowsMultiple(thisattribute))
 				{
@@ -657,7 +658,7 @@ namespace NHibernate.Validator
 			{
 				throw new HibernateValidatorException("could not instantiate ClassValidator, maybe some validator is not well formed", ex);
 			}
-			catch (Exception ex)
+			catch (System.Exception ex)
 			{
 				throw new HibernateValidatorException("could not instantiate ClassValidator", ex);
 			}

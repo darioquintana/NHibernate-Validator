@@ -1,14 +1,14 @@
-using System;
 using log4net;
 using NHibernate.Cfg;
 using NHibernate.Event;
 using NHibernate.Mapping;
 using NHibernate.Util;
+using NHibernate.Validator.Engine;
 using NHibernate.Validator.Event;
+using Environment=NHibernate.Validator.Engine.Environment;
 
 namespace NHibernate.Validator.Cfg
 {
-
 	public class ValidatorInitializer
 	{
 		private ValidatorInitializer()
@@ -38,7 +38,7 @@ namespace NHibernate.Validator.Cfg
 						ClassValidator classValidator = new ClassValidator(persistentClazz.MappedClass, validatorMode);
 						classValidator.Apply(persistentClazz);
 					}
-					catch (Exception ex)
+					catch (System.Exception ex)
 					{
 						log.Warn("Unable to apply constraints on DDL for " + persistentClazz.ClassName, ex);
 					}

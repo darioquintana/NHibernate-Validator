@@ -1,3 +1,5 @@
+using NHibernate.Validator.Exceptions;
+
 namespace NHibernate.Validator.Tests.Integration
 {
 	using System.Collections;
@@ -26,7 +28,7 @@ namespace NHibernate.Validator.Tests.Integration
 
 		protected override void Configure(Configuration configuration)
 		{
-			cfg.SetProperty(NHibernate.Validator.Environment.MessageInterpolatorClass,
+			cfg.SetProperty(NHibernate.Validator.Engine.Environment.MessageInterpolatorClass,
 			                typeof(PrefixMessageInterpolator).AssemblyQualifiedName);
 			
 			ValidatorInitializer.Initialize(configuration);

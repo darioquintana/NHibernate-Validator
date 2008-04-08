@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using NHibernate.Mapping;
+using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {

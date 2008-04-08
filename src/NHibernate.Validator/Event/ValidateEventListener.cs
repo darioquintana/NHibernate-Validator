@@ -5,6 +5,9 @@ using NHibernate.Event;
 using NHibernate.Mapping;
 using NHibernate.Properties;
 using NHibernate.Util;
+using NHibernate.Validator.Engine;
+using NHibernate.Validator.Exceptions;
+using Environment=NHibernate.Validator.Engine.Environment;
 
 namespace NHibernate.Validator.Event
 {
@@ -116,7 +119,7 @@ namespace NHibernate.Validator.Event
 						"Type does not implement the interface " + typeof(IMessageInterpolator).GetType().Name + ": " + interpolatorString,
 						ex);
 				}
-				catch(Exception ex)
+				catch(System.Exception ex)
 				{
 					throw new HibernateException("Unable to instanciate message interpolator: " + interpolatorString, ex);
 				}

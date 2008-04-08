@@ -1,3 +1,6 @@
+using NHibernate.Validator.Engine;
+using NHibernate.Validator.Exceptions;
+
 namespace NHibernate.Validator.Cfg
 {
 	/// <summary>

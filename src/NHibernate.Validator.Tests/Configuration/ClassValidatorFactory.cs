@@ -4,6 +4,7 @@ using System.Text;
 using System.Reflection;
 using System.Resources;
 using System.Globalization;
+using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Tests
 {

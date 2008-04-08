@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NHibernate.Validator.Engine;
 using NUnit.Framework;
 using log4net;
 

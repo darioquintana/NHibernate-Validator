@@ -1,3 +1,5 @@
+using NHibernate.Validator.Engine;
+
 namespace NHibernate.Validator.Tests.Email
 {
 	using NUnit.Framework;

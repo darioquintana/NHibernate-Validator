@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Resources;
+using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Interpolator
 {
