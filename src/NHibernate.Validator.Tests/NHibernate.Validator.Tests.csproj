@@ -81,6 +81,7 @@
     <Compile Include="Collections\Tv.cs" />
     <Compile Include="Collections\XmlCollectionFixture.cs" />
     <Compile Include="Configuration\CfgXmlHelperFixture.cs" />
+    <Compile Include="Configuration\ConfigurationFixture.cs" />
     <Compile Include="Contact.cs" />
     <Compile Include="CustomValidator\BadValidator.cs" />
     <Compile Include="CustomValidator\BadValidatorFixture.cs" />

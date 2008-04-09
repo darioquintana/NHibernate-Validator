@@ -51,6 +51,10 @@
     <Compile Include="AssertTrueAttribute.cs" />
     <Compile Include="AssertTrueValidator.cs" />
     <Compile Include="Cfg\CfgXmlHelper.cs" />
+    <Compile Include="Cfg\ConfigurationSectionHandler.cs" />
+    <Compile Include="Cfg\INHVConfiguration.cs" />
+    <Compile Include="Cfg\MappingConfiguration.cs" />
+    <Compile Include="Cfg\NHVConfiguration.cs" />
     <Compile Include="Cfg\ValidatorInitializer.cs" />
     <Compile Include="DigitsAttribute.cs" />
     <Compile Include="DigitsValidator.cs" />
