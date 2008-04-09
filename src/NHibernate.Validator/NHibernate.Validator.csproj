@@ -108,7 +108,6 @@
     <Compile Include="SizeValidator.cs" />
     <Compile Include="Util\AttributeUtils.cs" />
     <Compile Include="Util\TypeUtils.cs" />
-    <Compile Include="Engine\Validator.cs" />
     <Compile Include="Engine\Validator.Generic.cs" />
     <Compile Include="Engine\ValidatorClassAttribute.cs" />
     <Compile Include="Exceptions\ValidatorConfigurationException.cs" />
