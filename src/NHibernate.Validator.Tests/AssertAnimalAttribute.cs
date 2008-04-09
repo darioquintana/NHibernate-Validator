@@ -17,14 +17,14 @@ namespace NHibernate.Validator.Tests
 		}
 	}
 
-	public class AssertAnimalValidator : AbstractValidator<AssertAnimalAttribute>
+	public class AssertAnimalValidator : IInitializableValidator<AssertAnimalAttribute>
 	{
-		public override bool IsValid(object value)
+		public bool IsValid(object value)
 		{
 			return value is Animal;
 		}
 
-		public override void Initialize(AssertAnimalAttribute parameters)
+		public void Initialize(AssertAnimalAttribute parameters)
 		{
 			
 		}

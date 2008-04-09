@@ -8,7 +8,7 @@ namespace NHibernate.Validator.Engine
 	/// you can extend this class.
 	/// </summary>
 	/// <typeparam name="A"></typeparam>
-	public abstract class AbstractValidator<A> : IValidator<A> where A : Attribute
+	public abstract class AbstractValidator<A> : IInitializableValidator<A> where A : Attribute
 	{
 		/// <summary>
 		/// does the object/element pass the constraints
@@ -22,16 +22,5 @@ namespace NHibernate.Validator.Engine
 		/// </summary>
 		/// <param name="parameters">parameters</param>
 		public abstract void Initialize(A parameters);
-
-		/// <summary>
-		/// Take the annotations values and Initialize the Validator
-		/// </summary>
-		/// <param name="parameters">parameters</param>
-		public void Initialize(Attribute parameters)
-		{
-			Initialize((A) parameters);
-		}
-
-
 	}
 }

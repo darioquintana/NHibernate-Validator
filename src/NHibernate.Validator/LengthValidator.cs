@@ -1,11 +1,10 @@
-using System;
 using System.Collections;
 using NHibernate.Mapping;
 using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
-	public class LengthValidator : IValidator<LengthAttribute>, IPropertyConstraint
+	public class LengthValidator : IInitializableValidator<LengthAttribute>, IPropertyConstraint
 	{
 		private int min;
 		private int max;
@@ -21,16 +20,10 @@ namespace NHibernate.Validator
 			return length >= min && length <= max;
 		}
 
-
 		public void Initialize(LengthAttribute parameters)
 		{
 			min = parameters.Min;
 			max = parameters.Max;
-		}
-
-		public void Initialize(Attribute parameters) 
-		{
-			Initialize((LengthAttribute)parameters);
 		}
 
 		public void Apply(Property property)

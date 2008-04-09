@@ -9,18 +9,6 @@ namespace NHibernate.Validator.Engine
 	/// </summary>
 	public interface IMessageInterpolator
 	{
-		string Interpolate<A>
-			(
-			String message, 
-			IValidator<A> validator, 
-			IMessageInterpolator defaultInterpolator
-			) where A : Attribute;
-
-		string Interpolate
-			(
-			String message,
-			IValidator validator,
-			IMessageInterpolator defaultInterpolator
-			);
+		string Interpolate(String message, IValidator validator, IMessageInterpolator defaultInterpolator);
 	}
 }

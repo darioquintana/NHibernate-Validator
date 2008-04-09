@@ -33,12 +33,6 @@ namespace NHibernate.Validator.Interpolator
 			}
 		}
 
-		public string Interpolate<A>(string message, IValidator<A> validator, IMessageInterpolator defaultInterpolator)
-			where A : Attribute
-		{
-			return Interpolate(message, (IValidator) validator, defaultInterpolator);
-		}
-
 		public string Interpolate(string message, IValidator validator, IMessageInterpolator defaultInterpolator)
 		{
 			DefaultMessageInterpolator defaultMessageInterpolator = interpolators[validator];

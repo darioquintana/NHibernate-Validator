@@ -61,6 +61,7 @@
     <Compile Include="EmailAttribute.cs" />
     <Compile Include="EmailValidator.cs" />
     <Compile Include="Engine\Environment.cs" />
+    <Compile Include="Engine\IInitializableValidator.cs" />
     <Compile Include="FutureAttribute.cs" />
     <Compile Include="FutureValidator.cs" />
     <Compile Include="Exceptions\HibernateValidatorException.cs" />
@@ -85,7 +86,6 @@
     <Compile Include="Engine\InvalidValue.cs" />
     <Compile Include="Engine\IPropertyConstraint.cs" />
     <Compile Include="Engine\IValidator.cs" />
-    <Compile Include="Engine\IValidator.Generic.cs" />
     <Compile Include="LengthAttribute.cs" />
     <Compile Include="LengthValidator.cs" />
     <Compile Include="NotNullAttribute.cs" />

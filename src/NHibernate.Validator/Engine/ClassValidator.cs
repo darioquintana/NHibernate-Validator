@@ -625,9 +625,9 @@ namespace NHibernate.Validator.Engine
 				return defaultInterpolator.Interpolate(message, validator, null);
 			}
 		}
-
+				
 		/// <summary>
-		/// Create a <see cref="IValidator{A}"/> from a <see cref="ValidatorClassAttribute"/> attribute.
+		/// Create a <see cref="IValidator"/> from a <see cref="ValidatorClassAttribute"/> attribute.
 		/// If the attribute is not a <see cref="ValidatorClassAttribute"/> type return null.
 		/// </summary>
 		/// <param name="attribute">attribute</param>
@@ -650,7 +650,9 @@ namespace NHibernate.Validator.Engine
 				}
 
 				IValidator beanValidator = (IValidator)Activator.CreateInstance(validatorClass.Value);
-				beanValidator.Initialize(attribute);
+
+				InitializeValidator(attribute, validatorClass.Value, beanValidator);
+
 				defaultInterpolator.AddInterpolator(attribute, beanValidator);
 				return beanValidator;
 			}
@@ -661,6 +663,26 @@ namespace NHibernate.Validator.Engine
 			catch (System.Exception ex)
 			{
 				throw new HibernateValidatorException("could not instantiate ClassValidator", ex);
+			}
+		}
+
+		private static readonly System.Type baseInitializableType = typeof(IInitializableValidator<>);
+		private static void InitializeValidator(Attribute attribute, System.Type validatorClass, IValidator beanValidator)
+		{
+			/* This method was added to supply major difference between JAVA and NET generics.
+			 * So far in JAVA the generic type is something optional, in NET mean "strongly typed".
+			 * In this case we don't know exactly wich is the generic version of "IInitializableValidator<>"
+			 * so we create the type on the fly and invoke the Initialize method by reflection.
+			 * All this work is only to give to the user the ability of implement IInitializableValidator<>
+			 * without need to inherit from a base class or implement a generic and a no generic version of
+			 * the method Initialize.
+			 */
+			System.Type[] args = {attribute.GetType()};
+			System.Type concreteIvc = baseInitializableType.MakeGenericType(args);
+			if (concreteIvc.IsAssignableFrom(validatorClass))
+			{
+				MethodInfo initMethod = concreteIvc.GetMethod("Initialize");
+				initMethod.Invoke(beanValidator, new object[] {attribute});
 			}
 		}
 

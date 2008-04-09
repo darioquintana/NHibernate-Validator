@@ -1,7 +1,8 @@
-using System;
-
 namespace NHibernate.Validator.Engine
 {
+	/// <summary>
+	/// A validator for a particular attribute
+	/// </summary>
 	public interface IValidator
 	{
 		/// <summary>
@@ -10,11 +11,5 @@ namespace NHibernate.Validator.Engine
 		/// <param name="value">Object to be validated</param>
 		/// <returns>if the instance is valid</returns>
 		bool IsValid(object value);
-
-		/// <summary>
-		/// Take the annotations values and Initialize the Validator
-		/// </summary>
-		/// <param name="parameters">parameters</param>
-		void Initialize(Attribute parameters);
 	}
 }
