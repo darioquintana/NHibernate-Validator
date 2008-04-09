@@ -3,11 +3,11 @@ using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Tests.CustomValidator
 {
-	public class IPSubnetValidator : AbstractValidator<IPSubnetAttribute>
+	public class IPSubnetValidator : IInitializableValidator<IPSubnetAttribute>
 	{
 		private string subnetPrefix;
 
-		public override bool IsValid(object value)
+		public bool IsValid(object value)
 		{
 			if (value == null)
 			{
@@ -26,7 +26,7 @@ namespace NHibernate.Validator.Tests.CustomValidator
 			return false;
 		}
 
-		public override void Initialize(IPSubnetAttribute parameters)
+		public void Initialize(IPSubnetAttribute parameters)
 		{
 			subnetPrefix = parameters.SubnetPrefix;
 		}

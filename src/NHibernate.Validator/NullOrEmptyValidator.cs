@@ -5,10 +5,10 @@ using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
-	public class NotNullOrEmptyValidator : AbstractValidator<NotNullOrEmptyAttribute>
+	public class NotNullOrEmptyValidator : IValidator
 	{
-		private static ILog log = LogManager.GetLogger(typeof(NotNullOrEmptyValidator));
-		public override bool IsValid(object value)
+		private static readonly ILog log = LogManager.GetLogger(typeof(NotNullOrEmptyValidator));
+		public bool IsValid(object value)
 		{
 			log.Info(value == null ? "null" : value.ToString());
 			if (value == null) return false;
@@ -20,11 +20,6 @@ namespace NHibernate.Validator
 				return ((string)value).Length > 0;
 
 			throw new ArgumentException("the object to validate must be a string or a collection", "value");
-		}
-
-		public override void Initialize(NotNullOrEmptyAttribute parameters)
-		{
-			
 		}
 	}
 }

@@ -3,13 +3,13 @@ using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
-	public class SizeValidator : AbstractValidator<SizeAttribute>
+	public class SizeValidator : IInitializableValidator<SizeAttribute>
 	{
 		private int min;
 		private int max;
 
 
-		public override bool IsValid(object value)
+		public bool IsValid(object value)
 		{
 			ICollection collection = value as ICollection;
 
@@ -18,7 +18,7 @@ namespace NHibernate.Validator
 			return collection.Count >= min && collection.Count <= max;
 		}
 
-		public override void Initialize(SizeAttribute parameters)
+		public void Initialize(SizeAttribute parameters)
 		{
 			min = parameters.Min;
 			max = parameters.Max;

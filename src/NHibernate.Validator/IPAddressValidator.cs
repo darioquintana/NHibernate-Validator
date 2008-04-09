@@ -3,9 +3,9 @@ using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
-	public class IPAddressValidator : AbstractValidator<IPAddressAttribute>
+	public class IPAddressValidator : IValidator
 	{
-		public override bool IsValid(object value)
+		public bool IsValid(object value)
 		{
 			if (value == null)
 			{
@@ -23,10 +23,6 @@ namespace NHibernate.Validator
 			}
 
 			return false;
-		}
-
-		public override void Initialize(IPAddressAttribute parameters)
-		{
 		}
 	}
 }

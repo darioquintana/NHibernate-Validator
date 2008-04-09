@@ -4,9 +4,9 @@ using NHibernate.Validator.Engine;
 namespace NHibernate.Validator
 {
 	[Serializable]
-	public class FutureValidator : AbstractValidator<FutureAttribute>
+	public class FutureValidator : IValidator
 	{
-		public override bool IsValid(object value)
+		public bool IsValid(object value)
 		{
 			if (value == null)
 			{
@@ -25,10 +25,6 @@ namespace NHibernate.Validator
 			//}
 
 			return false;
-		}
-
-		public override void Initialize(FutureAttribute parameters)
-		{
 		}
 	}
 }

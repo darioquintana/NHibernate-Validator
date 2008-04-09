@@ -13,17 +13,12 @@ namespace NHibernate.Validator.Tests.CustomValidator
 	{
 	}
 
-	public class BadValidator : AbstractValidator<BadValidatorAttribute>
+	public class BadValidator : IValidator
 	{
-		public override bool IsValid(object value)
+		public bool IsValid(object value)
 		{
 			//Always no valid, then the message can be used, and then an exception must be thorwn.
 			return false;
-		}
-
-		public override void Initialize(BadValidatorAttribute parameters)
-		{
-			
 		}
 	}
 }

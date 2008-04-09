@@ -1,10 +1,10 @@
-using NHibernate.Validator.Engine;
 using System;
 using System.Globalization;
+using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
-	public class DigitsValidator : AbstractValidator<DigitsAttribute>
+	public class DigitsValidator : IInitializableValidator<DigitsAttribute>
 	{
 		int integerDigits;
 		int fractionalDigits;
@@ -13,14 +13,14 @@ namespace NHibernate.Validator
 		/// </summary>
 		/// <param name="value">Object to be validated</param>
 		/// <returns>if the instance is valid</returns>
-		public override bool IsValid(object value)
+		public bool IsValid(object value)
 		{
 			if (value == null)
 			{
 				return true;
 			}
 
-			string stringValue = null;
+			string stringValue;
 
 			if (value is string)
 			{
@@ -68,7 +68,7 @@ namespace NHibernate.Validator
 		/// Take the annotations values and Initialize the Validator
 		/// </summary>
 		/// <param name="parameters">parameters</param>
-		public override void Initialize(DigitsAttribute parameters)
+		public void Initialize(DigitsAttribute parameters)
 		{
 			integerDigits = parameters.IntegerDigits;
 			fractionalDigits = parameters.FractionalDigits;

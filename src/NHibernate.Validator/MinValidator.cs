@@ -5,19 +5,19 @@ using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
-	public class MinValidator : AbstractValidator<MinAttribute>, IPropertyConstraint
+	public class MinValidator : IInitializableValidator<MinAttribute>, IPropertyConstraint
 	{
 		private long min;
-		
+
 		public void Apply(Property property)
 		{
 			IEnumerator ie = property.ColumnIterator.GetEnumerator();
 			ie.MoveNext();
-			Column col = (Column) ie.Current;
+			Column col = (Column)ie.Current;
 			col.CheckConstraint = col.Name + ">=" + min;
 		}
 
-		public override bool IsValid(object value)
+		public bool IsValid(object value)
 		{
 			if (value == null)
 			{
@@ -30,7 +30,7 @@ namespace NHibernate.Validator
 				{
 					return Convert.ToDecimal(value) >= Convert.ToDecimal(min);
 				}
-				catch(FormatException)
+				catch (FormatException)
 				{
 					return false;
 				}
@@ -49,13 +49,13 @@ namespace NHibernate.Validator
 			}
 			else if (value is long)
 			{
-				return (long) value >= min;
+				return (long)value >= min;
 			}
 
 			return false;
 		}
 
-		public override void Initialize(MinAttribute parameters)
+		public void Initialize(MinAttribute parameters)
 		{
 			min = parameters.Value;
 		}

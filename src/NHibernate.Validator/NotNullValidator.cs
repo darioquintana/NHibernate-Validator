@@ -3,16 +3,12 @@ using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
-	public class NotNullValidator : AbstractValidator<NotNullAttribute>, IPropertyConstraint
-    {
-        public override bool IsValid(object value)
-        {
-            return value != null;
-        }
-
-		public override void Initialize(NotNullAttribute parameters)
-        {
-        }
+	public class NotNullValidator : IValidator, IPropertyConstraint
+	{
+		public bool IsValid(object value)
+		{
+			return value != null;
+		}
 
 		public void Apply(Property property)
 		{
@@ -23,7 +19,6 @@ namespace NHibernate.Validator
 					foreach (Column column in property.ColumnIterator)
 						column.IsNullable = false;
 			}
-			
 		}
-    }
+	}
 }

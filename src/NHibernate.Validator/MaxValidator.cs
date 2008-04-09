@@ -5,11 +5,11 @@ using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
-	public class MaxValidator : AbstractValidator<MaxAttribute>, IPropertyConstraint
+	public class MaxValidator : IInitializableValidator<MaxAttribute>, IPropertyConstraint
 	{
 		private long max;
 
-		public override bool IsValid(object value)
+		public bool IsValid(object value)
 		{
 			if (value == null)
 			{
@@ -22,7 +22,7 @@ namespace NHibernate.Validator
 				{
 					return Convert.ToDecimal(value) <= Convert.ToDecimal(max);
 				}
-				catch(FormatException)
+				catch (FormatException)
 				{
 					return false;
 				}
@@ -41,13 +41,13 @@ namespace NHibernate.Validator
 			}
 			else if (value is long)
 			{
-				return (long) value <= max;
+				return (long)value <= max;
 			}
 
 			return false;
 		}
 
-		public override void Initialize(MaxAttribute parameters)
+		public void Initialize(MaxAttribute parameters)
 		{
 			max = parameters.Value;
 		}

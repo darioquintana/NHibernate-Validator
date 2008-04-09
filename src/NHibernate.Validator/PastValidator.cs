@@ -3,9 +3,9 @@ using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
-	public class PastValidator : AbstractValidator<PastAttribute>
+	public class PastValidator : IValidator
 	{
-		public override bool IsValid(object value)
+		public bool IsValid(object value)
 		{
 			if (value == null)
 			{
@@ -24,10 +24,6 @@ namespace NHibernate.Validator
 			//}
 
 			return false;
-		}
-
-		public override void Initialize(PastAttribute parameters)
-		{
 		}
 	}
 }
