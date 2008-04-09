@@ -3,7 +3,7 @@ using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
-	public class SizeValidator : Validator<SizeAttribute>
+	public class SizeValidator : AbstractValidator<SizeAttribute>
 	{
 		private int min;
 		private int max;

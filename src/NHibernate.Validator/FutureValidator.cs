@@ -4,7 +4,7 @@ using NHibernate.Validator.Engine;
 namespace NHibernate.Validator
 {
 	[Serializable]
-	public class FutureValidator : Validator<FutureAttribute>
+	public class FutureValidator : AbstractValidator<FutureAttribute>
 	{
 		public override bool IsValid(object value)
 		{

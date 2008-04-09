@@ -8,7 +8,7 @@ namespace NHibernate.Validator.Engine
 	/// you can extend this class.
 	/// </summary>
 	/// <typeparam name="A"></typeparam>
-	public abstract class Validator<A> : IValidator<A> where A : Attribute
+	public abstract class AbstractValidator<A> : IValidator<A> where A : Attribute
 	{
 		/// <summary>
 		/// does the object/element pass the constraints

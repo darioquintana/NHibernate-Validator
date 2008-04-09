@@ -3,7 +3,7 @@ using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
-	public class AssertTrueValidator : Validator<AssertTrueAttribute>
+	public class AssertTrueValidator : AbstractValidator<AssertTrueAttribute>
 	{
 		public override bool IsValid(Object value)
 		{

@@ -3,7 +3,7 @@ using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
-	public class IPAddressValidator : Validator<IPAddressAttribute>
+	public class IPAddressValidator : AbstractValidator<IPAddressAttribute>
 	{
 		public override bool IsValid(object value)
 		{

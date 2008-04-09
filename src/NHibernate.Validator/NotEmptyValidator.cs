@@ -5,7 +5,7 @@ using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
-    public class NotEmptyValidator : Validator<NotEmptyAttribute>, IPropertyConstraint
+    public class NotEmptyValidator : AbstractValidator<NotEmptyAttribute>, IPropertyConstraint
     {
         public override bool IsValid(object value) 
         {

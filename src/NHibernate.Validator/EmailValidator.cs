@@ -4,7 +4,7 @@ using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
-	public class EmailValidator : Validator<EmailAttribute>
+	public class EmailValidator : AbstractValidator<EmailAttribute>
 	{
 		private static String ATOM = "[^\\x00-\\x1F^\\(^\\)^\\<^\\>^\\@^\\,^\\(;^\\:^\\\\^\\\"^\\.^\\[^\\]^\\s]";
 		private static String DOMAIN = "(" + ATOM + "+(\\." + ATOM + "+)*";

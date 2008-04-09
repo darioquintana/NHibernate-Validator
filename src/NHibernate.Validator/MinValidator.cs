@@ -5,7 +5,7 @@ using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
-	public class MinValidator : Validator<MinAttribute>, IPropertyConstraint
+	public class MinValidator : AbstractValidator<MinAttribute>, IPropertyConstraint
 	{
 		private long min;
 		

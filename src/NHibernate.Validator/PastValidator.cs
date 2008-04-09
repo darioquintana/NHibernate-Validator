@@ -3,7 +3,7 @@ using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
-	public class PastValidator : Validator<PastAttribute>
+	public class PastValidator : AbstractValidator<PastAttribute>
 	{
 		public override bool IsValid(object value)
 		{

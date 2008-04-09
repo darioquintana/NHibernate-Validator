@@ -3,7 +3,7 @@ using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
-	public class NotNullValidator : Validator<NotNullAttribute>, IPropertyConstraint
+	public class NotNullValidator : AbstractValidator<NotNullAttribute>, IPropertyConstraint
     {
         public override bool IsValid(object value)
         {

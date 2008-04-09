@@ -3,7 +3,7 @@ using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
-	public class PatternValidator : Validator<PatternAttribute>
+	public class PatternValidator : AbstractValidator<PatternAttribute>
 	{
 		private Regex regex;
 

@@ -17,7 +17,7 @@ namespace NHibernate.Validator.Tests
 		}
 	}
 
-	public class AssertAnimalValidator : Validator<AssertAnimalAttribute>
+	public class AssertAnimalValidator : AbstractValidator<AssertAnimalAttribute>
 	{
 		public override bool IsValid(object value)
 		{

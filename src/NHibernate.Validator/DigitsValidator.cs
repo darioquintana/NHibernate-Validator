@@ -4,7 +4,7 @@ using System.Globalization;
 
 namespace NHibernate.Validator
 {
-	public class DigitsValidator : Validator<DigitsAttribute>
+	public class DigitsValidator : AbstractValidator<DigitsAttribute>
 	{
 		int integerDigits;
 		int fractionalDigits;

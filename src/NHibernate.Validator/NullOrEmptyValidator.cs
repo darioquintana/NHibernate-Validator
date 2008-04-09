@@ -5,7 +5,7 @@ using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
-	public class NotNullOrEmptyValidator : Validator<NotNullOrEmptyAttribute>
+	public class NotNullOrEmptyValidator : AbstractValidator<NotNullOrEmptyAttribute>
 	{
 		private static ILog log = LogManager.GetLogger(typeof(NotNullOrEmptyValidator));
 		public override bool IsValid(object value)

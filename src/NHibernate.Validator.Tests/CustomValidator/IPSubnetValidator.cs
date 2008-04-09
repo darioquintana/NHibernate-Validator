@@ -3,7 +3,7 @@ using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Tests.CustomValidator
 {
-	public class IPSubnetValidator : Validator<IPSubnetAttribute>
+	public class IPSubnetValidator : AbstractValidator<IPSubnetAttribute>
 	{
 		private string subnetPrefix;
 
