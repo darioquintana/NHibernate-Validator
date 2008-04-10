@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<validator xmlns="urn:nhibernate-validator-0.1">
+<validator xmlns="urn:nhibernate-validator-1.0">
 	<class name="IName" namespace="NHibernate.Validator.Tests.Inheritance" assembly="NHibernate.Validator.Tests">
 		<property name="Name">
 			<not-null/>

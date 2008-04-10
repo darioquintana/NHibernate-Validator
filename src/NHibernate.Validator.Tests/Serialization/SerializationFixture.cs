@@ -19,7 +19,7 @@ namespace NHibernate.Validator.Tests.Serialization
 			parser = new MappingDocumentParser();
 			validatorString = new StringBuilder();
 			
-			validatorString.AppendLine("<validator xmlns=\"urn:nhibernate-validator-0.1\">");
+			validatorString.AppendLine("<validator xmlns=\"urn:nhibernate-validator-1.0\">");
 			validatorString.AppendLine("<class name=\"TvOwner\" namespace=\"Validator.Test\" assembly=\"Validator.Test\">");
 			validatorString.AppendLine("<property name=\"tv\">");
 			validatorString.AppendLine("<not-null />");

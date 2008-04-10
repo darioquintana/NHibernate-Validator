@@ -1,4 +1,4 @@
-<xs:schema targetNamespace="urn:nhibernate-validator-0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="urn:nhibernate-validator-0.1" xmlns:NS="urn:nhibernate-validator-0.1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xs:schema targetNamespace="urn:nhibernate-validator-1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="urn:nhibernate-validator-1.0" xmlns:NS="urn:nhibernate-validator-1.0" elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xs:element name="property">
 		<xs:complexType>
 			<xs:sequence>
