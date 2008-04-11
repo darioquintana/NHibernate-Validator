@@ -46,7 +46,7 @@ namespace NHibernate.Validator.Event
 					AddSubElement(property, element);
 				}
 
-				if (element.SubElements.Count != 0 || element.Validator.HasValidationRules)
+				if (element.HasSubElements || element.Validator.HasValidationRules)
 					validators.Add(mappedClass, element);
 			}
 
@@ -119,7 +119,7 @@ namespace NHibernate.Validator.Event
 						"Type does not implement the interface " + typeof(IMessageInterpolator).GetType().Name + ": " + interpolatorString,
 						ex);
 				}
-				catch(System.Exception ex)
+				catch(Exception ex)
 				{
 					throw new HibernateException("Unable to instanciate message interpolator: " + interpolatorString, ex);
 				}
@@ -141,7 +141,7 @@ namespace NHibernate.Validator.Event
 
 				IPropertyAccessor accesor = PropertyAccessorFactory.GetPropertyAccessor(property, EntityMode.Poco);
 
-				IGetter getter = accesor.GetGetter(element.Clazz, property.Name);
+				IGetter getter = accesor.GetGetter(element.EntityType, property.Name);
 
 				ClassValidator validator = new ClassValidator(getter.ReturnType);
 
@@ -152,7 +152,7 @@ namespace NHibernate.Validator.Event
 					AddSubElement(currentProperty, subElement);
 				}
 
-				if (subElement.SubElements.Count != 0 || subElement.Validator.HasValidationRules)
+				if (subElement.HasSubElements || subElement.Validator.HasValidationRules)
 					element.AddSubElement(subElement);
 			}
 		}
@@ -216,60 +216,5 @@ namespace NHibernate.Validator.Event
 				}
 			}
 		}
-
-		#region Nested type: ValidatableElement
-
-		/// <summary>
-		/// 
-		/// </summary>
-		[Serializable]
-		private class ValidatableElement
-		{
-			private System.Type clazz;
-
-			private IGetter getter;
-
-			private List<ValidatableElement> subElements = new List<ValidatableElement>();
-			private ClassValidator validator;
-
-			public ValidatableElement(System.Type clazz, ClassValidator validator, IGetter getter)
-				: this(clazz, validator)
-			{
-				this.getter = getter;
-			}
-
-			public ValidatableElement(System.Type clazz, ClassValidator validator)
-			{
-				this.clazz = clazz;
-				this.validator = validator;
-			}
-
-			public IList<ValidatableElement> SubElements
-			{
-				get { return subElements; }
-			}
-
-			public IGetter Getter
-			{
-				get { return getter; }
-			}
-
-			public System.Type Clazz
-			{
-				get { return clazz; }
-			}
-
-			public ClassValidator Validator
-			{
-				get { return validator; }
-			}
-
-			public void AddSubElement(ValidatableElement subValidatableElement)
-			{
-				subElements.Add(subValidatableElement);
-			}
-		}
-
-		#endregion
 	}
 }

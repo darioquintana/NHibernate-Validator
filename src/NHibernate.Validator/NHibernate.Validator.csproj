@@ -62,6 +62,7 @@
     <Compile Include="EmailValidator.cs" />
     <Compile Include="Engine\Environment.cs" />
     <Compile Include="Engine\IInitializableValidator.cs" />
+    <Compile Include="Engine\ValidatableElement.cs" />
     <Compile Include="Engine\ValidatorEngine.cs" />
     <Compile Include="FutureAttribute.cs" />
     <Compile Include="FutureValidator.cs" />
