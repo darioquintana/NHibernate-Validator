@@ -92,7 +92,7 @@
     <Compile Include="DigitsFixture.cs" />
     <Compile Include="DigitsFixtureXml.cs" />
     <Compile Include="Email\EmailFixture.cs" />
-    <Compile Include="Engine.cs" />
+    <Compile Include="CarEngine.cs" />
     <Compile Include="Inheritance\Dog.cs" />
     <Compile Include="Inheritance\IBoneEater.cs" />
     <Compile Include="Inheritance\IEater.cs" />
@@ -206,7 +206,7 @@
   <ItemGroup>
     <EmbeddedResource Include="ValidatorXmls\Address.nhv.xml" />
     <EmbeddedResource Include="ValidatorXmls\Brother.nhv.xml" />
-    <EmbeddedResource Include="ValidatorXmls\Engine.nhv.xml" />
+    <EmbeddedResource Include="ValidatorXmls\CarEngine.nhv.xml" />
     <EmbeddedResource Include="ValidatorXmls\Suricato.nhv.xml" />
     <EmbeddedResource Include="ValidatorXmls\Tv.nhv.xml" />
     <EmbeddedResource Include="ValidatorXmls\TvOwner.nhv.xml" />

@@ -118,10 +118,10 @@ namespace NHibernate.Validator.Tests
 		[Test]
 		public void DuplicateAnnotations()
 		{
-			Engine eng = new Engine();
+			CarEngine eng = new CarEngine();
 			eng.HorsePower = 23;
 			eng.SerialNumber = "23-43###4";
-			ClassValidator classValidator = GetClassValidator(typeof(Engine));
+			ClassValidator classValidator = GetClassValidator(typeof(CarEngine));
 			InvalidValue[] invalidValues = classValidator.GetInvalidValues(eng);
 			Assert.AreEqual(2, invalidValues.Length);
 

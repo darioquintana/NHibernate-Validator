@@ -1,6 +1,6 @@
 namespace NHibernate.Validator.Tests
 {
-	public class Engine
+	public class CarEngine
 	{
 		private long horsePower;
 
