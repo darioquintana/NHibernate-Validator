@@ -55,7 +55,7 @@ namespace NHibernate.Validator.Engine
 
 		private List<MemberInfo> childGetters;
 
-		private static readonly InvalidValue[] EMPTY_INVALID_VALUE_ARRAY = new InvalidValue[] { };
+		public static readonly InvalidValue[] EMPTY_INVALID_VALUE_ARRAY = new InvalidValue[] { };
 
 		private readonly CultureInfo culture;
 
