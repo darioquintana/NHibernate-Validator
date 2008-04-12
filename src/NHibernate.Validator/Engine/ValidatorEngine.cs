@@ -313,7 +313,7 @@ namespace NHibernate.Validator.Engine
 		/// Get a knowed <see cref="IClassValidator"/>.
 		/// </summary>
 		/// <typeparam name="T">The type of an entity.</typeparam>
-		/// <returns>A konowed <see cref="IClassValidator"/> for the give type 
+		/// <returns>A knowed <see cref="IClassValidator"/> for the give type 
 		/// or null if the the <typeparamref name="T"/> was never used in the engine instance.</returns>
 		public IClassValidator GetValidator<T>()
 		{
