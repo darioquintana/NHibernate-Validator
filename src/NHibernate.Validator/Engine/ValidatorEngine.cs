@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Resources;
 using System.Xml;
+using NHibernate.Mapping;
 using NHibernate.Util;
 using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Exceptions;
-using System.Resources;
 
 namespace NHibernate.Validator.Engine
 {
@@ -21,10 +22,39 @@ namespace NHibernate.Validator.Engine
 	/// </remarks>
 	public class ValidatorEngine
 	{
+		// TODO : make the class thread-safe and may be serializable
 		private IMessageInterpolator interpolator;
 		private ValidatorMode defaultMode;
 		private bool applyToDDL;
 		private bool autoRegisterListeners;
+		private readonly Dictionary<System.Type, ValidatableElement> validators = new Dictionary<System.Type, ValidatableElement>();
+		private static readonly ValidatableElement alwaysValidPlaceHolder = new ValidatableElement(typeof (object), new EmptyClassValidator());
+
+		private class EmptyClassValidator: IClassValidator
+		{
+			public bool HasValidationRules
+			{
+				get { return false; }
+			}
+
+			public InvalidValue[] GetInvalidValues(object bean)
+			{
+				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
+			}
+
+			public void AssertValid(object bean)
+			{
+			}
+
+			public InvalidValue[] GetPotentialInvalidValues(string propertyName, object value)
+			{
+				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
+			}
+
+			public void Apply(PersistentClass persistentClass)
+			{
+			}
+		}
 
 		/// <summary>
 		/// Default MessageInterpolator
@@ -146,7 +176,28 @@ namespace NHibernate.Validator.Engine
 		/// </remarks>
 		public InvalidValue[] Validate(object entity)
 		{
-			return null;
+			if (entity == null) 
+				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
+
+			ValidatableElement element = GetElementOrNew(entity.GetType());
+
+			List<InvalidValue> result = new List<InvalidValue>();
+			ValidateSubElements(element, entity, result);
+			result.AddRange(element.Validator.GetInvalidValues(entity));
+			return result.ToArray();
+		}
+
+		private static void ValidateSubElements(ValidatableElement element, object entity, List<InvalidValue> consolidatedInvalidValues)
+		{
+			if (element != null)
+			{
+				foreach (ValidatableElement subElement in element.SubElements)
+				{
+					object component = subElement.Getter.Get(entity);
+					consolidatedInvalidValues.AddRange(subElement.Validator.GetInvalidValues(component));
+					ValidateSubElements(subElement, component, consolidatedInvalidValues);
+				}
+			}
 		}
 
 		/// <summary>
@@ -162,7 +213,8 @@ namespace NHibernate.Validator.Engine
 		/// </remarks>
 		public bool IsValid(object entity)
 		{
-			return false;
+			// TODO: improving breaking at the first invalidValue
+			return Validate(entity).Length == 0;
 		}
 
 		/// <summary>
@@ -176,7 +228,9 @@ namespace NHibernate.Validator.Engine
 		/// </remarks>
 		public void AssertValid(object entity)
 		{
-			throw new NotImplementedException();
+			if (entity == null) return;
+			ValidatableElement element = GetElementOrNew(entity.GetType());
+			element.Validator.AssertValid(entity);
 		}
 
 		/// <summary>
@@ -212,17 +266,12 @@ namespace NHibernate.Validator.Engine
 
 		internal InvalidValue[] ValidatePropertyValue(System.Type entityType, string propertyName, object value)
 		{
-			IClassValidator cv = GetValidator(entityType);
-			if (cv != null)
-			{
-				return cv.GetPotentialInvalidValues(propertyName, value);
-			}
-			else
-				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
+			IClassValidator cv = GetElementOrNew(entityType).Validator;
+			return cv.GetPotentialInvalidValues(propertyName, value);
 		}
 
 		/// <summary>
-		/// Add a validator to the engine.
+		/// Add a validator to the engine or override existing one.
 		/// </summary>
 		/// <typeparam name="T">The type of an entity.</typeparam>
 		/// <remarks>
@@ -230,12 +279,34 @@ namespace NHibernate.Validator.Engine
 		/// </remarks>
 		public void AddValidator<T>()
 		{
-			AddValidator(typeof(T), null);
+			AddValidator<T>(null);
 		}
 
-		internal void AddValidator(System.Type entityType, ResourceManager resource)
+		/// <summary>
+		/// Add a validator to the engine or override existing one.
+		/// </summary>
+		/// <typeparam name="T">The type of an entity.</typeparam>
+		/// <param name="inspector">Inspector for sub-elements</param>
+		public void AddValidator<T>(IValidatableSubElementsInspector inspector)
 		{
-			throw new NotImplementedException();
+			AddValidator(typeof (T), inspector);
+		}
+
+		internal void AddValidator(System.Type entityType, IValidatableSubElementsInspector inspector)
+		{
+			IClassValidator cv = GetNewClassValidator(entityType, null);
+			ValidatableElement element = new ValidatableElement(entityType, cv);
+			if (inspector != null)
+				inspector.Inspect(element);
+			AddValidatableElement(element);
+		}
+
+		internal void AddValidatableElement(ValidatableElement element)
+		{
+			if (element.HasSubElements || element.Validator.HasValidationRules)
+				validators[element.EntityType] = element;
+			else
+				validators[element.EntityType] = alwaysValidPlaceHolder;
 		}
 
 		/// <summary>
@@ -249,9 +320,30 @@ namespace NHibernate.Validator.Engine
 			return GetValidator(typeof(T));
 		}
 
-		internal IClassValidator GetValidator(System.Type entityType)
+		internal ValidatableElement GetElementOrNew(System.Type entityType)
 		{
-			return null;
+			ValidatableElement element;
+			if (!validators.TryGetValue(entityType, out element))
+			{
+				IClassValidator cv = GetNewClassValidator(entityType, null);
+				element = new ValidatableElement(entityType, cv);
+				AddValidatableElement(element);
+			}
+			return element;
+		}
+
+		private IClassValidator GetValidator(System.Type entityType)
+		{
+			ValidatableElement element;
+			validators.TryGetValue(entityType, out element);
+
+			return element == null ? null : element.Validator;
+		}
+
+		private IClassValidator GetNewClassValidator(System.Type entityType, ResourceManager resource)
+		{
+			return
+				new ClassValidator(entityType, resource, null, interpolator, new Dictionary<System.Type, ClassValidator>(), DefaultMode);
 		}
 
 		private IMessageInterpolator GetInterpolator(string interpolatorString)
@@ -275,7 +367,7 @@ namespace NHibernate.Validator.Engine
 				}
 				catch (Exception ex)
 				{
-					throw new HibernateException("Unable to instanciate message interpolator: " + interpolatorString, ex);
+					throw new ValidatorConfigurationException("Unable to instanciate message interpolator: " + interpolatorString, ex);
 				}
 			}
 			return interpolator;
