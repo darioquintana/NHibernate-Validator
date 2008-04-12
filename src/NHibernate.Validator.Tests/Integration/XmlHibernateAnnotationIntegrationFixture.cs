@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using NUnit.Framework;
 using NHibernate.Validator.Cfg;
-using NHibernate.Util;
-using Environment=NHibernate.Validator.Engine.Environment;
+using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Tests.Integration
 {
@@ -12,10 +7,16 @@ namespace NHibernate.Validator.Tests.Integration
 	{
 		protected override void Configure(NHibernate.Cfg.Configuration configuration)
 		{
-			cfg.SetProperty(NHibernate.Validator.Engine.Environment.MessageInterpolatorClass,
-							   typeof(PrefixMessageInterpolator).AssemblyQualifiedName);
-			cfg.SetProperty(Environment.ValidatorMode, "usexml");
-			ValidatorInitializer.Initialize(cfg);
-		}	
+			NHVConfiguration nhvc = new NHVConfiguration();
+			nhvc.Properties[Environment.ValidatorMode] = "usexml";
+			nhvc.Properties[Environment.MessageInterpolatorClass] = typeof(PrefixMessageInterpolator).AssemblyQualifiedName;
+			ConfigurationInjecterSectionHandler.SetCfgToInject(nhvc);
+			ValidatorInitializer.Initialize(configuration);
+		}
+
+		protected override void OnTestFixtureTearDown()
+		{
+			ConfigurationInjecterSectionHandler.ResetCfgToInject();
+		}
 	}
 }

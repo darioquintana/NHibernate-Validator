@@ -1,13 +1,12 @@
+using System.Collections.Generic;
+using System.Globalization;
+using System.Reflection;
+using System.Resources;
 using NHibernate.Validator.Engine;
+using NUnit.Framework;
 
 namespace NHibernate.Validator.Tests
 {
-	using System.Collections.Generic;
-	using System.Globalization;
-	using System.Reflection;
-	using System.Resources;
-	using NUnit.Framework;
-
 	[TestFixture]
 	public class ValidatorFixture : BaseValidatorFixture
 	{

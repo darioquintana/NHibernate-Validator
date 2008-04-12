@@ -22,6 +22,12 @@ namespace NHibernate.Validator.Cfg
 		/// <summary>
 		/// Initializes a new instance of the <see cref="NHVConfiguration"/> class.
 		/// </summary>
+		/// <remarks>An empty configuration.</remarks>
+		public NHVConfiguration() {}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="NHVConfiguration"/> class.
+		/// </summary>
 		/// <param name="configurationReader">The XML reader to parse.</param>
 		/// <remarks>
 		/// The nhv-configuration.xsd is applied to the XML.

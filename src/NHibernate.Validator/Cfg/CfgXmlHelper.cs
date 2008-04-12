@@ -15,6 +15,7 @@ namespace NHibernate.Validator.Cfg
 		/// for the hibernate.cfg.xml .
 		/// </summary>
 		public const string CfgSectionName = "nhv-configuration";
+		public const string DefaultNHVCfgFileName = "nhvalidator.cfg.xml";
 
 		/// <summary>The XML Namespace for the nhibernate-configuration</summary>
 		public const string CfgSchemaXMLNS = "urn:nhv-configuration-1.0";
@@ -43,6 +44,12 @@ namespace NHibernate.Validator.Cfg
 		/// <summary>XPath expression for mapping nodes</summary>
 		public static readonly XPathExpression MappingsExpression;
 
+		/// <summary>
+		/// Convert a given string to a <see cref="ValidatorMode"/>.
+		/// </summary>
+		/// <param name="validatorMode">The string</param>
+		/// <returns>The result <see cref="ValidatorMode"/>.</returns>
+		/// <exception cref="ValidatorConfigurationException">when the string don't have a valid value.</exception>
 		public static ValidatorMode ValidatorModeConvertFrom(string validatorMode)
 		{
 			if (string.IsNullOrEmpty(validatorMode))
@@ -57,7 +64,7 @@ namespace NHibernate.Validator.Cfg
 				case "usexml":
 					return ValidatorMode.UseXml;
 
-				case "ovverrideattributewithxml":
+				case "overrideattributewithxml":
 					return ValidatorMode.OverrideAttributeWithXml;
 
 				case "overridexmlwithattribute":

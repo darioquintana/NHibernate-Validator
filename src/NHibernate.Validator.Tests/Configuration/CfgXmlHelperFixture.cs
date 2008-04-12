@@ -14,7 +14,7 @@ namespace NHibernate.Validator.Tests.Configuration
 			Assert.AreEqual(ValidatorMode.UseAttribute, CfgXmlHelper.ValidatorModeConvertFrom("UseAttribute"));
 			Assert.AreEqual(ValidatorMode.UseXml, CfgXmlHelper.ValidatorModeConvertFrom("useXml"));
 			Assert.AreEqual(ValidatorMode.OverrideXmlWithAttribute, CfgXmlHelper.ValidatorModeConvertFrom("OVERRIDEXmlWithAttribute"));
-			Assert.AreEqual(ValidatorMode.OverrideAttributeWithXml, CfgXmlHelper.ValidatorModeConvertFrom("OvverrideAttributeWithXml"));
+			Assert.AreEqual(ValidatorMode.OverrideAttributeWithXml, CfgXmlHelper.ValidatorModeConvertFrom("OverrideAttributeWithXml"));
 			Assert.AreEqual(ValidatorMode.UseAttribute, CfgXmlHelper.ValidatorModeConvertFrom(null));
 			Assert.AreEqual(ValidatorMode.UseAttribute, CfgXmlHelper.ValidatorModeConvertFrom(string.Empty));
 		}

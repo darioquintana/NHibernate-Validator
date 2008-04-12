@@ -4,10 +4,8 @@ using NHibernate.Cfg;
 using NHibernate.Event;
 using NHibernate.Mapping;
 using NHibernate.Properties;
-using NHibernate.Util;
 using NHibernate.Validator.Engine;
 using NHibernate.Validator.Exceptions;
-using Environment=NHibernate.Validator.Engine.Environment;
 
 namespace NHibernate.Validator.Event
 {
@@ -17,6 +15,8 @@ namespace NHibernate.Validator.Event
 	public class ValidateEventListener : IPreInsertEventListener, IPreUpdateEventListener, IInitializable
 	{
 		private bool isInitialized;
+		// So far we are working with a private engine for persistence validation
+		private readonly ValidatorEngine ve = new ValidatorEngine();
 		private Dictionary<System.Type, ValidatableElement> validators = new Dictionary<System.Type, ValidatableElement>();
 
 		#region IInitializable Members
@@ -29,7 +29,8 @@ namespace NHibernate.Validator.Event
 		{
 			if (isInitialized) return;
 
-			IMessageInterpolator interpolator = GetInterpolator(cfg);
+			ve.Configure(); // configure the private ValidatorEngine
+			IMessageInterpolator interpolator = ve.Interpolator;
 
 			ICollection<PersistentClass> classes = cfg.ClassMappings;
 
@@ -59,7 +60,7 @@ namespace NHibernate.Validator.Event
 		{
 			return
 				new ClassValidator(mappedClass, null, null, interpolator, new Dictionary<System.Type, ClassValidator>(),
-				                   ValidatorMode.UseAttribute);
+													 ve.DefaultMode);
 		}
 
 		#region IPreInsertEventListener Members
@@ -91,41 +92,6 @@ namespace NHibernate.Validator.Event
 		}
 
 		#endregion
-
-		/// <summary>
-		/// Get the custom <see cref="IMessageInterpolator"/> from the <see cref="Configuration"/>
-		/// </summary>
-		/// <param name="cfg"></param>
-		/// <returns></returns>
-		private IMessageInterpolator GetInterpolator(Configuration cfg)
-		{
-			string interpolatorString = cfg.GetProperty(Environment.MessageInterpolatorClass);
-			IMessageInterpolator interpolator = null;
-
-			if (!string.IsNullOrEmpty(interpolatorString))
-			{
-				try
-				{
-					System.Type interpolatorType = ReflectHelper.ClassForName(interpolatorString);
-					interpolator = (IMessageInterpolator) Activator.CreateInstance(interpolatorType);
-				}
-				catch(MissingMethodException ex)
-				{
-					throw new HibernateException("Public constructor was not found at message interpolator: " + interpolatorString, ex);
-				}
-				catch(InvalidCastException ex)
-				{
-					throw new HibernateException(
-						"Type does not implement the interface " + typeof(IMessageInterpolator).GetType().Name + ": " + interpolatorString,
-						ex);
-				}
-				catch(Exception ex)
-				{
-					throw new HibernateException("Unable to instanciate message interpolator: " + interpolatorString, ex);
-				}
-			}
-			return interpolator;
-		}
 
 		/// <summary>
 		/// Add sub elements. Composite Elements.

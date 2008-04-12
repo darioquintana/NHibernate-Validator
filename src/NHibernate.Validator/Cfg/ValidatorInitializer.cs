@@ -1,11 +1,10 @@
+using System;
 using log4net;
 using NHibernate.Cfg;
 using NHibernate.Event;
 using NHibernate.Mapping;
-using NHibernate.Util;
 using NHibernate.Validator.Engine;
 using NHibernate.Validator.Event;
-using Environment=NHibernate.Validator.Engine.Environment;
 
 namespace NHibernate.Validator.Cfg
 {
@@ -19,9 +18,13 @@ namespace NHibernate.Validator.Cfg
 
 		public static void Initialize(Configuration cfg)
 		{
-			bool applyToDDL = PropertiesHelper.GetBoolean(Environment.ApplyToDDL, cfg.Properties, true);
-			bool autoRegisterListeners = PropertiesHelper.GetBoolean(Environment.AutoregisterListeners, cfg.Properties, true);
-			ValidatorMode vm = CfgXmlHelper.ValidatorModeConvertFrom(PropertiesHelper.GetString(Environment.ValidatorMode, cfg.Properties, string.Empty));
+			if (cfg == null)
+				throw new ArgumentNullException("cfg");
+			ValidatorEngine ve = new ValidatorEngine();
+			ve.Configure();
+			bool applyToDDL = ve.ApplyToDDL;
+			bool autoRegisterListeners = ve.AutoRegisterListeners;
+			ValidatorMode vm = ve.DefaultMode;
 			log.Info("Using validation mode = " + vm);
 			Initialize(cfg, applyToDDL, autoRegisterListeners, vm);
 		}
@@ -52,7 +55,7 @@ namespace NHibernate.Validator.Cfg
 				ClassValidator classValidator = new ClassValidator(persistentClass.MappedClass, validatorMode);
 				classValidator.Apply(persistentClass);
 			}
-			catch (System.Exception ex)
+			catch (Exception ex)
 			{
 				log.Warn("Unable to apply constraints on DDL for " + persistentClass.ClassName, ex);
 			}

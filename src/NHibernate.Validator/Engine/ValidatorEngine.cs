@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
 using System.Xml;
+using NHibernate.Util;
 using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Exceptions;
 using System.Resources;
@@ -18,6 +21,43 @@ namespace NHibernate.Validator.Engine
 	/// </remarks>
 	public class ValidatorEngine
 	{
+		private IMessageInterpolator interpolator;
+		private ValidatorMode defaultMode;
+		private bool applyToDDL;
+		private bool autoRegisterListeners;
+
+		/// <summary>
+		/// Default MessageInterpolator
+		/// </summary>
+		public IMessageInterpolator Interpolator
+		{
+			get { return interpolator; }
+		}
+
+		/// <summary>
+		/// Default Mode to construct validators
+		/// </summary>
+		public ValidatorMode DefaultMode
+		{
+			get { return defaultMode; }
+		}
+
+		/// <summary>
+		/// Database schema-level validation enabled
+		/// </summary>
+		public bool ApplyToDDL
+		{
+			get { return applyToDDL; }
+		}
+
+		/// <summary>
+		/// NHibernate event-based validation
+		/// </summary>
+		public bool AutoRegisterListeners
+		{
+			get { return autoRegisterListeners; }
+		}
+
 		/// <summary>
 		/// Configure NHibernate.Validator using the <c>&lt;nhv-configuration&gt;</c> section
 		/// from the application config file, if found, or the file <c>nhvalidator.cfg.xml</c> if the
@@ -32,7 +72,15 @@ namespace NHibernate.Validator.Engine
 		/// </remarks>
 		public void Configure()
 		{
-			throw new NotImplementedException();
+			INHVConfiguration nhvhc = ConfigurationManager.GetSection(CfgXmlHelper.CfgSectionName) as INHVConfiguration;
+			if (nhvhc != null)
+			{
+				Configure(nhvhc);
+			}
+			else
+			{
+				Configure(GetDefaultConfigurationFilePath());
+			}
 		}
 
 		/// <summary>
@@ -44,7 +92,10 @@ namespace NHibernate.Validator.Engine
 		/// </remarks>
 		public void Configure(string configFilePath)
 		{
-			throw new NotImplementedException();
+			using (XmlTextReader reader = new XmlTextReader(configFilePath))
+			{
+				Configure(reader);
+			}
 		}
 
 		/// <summary>
@@ -56,7 +107,14 @@ namespace NHibernate.Validator.Engine
 		/// </remarks>
 		public void Configure(XmlReader configReader)
 		{
-			throw new NotImplementedException();
+			if (configReader == null)
+			{
+				throw new ValidatorConfigurationException("Could not configure NHibernate.Validator.",
+				                                          new ArgumentException("A null value was passed in.", "configReader"));
+			}
+
+			INHVConfiguration nhvc = new NHVConfiguration(configReader);
+			Configure(nhvc);
 		}
 
 		/// <summary>
@@ -68,7 +126,13 @@ namespace NHibernate.Validator.Engine
 		/// </remarks>
 		public void Configure(INHVConfiguration config)
 		{
-			throw new NotImplementedException();
+			if (config == null)
+				throw new ArgumentNullException("config");
+
+			applyToDDL = PropertiesHelper.GetBoolean(Environment.ApplyToDDL, config.Properties, true);
+			autoRegisterListeners = PropertiesHelper.GetBoolean(Environment.AutoregisterListeners, config.Properties, true);
+			defaultMode = CfgXmlHelper.ValidatorModeConvertFrom(PropertiesHelper.GetString(Environment.ValidatorMode, config.Properties, string.Empty));
+			interpolator = GetInterpolator(PropertiesHelper.GetString(Environment.MessageInterpolatorClass, config.Properties, string.Empty));
 		}
 
 		/// <summary>
@@ -128,7 +192,7 @@ namespace NHibernate.Validator.Engine
 		/// </remarks>
 		public InvalidValue[] ValidatePropertyValue<T>(string propertyName, object value)
 		{
-			return ValidatePropertyValue(typeof (T), propertyName, value);
+			return ValidatePropertyValue(typeof(T), propertyName, value);
 		}
 
 		/// <summary>
@@ -149,7 +213,7 @@ namespace NHibernate.Validator.Engine
 		internal InvalidValue[] ValidatePropertyValue(System.Type entityType, string propertyName, object value)
 		{
 			IClassValidator cv = GetValidator(entityType);
-			if(cv != null)
+			if (cv != null)
 			{
 				return cv.GetPotentialInvalidValues(propertyName, value);
 			}
@@ -166,7 +230,7 @@ namespace NHibernate.Validator.Engine
 		/// </remarks>
 		public void AddValidator<T>()
 		{
-			AddValidator(typeof (T), null);
+			AddValidator(typeof(T), null);
 		}
 
 		internal void AddValidator(System.Type entityType, ResourceManager resource)
@@ -182,12 +246,48 @@ namespace NHibernate.Validator.Engine
 		/// or null if the the <typeparamref name="T"/> was never used in the engine instance.</returns>
 		public IClassValidator GetValidator<T>()
 		{
-			return GetValidator(typeof (T));
+			return GetValidator(typeof(T));
 		}
 
 		internal IClassValidator GetValidator(System.Type entityType)
 		{
 			return null;
 		}
+
+		private IMessageInterpolator GetInterpolator(string interpolatorString)
+		{
+			if (!string.IsNullOrEmpty(interpolatorString))
+			{
+				try
+				{
+					System.Type interpolatorType = ReflectHelper.ClassForName(interpolatorString);
+					interpolator = (IMessageInterpolator)Activator.CreateInstance(interpolatorType);
+				}
+				catch (MissingMethodException ex)
+				{
+					throw new ValidatorConfigurationException("Public constructor was not found at message interpolator: " + interpolatorString, ex);
+				}
+				catch (InvalidCastException ex)
+				{
+					throw new ValidatorConfigurationException(
+						"Type does not implement the interface " + typeof(IMessageInterpolator).GetType().Name + ": " + interpolatorString,
+						ex);
+				}
+				catch (Exception ex)
+				{
+					throw new HibernateException("Unable to instanciate message interpolator: " + interpolatorString, ex);
+				}
+			}
+			return interpolator;
+		}
+
+		private static string GetDefaultConfigurationFilePath()
+		{
+			string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+			string relativeSearchPath = AppDomain.CurrentDomain.RelativeSearchPath;
+			string binPath = relativeSearchPath == null ? baseDir : Path.Combine(baseDir, relativeSearchPath);
+			return Path.Combine(binPath, CfgXmlHelper.DefaultNHVCfgFileName);
+		}
+
 	}
 }

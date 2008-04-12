@@ -64,6 +64,11 @@ namespace NHibernate.Validator.Tests
 		{
 			DropSchema();
 			Cleanup();
+			OnTestFixtureTearDown();
+		}
+
+		protected virtual void OnTestFixtureTearDown()
+		{
 		}
 
 		protected virtual void OnSetUp()
