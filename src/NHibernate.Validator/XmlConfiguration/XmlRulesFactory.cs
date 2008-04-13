@@ -1,17 +1,14 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
-using NHibernate.Validator.MappingSchema;
-using log4net;
 using System.Reflection;
+using log4net;
 using NHibernate.Util;
-using NHibernate.Validator.Util;
+using NHibernate.Validator.MappingSchema;
 
 namespace NHibernate.Validator.XmlConfiguration
 {
 	public class XmlRulesFactory
 	{
-		private static ILog log = LogManager.GetLogger(typeof(XmlRulesFactory));
+		private static readonly ILog log = LogManager.GetLogger(typeof(XmlRulesFactory));
 
 		internal static Attribute CreateAttributeFromRule(object rule)
 		{
@@ -53,7 +50,7 @@ namespace NHibernate.Validator.XmlConfiguration
 
 			if (rule is NhvValid)
 			{
-				return ConvertToValid((NhvValid)rule);
+				return ConvertToValid();
 			}
 
 			if (rule is NhvEmail)
@@ -132,7 +129,7 @@ namespace NHibernate.Validator.XmlConfiguration
 			System.Type type = ReflectHelper.ClassForFullName(fullClassName.Type);
 			log.Info("The type found for ruleRule = " + type.FullName);
 			Attribute thisattribute = (Attribute)Activator.CreateInstance(type);
-			log.Info("Attribute found = " + thisattribute.ToString());
+			log.Info("Attribute found = " + thisattribute);
 			foreach (NhvParam parameter in ruleRule.param)
 			{
 				PropertyInfo propInfo = type.GetProperty(parameter.name);
@@ -261,7 +258,7 @@ namespace NHibernate.Validator.XmlConfiguration
 			return thisAttribute;
 		}
 
-		private static Attribute ConvertToValid(NhvValid rule)
+		private static Attribute ConvertToValid()
 		{
 			log.Info("Converting to valid attribute");
 			return new ValidAttribute();

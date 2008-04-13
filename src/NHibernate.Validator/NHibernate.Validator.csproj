@@ -19,6 +19,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\NHibernate.Validator.xml</DocumentationFile>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -64,6 +65,7 @@
     <Compile Include="Engine\Environment.cs" />
     <Compile Include="Engine\IInitializableValidator.cs" />
     <Compile Include="Engine\IValidatableSubElementsInspector.cs" />
+    <Compile Include="Engine\MappingLoader.cs" />
     <Compile Include="Engine\ValidatableElement.cs" />
     <Compile Include="Engine\ValidatorEngine.cs" />
     <Compile Include="FutureAttribute.cs" />
@@ -118,10 +120,7 @@
     <Compile Include="ValidAttribute.cs" />
     <Compile Include="XmlConfiguration\IMappingDocumentParser.cs" />
     <Compile Include="XmlConfiguration\MappingDocumentParser.cs" />
-    <Compile Include="XmlConfiguration\Validator.GeneratedSchema.cs">
-      <SubType>
-      </SubType>
-    </Compile>
+    <Compile Include="XmlConfiguration\Validator.GeneratedSchema.cs" />
     <Compile Include="XmlConfiguration\XmlRulesFactory.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -153,12 +152,12 @@
     <None Include="Cfg\nhv-configuration.xsx">
       <DependentUpon>nhv-configuration.xsd</DependentUpon>
     </None>
+    <None Include="XmlConfiguration\nhibernate-validator.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="XmlConfiguration\nhibernate-validator.xsx">
       <DependentUpon>nhibernate-validator.xsd</DependentUpon>
     </None>
-    <EmbeddedResource Include="XmlConfiguration\nhibernate-validator.xsd">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

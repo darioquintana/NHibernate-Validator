@@ -4,6 +4,7 @@ using System.Configuration;
 using System.IO;
 using System.Resources;
 using System.Xml;
+using log4net;
 using NHibernate.Mapping;
 using NHibernate.Util;
 using NHibernate.Validator.Cfg;
@@ -22,6 +23,8 @@ namespace NHibernate.Validator.Engine
 	/// </remarks>
 	public class ValidatorEngine
 	{
+		private static readonly ILog log = LogManager.GetLogger(typeof(ValidatorEngine));
+
 		// TODO : make the class thread-safe and may be serializable
 		private IMessageInterpolator interpolator;
 		private ValidatorMode defaultMode;
@@ -163,6 +166,10 @@ namespace NHibernate.Validator.Engine
 			autoRegisterListeners = PropertiesHelper.GetBoolean(Environment.AutoregisterListeners, config.Properties, true);
 			defaultMode = CfgXmlHelper.ValidatorModeConvertFrom(PropertiesHelper.GetString(Environment.ValidatorMode, config.Properties, string.Empty));
 			interpolator = GetInterpolator(PropertiesHelper.GetString(Environment.MessageInterpolatorClass, config.Properties, string.Empty));
+			
+			// UpLoad Mappings
+			MappingLoader ml = new MappingLoader();
+			ml.LoadMappings(config.Mappings);
 		}
 
 		/// <summary>

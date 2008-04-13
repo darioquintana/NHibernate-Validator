@@ -1,13 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using NHibernate.Validator.MappingSchema;
 using System.IO;
+using System.Xml;
+using NHibernate.Validator.MappingSchema;
 
-namespace NHibernate.Validator
+namespace NHibernate.Validator.XmlConfiguration
 {
-    public interface IMappingDocumentParser
-    {
-        NhvValidator Parse(Stream stream);
-    }
+	public interface IMappingDocumentParser
+	{
+		NhvValidator Parse(Stream stream);
+		NhvValidator Parse(XmlReader reader);
+	}
 }
