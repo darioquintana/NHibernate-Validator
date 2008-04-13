@@ -2,9 +2,8 @@ using System;
 using System.Reflection;
 using log4net;
 using NHibernate.Util;
-using NHibernate.Validator.MappingSchema;
 
-namespace NHibernate.Validator.XmlConfiguration
+namespace NHibernate.Validator.Cfg.MappingSchema
 {
 	public class XmlRulesFactory
 	{

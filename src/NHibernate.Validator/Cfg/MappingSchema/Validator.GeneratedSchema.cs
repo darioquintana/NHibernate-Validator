@@ -1,4 +1,4 @@
-namespace NHibernate.Validator.MappingSchema {
+namespace NHibernate.Validator.Cfg.MappingSchema {
     
     
     /// <remarks/>

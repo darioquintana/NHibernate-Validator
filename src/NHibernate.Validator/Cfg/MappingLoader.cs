@@ -6,14 +6,15 @@ using System.Xml;
 using log4net;
 using NHibernate.Util;
 using NHibernate.Validator.Cfg;
+using NHibernate.Validator.Cfg.MappingSchema;
 using NHibernate.Validator.Exceptions;
-using NHibernate.Validator.MappingSchema;
-using NHibernate.Validator.XmlConfiguration;
 
-namespace NHibernate.Validator.Engine
+namespace NHibernate.Validator.Cfg
 {
 	public class MappingLoader
 	{
+		public const string MappingFileDefaultExtension = ".nhv.xml";
+
 		private static readonly ILog log = LogManager.GetLogger(typeof(MappingLoader));
 
 		private readonly Dictionary<System.Type, NhvClass> validatorMappings = new Dictionary<System.Type, NhvClass>();
@@ -71,7 +72,7 @@ namespace NHibernate.Validator.Engine
 		{
 			foreach (string resource in assembly.GetManifestResourceNames())
 			{
-				if (resource.EndsWith(".nhv.xml"))
+				if (resource.EndsWith(MappingFileDefaultExtension))
 					AddResource(assembly, resource);
 			}
 		}

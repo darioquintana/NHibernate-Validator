@@ -10,11 +10,10 @@ using log4net;
 using NHibernate.Mapping;
 using NHibernate.Properties;
 using NHibernate.Util;
+using NHibernate.Validator.Cfg.MappingSchema;
 using NHibernate.Validator.Exceptions;
 using NHibernate.Validator.Interpolator;
-using NHibernate.Validator.MappingSchema;
 using NHibernate.Validator.Util;
-using NHibernate.Validator.XmlConfiguration;
 using NHibernate.Validator.Cfg;
 
 namespace NHibernate.Validator.Engine

@@ -1,7 +1,6 @@
 using System.Text;
 using System.IO;
-using NHibernate.Validator.MappingSchema;
-using NHibernate.Validator.XmlConfiguration;
+using NHibernate.Validator.Cfg.MappingSchema;
 using NUnit.Framework;
 using log4net;
 

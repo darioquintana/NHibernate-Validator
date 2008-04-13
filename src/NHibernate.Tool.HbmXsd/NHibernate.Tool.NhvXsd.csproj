@@ -33,7 +33,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\NHibernate.Validator\XmlConfiguration\nhibernate-validator.xsd">
+    <EmbeddedResource Include="..\NHibernate.Validator\Cfg\nhibernate-validator.xsd">
       <Link>nhibernate-validator.xsd</Link>
       <SubType>Designer</SubType>
     </EmbeddedResource>

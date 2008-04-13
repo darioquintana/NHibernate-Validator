@@ -2,10 +2,8 @@ using System;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
-using NHibernate.Validator.MappingSchema;
-using NHibernate.Validator.XmlConfiguration;
 
-namespace NHibernate.Validator.XmlConfiguration
+namespace NHibernate.Validator.Cfg.MappingSchema
 {
 	public class MappingDocumentParser : IMappingDocumentParser
 	{

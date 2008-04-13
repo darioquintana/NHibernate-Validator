@@ -1,0 +1,4 @@
+1) Clean and rebuild NHibernate.Validator.sln
+2) Open the command line
+3) change the working dir to YourWorkingCopyPath\trunk\src\NHibernate.Validator\src\NHibernate.Tool.HbmXsd\bin\Debug
+4) NhvXsd ..\..\..\NHibernate.Validator\Cfg\MappingSchema\Validator.GeneratedSchema.cs
