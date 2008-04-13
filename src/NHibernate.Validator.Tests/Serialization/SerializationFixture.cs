@@ -1,24 +1,18 @@
 using System.Text;
-using System.IO;
+using System.Xml;
 using NHibernate.Validator.Cfg.MappingSchema;
 using NUnit.Framework;
-using log4net;
 
 namespace NHibernate.Validator.Tests.Serialization
 {
 	[TestFixture]
 	public class SerializationFixture : BaseValidatorFixture
 	{
-		private static ILog log = LogManager.GetLogger(typeof(SerializationFixture));
-		StringBuilder validatorString;
-		IMappingDocumentParser parser;
-
-		[SetUp]
-		public void Init()
+		[Test]
+		public void CanParseValidator()
 		{
-			parser = new MappingDocumentParser();
-			validatorString = new StringBuilder();
-			
+			StringBuilder validatorString = new StringBuilder();
+
 			validatorString.AppendLine("<validator xmlns=\"urn:nhibernate-validator-1.0\">");
 			validatorString.AppendLine("<class name=\"TvOwner\" namespace=\"Validator.Test\" assembly=\"Validator.Test\">");
 			validatorString.AppendLine("<property name=\"tv\">");
@@ -26,18 +20,9 @@ namespace NHibernate.Validator.Tests.Serialization
 			validatorString.AppendLine("</property>");
 			validatorString.AppendLine("</class>");
 			validatorString.AppendLine("</validator>");
-
-			log.Info(validatorString);
-		}
-
-		[Test]
-		public void CanParseValidator()
-		{
-			MemoryStream stream = new MemoryStream(validatorString.Length);
-			byte[] bytes = Encoding.ASCII.GetBytes(validatorString.ToString());
-			stream.Write(bytes, 0, bytes.Length);
-			stream.Seek(0, SeekOrigin.Begin);
-			NhvValidator validator = parser.Parse(stream);
+			XmlTextReader xml = new XmlTextReader(validatorString.ToString(), XmlNodeType.Document, null);
+			IMappingDocumentParser parser = new MappingDocumentParser();
+			NhvValidator validator = parser.Parse(xml);
 			Assert.IsNotNull(validator);
 		}
 	}
