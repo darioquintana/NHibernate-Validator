@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5b1//EN"
+               "../support/docbook-dtd/docbookx.dtd" []-->
 <chapter id="validator-checkconstraints">
   <title>Using the Validator framework</title>
 
@@ -120,8 +122,7 @@ InvalidValue[] validationMessages = addressValidator.getInvalidValues(address);<
 
     <para>The first two lines prepare the Hibernate Validator for class
     checking. The first one relies upon the error messages embedded in
-    Hibernate Validator (see <xref
-    linkend="validator-defineconstraints-error" />), the second one uses a
+    Hibernate Validator,  the second one uses a
     resource bundle for these messages. It is considered a good practice to
     execute these lines once and cache the validator instances.</para>
 
