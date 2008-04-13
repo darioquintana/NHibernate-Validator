@@ -5,9 +5,9 @@ using NHibernate.Util;
 
 namespace NHibernate.Validator.Cfg.MappingSchema
 {
-	public class XmlRulesFactory
+	public class RuleAttributeFactory
 	{
-		private static readonly ILog log = LogManager.GetLogger(typeof(XmlRulesFactory));
+		private static readonly ILog log = LogManager.GetLogger(typeof(RuleAttributeFactory));
 
 		internal static Attribute CreateAttributeFromRule(object rule)
 		{

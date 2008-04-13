@@ -121,7 +121,7 @@
     <Compile Include="Cfg\MappingSchema\IMappingDocumentParser.cs" />
     <Compile Include="Cfg\MappingSchema\MappingDocumentParser.cs" />
     <Compile Include="Cfg\MappingSchema\Validator.GeneratedSchema.cs" />
-    <Compile Include="Cfg\MappingSchema\XmlRulesFactory.cs" />
+    <Compile Include="Cfg\MappingSchema\RuleAttributeFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\DefaultValidatorMessages.de.resx">

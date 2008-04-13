@@ -292,7 +292,7 @@ namespace NHibernate.Validator.Engine
 			foreach (string attributeName in clazz.attributename)
 			{
 				log.Info("Attribute to look for = " + attributeName);
-				Attribute classAttribute = XmlRulesFactory.CreateAttributeFromClass(currentClass, attributeName);
+				Attribute classAttribute = RuleAttributeFactory.CreateAttributeFromClass(currentClass, attributeName);
 				if (classAttribute != null)
 				{
 					ValidateClassAtribute(classAttribute);
@@ -365,7 +365,7 @@ namespace NHibernate.Validator.Engine
 		{
 			foreach (object rule in rules)
 			{
-				Attribute thisAttribute = XmlRulesFactory.CreateAttributeFromRule(rule);
+				Attribute thisAttribute = RuleAttributeFactory.CreateAttributeFromRule(rule);
 
 				if (thisAttribute != null)
 				{
