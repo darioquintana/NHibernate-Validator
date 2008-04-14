@@ -2,6 +2,7 @@ using System;
 using System.Reflection;
 using log4net;
 using NHibernate.Util;
+using System.Collections.Generic;
 
 namespace NHibernate.Validator.Cfg.MappingSchema
 {
@@ -9,99 +10,43 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 	{
 		private static readonly ILog log = LogManager.GetLogger(typeof(RuleAttributeFactory));
 
-		internal static Attribute CreateAttributeFromRule(object rule)
+		private static readonly Dictionary<System.Type, ConvertSchemaRule> wellKnownRules =
+			new Dictionary<System.Type, ConvertSchemaRule>();
+
+		static RuleAttributeFactory()
 		{
-			if (rule is NhvNotNull)
-			{
-				return ConvertToNotNull((NhvNotNull)rule);
-			}
-
-			if (rule is NhvNotEmpty)
-			{
-				return ConvertToNotEmpty((NhvNotEmpty)rule);
-			}
-
-
-			if (rule is NhvNotnullorempty)
-			{
-				return ConvertToNotNullOrEmpty((NhvNotnullorempty)rule);
-			}
-
-			if (rule is NhvLength)
-			{
-				return ConvertToLength((NhvLength)rule);
-			}
-
-			if (rule is NhvSize)
-			{
-				return ConvertToSize((NhvSize)rule);
-			}
-
-			if (rule is NhvFuture)
-			{
-				return ConvertToFuture((NhvFuture)rule);
-			}
-
-			if (rule is NhvPast)
-			{
-				return ConvertToPast((NhvPast)rule);
-			}
-
-			if (rule is NhvValid)
-			{
-				return ConvertToValid();
-			}
-
-			if (rule is NhvEmail)
-			{
-				return ConvertToEmail((NhvEmail)rule);
-			}
-
-			if (rule is NhvRange)
-			{
-				return ConvertToRange((NhvRange)rule);
-			}
-
-			if (rule is NhvMin)
-			{
-				return ConvertToMin((NhvMin)rule);
-			}
-
-			if (rule is NhvMax)
-			{
-				return ConvertToMax((NhvMax)rule);
-			}
-
-			if (rule is NhvAsserttrue)
-			{
-				return ConvertToAssertTrue((NhvAsserttrue)rule);
-			}
-
-			if (rule is NhvPattern)
-			{
-				return ConvertToPattern((NhvPattern)rule);
-			}
-
-			if (rule is NhvRule)
-			{
-				return ConvertToRule((NhvRule)rule);
-			}
-
-			if (rule is NhvIpAddress)
-			{
-				return ConvertToIPAddress((NhvIpAddress)rule);
-			}
-
-			if (rule is NhvDigits)
-			{
-				return ConvertToDigits((NhvDigits)rule);
-			}
-
-			return null;
+			wellKnownRules[typeof(NhvNotNull)] = ConvertToNotNull;
+			wellKnownRules[typeof(NhvNotEmpty)] = ConvertToNotEmpty;
+			wellKnownRules[typeof(NhvNotnullorempty)] = ConvertToNotNullOrEmpty;
+			wellKnownRules[typeof(NhvLength)] = ConvertToLength;
+			wellKnownRules[typeof(NhvSize)] = ConvertToSize;
+			wellKnownRules[typeof(NhvFuture)] = ConvertToFuture;
+			wellKnownRules[typeof(NhvPast)] = ConvertToPast;
+			wellKnownRules[typeof(NhvValid)] = ConvertToValid;
+			wellKnownRules[typeof(NhvEmail)] = ConvertToEmail;
+			wellKnownRules[typeof(NhvRange)] = ConvertToRange;
+			wellKnownRules[typeof(NhvMin)] = ConvertToMin;
+			wellKnownRules[typeof(NhvMax)] = ConvertToMax;
+			wellKnownRules[typeof(NhvAsserttrue)] = ConvertToAssertTrue;
+			wellKnownRules[typeof(NhvPattern)] = ConvertToPattern;
+			wellKnownRules[typeof(NhvRule)] = ConvertToRule;
+			wellKnownRules[typeof(NhvIpAddress)] = ConvertToIPAddress;
+			wellKnownRules[typeof(NhvDigits)] = ConvertToDigits;
 		}
 
-		private static Attribute ConvertToDigits(NhvDigits digitsRule)
+		internal static Attribute CreateAttributeFromRule(object rule)
 		{
+			ConvertSchemaRule converter;
+			if (wellKnownRules.TryGetValue(rule.GetType(), out converter))
+				return converter(rule);
+			else
+				return null;
+		}
+
+		private static Attribute ConvertToDigits(object rule)
+		{
+			NhvDigits digitsRule = (NhvDigits)rule;
+
 			int fractionalDigits = 0;
 
 			if (digitsRule.fractionalDigitsSpecified)
@@ -120,8 +65,10 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			return thisAttribute;
 		}
 
-		private static Attribute ConvertToRule(NhvRule ruleRule)
+		private static Attribute ConvertToRule(object rule)
 		{
+			NhvRule ruleRule = (NhvRule)rule;
+
 			string attribute = ruleRule.attribute;
 			AssemblyQualifiedTypeName fullClassName = TypeNameParser.Parse(attribute, ruleRule.@namespace, ruleRule.assembly);
 
@@ -146,8 +93,10 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			return thisattribute;
 		}
 
-		private static Attribute ConvertToRange(NhvRange rangeRule)
+		private static Attribute ConvertToRange(object rule)
 		{
+			NhvRange rangeRule = (NhvRange)rule;
+
 			long min = long.MinValue;
 			long max = long.MaxValue;
 
@@ -169,8 +118,10 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			return thisAttribute;
 		}
 
-		private static Attribute ConvertToPattern(NhvPattern patternRule)
+		private static Attribute ConvertToPattern(object rule)
 		{
+			NhvPattern patternRule = (NhvPattern)rule;
+
 			log.Info("Converting to Pattern attribute");
 			PatternAttribute thisAttribute = new PatternAttribute();
 			thisAttribute.Regex = patternRule.regex;
@@ -182,11 +133,12 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			return thisAttribute;
 		}
 
-		private static Attribute ConvertToIPAddress(NhvIpAddress ipAddressRule)
+		private static Attribute ConvertToIPAddress(object rule)
 		{
+			NhvIpAddress ipAddressRule = (NhvIpAddress)rule;
 			log.Info("Converting to IP Address attribute");
 			IPAddressAttribute thisAttribute = new IPAddressAttribute();
-			
+
 			if (ipAddressRule.message != null)
 			{
 				thisAttribute.Message = ipAddressRule.message;
@@ -195,8 +147,10 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			return thisAttribute;
 		}
 
-		private static Attribute ConvertToAssertTrue(NhvAsserttrue assertTrueRule)
+		private static Attribute ConvertToAssertTrue(object rule)
 		{
+			NhvAsserttrue assertTrueRule = (NhvAsserttrue)rule;
+
 			log.Info("Converting to AssertTrue attribute");
 			AssertTrueAttribute thisAttribute = new AssertTrueAttribute();
 			if (assertTrueRule.message != null)
@@ -207,8 +161,9 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			return thisAttribute;
 		}
 
-		private static Attribute ConvertToMin(NhvMin minRule)
+		private static Attribute ConvertToMin(object rule)
 		{
+			NhvMin minRule = (NhvMin)rule;
 			long value = 0;
 
 			if (minRule.valueSpecified)
@@ -226,8 +181,9 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			return thisAttribute;
 		}
 
-		private static Attribute ConvertToMax(NhvMax maxRule)
+		private static Attribute ConvertToMax(object rule)
 		{
+			NhvMax maxRule = (NhvMax)rule;
 			long value = long.MaxValue;
 
 			if (maxRule.valueSpecified)
@@ -245,8 +201,9 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			return thisAttribute;
 		}
 
-		private static Attribute ConvertToEmail(NhvEmail emailRule)
+		private static Attribute ConvertToEmail(object rule)
 		{
+			NhvEmail emailRule = (NhvEmail)rule;
 			log.Info("Converting to Email attribute");
 			EmailAttribute thisAttribute = new EmailAttribute();
 			if (emailRule.message != null)
@@ -257,14 +214,15 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			return thisAttribute;
 		}
 
-		private static Attribute ConvertToValid()
+		private static Attribute ConvertToValid(object rule)
 		{
 			log.Info("Converting to valid attribute");
 			return new ValidAttribute();
 		}
 
-		private static Attribute ConvertToPast(NhvPast pastRule)
+		private static Attribute ConvertToPast(object rule)
 		{
+			NhvPast pastRule = (NhvPast)rule;
 			log.Info("Converting to Past attribute");
 			PastAttribute thisAttribute = new PastAttribute();
 			if (pastRule.message != null)
@@ -275,8 +233,9 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			return thisAttribute;
 		}
 
-		private static Attribute ConvertToFuture(NhvFuture futureRule)
+		private static Attribute ConvertToFuture(object rule)
 		{
+			NhvFuture futureRule = (NhvFuture)rule;
 			log.Info("Converting to future attribute");
 			FutureAttribute thisAttribute = new FutureAttribute();
 			if (futureRule.message != null)
@@ -287,8 +246,9 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			return thisAttribute;
 		}
 
-		private static Attribute ConvertToSize(NhvSize sizeRule)
+		private static Attribute ConvertToSize(object rule)
 		{
+			NhvSize sizeRule = (NhvSize)rule;
 			int min = int.MinValue;
 			int max = int.MaxValue;
 
@@ -310,8 +270,10 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			return thisAttribute;
 		}
 
-		private static Attribute ConvertToLength(NhvLength lengthRule)
+
+		private static Attribute ConvertToLength(object rule)
 		{
+			NhvLength lengthRule = (NhvLength)rule;
 			int min = 0;
 			int max = int.MaxValue;
 
@@ -331,8 +293,9 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			return thisAttribute;
 		}
 
-		private static Attribute ConvertToNotEmpty(NhvNotEmpty notEmptyRule)
+		private static Attribute ConvertToNotEmpty(object rule)
 		{
+			NhvNotEmpty notEmptyRule = (NhvNotEmpty)rule;
 			NotEmptyAttribute thisAttribute = new NotEmptyAttribute();
 			log.Info("Converting to NotEmptyAttribute");
 
@@ -344,8 +307,9 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			return thisAttribute;
 		}
 
-		private static Attribute ConvertToNotNullOrEmpty(NhvNotnullorempty notNullOrEmptyRule)
+		private static Attribute ConvertToNotNullOrEmpty(object rule)
 		{
+			NhvNotnullorempty notNullOrEmptyRule = (NhvNotnullorempty)rule;
 			NotNullOrEmptyAttribute thisAttribute = new NotNullOrEmptyAttribute();
 			log.Info("Converting to NotEmptyAttribute");
 
@@ -357,8 +321,9 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			return thisAttribute;
 		}
 
-		private static Attribute ConvertToNotNull(NhvNotNull notNullRule)
+		private static Attribute ConvertToNotNull(object rule)
 		{
+			NhvNotNull notNullRule = (NhvNotNull)rule;
 			NotNullAttribute thisAttribute = new NotNullAttribute();
 			log.Info("Converting to NotNullAttribute");
 
@@ -380,5 +345,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 
 			return (Attribute)Activator.CreateInstance(type);
 		}
+
+		private delegate Attribute ConvertSchemaRule(object schemaRule);
 	}
 }
