@@ -795,8 +795,8 @@ namespace NHibernate.Validator.Engine
 		/// The InvalidValue objects returns return null for InvalidValue#getBean() and InvalidValue#getRootBean()
 		/// Note: this is not recursive.
 		/// </summary>
-		/// <param name="propertyName"></param>
-		/// <param name="value"></param>
+		/// <param name="propertyName">Name of the property or field to validate</param>
+		/// <param name="value">Real value to validate. Is not an entity instance.</param>
 		/// <returns></returns>
 		public InvalidValue[] GetPotentialInvalidValues(string propertyName, object value)
 		{
