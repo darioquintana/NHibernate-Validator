@@ -207,7 +207,7 @@
 			</arg>
 			<arg value="org.apache.fop.apps.Fop" />
 			<arg value="${build.pdf.dir}/docbook_fop.tmp"/>
-			<arg value="${output.dir}/nhibernate_reference.pdf"/>
+			<arg value="${output.dir}/nhibernate.validator_reference.pdf"/>
 		</exec>
 	</target>
 
