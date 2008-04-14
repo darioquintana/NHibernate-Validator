@@ -5,7 +5,7 @@
 <!ENTITY checkconstraints             SYSTEM "modules/defineconstraints.xml">
 ]>
 <book lang="en">
- <bookinfo><title>Hibernate Validator</title><subtitle>NHibernate Validator Reference
+ <bookinfo><title>NHibernate Validator</title><subtitle>NHibernate Validator Reference
   Documentation</subtitle>
   <releaseinfo>1.0.0</releaseinfo>
  </bookinfo>
