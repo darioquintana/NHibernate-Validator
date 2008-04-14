@@ -195,8 +195,8 @@ validator.capitalized = <literal>Capitalization is not {type}</literal>
         >PropertyConstraint</literal> ) and/or can modify the hibernate mapping metadata to express
       the constraint at the database level (by implementing <literal
       >PersistentClassConstraint</literal> )</para>
-    <programlisting>public class CapitalizedValidator
-        implements Validator&lt;Capitalized&gt;, PropertyConstraint {
+    <programlisting>public class CapitalizedValidator : Validator&lt;Capitalized&gt;, PropertyConstraint 
+{
     private CapitalizeType type;
 
     //part of the Validator&lt;Annotation&gt; contract,
@@ -324,30 +324,34 @@ public class Address
     }
 } </programlisting>
     <para>While the example only shows public property validation, you can also annotate fields of
-      any kind of visibility</para>
-    <programlisting>@MyBeanConstraint(max=45
-public class Dog {
-    @AssertTrue private boolean isMale;
-    @NotNull protected String getName() { ... };
+      any kind of visibility. In the example <classname>MyBeanConstraint</classname> is an custom
+      Bean Validator, we will talk about this later.</para>
+    <programlisting>[MyBeanConstraint(Max=45)]
+public class Dog 
+{
+    [AssertTrue] private bool IsMale;
+    [NotNull] protected string Name { get {...} set{...} }
     ...
 }        </programlisting>
-    <para>You can also annotate interfaces. Hibernate Validator will check all superclasses and
-      interfaces extended or implemented by a given bean to read the appropriate validator
-      annotations.</para>
-    <programlisting>public interface Named {
-    @NotNull String getName();
+    <para>You can also annotate interfaces. NHibernate Validator will check all superclasses and
+      interfaces extended or implemented by a given type to read the appropriate validator
+      attributes.</para>
+    <programlisting>public interface Named 
+{
+    [NotNull] string Name {get; set;}
     ...
 }
 
-public class Dog implements Named {
+public class Dog : Named 
+{
 
-    @AssertTrue private boolean isMale;
+    [AssertTrue] private bool isMale;
 
-    public String getName() { ... };
+    public string Name { get {...} set{...} }
 
 }
         </programlisting>
-    <para>The name property will be checked for nullity when the Dog bean is validated.</para>
+    <para>The name property will be checked for nullity when the Dog type is validated.</para>
   </section>
   <section>
     <title>Configuring your domain model with XML</title>
