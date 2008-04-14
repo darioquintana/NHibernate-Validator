@@ -4,12 +4,13 @@ namespace NHibernate.Validator.Demo.Winforms.Model
 {
 	public class Customer
 	{
-		private int id;
-		private string firstName;
-		private string lastName;
 		private DateTime born;
-		private string zip;
 		private string email;
+		private string firstName;
+		private int id;
+		private string lastName;
+		private string phone;
+		private string zip;
 
 		public int Id
 		{
@@ -17,7 +18,7 @@ namespace NHibernate.Validator.Demo.Winforms.Model
 			set { id = value; }
 		}
 
-		[NotEmpty,NotNull]
+		[NotEmpty, NotNull]
 		public string FirstName
 		{
 			get { return firstName; }
@@ -37,12 +38,13 @@ namespace NHibernate.Validator.Demo.Winforms.Model
 			get { return born; }
 			set { born = value; }
 		}
-		
-		[Zip(Message = "wrong zip code")]
-		public string Zip
+
+		//Note: here you can use the [Pattern] attribute setting the parameters as Message and Regex to get the same behavior.
+		[Phone(Message = "Wrong phone number. Examples of valid matches: 800-555-5555 | 333-444-5555 | 212-666-1234")]
+		public string Phone
 		{
-			get { return zip; }
-			set { zip = value; }
+			get { return phone; }
+			set { phone = value; }
 		}
 
 		[Email]
@@ -50,6 +52,14 @@ namespace NHibernate.Validator.Demo.Winforms.Model
 		{
 			get { return email; }
 			set { email = value; }
+		}
+
+		[Pattern(Regex = "^[A-Z0-9-]+$", Message = "Examples of valid matches: 234G-34DA | 3432-DF23")]
+		[Pattern(Regex = "^....-....$", Message = "Must match ....-....")]
+		public string Zip
+		{
+			get { return zip; }
+			set { zip = value; }
 		}
 	}
 }

@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<validator xmlns="urn:nhibernate-validator-0.1">
+
+  <class name="Customer"
+         assembly="NHibernate.Validator.Demo.Winforms"
+         namespace=" NHibernate.Validator.Demo.Winforms.Model">
+
+
+    <property name="FirstName">
+      <not-empty/>
+      <not-null/>      
+    </property>
+
+    <property name="LastName">
+      <not-empty/>
+      <not-null/>
+    </property>
+
+    <property name="Zip">
+          
+      
+    </property>
+    
+    
+  </class>
+  
+  
+  
+</validator>
