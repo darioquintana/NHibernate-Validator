@@ -246,62 +246,83 @@ public @interface Pattern {
   </section>
   <section>
     <title>Annotating your domain model</title>
-    <para>Since you are already familiar with annotations now, the syntax should be very familiar</para>
-    <programlisting>public class Address {
-    private String line1;
-    private String line2;
-    private String zip;
-    private String state;
-    private String country;
+    <para>Since you are already familiar with attributes now, the syntax should be very familiar</para>
+    <programlisting>
+public class Address
+{ 
+    // a static non null field  
+    [NotNull]
+    public static string blacklistedZipCode;
+    
+    // field a not null string of 20 characters maximum
+    [Length(Max = 20), NotNull]
+    
+    private string country;
     private long id;
+    private bool internalValid = true;
+    private string line1;
+    private string line2;
+    private string state;
+    private string zip;
+    
+    // a numeric between 1 and 2000
+    [Min(1), Range(Max = 2000)]
+    public long Id
+    {
+        get { return id; }
+        set { id = value; }
+    }
 
-    // a not null string of 20 characters maximum
-    @Length(max=20)
-    @NotNull
-    public String getCountry() {
-        return country;
+    // respond to the constraint in the field: country
+    public string Country
+    {
+        get { return country; }
+        set { country = value; }
     }
 
     // a non null string
-    @NotNull
-    public String getLine1() {
-        return line1;
-    }
-
-    //no constraint
-    public String getLine2() {
-        return line2;
+    [NotNull]
+    public string Line1
+    {
+        get { return line1; }
+        set { line1 = value; }
     }
 
     // a not null string of 3 characters maximum
-    @Length(max=3) @NotNull
-    public String getState() {
-        return state;
+    [Length(Max = 3), NotNull]
+    public string State
+    {
+        get { return state; }
+        set { state = value; }
     }
 
     // a not null numeric string of 5 characters maximum
     // if the string is longer, the message will
-    //be searched in the resource bundle at key 'long'
-    @Length(max=5, message="{long}")
-    @Pattern(regex="[0-9]+")
-    @NotNull
-    public String getZip() {
-        return zip;
+    // be searched in the resource bundle at key 'long'
+    [Length(Max = 5, Message = "{long}")]
+    [Pattern(Regex = "[0-9]+")]
+    [NotNull]
+    public string Zip
+    {
+        get { return zip; }
+        set { zip = value; }
+    }
+
+    // no constraint
+    public string Line2
+    {
+        get { return line2; }
+        set { line2 = value; }
     }
 
     // should always be true
-    @AssertTrue
-    public boolean isValid() {
-        return true;
+    [AssertTrue]
+    public bool InternalValid
+    {
+        get { return internalValid; }
+        set { internalValid = value; }
     }
-
-    // a numeric between 1 and 2000
-    @Id @Min(1)
-    @Range(max=2000)
-    public long getId() {
-        return id;
-    }
-}        </programlisting>
+} </programlisting>
     <para>While the example only shows public property validation, you can also annotate fields of
       any kind of visibility</para>
     <programlisting>@MyBeanConstraint(max=45
