@@ -32,7 +32,7 @@ namespace NHibernate.Validator.Demo.Winforms
 		{
 			ValidatorEngine ve = vvtor.ValidatorEngine;
 
-			Customer customer = GetFromUI();
+			Customer customer = GetCustomerFromUI();
 
 			if (ve.IsValid(customer))
 			{
@@ -63,7 +63,7 @@ namespace NHibernate.Validator.Demo.Winforms
 			//Code here
 		}
 
-		private Customer GetFromUI()
+		private Customer GetCustomerFromUI()
 		{
 			Customer customer = new Customer();
 			customer.FirstName = txtFirstName.Text.Trim();
