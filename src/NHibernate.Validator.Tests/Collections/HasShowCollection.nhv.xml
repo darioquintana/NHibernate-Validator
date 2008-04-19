@@ -1,9 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<validator xmlns="urn:nhibernate-validator-1.0">
-	<class name="HasShowCollection" namespace="NHibernate.Validator.Tests.Collections" assembly="NHibernate.Validator.Tests">
+<nhv-mapping xmlns="urn:nhibernate-validator-1.0"
+			 namespace="NHibernate.Validator.Tests.Collections"
+			 assembly="NHibernate.Validator.Tests">
+	<class name="HasShowCollection">
 		<property name="Shows">
 			<valid/>
 			<size min="2" max="3"/>
 		</property>
 	</class>
-</validator>
+</nhv-mapping>

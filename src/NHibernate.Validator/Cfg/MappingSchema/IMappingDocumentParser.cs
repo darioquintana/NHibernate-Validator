@@ -5,7 +5,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 {
 	public interface IMappingDocumentParser
 	{
-		NhvValidator Parse(Stream stream);
-		NhvValidator Parse(XmlReader reader);
+		NhvMapping Parse(Stream stream);
+		NhvMapping Parse(XmlReader reader);
 	}
 }

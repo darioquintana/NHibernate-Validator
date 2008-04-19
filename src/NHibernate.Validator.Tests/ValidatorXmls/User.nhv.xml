@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<validator xmlns="urn:nhibernate-validator-1.0">
-	<class name="User" namespace="NHibernate.Validator.Tests" assembly="NHibernate.Validator.Tests">
+<nhv-mapping xmlns="urn:nhibernate-validator-1.0">
+	<class name="NHibernate.Validator.Tests.User, NHibernate.Validator.Tests">
 		<property name="name">
-				<not-null/>
+			<not-null/>
 		</property>
-		
-		<property name="email">	
-				<email />
+
+		<property name="email">
+			<email />
 		</property>
 	</class>
-</validator>
+</nhv-mapping>

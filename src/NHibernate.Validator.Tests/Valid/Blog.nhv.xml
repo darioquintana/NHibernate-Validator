@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<validator xmlns="urn:nhibernate-validator-1.0">
-	<class name="Blog" namespace="NHibernate.Validator.Tests.Valid" assembly="NHibernate.Validator.Tests">
+<nhv-mapping xmlns="urn:nhibernate-validator-1.0"
+			 namespace="NHibernate.Validator.Tests.Valid"
+			 assembly="NHibernate.Validator.Tests">
+	<class name="Blog">
 		<property name="Author">
 			<valid />
 		</property>
@@ -9,4 +11,4 @@
 			<not-empty />
 		</property>
 	</class>
-</validator>
+</nhv-mapping>

@@ -25,11 +25,21 @@
 			<xs:attribute name="name" type="xs:string" use="required" />
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="validator">
+	<xs:element name="nhv-mapping">
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element maxOccurs="unbounded" minOccurs="1" ref="class" />
 			</xs:sequence>
+			<xs:attribute name="namespace" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>Namespace used to find not-Fully Qualified Type Names</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="assembly" type="xs:string" use="optional">
+				<xs:annotation>
+					<xs:documentation>Assembly used to find not-Fully Qualified Type Names</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="not-null">
@@ -124,8 +134,6 @@
 					<xs:element ref="property" minOccurs="0" maxOccurs="unbounded" />
 				</xs:sequence>
 			</xs:sequence>
-			<xs:attribute name="namespace" type="xs:string" use="required" />
-			<xs:attribute name="assembly" type="xs:string" use="required" />
 			<xs:attribute name="name" type="xs:string" use="required" />
 		</xs:complexType>
 	</xs:element>
@@ -137,8 +145,6 @@
 				</xs:sequence>
 			</xs:sequence>
 			<xs:attribute name="attribute" type="xs:string" />
-			<xs:attribute name="namespace" type="xs:string" />
-			<xs:attribute name="assembly" type="xs:string" />
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="param">

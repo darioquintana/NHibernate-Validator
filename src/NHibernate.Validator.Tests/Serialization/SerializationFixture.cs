@@ -13,16 +13,16 @@ namespace NHibernate.Validator.Tests.Serialization
 		{
 			StringBuilder validatorString = new StringBuilder();
 
-			validatorString.AppendLine("<validator xmlns=\"urn:nhibernate-validator-1.0\">");
-			validatorString.AppendLine("<class name=\"TvOwner\" namespace=\"Validator.Test\" assembly=\"Validator.Test\">");
+			validatorString.AppendLine("<nhv-mapping xmlns=\"urn:nhibernate-validator-1.0\">");
+			validatorString.AppendLine("<class name=\"Validator.Test.TvOwner, Validator.Test\">");
 			validatorString.AppendLine("<property name=\"tv\">");
 			validatorString.AppendLine("<not-null />");
 			validatorString.AppendLine("</property>");
 			validatorString.AppendLine("</class>");
-			validatorString.AppendLine("</validator>");
+			validatorString.AppendLine("</nhv-mapping>");
 			XmlTextReader xml = new XmlTextReader(validatorString.ToString(), XmlNodeType.Document, null);
 			IMappingDocumentParser parser = new MappingDocumentParser();
-			NhvValidator validator = parser.Parse(xml);
+			NhvMapping validator = parser.Parse(xml);
 			Assert.IsNotNull(validator);
 		}
 	}

@@ -10,7 +10,7 @@ namespace NHibernate.Tool.NhvXsd
 	public class NhvCodeGenerator : XsdCodeGenerator
 	{
 		private const string GeneratedCodeNamespace = "NHibernate.Validator.Cfg.MappingSchema";
-		private const string MappingSchemaResourceName = "NHibernate.Tool.NhvXsd.nhibernate-validator.xsd";
+		private const string MappingSchemaResourceName = "NHibernate.Tool.NhvXsd.nhv-mapping.xsd";
 
 		/// <summary>Generates C# classes.</summary>
 		/// <param name="outputFileName">The file to which the generated code is written.</param>

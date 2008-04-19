@@ -28,7 +28,7 @@ namespace NHibernate.Validator.Engine
 
 		private readonly System.Type beanClass;
 
-		private static Dictionary<AssemblyQualifiedTypeName, NhvClass> validatorMappings;
+		private static Dictionary<AssemblyQualifiedTypeName, NhvmClass> validatorMappings;
 		private Dictionary<MemberInfo, List<Attribute>> membersAttributesDictionary = new Dictionary<MemberInfo,List<Attribute>>();
 
 		private DefaultMessageInterpolatorAggregator defaultInterpolator;
@@ -135,7 +135,7 @@ namespace NHibernate.Validator.Engine
 		{
 			if (CfgXmlHelper.ModeAcceptsXml(validatorMode) && validatorMappings == null)
 			{
-				validatorMappings = new Dictionary<AssemblyQualifiedTypeName, NhvClass>();
+				validatorMappings = new Dictionary<AssemblyQualifiedTypeName, NhvmClass>();
 				GetAllNHVXmlResourceNames(assembly);
 			}
 		}
@@ -286,7 +286,7 @@ namespace NHibernate.Validator.Engine
 
 		private void CreateClassMembersFromXml(System.Type currentClass)
 		{
-			NhvClass clazz = GetNhvClassFor(currentClass);
+			NhvmClass clazz = GetNhvClassFor(currentClass);
 			if (clazz == null || clazz.attributename == null) return;
 			log.Debug("Looking for class attributes");
 			foreach (string attributeName in clazz.attributename)
@@ -315,10 +315,10 @@ namespace NHibernate.Validator.Engine
 		{
 			IMappingDocumentParser parser = new MappingDocumentParser();
 			
-			NhvValidator validator = parser.Parse(assembly.GetManifestResourceStream(resource));
-			foreach (NhvClass clazz in validator.@class)
+			NhvMapping validator = parser.Parse(assembly.GetManifestResourceStream(resource));
+			foreach (NhvmClass clazz in validator.@class)
 			{
-				AssemblyQualifiedTypeName fullClassName = TypeNameParser.Parse(clazz.name, clazz.@namespace, clazz.assembly);
+				AssemblyQualifiedTypeName fullClassName = TypeNameParser.Parse(clazz.name, validator.@namespace, validator.assembly);
 				log.Info("Full class name = " + fullClassName);
 				if (!validatorMappings.ContainsKey(fullClassName))
 				{
@@ -329,10 +329,10 @@ namespace NHibernate.Validator.Engine
 
 		private void CreateAttributesFromXml(System.Type currentClass)
 		{
-			NhvClass clazz = GetNhvClassFor(currentClass);
+			NhvmClass clazz = GetNhvClassFor(currentClass);
 			if (clazz == null || clazz.property == null) return;
 			
-			foreach (NhvProperty property in clazz.property)
+			foreach (NhvmProperty property in clazz.property)
 			{
 				MemberInfo currentMember = TypeUtils.GetPropertyOrField(currentClass, property.name);
 
@@ -347,7 +347,7 @@ namespace NHibernate.Validator.Engine
 			}
 		}
 
-		private NhvClass GetNhvClassFor(System.Type currentClass)
+		private NhvmClass GetNhvClassFor(System.Type currentClass)
 		{
 			AssemblyQualifiedTypeName fullClassName = TypeNameParser.Parse(currentClass.Name, currentClass.Namespace, currentClass.Assembly.GetName().Name);
 

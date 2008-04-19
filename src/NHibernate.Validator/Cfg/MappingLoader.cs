@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Xml;
 using log4net;
 using NHibernate.Util;
-using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Cfg.MappingSchema;
 using NHibernate.Validator.Exceptions;
 
@@ -17,7 +16,7 @@ namespace NHibernate.Validator.Cfg
 
 		private static readonly ILog log = LogManager.GetLogger(typeof(MappingLoader));
 
-		private readonly Dictionary<System.Type, NhvClass> validatorMappings = new Dictionary<System.Type, NhvClass>();
+		private readonly Dictionary<System.Type, NhvmClass> validatorMappings = new Dictionary<System.Type, NhvmClass>();
 
 		public void LoadMappings(IList<MappingConfiguration> mappings)
 		{
@@ -129,10 +128,10 @@ namespace NHibernate.Validator.Cfg
 		{
 			IMappingDocumentParser parser = new MappingDocumentParser();
 
-			NhvValidator validator = parser.Parse(reader);
-			foreach (NhvClass clazz in validator.@class)
+			NhvMapping validator = parser.Parse(reader);
+			foreach (NhvmClass clazz in validator.@class)
 			{
-				AssemblyQualifiedTypeName fullClassName = TypeNameParser.Parse(clazz.name, clazz.@namespace, clazz.assembly);
+				AssemblyQualifiedTypeName fullClassName = TypeNameParser.Parse(clazz.name, validator.@namespace, validator.assembly);
 				System.Type type = ReflectHelper.TypeFromAssembly(fullClassName, true);
 				log.Info("Full class name = " + type.AssemblyQualifiedName);
 				validatorMappings[type] = clazz;
@@ -163,6 +162,18 @@ namespace NHibernate.Validator.Cfg
 					textReader.Close();
 				}
 			}
+		}
+
+		public NhvmClass GetClassMapping(System.Type entityType)
+		{
+			NhvmClass mapping;
+			if(!validatorMappings.TryGetValue(entityType, out mapping))
+			{
+				// The mapping was not loaded; Try to load the assembly
+				AddAssembly(entityType.Assembly);
+				validatorMappings.TryGetValue(entityType, out mapping);
+			}
+			return mapping;
 		}
 	}
 }

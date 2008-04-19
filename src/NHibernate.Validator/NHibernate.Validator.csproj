@@ -152,11 +152,11 @@
     <None Include="Cfg\nhv-configuration.xsx">
       <DependentUpon>nhv-configuration.xsd</DependentUpon>
     </None>
-    <None Include="Cfg\nhibernate-validator.xsd">
+    <None Include="Cfg\nhv-mapping.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Cfg\nhibernate-validator.xsx">
-      <DependentUpon>nhibernate-validator.xsd</DependentUpon>
+    <None Include="Cfg\nhv-mapping.xsx">
+      <DependentUpon>nhv-mapping.xsd</DependentUpon>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -169,6 +169,6 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>copy "$(ProjectDir)Cfg\nhv-configuration.xsd" nhv-configuration.xsd
-copy "$(ProjectDir)Cfg\nhibernate-validator.xsd" nhibernate-validator.xsd</PostBuildEvent>
+copy "$(ProjectDir)Cfg\nhv-mapping.xsd" nhv-mapping.xsd</PostBuildEvent>
   </PropertyGroup>
 </Project>

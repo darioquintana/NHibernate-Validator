@@ -1,8 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<validator xmlns="urn:nhibernate-validator-1.0">
-	<class name="Controller" assembly="NHibernate.Validator.Tests" namespace="NHibernate.Validator.Tests.CustomValidator">
+<nhv-mapping xmlns="urn:nhibernate-validator-1.0"
+			 assembly="NHibernate.Validator.Tests"
+			 namespace="NHibernate.Validator.Tests.CustomValidator">
+	<class name="Controller">
 		<property name="IP">
-			<rule attribute="IPSubnetAttribute" assembly="NHibernate.Validator.Tests" namespace="NHibernate.Validator.Tests.CustomValidator">
+			<rule attribute="NHibernate.Validator.Tests.CustomValidator.IPSubnetAttribute, NHibernate.Validator.Tests">
 				<param name="SubnetPrefix" value="192.168.2"/>
 			</rule>
 		</property>
@@ -12,4 +14,4 @@
 			<not-null/>
 		</property>
 	</class>
-</validator>
+</nhv-mapping>

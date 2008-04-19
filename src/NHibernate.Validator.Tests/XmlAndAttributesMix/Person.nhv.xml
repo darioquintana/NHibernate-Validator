@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<validator xmlns="urn:nhibernate-validator-1.0">
-	<class name="Person" assembly="NHibernate.Validator.Tests" namespace="NHibernate.Validator.Tests.XmlAndAttributesMix">
+<nhv-mapping xmlns="urn:nhibernate-validator-1.0">
+	<class name="NHibernate.Validator.Tests.XmlAndAttributesMix.Person, NHibernate.Validator.Tests">
 		<property name="Name">
 			<not-null/>
 		</property>
@@ -8,9 +8,9 @@
 		<property name="Address">
 			<length max="20"/>
 		</property>
-		
+
 		<property name="friends">
 			<max value="20"/>
 		</property>
 	</class>
-</validator>
+</nhv-mapping>

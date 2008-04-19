@@ -8,26 +8,26 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-1.0")]
     [System.Xml.Serialization.XmlRootAttribute("property", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
-    public partial class NhvProperty {
+    public partial class NhvmProperty {
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("asserttrue", typeof(NhvAsserttrue))]
-        [System.Xml.Serialization.XmlElementAttribute("digits", typeof(NhvDigits))]
-        [System.Xml.Serialization.XmlElementAttribute("email", typeof(NhvEmail))]
-        [System.Xml.Serialization.XmlElementAttribute("future", typeof(NhvFuture))]
-        [System.Xml.Serialization.XmlElementAttribute("ipAddress", typeof(NhvIpAddress))]
-        [System.Xml.Serialization.XmlElementAttribute("length", typeof(NhvLength))]
-        [System.Xml.Serialization.XmlElementAttribute("max", typeof(NhvMax))]
-        [System.Xml.Serialization.XmlElementAttribute("min", typeof(NhvMin))]
-        [System.Xml.Serialization.XmlElementAttribute("not-empty", typeof(NhvNotEmpty))]
-        [System.Xml.Serialization.XmlElementAttribute("not-null", typeof(NhvNotNull))]
-        [System.Xml.Serialization.XmlElementAttribute("notnullorempty", typeof(NhvNotnullorempty))]
-        [System.Xml.Serialization.XmlElementAttribute("past", typeof(NhvPast))]
-        [System.Xml.Serialization.XmlElementAttribute("pattern", typeof(NhvPattern))]
-        [System.Xml.Serialization.XmlElementAttribute("range", typeof(NhvRange))]
-        [System.Xml.Serialization.XmlElementAttribute("rule", typeof(NhvRule))]
-        [System.Xml.Serialization.XmlElementAttribute("size", typeof(NhvSize))]
-        [System.Xml.Serialization.XmlElementAttribute("valid", typeof(NhvValid))]
+        [System.Xml.Serialization.XmlElementAttribute("asserttrue", typeof(NhvmAsserttrue))]
+        [System.Xml.Serialization.XmlElementAttribute("digits", typeof(NhvmDigits))]
+        [System.Xml.Serialization.XmlElementAttribute("email", typeof(NhvmEmail))]
+        [System.Xml.Serialization.XmlElementAttribute("future", typeof(NhvmFuture))]
+        [System.Xml.Serialization.XmlElementAttribute("ipAddress", typeof(NhvmIpAddress))]
+        [System.Xml.Serialization.XmlElementAttribute("length", typeof(NhvmLength))]
+        [System.Xml.Serialization.XmlElementAttribute("max", typeof(NhvmMax))]
+        [System.Xml.Serialization.XmlElementAttribute("min", typeof(NhvmMin))]
+        [System.Xml.Serialization.XmlElementAttribute("not-empty", typeof(NhvmNotEmpty))]
+        [System.Xml.Serialization.XmlElementAttribute("not-null", typeof(NhvmNotNull))]
+        [System.Xml.Serialization.XmlElementAttribute("notnullorempty", typeof(NhvmNotnullorempty))]
+        [System.Xml.Serialization.XmlElementAttribute("past", typeof(NhvmPast))]
+        [System.Xml.Serialization.XmlElementAttribute("pattern", typeof(NhvmPattern))]
+        [System.Xml.Serialization.XmlElementAttribute("range", typeof(NhvmRange))]
+        [System.Xml.Serialization.XmlElementAttribute("rule", typeof(NhvmRule))]
+        [System.Xml.Serialization.XmlElementAttribute("size", typeof(NhvmSize))]
+        [System.Xml.Serialization.XmlElementAttribute("valid", typeof(NhvmValid))]
         public object[] Items;
         
         /// <remarks/>
@@ -42,7 +42,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-1.0")]
     [System.Xml.Serialization.XmlRootAttribute("asserttrue", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
-    public partial class NhvAsserttrue {
+    public partial class NhvmAsserttrue {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -56,7 +56,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-1.0")]
     [System.Xml.Serialization.XmlRootAttribute("digits", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
-    public partial class NhvDigits {
+    public partial class NhvmDigits {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -82,7 +82,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-1.0")]
     [System.Xml.Serialization.XmlRootAttribute("email", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
-    public partial class NhvEmail {
+    public partial class NhvmEmail {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -96,7 +96,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-1.0")]
     [System.Xml.Serialization.XmlRootAttribute("future", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
-    public partial class NhvFuture {
+    public partial class NhvmFuture {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -110,7 +110,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-1.0")]
     [System.Xml.Serialization.XmlRootAttribute("ipAddress", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
-    public partial class NhvIpAddress {
+    public partial class NhvmIpAddress {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -124,7 +124,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-1.0")]
     [System.Xml.Serialization.XmlRootAttribute("length", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
-    public partial class NhvLength {
+    public partial class NhvmLength {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -154,7 +154,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-1.0")]
     [System.Xml.Serialization.XmlRootAttribute("max", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
-    public partial class NhvMax {
+    public partial class NhvmMax {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -176,7 +176,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-1.0")]
     [System.Xml.Serialization.XmlRootAttribute("min", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
-    public partial class NhvMin {
+    public partial class NhvmMin {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -198,7 +198,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-1.0")]
     [System.Xml.Serialization.XmlRootAttribute("not-empty", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
-    public partial class NhvNotEmpty {
+    public partial class NhvmNotEmpty {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -212,7 +212,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-1.0")]
     [System.Xml.Serialization.XmlRootAttribute("not-null", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
-    public partial class NhvNotNull {
+    public partial class NhvmNotNull {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -226,7 +226,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-1.0")]
     [System.Xml.Serialization.XmlRootAttribute("notnullorempty", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
-    public partial class NhvNotnullorempty {
+    public partial class NhvmNotnullorempty {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -240,7 +240,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-1.0")]
     [System.Xml.Serialization.XmlRootAttribute("past", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
-    public partial class NhvPast {
+    public partial class NhvmPast {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -254,7 +254,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-1.0")]
     [System.Xml.Serialization.XmlRootAttribute("pattern", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
-    public partial class NhvPattern {
+    public partial class NhvmPattern {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -272,7 +272,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-1.0")]
     [System.Xml.Serialization.XmlRootAttribute("range", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
-    public partial class NhvRange {
+    public partial class NhvmRange {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -302,23 +302,15 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-1.0")]
     [System.Xml.Serialization.XmlRootAttribute("rule", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
-    public partial class NhvRule {
+    public partial class NhvmRule {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("param")]
-        public NhvParam[] param;
+        public NhvmParam[] param;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string attribute;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string @namespace;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string assembly;
     }
     
     /// <remarks/>
@@ -328,7 +320,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-1.0")]
     [System.Xml.Serialization.XmlRootAttribute("param", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
-    public partial class NhvParam {
+    public partial class NhvmParam {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -346,7 +338,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-1.0")]
     [System.Xml.Serialization.XmlRootAttribute("size", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
-    public partial class NhvSize {
+    public partial class NhvmSize {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -376,7 +368,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-1.0")]
     [System.Xml.Serialization.XmlRootAttribute("valid", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
-    public partial class NhvValid {
+    public partial class NhvmValid {
     }
     
     /// <remarks/>
@@ -385,12 +377,20 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-1.0")]
-    [System.Xml.Serialization.XmlRootAttribute("validator", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
-    public partial class NhvValidator {
+    [System.Xml.Serialization.XmlRootAttribute("nhv-mapping", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
+    public partial class NhvMapping {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("class")]
-        public NhvClass[] @class;
+        public NhvmClass[] @class;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string @namespace;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string assembly;
     }
     
     /// <remarks/>
@@ -400,7 +400,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-1.0")]
     [System.Xml.Serialization.XmlRootAttribute("class", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
-    public partial class NhvClass {
+    public partial class NhvmClass {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("attributename")]
@@ -408,15 +408,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("property")]
-        public NhvProperty[] property;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string @namespace;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string assembly;
+        public NhvmProperty[] property;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<validator xmlns="urn:nhibernate-validator-1.0">
-	<class name="FooLength" namespace="NHibernate.Validator.Tests.ValidatorsTest" assembly="NHibernate.Validator.Tests">
+<nhv-mapping xmlns="urn:nhibernate-validator-1.0"
+			 namespace="NHibernate.Validator.Tests.ValidatorsTest"
+			 assembly="NHibernate.Validator.Tests">
+	<class name="FooLength">
 		<property name="Message">
 			<not-null/>
 			<length min="1" max="10"/>
 		</property>
 	</class>
-</validator>
+</nhv-mapping>

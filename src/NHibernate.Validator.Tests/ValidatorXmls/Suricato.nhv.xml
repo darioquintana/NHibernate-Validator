@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<validator xmlns="urn:nhibernate-validator-1.0">
-	<class name="Suricato" namespace="NHibernate.Validator.Tests" assembly="NHibernate.Validator.Tests">
+<nhv-mapping xmlns="urn:nhibernate-validator-1.0"
+			 namespace="NHibernate.Validator.Tests"
+			 assembly="NHibernate.Validator.Tests">
+	<class name="Suricato">
 		<attributename>AssertAnimal</attributename>
 	</class>
-</validator>
+</nhv-mapping>

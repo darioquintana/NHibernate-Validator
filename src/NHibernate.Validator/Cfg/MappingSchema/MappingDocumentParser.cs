@@ -7,21 +7,21 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 {
 	public class MappingDocumentParser : IMappingDocumentParser
 	{
-		private readonly XmlSerializer serializer = new XmlSerializer(typeof(NhvValidator));
+		private readonly XmlSerializer serializer = new XmlSerializer(typeof(NhvMapping));
 
-		public NhvValidator Parse(Stream stream)
+		public NhvMapping Parse(Stream stream)
 		{
 			if (stream == null)
 				throw new ArgumentNullException("stream");
 
-			return (NhvValidator)serializer.Deserialize(stream);
+			return (NhvMapping)serializer.Deserialize(stream);
 		}
-		public NhvValidator Parse(XmlReader reader)
+		public NhvMapping Parse(XmlReader reader)
 		{
 			if (reader == null)
 				throw new ArgumentNullException("reader");
 
-			return (NhvValidator)serializer.Deserialize(reader);
+			return (NhvMapping)serializer.Deserialize(reader);
 		}
 	}
 }
