@@ -246,7 +246,7 @@ namespace NHibernate.Validator.Engine
 		/// <typeparam name="T">The entity type</typeparam>
 		/// <param name="propertyName">The name of a property</param>
 		/// <param name="value">The value of the property.</param>
-		/// <returns>All the failures.</returns>
+		/// <returns>All the invalid values.</returns>
 		/// <remarks>
 		/// If the <typeparamref name="T"/> was never inspected, or
 		/// it was not configured, the <see cref="IClassValidator"/> will be automatic added to the engine.
@@ -261,7 +261,7 @@ namespace NHibernate.Validator.Engine
 		/// </summary>
 		/// <param name="entity">The entity instance to validate</param>
 		/// <param name="propertyName">The name of a property</param>
-		/// <returns>All the failures.</returns>
+		/// <returns>All the invalid values.</returns>
 		/// <remarks>
 		/// If the <see cref="System.Type"/> of the <paramref name="entity"/> was never inspected, or
 		/// it was not configured, the <see cref="IClassValidator"/> will be automatic added to the engine.
@@ -271,7 +271,14 @@ namespace NHibernate.Validator.Engine
 			return null;
 		}
 
-		internal InvalidValue[] ValidatePropertyValue(System.Type entityType, string propertyName, object value)
+		/// <summary>
+		/// Use the <see cref="ClassValidator.GetPotentialInvalidValues(string, object)"/> for a given entity instance.
+		/// </summary>
+		/// <param name="entityType">The entity instance to validate</param>
+		/// <param name="propertyName">The name of a property</param>
+		/// <param name="value">The value of the property.</param>
+		/// <returns>All the invalid values.</returns>
+		public InvalidValue[] ValidatePropertyValue(System.Type entityType, string propertyName, object value)
 		{
 			IClassValidator cv = GetElementOrNew(entityType).Validator;
 			return cv.GetPotentialInvalidValues(propertyName, value);
