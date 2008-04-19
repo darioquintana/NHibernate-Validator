@@ -50,7 +50,7 @@ namespace NHibernate.Validator.Demo.Winforms
 			// 
 			// btnSend
 			// 
-			this.btnSend.Location = new System.Drawing.Point(104, 236);
+			this.btnSend.Location = new System.Drawing.Point(84, 254);
 			this.btnSend.Name = "btnSend";
 			this.btnSend.Size = new System.Drawing.Size(98, 42);
 			this.btnSend.TabIndex = 0;
@@ -61,7 +61,7 @@ namespace NHibernate.Validator.Demo.Winforms
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(21, 15);
+			this.label1.Location = new System.Drawing.Point(22, 15);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(57, 13);
 			this.label1.TabIndex = 1;
@@ -152,7 +152,7 @@ namespace NHibernate.Validator.Demo.Winforms
 			// label6
 			// 
 			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(56, 136);
+			this.label6.Location = new System.Drawing.Point(40, 136);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(38, 13);
 			this.label6.TabIndex = 3;
@@ -161,6 +161,7 @@ namespace NHibernate.Validator.Demo.Winforms
 			// listBox1
 			// 
 			this.listBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.listBox1.ForeColor = System.Drawing.Color.Red;
 			this.listBox1.FormattingEnabled = true;
 			this.listBox1.ItemHeight = 20;
 			this.listBox1.Location = new System.Drawing.Point(301, 28);
@@ -181,7 +182,7 @@ namespace NHibernate.Validator.Demo.Winforms
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(738, 290);
+			this.ClientSize = new System.Drawing.Size(738, 308);
 			this.Controls.Add(this.label7);
 			this.Controls.Add(this.listBox1);
 			this.Controls.Add(this.txtPhone);
@@ -197,6 +198,8 @@ namespace NHibernate.Validator.Demo.Winforms
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.btnSend);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.MaximizeBox = false;
 			this.Name = "Form1";
 			this.Text = "NHibernate.Validator Demo";
 			((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();

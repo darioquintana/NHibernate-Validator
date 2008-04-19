@@ -9,8 +9,7 @@ namespace NHibernate.Validator.Demo.Winforms
 	public partial class Form1 : Form
 	{
 		SmartViewValidator vvtor;
-		ValidatorEngine ve = new ValidatorEngine();
-
+		
 		public Form1()
 		{
 			InitializeComponent();
@@ -20,7 +19,7 @@ namespace NHibernate.Validator.Demo.Winforms
 			//Setting the ErrorProvider to the binder.
 			vvtor = new SmartViewValidator(errorProvider1);
 
-			//Telling who are the Controls and who is the entity Type to bind
+			//What are the Controls and who are the entity Type to bind to?
 			vvtor.Bind(typeof (Customer))
 				.With(txtFirstName)
 				.With(txtLastName)
@@ -31,8 +30,9 @@ namespace NHibernate.Validator.Demo.Winforms
 
 		private void btnSend_Click(object sender, EventArgs e)
 		{
+			ValidatorEngine ve = vvtor.ValidatorEngine;
+
 			Customer customer = GetFromUI();
-			
 
 			if (ve.IsValid(customer))
 			{

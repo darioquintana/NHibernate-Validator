@@ -20,18 +20,17 @@ namespace NHibernate.Validator.Binding
 
 		public void ValidatingHandler(object sender, CancelEventArgs e)
 		{
-			//TODO: reimplement this:
-			//System.Type entityType = vvtor.GetEntityType((Control) sender);
-			
-			//IControlValuable controlValuable = vvtor.Resolver.GetControlValuable(sender);
+			System.Type entityType = vvtor.GetEntityType((Control)sender);
 
-			//InvalidValue[] errors =
-			//    validatorEngine.ValidatePropertyValue(GetPropertyName((Control) sender), controlValuable.GetValue((Control) sender));
+			IControlValuable controlValuable = vvtor.Resolver.GetControlValuable(sender);
 
-			//if (errors.Length > 0)
-			//    errorProvider.SetError((TextBox) sender, errors[0].Message);
-			//else
-			//    errorProvider.SetError((TextBox) sender, string.Empty);
+			InvalidValue[] errors =
+				validatorEngine.ValidatePropertyValue(entityType,GetPropertyName((Control)sender), controlValuable.GetValue((Control)sender));
+
+			if (errors.Length > 0)
+				errorProvider.SetError((TextBox)sender, errors[0].Message);
+			else
+				errorProvider.SetError((TextBox)sender, string.Empty);
 		}
 
 		private string GetPropertyName(Control control)

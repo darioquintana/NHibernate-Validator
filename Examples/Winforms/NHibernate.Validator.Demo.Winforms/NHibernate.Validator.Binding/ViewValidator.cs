@@ -15,16 +15,26 @@ namespace NHibernate.Validator.Binding
 
 		public ViewValidator()
 		{
-			validatorEngine = new ValidatorEngine();
+			if (validatorEngine == null) validatorEngine = new ValidatorEngine();
 		}
 
-		public ViewValidator(ErrorProvider errorProvider) : base()
+		public ViewValidator(ErrorProvider errorProvider) : this()
 		{
 			Check.NotNull(
 				errorProvider,
 				"errorProvider",
 				"The ErrorProvider is null, make sure of construct the ViewValidator after the winforms method InitializeComponent();");
 			ErrorProvider = errorProvider;
+		}
+
+		public ViewValidator(ValidatorEngine validatorEngine, ErrorProvider errorProvider)
+			: this(errorProvider)
+		{
+			Check.NotNull(
+				validatorEngine,
+				"ve",
+				"The ValidatorEngine is null");
+			this.validatorEngine = validatorEngine;
 		}
 
 		public ValidatorEngine ValidatorEngine
