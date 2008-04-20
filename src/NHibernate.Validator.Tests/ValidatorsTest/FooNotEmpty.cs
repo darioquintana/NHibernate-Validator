@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace NHibernate.Validator.Tests.ValidatorsTest
 {
 	public class FooNotEmpty

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<nhv-mapping xmlns="urn:nhibernate-validator-1.0"
+			 namespace="NHibernate.Validator.Tests.Base"
+			 assembly="NHibernate.Validator.Tests">
+	<class name="Car">
+		<property name="name">
+			<not-empty/>
+		</property>
+
+		<property name="insurances">
+			<not-empty/> 
+		</property>
+
+		<property name="length">
+			<digits integerDigits="1" fractionalDigits="2"/>
+		</property>
+
+		<property name="gallons">
+			<digits integerDigits="2" fractionalDigits="1"/>
+		</property>
+	</class>
+</nhv-mapping>

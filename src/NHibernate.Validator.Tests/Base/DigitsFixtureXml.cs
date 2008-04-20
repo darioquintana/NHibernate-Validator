@@ -1,9 +1,8 @@
 using NHibernate.Validator.Engine;
-using NHibernate.Validator.Tests.ValidatorsTest;
 
-namespace NHibernate.Validator.Tests.ValidatorsTest
+namespace NHibernate.Validator.Tests.Base
 {
-	public class XmlValidatorsFixture : ValidatorsFixture
+	public class DigitsFixtureXml : DigitsFixture
 	{
 		public override ClassValidator GetClassValidator(System.Type type)
 		{

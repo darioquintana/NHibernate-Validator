@@ -8,7 +8,7 @@ namespace NHibernate.Validator.Tests.CustomValidator
 	{
 		public override ClassValidator GetClassValidator(System.Type type)
 		{
-			return ClassValidatorFactory.GetValidatorForUseXmlTest(type);
+			return UtilValidatorFactory.GetValidatorForUseXmlTest(type);
 		}
 
 		[Test]

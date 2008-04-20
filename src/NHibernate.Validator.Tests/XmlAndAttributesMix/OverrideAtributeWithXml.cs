@@ -14,7 +14,7 @@ namespace NHibernate.Validator.Tests.XmlAndAttributesMix
 
 		public override ClassValidator GetClassValidator(System.Type type)
 		{
-			return ClassValidatorFactory.GetValidatorForOverrideAttributeWithXml(type);
+			return UtilValidatorFactory.GetValidatorForOverrideAttributeWithXml(type);
 		}
 
 		[Test]

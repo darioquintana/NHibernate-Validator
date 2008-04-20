@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<nhv-mapping xmlns="urn:nhibernate-validator-1.0"
+			 namespace="NHibernate.Validator.Tests.Base"
+			 assembly="NHibernate.Validator.Tests">
+	<class name="Brother">
+		<property name="address"  >
+			<not-null/>
+			<valid/>
+		</property>
+		<property name="Name">
+			<not-null/>
+		</property>
+
+		<property name="Elder">
+			<valid/>
+		</property>
+
+		<property name="YoungerBrother">
+			<valid/>
+		</property>
+	</class>
+</nhv-mapping>

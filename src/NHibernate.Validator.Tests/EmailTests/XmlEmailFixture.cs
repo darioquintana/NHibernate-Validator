@@ -1,9 +1,8 @@
 using NHibernate.Validator.Engine;
-using NHibernate.Validator.Tests.ValidatorsTest;
 
-namespace NHibernate.Validator.Tests.ValidatorsTest
+namespace NHibernate.Validator.Tests.EmailTests
 {
-	public class XmlValidatorsFixture : ValidatorsFixture
+	public class XmlEmailFixture : EmailFixture
 	{
 		public override ClassValidator GetClassValidator(System.Type type)
 		{

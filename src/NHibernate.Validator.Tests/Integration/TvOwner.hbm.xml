@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
-				   namespace="NHibernate.Validator.Tests"
-				   assembly="NHibernate.Validator.Tests"
+				   namespace="NHibernate.Validator.Tests.Base" 
+				   assembly="NHibernate.Validator.Tests" 
 				   default-lazy="false"
-           default-access="field">
+				   default-access="field">
 
   <class name="TvOwner" >
 

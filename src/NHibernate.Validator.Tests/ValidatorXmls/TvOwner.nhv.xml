@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<nhv-mapping xmlns="urn:nhibernate-validator-1.0">
-	<class name="NHibernate.Validator.Tests.TvOwner, NHibernate.Validator.Tests">
-		<property name="tv">
-			<not-null/>
-			<valid/>
-		</property>
-	</class>
-</nhv-mapping>

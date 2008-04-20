@@ -1,4 +1,5 @@
 using NHibernate.Validator.Exceptions;
+using NHibernate.Validator.Tests.Base;
 
 namespace NHibernate.Validator.Tests.Integration
 {

@@ -61,18 +61,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Address.cs" />
-    <Compile Include="Animal.cs" />
-    <Compile Include="AssertAnimalAttribute.cs" />
+    <Compile Include="Base\Address.cs" />
+    <Compile Include="Base\Animal.cs" />
+    <Compile Include="Base\AssertAnimalAttribute.cs" />
     <Compile Include="Attributes\AttributesFixture.cs" />
     <Compile Include="BaseValidatorFixture.cs" />
-    <Compile Include="Boo.cs" />
-    <Compile Include="Brother.cs" />
-    <Compile Include="Building.cs" />
-    <Compile Include="Car.cs" />
-    <Compile Include="CarEngine.cs" />
+    <Compile Include="Base\Boo.cs" />
+    <Compile Include="Base\Brother.cs" />
+    <Compile Include="Base\Building.cs" />
+    <Compile Include="Base\Car.cs" />
+    <Compile Include="Base\CarEngine.cs" />
     <Compile Include="ConfigurationInjecterSectionHandler.cs" />
-    <Compile Include="Configuration\ClassValidatorFactory.cs" />
+    <Compile Include="UtilValidatorFactory.cs" />
     <Compile Include="Collections\CollectionFixture.cs" />
     <Compile Include="Collections\HasArrayWithValid.cs" />
     <Compile Include="Collections\HasCollection.cs" />
@@ -84,16 +84,16 @@
     <Compile Include="Collections\XmlCollectionFixture.cs" />
     <Compile Include="Configuration\CfgXmlHelperFixture.cs" />
     <Compile Include="Configuration\ConfigurationFixture.cs" />
-    <Compile Include="Contact.cs" />
+    <Compile Include="Base\Contact.cs" />
     <Compile Include="CustomValidator\BadValidator.cs" />
     <Compile Include="CustomValidator\BadValidatorFixture.cs" />
     <Compile Include="CustomValidator\Controller.cs" />
     <Compile Include="CustomValidator\IPSubnetAttribute.cs" />
     <Compile Include="CustomValidator\IPSubnetFixture.cs" />
     <Compile Include="CustomValidator\IPSubnetValidator.cs" />
-    <Compile Include="DigitsFixture.cs" />
-    <Compile Include="DigitsFixtureXml.cs" />
-    <Compile Include="Email\EmailFixture.cs" />
+    <Compile Include="Base\DigitsFixture.cs" />
+    <Compile Include="Base\DigitsFixtureXml.cs" />
+    <Compile Include="EmailTests\EmailFixture.cs" />
     <Compile Include="Engine\ValidatorEngineFixture.cs" />
     <Compile Include="Inheritance\Dog.cs" />
     <Compile Include="Inheritance\IBoneEater.cs" />
@@ -121,26 +121,26 @@
     <Compile Include="Polimorphism\IContract.cs" />
     <Compile Include="ResourceFixture\ResourcesTest.cs" />
     <Compile Include="Serialization\SerializationFixture.cs" />
-    <Compile Include="Suricato.cs" />
+    <Compile Include="Base\Suricato.cs" />
     <Compile Include="TestConfigurationHelper.cs" />
-    <Compile Include="Tv.cs" />
-    <Compile Include="TvOwner.cs" />
-    <Compile Include="User.cs" />
-    <Compile Include="ValidatorFixture.cs" />
-    <Compile Include="ValidatorFixtureXml.cs" />
+    <Compile Include="Base\Tv.cs" />
+    <Compile Include="Base\TvOwner.cs" />
+    <Compile Include="Base\User.cs" />
+    <Compile Include="Base\ValidatorFixture.cs" />
+    <Compile Include="Base\ValidatorFixtureXml.cs" />
     <Compile Include="ValidatorsTest\FooDate.cs" />
     <Compile Include="ValidatorsTest\FooLength.cs" />
     <Compile Include="ValidatorsTest\FooNotEmpty.cs" />
     <Compile Include="ValidatorsTest\ValidatorsFixture.cs" />
     <Compile Include="ValidatorsTest\XmlValidatorFixture.cs" />
-    <Compile Include="Valid\Address.cs" />
-    <Compile Include="Valid\Author.cs" />
-    <Compile Include="Valid\Blog.cs" />
-    <Compile Include="Valid\Form.cs" />
-    <Compile Include="Valid\Member.cs" />
-    <Compile Include="Valid\ValidTestCase.cs" />
-    <Compile Include="Valid\XmlValidTest.cs" />
-    <Compile Include="Email\XmlEmailFixture.cs" />
+    <Compile Include="ValidTests\Address.cs" />
+    <Compile Include="ValidTests\Author.cs" />
+    <Compile Include="ValidTests\Blog.cs" />
+    <Compile Include="ValidTests\Form.cs" />
+    <Compile Include="ValidTests\Member.cs" />
+    <Compile Include="ValidTests\ValidTestCase.cs" />
+    <Compile Include="ValidTests\XmlValidTest.cs" />
+    <Compile Include="EmailTests\XmlEmailFixture.cs" />
     <Compile Include="XmlAndAttributesMix\OverrideAtributeWithXml.cs" />
     <Compile Include="XmlAndAttributesMix\Person.cs" />
     <Compile Include="XmlAndAttributesMix\OverrideXmlWithAttributeFixture.cs" />
@@ -178,13 +178,13 @@
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Valid\Address.nhv.xml" />
-    <EmbeddedResource Include="Valid\Blog.nhv.xml" />
-    <EmbeddedResource Include="Valid\Form.nhv.xml" />
-    <EmbeddedResource Include="Valid\Member.nhv.xml" />
+    <EmbeddedResource Include="ValidTests\Address.nhv.xml" />
+    <EmbeddedResource Include="ValidTests\Blog.nhv.xml" />
+    <EmbeddedResource Include="ValidTests\Form.nhv.xml" />
+    <EmbeddedResource Include="ValidTests\Member.nhv.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Valid\Author.nhv.xml" />
+    <EmbeddedResource Include="ValidTests\Author.nhv.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Collections\Movie.nhv.xml" />
@@ -206,12 +206,12 @@
     <EmbeddedResource Include="Inheritance\IName.nhv.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ValidatorXmls\Address.nhv.xml" />
-    <EmbeddedResource Include="ValidatorXmls\Brother.nhv.xml" />
-    <EmbeddedResource Include="ValidatorXmls\Suricato.nhv.xml" />
-    <EmbeddedResource Include="ValidatorXmls\Tv.nhv.xml" />
-    <EmbeddedResource Include="ValidatorXmls\TvOwner.nhv.xml" />
-    <EmbeddedResource Include="ValidatorXmls\User.nhv.xml" />
+    <EmbeddedResource Include="Base\Address.nhv.xml" />
+    <EmbeddedResource Include="Base\Brother.nhv.xml" />
+    <EmbeddedResource Include="Base\Suricato.nhv.xml" />
+    <EmbeddedResource Include="Base\Tv.nhv.xml" />
+    <EmbeddedResource Include="Base\TvOwner.nhv.xml" />
+    <EmbeddedResource Include="Base\User.nhv.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CustomValidator\Controller.nhv.xml" />
@@ -220,7 +220,7 @@
     <EmbeddedResource Include="XmlAndAttributesMix\Person.nhv.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ValidatorXmls\Boo.nhv.xml" />
+    <EmbeddedResource Include="Base\Boo.nhv.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ValidatorsTest\FooDate.nhv.xml" />
@@ -231,10 +231,10 @@
     <EmbeddedResource Include="IPFixture\Computer.nhv.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ValidatorXmls\Car.nhv.xml" />
+    <EmbeddedResource Include="Base\Car.nhv.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ValidatorXmls\CarEngine.nhv.xml" />
+    <EmbeddedResource Include="Base\CarEngine.nhv.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

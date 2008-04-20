@@ -8,7 +8,7 @@ namespace NHibernate.Validator.Tests.IPFixture
 	{
 		public override NHibernate.Validator.Engine.ClassValidator GetClassValidator(System.Type type)
 		{
-			return ClassValidatorFactory.GetValidatorForUseXmlTest(type);
+			return UtilValidatorFactory.GetValidatorForUseXmlTest(type);
 		}
 	}
 }

@@ -9,7 +9,7 @@ namespace NHibernate.Validator.Tests.Inheritance
 	{
 		public override ClassValidator GetClassValidator(System.Type type)
 		{
-			return ClassValidatorFactory.GetValidatorForUseXmlTest(type);
+			return UtilValidatorFactory.GetValidatorForUseXmlTest(type);
 		}
 	}
 }
