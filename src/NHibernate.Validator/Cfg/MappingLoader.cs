@@ -4,7 +4,6 @@ using System.IO;
 using System.Reflection;
 using System.Xml;
 using log4net;
-using NHibernate.Util;
 using NHibernate.Validator.Cfg.MappingSchema;
 using NHibernate.Validator.Exceptions;
 
@@ -15,8 +14,7 @@ namespace NHibernate.Validator.Cfg
 		public const string MappingFileDefaultExtension = ".nhv.xml";
 
 		private static readonly ILog log = LogManager.GetLogger(typeof(MappingLoader));
-
-		private readonly Dictionary<System.Type, NhvmClass> validatorMappings = new Dictionary<System.Type, NhvmClass>();
+		private readonly List<NhvMapping> mappings= new List<NhvMapping>();
 
 		public void LoadMappings(IList<MappingConfiguration> mappings)
 		{
@@ -81,7 +79,7 @@ namespace NHibernate.Validator.Cfg
 			log.Info("Mapping resource: " + resource);
 			Stream stream = assembly.GetManifestResourceStream(resource);
 			if (stream == null)
-				throw new ValidatorConfigurationException("Resource " + resource + "not found in assembly " + assembly.FullName);
+				throw new ValidatorConfigurationException("Resource " + resource + " not found in assembly " + assembly.FullName);
 
 			try
 			{
@@ -127,15 +125,7 @@ namespace NHibernate.Validator.Cfg
 		public void AddXmlReader(XmlTextReader reader, string fileName)
 		{
 			IMappingDocumentParser parser = new MappingDocumentParser();
-
-			NhvMapping validator = parser.Parse(reader);
-			foreach (NhvmClass clazz in validator.@class)
-			{
-				AssemblyQualifiedTypeName fullClassName = TypeNameParser.Parse(clazz.name, validator.@namespace, validator.assembly);
-				System.Type type = ReflectHelper.TypeFromAssembly(fullClassName, true);
-				log.Info("Full class name = " + type.AssemblyQualifiedName);
-				validatorMappings[type] = clazz;
-			}
+			mappings.Add(parser.Parse(reader));
 		}
 
 		public void AddFile(string filePath)
@@ -164,16 +154,9 @@ namespace NHibernate.Validator.Cfg
 			}
 		}
 
-		public NhvmClass GetClassMapping(System.Type entityType)
+		public NhvMapping[] Mappings
 		{
-			NhvmClass mapping;
-			if(!validatorMappings.TryGetValue(entityType, out mapping))
-			{
-				// The mapping was not loaded; Try to load the assembly
-				AddAssembly(entityType.Assembly);
-				validatorMappings.TryGetValue(entityType, out mapping);
-			}
-			return mapping;
+			get { return mappings.ToArray(); }
 		}
 	}
 }
