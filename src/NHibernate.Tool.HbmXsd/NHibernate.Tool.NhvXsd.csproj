@@ -35,8 +35,7 @@
   <ItemGroup>
     <EmbeddedResource Include="..\NHibernate.Validator\Cfg\nhv-mapping.xsd">
       <Link>nhv-mapping.xsd</Link>
-      <SubType>
-      </SubType>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <Compile Include="NhvCodeGenerator.cs" />
     <Compile Include="ImproveEnumFieldsCommand.cs" />
