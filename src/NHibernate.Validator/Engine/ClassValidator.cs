@@ -147,8 +147,7 @@ namespace NHibernate.Validator.Engine
 
 		private static ResourceManager GetDefaultResourceManager()
 		{
-			return new ResourceManager("NHibernate.Validator.Resources.DefaultValidatorMessages",
-			                           Assembly.GetExecutingAssembly());
+			return new ResourceManager(typeof (Resources.DefaultValidatorMessages));
 		}
 
 		/// <summary>
@@ -321,7 +320,7 @@ namespace NHibernate.Validator.Engine
 
 		/// <summary>
 		/// apply constraints on a bean instance and return all the failures.
-		/// if <see cref="bean"/> is null, an empty array is returned 
+		/// if <paramref name="bean"/> is null, an empty array is returned 
 		/// </summary>
 		/// <param name="bean">object to apply the constraints</param>
 		/// <returns></returns>
@@ -351,12 +350,6 @@ namespace NHibernate.Validator.Engine
 			return polimorphicValidator.GetInvalidValues(bean);
 		}
 
-		/// <summary>
-		/// Not a public API
-		/// </summary>
-		/// <param name="bean"></param>
-		/// <param name="circularityState"></param>
-		/// <returns></returns>
 		private InvalidValue[] GetInvalidValues(object bean, ISet circularityState)
 		{
 			if (bean == null || circularityState.Contains(bean))
@@ -625,26 +618,6 @@ namespace NHibernate.Validator.Engine
 				AddAttributeToMember(member, memberAttribute, validatorMode== ValidatorMode.OverrideXmlWithAttribute);
 			}
 		}
-
-		/// <summary>
-		/// Create a Validator from a property or field.
-		/// </summary>
-		/// <param name="member"></param>
-		//private void CreateMemberValidator(MemberInfo member)
-		//{
-		//    object[] memberAttributes = member.GetCustomAttributes(false);
-
-		//    foreach (Attribute memberAttribute in memberAttributes)
-		//    {
-		//        IValidator propertyValidator = CreateValidator(memberAttribute);
-
-		//        if (propertyValidator != null)
-		//        {
-		//            memberValidators.Add(propertyValidator);
-		//            memberGetters.Add(member);
-		//        }
-		//    }
-		//}
 
 		/// <summary>
 		/// Create the validator for the children, who got the <see cref="ValidAttribute"/>

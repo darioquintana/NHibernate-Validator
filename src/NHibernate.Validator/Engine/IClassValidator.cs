@@ -13,7 +13,7 @@ namespace NHibernate.Validator.Engine
 
 		/// <summary>
 		/// apply constraints on a bean instance and return all the failures.
-		/// if <see cref="bean"/> is null, an empty array is returned 
+		/// if <paramref name="bean"/> is null, an empty array is returned 
 		/// </summary>
 		/// <param name="bean">object to apply the constraints</param>
 		/// <returns></returns>
@@ -28,7 +28,7 @@ namespace NHibernate.Validator.Engine
 
 		/// <summary>
 		/// Apply constraints of a particular property value of a bean type and return all the failures.
-		/// The InvalidValue objects returns return null for InvalidValue#getBean() and InvalidValue#getRootBean()
+		/// The InvalidValue objects returns return null for <see cref="InvalidValue.Bean"/> and <see cref="InvalidValue.RootBean"/>.
 		/// </summary>
 		/// <param name="propertyName"></param>
 		/// <param name="value"></param>
