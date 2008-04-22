@@ -5,7 +5,7 @@ namespace NHibernate.Validator.Tests.CustomValidator
 {
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof(IPSubnetValidator))]
-	public class IPSubnetAttribute : Attribute, IHasMessage
+	public class IPSubnetAttribute : Attribute, IRuleArgs
 	{
 		private string subnetPrefix;
 		private string message = "{validator.ipSubnet}";

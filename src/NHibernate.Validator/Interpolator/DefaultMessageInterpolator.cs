@@ -41,10 +41,10 @@ namespace NHibernate.Validator.Interpolator
 			//In LengthAttribute the parametter are Min and Max.
 			System.Type clazz = attribute.GetType();
 			
-			IHasMessage HasMessage = attribute as IHasMessage;
+			IRuleArgs HasMessage = attribute as IRuleArgs;
 
 			if (HasMessage == null)
-				throw new ArgumentException("Attribute " + clazz + " doesn't implements IHasMessage interface.");
+				throw new ArgumentException("Attribute " + clazz + " doesn't implements IRuleArgs interface.");
 			else
 				this.attributeMessage = HasMessage.Message;
 

@@ -72,7 +72,7 @@
     <Compile Include="FutureValidator.cs" />
     <Compile Include="Exceptions\HibernateValidatorException.cs" />
     <Compile Include="Engine\IClassValidator.cs" />
-    <Compile Include="Engine\IHasMessage.cs" />
+    <Compile Include="Engine\IRuleArgs.cs" />
     <Compile Include="IPAddressAttribute.cs" />
     <Compile Include="IPAddressValidator.cs" />
     <Compile Include="MaxAttribute.cs" />

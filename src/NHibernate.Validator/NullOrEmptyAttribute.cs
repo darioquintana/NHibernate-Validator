@@ -8,7 +8,7 @@ namespace NHibernate.Validator
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
 	[ValidatorClass(typeof(NotNullOrEmptyValidator))]
-	public class NotNullOrEmptyAttribute : Attribute, IHasMessage
+	public class NotNullOrEmptyAttribute : Attribute, IRuleArgs
 	{
 		private string message = "{validator.notNullOrEmpty}";
 		#region IHasMessage Members

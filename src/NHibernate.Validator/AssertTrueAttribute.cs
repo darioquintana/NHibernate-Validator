@@ -8,7 +8,7 @@ namespace NHibernate.Validator
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof (AssertTrueValidator))]
-	public class AssertTrueAttribute : Attribute, IHasMessage
+	public class AssertTrueAttribute : Attribute, IRuleArgs
 	{
 		private string message = "{validator.assertTrue}";
 

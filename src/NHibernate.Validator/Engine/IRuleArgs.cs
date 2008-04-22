@@ -3,7 +3,7 @@ namespace NHibernate.Validator.Engine
 	/// <summary>
 	/// All validators attributes must implement this interface.
 	/// </summary>
-	public interface IHasMessage
+	public interface IRuleArgs
 	{
 		string Message { get; set; }
 	}

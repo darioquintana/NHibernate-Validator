@@ -8,7 +8,7 @@ namespace NHibernate.Validator
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof(FutureValidator))]
-	public class FutureAttribute : Attribute, IHasMessage
+	public class FutureAttribute : Attribute, IRuleArgs
 	{
 		private string message = "{validator.future}";
 

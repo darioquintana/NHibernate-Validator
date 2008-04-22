@@ -8,7 +8,7 @@ namespace NHibernate.Validator
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof(MaxValidator))]
-	public class MaxAttribute : Attribute, IHasMessage
+	public class MaxAttribute : Attribute, IRuleArgs
 	{
 		private string message = "{validator.max}";
 		private long value;

@@ -8,7 +8,7 @@ namespace NHibernate.Validator
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof(PastValidator))]
-	public class PastAttribute : Attribute, IHasMessage
+	public class PastAttribute : Attribute, IRuleArgs
 	{
 		private string message = "{validator.past}";
 

@@ -8,7 +8,7 @@ namespace NHibernate.Validator
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof(MinValidator))]
-	public class MinAttribute : Attribute, IHasMessage
+	public class MinAttribute : Attribute, IRuleArgs
 	{
 		private string message = "{validator.min}";
 		private long value;

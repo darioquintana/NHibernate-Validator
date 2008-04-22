@@ -5,7 +5,7 @@ namespace NHibernate.Validator
 {
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof(DigitsValidator))]
-	public class DigitsAttribute : Attribute, IHasMessage
+	public class DigitsAttribute : Attribute, IRuleArgs
 	{
 		public DigitsAttribute()
 		{

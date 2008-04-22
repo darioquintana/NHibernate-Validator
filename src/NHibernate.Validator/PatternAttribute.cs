@@ -9,7 +9,7 @@ namespace NHibernate.Validator
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true)]
 	[ValidatorClass(typeof(PatternValidator))]
-	public class PatternAttribute : Attribute, IHasMessage
+	public class PatternAttribute : Attribute, IRuleArgs
 	{
 		private RegexOptions flags;
 		private string message = "{validator.pattern}";

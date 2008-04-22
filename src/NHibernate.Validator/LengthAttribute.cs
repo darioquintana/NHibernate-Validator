@@ -8,7 +8,7 @@ namespace NHibernate.Validator
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof(LengthValidator))]
-	public class LengthAttribute : Attribute, IHasMessage
+	public class LengthAttribute : Attribute, IRuleArgs
 	{
 		private int min = 0;
 		private int max = int.MaxValue;
