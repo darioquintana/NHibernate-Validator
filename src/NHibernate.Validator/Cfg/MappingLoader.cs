@@ -154,6 +154,32 @@ namespace NHibernate.Validator.Cfg
 			}
 		}
 
+		/// <summary>
+		/// Load and return a mapping for a given type.
+		/// </summary>
+		/// <param name="type">The given type.</param>
+		/// <returns>The mapping.</returns>
+		/// <remarks>
+		/// The method use a convention to find the resource that represent the mapping for the given class.
+		/// - The mapping must be compiled like embedded resource in the same assembly of the given type
+		/// - The name o the resource must be the same name of the type and end with ".nhv.xml"
+		/// - The resource must stay in the same namespace of the type
+		/// </remarks>
+		public static NhvMapping GetMappingFor(System.Type type)
+		{
+			string resourceName = type.FullName + MappingFileDefaultExtension;
+			MappingLoader ml = new MappingLoader();
+			try
+			{
+				ml.AddResource(type.Assembly, resourceName);
+			}
+			catch (ValidatorConfigurationException)
+			{
+				return null;
+			}
+			return ml.Mappings[0];
+		}
+
 		public NhvMapping[] Mappings
 		{
 			get { return mappings.ToArray(); }

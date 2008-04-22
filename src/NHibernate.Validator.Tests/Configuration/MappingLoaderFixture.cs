@@ -166,5 +166,12 @@ namespace NHibernate.Validator.Tests.Configuration
 			ml.AddFile(tmpf);
 			Assert.AreEqual(2, ml.Mappings.Length);
 		}
+
+		[Test]
+		public void GetMappingForType()
+		{
+			Assert.IsNotNull(MappingLoader.GetMappingFor(typeof (Base.Address)));
+			Assert.IsNull(MappingLoader.GetMappingFor(typeof(Base.Building)));
+		}
 	}
 }
