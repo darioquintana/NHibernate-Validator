@@ -28,7 +28,7 @@ namespace NHibernate.Validator.Engine
 
 		private readonly System.Type beanClass;
 
-		private static Dictionary<AssemblyQualifiedTypeName, NhvmClass> validatorMappings;
+		//private static Dictionary<AssemblyQualifiedTypeName, NhvmClass> validatorMappings;
 		private Dictionary<MemberInfo, List<Attribute>> membersAttributesDictionary = new Dictionary<MemberInfo,List<Attribute>>();
 
 		private DefaultMessageInterpolatorAggregator defaultInterpolator;
@@ -125,19 +125,9 @@ namespace NHibernate.Validator.Engine
 			this.userInterpolator = userInterpolator;
 			this.childClassValidators = childClassValidators;
 			this.validatorMode = validatorMode;
-			SetXmlValidators(clazz.Assembly, validatorMode);
 
 			//Initialize the ClassValidator
 			InitValidator(beanClass, childClassValidators);
-		}
-
-		private void SetXmlValidators(Assembly assembly, ValidatorMode validatorMode)
-		{
-			if (CfgXmlHelper.ModeAcceptsXml(validatorMode) && validatorMappings == null)
-			{
-				validatorMappings = new Dictionary<AssemblyQualifiedTypeName, NhvmClass>();
-				GetAllNHVXmlResourceNames(assembly);
-			}
 		}
 
 		public ClassValidator(System.Type type, CultureInfo culture)
@@ -300,33 +290,6 @@ namespace NHibernate.Validator.Engine
 			}
 		}
 
-		private void GetAllNHVXmlResourceNames(Assembly assembly)
-		{
-			foreach (string resource in assembly.GetManifestResourceNames())
-			{
-				if (resource.EndsWith(".nhv.xml"))
-				{
-					AddNhvClasses(assembly, resource);
-				}
-			}
-		}
-
-		private void AddNhvClasses(Assembly assembly, string resource)
-		{
-			IMappingDocumentParser parser = new MappingDocumentParser();
-			
-			NhvMapping validator = parser.Parse(assembly.GetManifestResourceStream(resource));
-			foreach (NhvmClass clazz in validator.@class)
-			{
-				AssemblyQualifiedTypeName fullClassName = TypeNameParser.Parse(clazz.name, validator.@namespace, validator.assembly);
-				log.Info("Full class name = " + fullClassName);
-				if (!validatorMappings.ContainsKey(fullClassName))
-				{
-					validatorMappings.Add(fullClassName, clazz);
-				}
-			}
-		}
-
 		private void CreateAttributesFromXml(System.Type currentClass)
 		{
 			NhvmClass clazz = GetNhvClassFor(currentClass);
@@ -349,14 +312,9 @@ namespace NHibernate.Validator.Engine
 
 		private NhvmClass GetNhvClassFor(System.Type currentClass)
 		{
-			AssemblyQualifiedTypeName fullClassName = TypeNameParser.Parse(currentClass.Name, currentClass.Namespace, currentClass.Assembly.GetName().Name);
-
-			log.Info("Looking for class name = " + fullClassName);
-
-			if (validatorMappings.ContainsKey(fullClassName))
-			{
-				return validatorMappings[fullClassName];
-			}
+			NhvMapping mapp = MappingLoader.GetMappingFor(currentClass);
+			if (mapp != null && mapp.@class.Length > 0)
+				return mapp.@class[0];
 
 			return null;
 		}
