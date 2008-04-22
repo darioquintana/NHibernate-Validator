@@ -28,8 +28,8 @@ namespace NHibernate.Validator.Engine
 
 		private readonly System.Type beanClass;
 
-		//private static Dictionary<AssemblyQualifiedTypeName, NhvmClass> validatorMappings;
-		private Dictionary<MemberInfo, List<Attribute>> membersAttributesDictionary = new Dictionary<MemberInfo,List<Attribute>>();
+		private readonly Dictionary<MemberInfo, List<Attribute>> membersAttributesDictionary =
+			new Dictionary<MemberInfo, List<Attribute>>();
 
 		private DefaultMessageInterpolatorAggregator defaultInterpolator;
 
@@ -221,7 +221,7 @@ namespace NHibernate.Validator.Engine
 
 		private void AddAttributeToMember(MemberInfo currentMember, Attribute thisattribute, bool overrideAttribute)
 		{
-			log.Info(string.Format("Adding member {0} to dictionary with attribute {1}", currentMember.Name, thisattribute.ToString()));
+			log.Info(string.Format("Adding member {0} to dictionary with attribute {1}", currentMember.Name, thisattribute));
 			if (!membersAttributesDictionary.ContainsKey(currentMember))
 			{
 				membersAttributesDictionary.Add(currentMember, new List<Attribute>());
@@ -236,7 +236,7 @@ namespace NHibernate.Validator.Engine
 
 				if (exists && !AttributeUtils.AttributeAllowsMultiple(thisattribute))
 				{
-					log.Info(string.Format("Attribute {0} was found , override was {1}", thisattribute.ToString(), overrideAttribute));
+					log.Info(string.Format("Attribute {0} was found , override was {1}", thisattribute, overrideAttribute));
 					// If we cannot override then exit without changing
 					if (!overrideAttribute)
 						return;
@@ -590,7 +590,7 @@ namespace NHibernate.Validator.Engine
 			{
 				throw new HibernateValidatorException("could not instantiate ClassValidator, maybe some validator is not well formed", ex);
 			}
-			catch (System.Exception ex)
+			catch (Exception ex)
 			{
 				throw new HibernateValidatorException("could not instantiate ClassValidator", ex);
 			}
@@ -789,7 +789,7 @@ namespace NHibernate.Validator.Engine
 			try
 			{
 				//if it's a Id
-				if (propertyName == null || propertyName.Length == 0 || propertyName.Equals(idName))
+				if (string.IsNullOrEmpty(propertyName) || propertyName.Equals(idName))
 					property = idProperty;
 				else //if it's a property
 				{
