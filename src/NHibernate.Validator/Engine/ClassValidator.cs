@@ -22,7 +22,7 @@ namespace NHibernate.Validator.Engine
 	/// Engine that take a object and check every expressed attribute restrictions
 	/// </summary>
 	[Serializable]
-	public class ClassValidator : IClassValidator
+	public class ClassValidator : IClassValidator, IClassValidatorImplementor
 	{
 		private static readonly ILog log = LogManager.GetLogger(typeof(ClassValidator));
 
@@ -42,7 +42,10 @@ namespace NHibernate.Validator.Engine
 		[NonSerialized]
 		private readonly IMessageInterpolator userInterpolator;
 
-		private readonly Dictionary<System.Type, ClassValidator> childClassValidators;
+		[NonSerialized]
+		private readonly IClassValidatorFactory factory;
+
+		private readonly IDictionary<System.Type, IClassValidator> childClassValidators;
 
 		private IList<IValidator> beanValidators;
 
@@ -64,7 +67,7 @@ namespace NHibernate.Validator.Engine
 		/// </summary>
 		/// <param name="beanClass"></param>
 		public ClassValidator(System.Type beanClass)
-			: this(beanClass, null, null, ValidatorMode.UseAttribute) { }
+			: this(beanClass, null, null, ValidatorMode.UseAttribute) {}
 
 		/// <summary>
 		/// Create the validator engine for this bean type
@@ -72,7 +75,7 @@ namespace NHibernate.Validator.Engine
 		/// <param name="beanClass"></param>
 		/// <param name="validatorMode">Validator definition mode</param>
 		public ClassValidator(System.Type beanClass, ValidatorMode validatorMode)
-			: this(beanClass, null, null, validatorMode) { }
+			: this(beanClass, null, null, validatorMode) {}
 
 		/// <summary>
 		/// Create the validator engine for a particular bean class, using a resource bundle
@@ -83,9 +86,7 @@ namespace NHibernate.Validator.Engine
 		/// <param name="culture">The CultureInfo for the <paramref name="beanClass"/>.</param>
 		/// <param name="validatorMode">Validator definition mode</param>
 		public ClassValidator(System.Type beanClass, ResourceManager resourceManager, CultureInfo culture, ValidatorMode validatorMode)
-			: this(beanClass, resourceManager, culture, null, new Dictionary<System.Type, ClassValidator>(), validatorMode)
-		{
-		}
+			: this(beanClass, new Dictionary<System.Type, IClassValidator>(), new JITClassValidatorFactory(resourceManager, culture, null, validatorMode)) {}
 
 		/// <summary>
 		/// Create the validator engine for a particular bean class, using a custom message interpolator
@@ -94,35 +95,18 @@ namespace NHibernate.Validator.Engine
 		/// <param name="beanClass"></param>
 		/// <param name="interpolator"></param>
 		public ClassValidator(System.Type beanClass, IMessageInterpolator interpolator)
-			: this(beanClass, null, null, interpolator, new Dictionary<System.Type, ClassValidator>(), ValidatorMode.UseAttribute)
-		{
-		}
+			: this(beanClass, new Dictionary<System.Type, IClassValidator>(), new JITClassValidatorFactory(null, null, interpolator, ValidatorMode.UseAttribute)) {}
 
-		/// <summary>
-		/// Not a public API
-		/// </summary>
-		/// <param name="clazz"></param>
-		/// <param name="resourceManager"></param>
-		/// <param name="culture"></param>
-		/// <param name="userInterpolator"></param>
-		/// <param name="childClassValidators"></param>
-		/// <param name="validatorMode">Validator definition mode.</param>
-		internal ClassValidator(
-			System.Type clazz,
-			ResourceManager resourceManager,
-			CultureInfo culture,
-			IMessageInterpolator userInterpolator,
-			Dictionary<System.Type, ClassValidator> childClassValidators,
-			ValidatorMode validatorMode)
+		internal ClassValidator(System.Type clazz, IDictionary<System.Type, IClassValidator> childClassValidators, IClassValidatorFactory factory)
 		{
 			beanClass = clazz;
-
-			messageBundle = resourceManager ?? GetDefaultResourceManager();
+			this.factory = factory;
+			messageBundle = factory.ResourceManager ?? GetDefaultResourceManager();
 			defaultMessageBundle = GetDefaultResourceManager();
-			this.culture = culture;
-			this.userInterpolator = userInterpolator;
+			culture = factory.Culture;
+			userInterpolator = factory.UserInterpolator;
 			this.childClassValidators = childClassValidators;
-			this.validatorMode = validatorMode;
+			validatorMode = factory.ValidatorMode;
 
 			//Initialize the ClassValidator
 			InitValidator(beanClass, childClassValidators);
@@ -155,7 +139,7 @@ namespace NHibernate.Validator.Engine
 		/// </summary>
 		/// <param name="clazz"></param>
 		/// <param name="childClassValidators"></param>
-		private void InitValidator(System.Type clazz, IDictionary<System.Type, ClassValidator> childClassValidators)
+		private void InitValidator(System.Type clazz, IDictionary<System.Type, IClassValidator> childClassValidators)
 		{
 			beanValidators = new List<IValidator>();
 			memberValidators = new List<IValidator>();
@@ -343,9 +327,7 @@ namespace NHibernate.Validator.Engine
 
 			IClassValidator polimorphicValidator;
 
-			polimorphicValidator =
-				new ClassValidator(bean.GetType(), defaultMessageBundle, culture, userInterpolator,
-				                   new Dictionary<System.Type, ClassValidator>(), validatorMode);
+			polimorphicValidator = factory.GetRootValidator(bean.GetType());
 
 			return polimorphicValidator.GetInvalidValues(bean);
 		}
@@ -520,13 +502,14 @@ namespace NHibernate.Validator.Engine
 		/// </summary>
 		/// <param name="value">object to get type</param>
 		/// <returns></returns>
-		private ClassValidator GetClassValidator(object value)
+		private IClassValidatorImplementor GetClassValidator(object value)
 		{
 			System.Type clazz = value.GetType();
-
-			ClassValidator classValidator = childClassValidators[clazz];
-
-			return classValidator ?? new ClassValidator(clazz);
+			IClassValidator result;
+			if (!childClassValidators.TryGetValue(clazz, out result))
+				return (factory.GetRootValidator(clazz) as IClassValidatorImplementor);
+			else
+				return (result as IClassValidatorImplementor);
 		}
 
 		/// <summary>
@@ -637,9 +620,9 @@ namespace NHibernate.Validator.Engine
 			{
 				clazzDictionary = TypeUtils.GetGenericTypesOfDictionary(member);
 				if (!childClassValidators.ContainsKey(clazzDictionary.Key))
-					new ClassValidator(clazzDictionary.Key, messageBundle, culture, userInterpolator, childClassValidators, validatorMode);
+					factory.GetChildValidator(this, clazzDictionary.Key);
 				if (!childClassValidators.ContainsKey(clazzDictionary.Value))
-					new ClassValidator(clazzDictionary.Value, messageBundle, culture, userInterpolator, childClassValidators, validatorMode);
+					factory.GetChildValidator(this, clazzDictionary.Value);
 
 				return;
 			}
@@ -650,7 +633,7 @@ namespace NHibernate.Validator.Engine
 
 			if (!childClassValidators.ContainsKey(clazz))
 			{
-				new ClassValidator(clazz, messageBundle, culture, userInterpolator, childClassValidators, validatorMode);
+				factory.GetChildValidator(this, clazz);
 			}
 		}
 
@@ -817,6 +800,43 @@ namespace NHibernate.Validator.Engine
 			}
 
 			return property;
+		}
+
+		#region IClassValidatorImplementor Members
+
+		InvalidValue[] IClassValidatorImplementor.GetInvalidValues(object bean, ISet circularityState)
+		{
+			return GetInvalidValues(bean, circularityState);
+		}
+
+		IDictionary<System.Type, IClassValidator> IClassValidatorImplementor.ChildClassValidators
+		{
+			get { return childClassValidators; }
+		}
+
+		#endregion
+
+		/// <summary>
+		/// Just In Time ClassValidatorFactory
+		/// </summary>
+		private class JITClassValidatorFactory : AbstractClassValidatorFactory
+		{
+			public JITClassValidatorFactory(ResourceManager resourceManager, CultureInfo culture, IMessageInterpolator userInterpolator, ValidatorMode validatorMode) 
+				: base(resourceManager, culture, userInterpolator, validatorMode) {}
+
+			#region IClassValidatorFactory Members
+
+			public override IClassValidator GetRootValidator(System.Type type)
+			{
+				return new ClassValidator(type, new Dictionary<System.Type, IClassValidator>(), this);
+			}
+
+			public override void GetChildValidator(IClassValidatorImplementor parentValidator, System.Type childType)
+			{
+				new ClassValidator(childType, parentValidator.ChildClassValidators, this);
+			}
+
+			#endregion
 		}
 	}
 }

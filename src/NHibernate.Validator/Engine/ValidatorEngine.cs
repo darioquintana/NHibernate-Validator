@@ -24,6 +24,7 @@ namespace NHibernate.Validator.Engine
 	public class ValidatorEngine
 	{
 		private static readonly ILog log = LogManager.GetLogger(typeof(ValidatorEngine));
+		private StateFullClassValidatorFactory factory;
 
 		// TODO : make the class thread-safe and may be serializable
 		private IMessageInterpolator interpolator;
@@ -57,6 +58,11 @@ namespace NHibernate.Validator.Engine
 			public void Apply(PersistentClass persistentClass)
 			{
 			}
+		}
+
+		public ValidatorEngine()
+		{
+			factory = new StateFullClassValidatorFactory(null, null, null, ValidatorMode.UseAttribute);
 		}
 
 		/// <summary>
@@ -162,14 +168,23 @@ namespace NHibernate.Validator.Engine
 			if (config == null)
 				throw new ArgumentNullException("config");
 
+			Clear();
+
 			applyToDDL = PropertiesHelper.GetBoolean(Environment.ApplyToDDL, config.Properties, true);
 			autoRegisterListeners = PropertiesHelper.GetBoolean(Environment.AutoregisterListeners, config.Properties, true);
 			defaultMode = CfgXmlHelper.ValidatorModeConvertFrom(PropertiesHelper.GetString(Environment.ValidatorMode, config.Properties, string.Empty));
 			interpolator = GetInterpolator(PropertiesHelper.GetString(Environment.MessageInterpolatorClass, config.Properties, string.Empty));
-			
+
+			factory = new StateFullClassValidatorFactory(null, null, interpolator, defaultMode);
+
 			// UpLoad Mappings
 			MappingLoader ml = new MappingLoader();
 			ml.LoadMappings(config.Mappings);
+		}
+
+		private void Clear()
+		{
+			validators.Clear();
 		}
 
 		/// <summary>
@@ -356,8 +371,7 @@ namespace NHibernate.Validator.Engine
 
 		private IClassValidator GetNewClassValidator(System.Type entityType, ResourceManager resource)
 		{
-			return
-				new ClassValidator(entityType, resource, null, interpolator, new Dictionary<System.Type, ClassValidator>(), DefaultMode);
+			return factory.GetRootValidator(entityType);
 		}
 
 		private IMessageInterpolator GetInterpolator(string interpolatorString)

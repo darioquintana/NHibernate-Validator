@@ -1,0 +1,16 @@
+using System.Globalization;
+using System.Resources;
+
+namespace NHibernate.Validator.Engine
+{
+	internal interface IClassValidatorFactory
+	{
+		ResourceManager ResourceManager { get;}
+		CultureInfo Culture { get;}
+		IMessageInterpolator UserInterpolator { get;}
+		ValidatorMode ValidatorMode { get;}
+
+		IClassValidator GetRootValidator(System.Type type);
+		void GetChildValidator(IClassValidatorImplementor parentValidator, System.Type childType);
+	}
+}
