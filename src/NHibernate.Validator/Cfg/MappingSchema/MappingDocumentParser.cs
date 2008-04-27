@@ -9,19 +9,19 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 	{
 		private readonly XmlSerializer serializer = new XmlSerializer(typeof(NhvMapping));
 
-		public NhvMapping Parse(Stream stream)
-		{
-			if (stream == null)
-				throw new ArgumentNullException("stream");
-
-			return (NhvMapping)serializer.Deserialize(stream);
-		}
 		public NhvMapping Parse(XmlReader reader)
 		{
 			if (reader == null)
 				throw new ArgumentNullException("reader");
 
-			return (NhvMapping)serializer.Deserialize(reader);
+			NhvMapping result = (NhvMapping)serializer.Deserialize(reader);
+			// The XmlSerializer not support the OnDeserializedAttribute so the only way
+			// we have to manage a sort of Deserialization-Callback is here
+			foreach (NhvmClass clas in result.@class)
+			{
+				clas.rootMapping = result;
+			}
+			return result;
 		}
 	}
 }

@@ -56,6 +56,7 @@
     <Compile Include="Cfg\ConfigurationSectionHandler.cs" />
     <Compile Include="Cfg\INHVConfiguration.cs" />
     <Compile Include="Cfg\MappingConfiguration.cs" />
+    <Compile Include="Cfg\MappingSchema\NhvmClass.cs" />
     <Compile Include="Cfg\NHVConfiguration.cs" />
     <Compile Include="Cfg\ValidatorInitializer.cs" />
     <Compile Include="DigitsAttribute.cs" />

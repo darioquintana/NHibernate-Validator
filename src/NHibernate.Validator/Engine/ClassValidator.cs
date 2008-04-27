@@ -275,7 +275,8 @@ namespace NHibernate.Validator.Engine
 					continue;
 				}
 				log.Info("Looking for rules for property : " + property.name);
-				CreateMemberAttributesFromRules(currentMember, property.Items);
+				CreateMemberAttributesFromRules(currentMember, property.Items, clazz.rootMapping.assembly,
+				                                clazz.rootMapping.@namespace);
 				CreateChildValidator(currentMember);
 			}
 		}
@@ -289,11 +290,11 @@ namespace NHibernate.Validator.Engine
 			return null;
 		}
 
-		private void CreateMemberAttributesFromRules(MemberInfo member, object[] rules)
+		private void CreateMemberAttributesFromRules(MemberInfo member, object[] rules, string defaultAssembly, string defaultNameSpace)
 		{
 			foreach (object rule in rules)
 			{
-				Attribute thisAttribute = RuleAttributeFactory.CreateAttributeFromRule(rule);
+				Attribute thisAttribute = RuleAttributeFactory.CreateAttributeFromRule(rule, defaultAssembly, defaultNameSpace);
 
 				if (thisAttribute != null)
 				{

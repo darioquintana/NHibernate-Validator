@@ -4,7 +4,7 @@
 			 namespace="NHibernate.Validator.Tests.CustomValidator">
 	<class name="Controller">
 		<property name="IP">
-			<rule attribute="NHibernate.Validator.Tests.CustomValidator.IPSubnetAttribute, NHibernate.Validator.Tests">
+			<rule attribute="IPSubnetAttribute">
 				<param name="SubnetPrefix" value="192.168.2"/>
 			</rule>
 		</property>

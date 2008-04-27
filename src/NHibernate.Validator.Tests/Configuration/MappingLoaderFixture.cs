@@ -2,6 +2,7 @@ using System.IO;
 using System.Reflection;
 using System.Xml;
 using NHibernate.Validator.Cfg;
+using NHibernate.Validator.Cfg.MappingSchema;
 using NHibernate.Validator.Exceptions;
 using NUnit.Framework;
 
@@ -170,7 +171,9 @@ namespace NHibernate.Validator.Tests.Configuration
 		[Test]
 		public void GetMappingForType()
 		{
-			Assert.IsNotNull(MappingLoader.GetMappingFor(typeof (Base.Address)));
+			NhvMapping mapping = MappingLoader.GetMappingFor(typeof (Base.Address));
+			Assert.IsNotNull(mapping);
+			Assert.IsTrue(mapping == mapping.@class[0].rootMapping);
 			Assert.IsNull(MappingLoader.GetMappingFor(typeof(Base.Building)));
 		}
 	}
