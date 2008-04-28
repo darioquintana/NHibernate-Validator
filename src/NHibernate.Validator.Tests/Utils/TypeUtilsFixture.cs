@@ -106,6 +106,11 @@ namespace NHibernate.Validator.Tests.Utils
 			Assert.AreEqual(31, TypeUtils.GetMemberValue(tc, propMember));
 			Assert.AreEqual("BaseValue", TypeUtils.GetMemberValue(tc, baseFieldMember));
 			Assert.AreEqual(37, TypeUtils.GetMemberValue(tc, basePropMember));
+
+			// the null value is used in ChildValidation
+			// we don't take care if, for some reason, we are looking for a value of something else than a field or property
+			MemberInfo methodMember = typeof(TestingClass).GetMethod("ToString");
+			Assert.IsNull(TypeUtils.GetMemberValue(tc, methodMember));
 		}
 
 		[Test]
