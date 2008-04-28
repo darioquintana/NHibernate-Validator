@@ -143,6 +143,7 @@
     <Compile Include="ValidatorsTest\FooDate.cs" />
     <Compile Include="ValidatorsTest\FooLength.cs" />
     <Compile Include="ValidatorsTest\FooNotEmpty.cs" />
+    <Compile Include="ValidatorsTest\NotNullOrEmptyValidatorFixture.cs" />
     <Compile Include="ValidatorsTest\ValidatorsFixture.cs" />
     <Compile Include="ValidatorsTest\XmlValidatorFixture.cs" />
     <Compile Include="ValidTests\Address.cs" />
