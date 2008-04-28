@@ -5,6 +5,7 @@ using log4net;
 using NHibernate.Util;
 using NHibernate.Validator.Cfg.MappingSchema;
 using NHibernate.Validator.Util;
+using NHibernate.Validator.Exceptions;
 
 namespace NHibernate.Validator.Mappings
 {
@@ -46,10 +47,9 @@ namespace NHibernate.Validator.Mappings
 
 					if (currentMember == null)
 					{
-						log.Error(
-							string.Format("Property or field \"{0}\" was not found in the class: \"{1}\" ", property.name, clazz.FullName));
-						continue;
+						throw new InvalidPropertyNameException(property.name, clazz);
 					}
+
 					log.Info("Looking for rules for property : " + property.name);
 					lmembers.Add(currentMember);
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Cfg.MappingSchema;
+using NHibernate.Validator.Exceptions;
 using NHibernate.Validator.Mappings;
 using NHibernate.Validator.Tests.Base;
 using NUnit.Framework;
@@ -62,6 +63,12 @@ namespace NHibernate.Validator.Tests.Mappings
 			XmlClassMapping rm = new XmlClassMapping(GetNhvClassFor(typeof(Address)));
 			List<MemberInfo> mi = new List<MemberInfo>(rm.GetMembers());
 			Assert.AreEqual(8, mi.Count);
+		}
+
+		[Test, ExpectedException(typeof(InvalidPropertyNameException))]
+		public void InvalidPropertyName()
+		{
+			new XmlClassMapping(GetNhvClassFor(typeof(A)));
 		}
 	}
 }

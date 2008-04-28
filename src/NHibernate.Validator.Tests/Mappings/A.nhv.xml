@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<nhv-mapping xmlns="urn:nhibernate-validator-1.0"
+			 namespace="NHibernate.Validator.Tests.Mappings"
+			 assembly="NHibernate.Validator.Tests">
+	<class name="A">
+		<property name="WrongName">
+			<not-null/>
+		</property>
+	</class>
+</nhv-mapping>
