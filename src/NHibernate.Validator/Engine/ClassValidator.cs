@@ -13,6 +13,7 @@ using NHibernate.Util;
 using NHibernate.Validator.Cfg.MappingSchema;
 using NHibernate.Validator.Exceptions;
 using NHibernate.Validator.Interpolator;
+using NHibernate.Validator.Mappings;
 using NHibernate.Validator.Util;
 using NHibernate.Validator.Cfg;
 
@@ -152,55 +153,72 @@ namespace NHibernate.Validator.Engine
 			childClassValidators.Add(clazz, this);
 			ISet<System.Type> classes = new HashedSet<System.Type>();
 			AddSuperClassesAndInterfaces(clazz, classes);
-
-			foreach (System.Type currentClass in classes)
+			
+			// Create the IClassMapping for each class of the validator
+			List<IClassMapping> classesMaps = new List<IClassMapping>(classes.Count);
+			foreach (System.Type type in classes)
 			{
-				// TODO: Support override in class Attributes
-				if (validatorMode == ValidatorMode.UseXml)
-				{
-					CreateClassMembersFromXml(currentClass);
-				}
-				else
-				{
-					foreach (Attribute classAttribute in currentClass.GetCustomAttributes(false))
-					{
-						ValidateClassAtribute(classAttribute);
-					}
-				}
+				IClassMapping mapping = GetClassMapping(type);
+				if (mapping != null)
+					classesMaps.Add(mapping);
 			}
 
 			//Check on all selected classes
-			foreach (System.Type currentClass in classes)
+			foreach (IClassMapping map in classesMaps)
 			{
-				if (CfgXmlHelper.ModeAcceptsXml(validatorMode))
+				foreach (Attribute classAttribute in map.GetClassAttributes())
 				{
-					CreateAttributesFromXml(currentClass);
+					ValidateClassAtribute(classAttribute);
 				}
 
-				if (CfgXmlHelper.ModeAcceptsAttributes(validatorMode))
+				foreach (MemberInfo member in map.GetMembers())
 				{
-					foreach (MemberInfo member in currentClass.GetMembers(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public |
-																											 BindingFlags.NonPublic | BindingFlags.Static))
+					CreateMemberAttributes(member);
+					CreateChildValidator(member);
+
+					foreach (Attribute memberAttribute in map.GetMemberAttributes(member))
 					{
-						CreateMemberAttributes(member);
-						CreateChildValidator(member);
+						IValidator propertyValidator = CreateValidator(memberAttribute);
+
+						if (propertyValidator != null)
+						{
+							memberValidators.Add(propertyValidator);
+							memberGetters.Add(member);
+						}
 					}
 				}
 			}
+		}
 
-			foreach (MemberInfo member in membersAttributesDictionary.Keys)
+		private IClassMapping GetClassMapping(System.Type clazz)
+		{
+			NhvmClass nhvm;
+			switch (validatorMode)
 			{
-				foreach (Attribute memberAttribute in membersAttributesDictionary[member])
-				{
-					IValidator propertyValidator = CreateValidator(memberAttribute);
-
-					if (propertyValidator != null)
+				case ValidatorMode.UseAttribute:
+					return new ReflectionClassMapping(clazz);
+				case ValidatorMode.UseXml:
+					nhvm = GetNhvClassFor(clazz);
+					if (nhvm == null)
 					{
-						memberValidators.Add(propertyValidator);
-						memberGetters.Add(member);
+						log.Warn("Validator not found in ValidatorMode.UseXml for class " + clazz.AssemblyQualifiedName);
+						return null;
 					}
-				}
+					return new XmlClassMapping(nhvm);
+				case ValidatorMode.OverrideAttributeWithXml:
+					nhvm = GetNhvClassFor(clazz);
+					if (nhvm == null)
+						return new ReflectionClassMapping(clazz);
+					else
+						return new XmlOverAttributeClassMapping(nhvm);
+				case ValidatorMode.OverrideXmlWithAttribute:
+					nhvm = GetNhvClassFor(clazz);
+					if (nhvm == null)
+						return new ReflectionClassMapping(clazz);
+					else
+						return new AttributeOverXmlClassMapping(nhvm);
 			}
+			return null;
 		}
 
 		private void AddAttributeToMember(MemberInfo currentMember, Attribute thisattribute, bool overrideAttribute)
@@ -245,43 +263,6 @@ namespace NHibernate.Validator.Engine
 			//HandleAggregateAnnotations(classAttribute, null);
 		}
 
-		private void CreateClassMembersFromXml(System.Type currentClass)
-		{
-			NhvmClass clazz = GetNhvClassFor(currentClass);
-			if (clazz == null || clazz.attributename == null) return;
-			log.Debug("Looking for class attributes");
-			foreach (string attributeName in clazz.attributename)
-			{
-				log.Info("Attribute to look for = " + attributeName);
-				Attribute classAttribute = RuleAttributeFactory.CreateAttributeFromClass(currentClass, attributeName);
-				if (classAttribute != null)
-				{
-					ValidateClassAtribute(classAttribute);
-				}
-			}
-		}
-
-		private void CreateAttributesFromXml(System.Type currentClass)
-		{
-			NhvmClass clazz = GetNhvClassFor(currentClass);
-			if (clazz == null || clazz.property == null) return;
-			
-			foreach (NhvmProperty property in clazz.property)
-			{
-				MemberInfo currentMember = TypeUtils.GetPropertyOrField(currentClass, property.name);
-
-				if (currentMember == null)
-				{
-					log.Error(string.Format("Property or field \"{0}\" was not found in the class: \"{1}\" ", property.name, currentClass.FullName));
-					continue;
-				}
-				log.Info("Looking for rules for property : " + property.name);
-				CreateMemberAttributesFromRules(currentMember, property.Items, clazz.rootMapping.assembly,
-				                                clazz.rootMapping.@namespace);
-				CreateChildValidator(currentMember);
-			}
-		}
-
 		private NhvmClass GetNhvClassFor(System.Type currentClass)
 		{
 			NhvMapping mapp = MappingLoader.GetMappingFor(currentClass);
@@ -289,19 +270,6 @@ namespace NHibernate.Validator.Engine
 				return mapp.@class[0];
 
 			return null;
-		}
-
-		private void CreateMemberAttributesFromRules(MemberInfo member, object[] rules, string defaultAssembly, string defaultNameSpace)
-		{
-			foreach (object rule in rules)
-			{
-				Attribute thisAttribute = RuleAttributeFactory.CreateAttributeFromRule(rule, defaultAssembly, defaultNameSpace);
-
-				if (thisAttribute != null)
-				{
-					AddAttributeToMember(member, thisAttribute, validatorMode == ValidatorMode.OverrideAttributeWithXml);
-				}
-			}
 		}
 
 		/// <summary>

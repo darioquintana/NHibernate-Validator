@@ -20,7 +20,10 @@ namespace NHibernate.Validator.Mappings
 
 		public IEnumerable<Attribute> GetClassAttributes()
 		{
-			return classAttributes.AsReadOnly();
+			if (classAttributes != null)
+				return classAttributes.AsReadOnly();
+			else
+				return new Attribute[0];
 		}
 
 		public IEnumerable<MemberInfo> GetMembers()
@@ -32,7 +35,10 @@ namespace NHibernate.Validator.Mappings
 		{
 			List<Attribute> result;
 			membersAttributesDictionary.TryGetValue(member, out result);
-			return result == null ? null : result.AsReadOnly();
+			if (result != null)
+				return result.AsReadOnly();
+			else
+				return new Attribute[0];
 		}
 
 		#endregion
