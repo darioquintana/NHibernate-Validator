@@ -65,11 +65,14 @@
     <Compile Include="EmailValidator.cs" />
     <Compile Include="Engine\AbstractClassValidatorFactory.cs" />
     <Compile Include="Engine\Environment.cs" />
+    <Compile Include="Engine\IClassMappingFactory.cs" />
     <Compile Include="Engine\IClassValidatorFactory.cs" />
     <Compile Include="Engine\IClassValidatorImplementor.cs" />
     <Compile Include="Engine\IInitializableValidator.cs" />
     <Compile Include="Engine\IValidatableSubElementsInspector.cs" />
     <Compile Include="Cfg\MappingLoader.cs" />
+    <Compile Include="Engine\JITClassMappingFactory.cs" />
+    <Compile Include="Engine\StateFullClassMappingFactory.cs" />
     <Compile Include="Engine\StateFullClassValidatorFactory.cs" />
     <Compile Include="Engine\ValidatableElement.cs" />
     <Compile Include="Engine\ValidatorEngine.cs" />

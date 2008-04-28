@@ -12,5 +12,7 @@ namespace NHibernate.Validator.Engine
 
 		IClassValidator GetRootValidator(System.Type type);
 		void GetChildValidator(IClassValidatorImplementor parentValidator, System.Type childType);
+
+		IClassMappingFactory ClassMappingFactory { get;}
 	}
 }

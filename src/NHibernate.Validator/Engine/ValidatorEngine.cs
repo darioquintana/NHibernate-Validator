@@ -180,6 +180,12 @@ namespace NHibernate.Validator.Engine
 			// UpLoad Mappings
 			MappingLoader ml = new MappingLoader();
 			ml.LoadMappings(config.Mappings);
+			Initialize(ml);
+		}
+
+		private void Initialize(MappingLoader loader)
+		{
+			factory.Initialize(loader);
 		}
 
 		private void Clear()

@@ -10,12 +10,10 @@ using log4net;
 using NHibernate.Mapping;
 using NHibernate.Properties;
 using NHibernate.Util;
-using NHibernate.Validator.Cfg.MappingSchema;
 using NHibernate.Validator.Exceptions;
 using NHibernate.Validator.Interpolator;
 using NHibernate.Validator.Mappings;
 using NHibernate.Validator.Util;
-using NHibernate.Validator.Cfg;
 
 namespace NHibernate.Validator.Engine
 {
@@ -158,9 +156,11 @@ namespace NHibernate.Validator.Engine
 			List<IClassMapping> classesMaps = new List<IClassMapping>(classes.Count);
 			foreach (System.Type type in classes)
 			{
-				IClassMapping mapping = GetClassMapping(type);
+				IClassMapping mapping = factory.ClassMappingFactory.GetClassMapping(type, validatorMode);
 				if (mapping != null)
 					classesMaps.Add(mapping);
+				else
+					log.Warn("Validator not found in mode " + validatorMode + " for class " + clazz.AssemblyQualifiedName);
 			}
 
 			//Check on all selected classes
@@ -188,37 +188,6 @@ namespace NHibernate.Validator.Engine
 					}
 				}
 			}
-		}
-
-		private IClassMapping GetClassMapping(System.Type clazz)
-		{
-			NhvmClass nhvm;
-			switch (validatorMode)
-			{
-				case ValidatorMode.UseAttribute:
-					return new ReflectionClassMapping(clazz);
-				case ValidatorMode.UseXml:
-					nhvm = GetNhvClassFor(clazz);
-					if (nhvm == null)
-					{
-						log.Warn("Validator not found in ValidatorMode.UseXml for class " + clazz.AssemblyQualifiedName);
-						return null;
-					}
-					return new XmlClassMapping(nhvm);
-				case ValidatorMode.OverrideAttributeWithXml:
-					nhvm = GetNhvClassFor(clazz);
-					if (nhvm == null)
-						return new ReflectionClassMapping(clazz);
-					else
-						return new XmlOverAttributeClassMapping(nhvm);
-				case ValidatorMode.OverrideXmlWithAttribute:
-					nhvm = GetNhvClassFor(clazz);
-					if (nhvm == null)
-						return new ReflectionClassMapping(clazz);
-					else
-						return new AttributeOverXmlClassMapping(nhvm);
-			}
-			return null;
 		}
 
 		private void AddAttributeToMember(MemberInfo currentMember, Attribute thisattribute, bool overrideAttribute)
@@ -261,15 +230,6 @@ namespace NHibernate.Validator.Engine
 
 			//Note: No need to handle Aggregate annotations, c# use Multiple Attribute declaration.
 			//HandleAggregateAnnotations(classAttribute, null);
-		}
-
-		private NhvmClass GetNhvClassFor(System.Type currentClass)
-		{
-			NhvMapping mapp = MappingLoader.GetMappingFor(currentClass);
-			if (mapp != null && mapp.@class.Length > 0)
-				return mapp.@class[0];
-
-			return null;
 		}
 
 		/// <summary>
@@ -772,8 +732,18 @@ namespace NHibernate.Validator.Engine
 		/// </summary>
 		private class JITClassValidatorFactory : AbstractClassValidatorFactory
 		{
+			private readonly JITClassMappingFactory classMappingFactory;
+
 			public JITClassValidatorFactory(ResourceManager resourceManager, CultureInfo culture, IMessageInterpolator userInterpolator, ValidatorMode validatorMode) 
-				: base(resourceManager, culture, userInterpolator, validatorMode) {}
+				: base(resourceManager, culture, userInterpolator, validatorMode)
+			{
+				classMappingFactory = new JITClassMappingFactory();
+			}
+
+			public override IClassMappingFactory ClassMappingFactory
+			{
+				get { return classMappingFactory; }
+			}
 
 			#region IClassValidatorFactory Members
 
