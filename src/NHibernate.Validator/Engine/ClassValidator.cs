@@ -130,7 +130,7 @@ namespace NHibernate.Validator.Engine
 
 		private static ResourceManager GetDefaultResourceManager()
 		{
-			return new ResourceManager(typeof (Resources.DefaultValidatorMessages));
+			return new ResourceManager(Environment.BaseNameOfMessageResource, Assembly.GetExecutingAssembly());
 		}
 
 		/// <summary>

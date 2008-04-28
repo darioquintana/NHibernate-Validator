@@ -30,5 +30,7 @@ namespace NHibernate.Validator.Engine
 		/// </remarks>
 		/// <seealso cref="Engine.ValidatorMode"/>
 		public static readonly string ValidatorMode = "default-validator-mode";
+
+		public const string BaseNameOfMessageResource = "NHibernate.Validator.Properties.DefaultValidatorMessages";
 	}
 }

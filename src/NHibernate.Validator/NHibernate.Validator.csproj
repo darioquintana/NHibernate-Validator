@@ -121,11 +121,6 @@
     <Compile Include="PatternValidator.cs" />
     <Compile Include="RangeAttribute.cs" />
     <Compile Include="RangeValidator.cs" />
-    <Compile Include="Resources\DefaultValidatorMessages.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DefaultValidatorMessages.resx</DependentUpon>
-    </Compile>
     <Compile Include="SizeAttribute.cs" />
     <Compile Include="SizeValidator.cs" />
     <Compile Include="Util\AttributeUtils.cs" />
@@ -140,22 +135,20 @@
     <Compile Include="Cfg\MappingSchema\RuleAttributeFactory.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\DefaultValidatorMessages.de.resx">
+    <EmbeddedResource Include="Properties\DefaultValidatorMessages.de.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\DefaultValidatorMessages.es.resx">
+    <EmbeddedResource Include="Properties\DefaultValidatorMessages.es.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\DefaultValidatorMessages.fr.resx">
+    <EmbeddedResource Include="Properties\DefaultValidatorMessages.fr.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\DefaultValidatorMessages.it.resx">
+    <EmbeddedResource Include="Properties\DefaultValidatorMessages.it.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\DefaultValidatorMessages.resx">
+    <EmbeddedResource Include="Properties\DefaultValidatorMessages.resx">
       <SubType>Designer</SubType>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>DefaultValidatorMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
