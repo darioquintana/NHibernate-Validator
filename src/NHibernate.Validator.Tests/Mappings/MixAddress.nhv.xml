@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<nhv-mapping xmlns="urn:nhibernate-validator-1.0"
+			 namespace="NHibernate.Validator.Tests.Mappings"
+			 assembly="NHibernate.Validator.Tests">
+	<class name="MixAddress">
+		<property name="blacklistedZipCode">
+				<not-null/>
+		</property>
+		
+		<property name="country">
+				<length max="20"/>
+				<not-null />	
+		</property>
+		
+		<property name="Id">	
+				<min value="1" />
+				<range max="9999" />
+		</property>
+		
+		<property name="Line1" >	
+				<not-null/>
+		</property>
+		
+		<property name="State">	
+				<not-null/>
+				<length max="3"/>
+		</property>
+
+		<property name="Zip">
+				<length max="5" message="{long}"/>
+		</property>
+		
+		<property name="InternalValid">	
+				<asserttrue />
+		</property>
+	</class>
+</nhv-mapping>

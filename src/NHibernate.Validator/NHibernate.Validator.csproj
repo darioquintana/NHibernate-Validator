@@ -80,6 +80,13 @@
     <Compile Include="Engine\IRuleArgs.cs" />
     <Compile Include="IPAddressAttribute.cs" />
     <Compile Include="IPAddressValidator.cs" />
+    <Compile Include="Mappings\AbstractClassMapping.cs" />
+    <Compile Include="Mappings\AttributeOverXmlClassMapping.cs" />
+    <Compile Include="Mappings\IClassMapping.cs" />
+    <Compile Include="Mappings\MixedClassMapping.cs" />
+    <Compile Include="Mappings\ReflectionClassMapping.cs" />
+    <Compile Include="Mappings\XmlClassMapping.cs" />
+    <Compile Include="Mappings\XmlOverAttributeClassMapping.cs" />
     <Compile Include="MaxAttribute.cs" />
     <Compile Include="MaxValidator.cs" />
     <Compile Include="MinAttribute.cs" />

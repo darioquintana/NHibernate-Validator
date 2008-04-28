@@ -73,6 +73,13 @@
     <Compile Include="Base\CarEngine.cs" />
     <Compile Include="ConfigurationInjecterSectionHandler.cs" />
     <Compile Include="Configuration\MappingLoaderFixture.cs" />
+    <Compile Include="Mappings\AssertAnimalAttribute.cs" />
+    <Compile Include="Mappings\OtherValidator.cs" />
+    <Compile Include="Mappings\MixAddress.cs" />
+    <Compile Include="Mappings\MixedClassMappingFixture.cs" />
+    <Compile Include="Mappings\ReflectionClassMappingFixture.cs" />
+    <Compile Include="Mappings\MixSuricato.cs" />
+    <Compile Include="Mappings\XmlClassMappingFixture.cs" />
     <Compile Include="UtilValidatorFactory.cs" />
     <Compile Include="Collections\CollectionFixture.cs" />
     <Compile Include="Collections\HasArrayWithValid.cs" />
@@ -236,6 +243,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Base\CarEngine.nhv.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\MixAddress.nhv.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\MixSuricato.nhv.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
