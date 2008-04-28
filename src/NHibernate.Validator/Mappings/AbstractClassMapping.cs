@@ -20,10 +20,7 @@ namespace NHibernate.Validator.Mappings
 
 		public IEnumerable<Attribute> GetClassAttributes()
 		{
-			if (classAttributes != null)
-				return classAttributes.AsReadOnly();
-			else
-				return new Attribute[0];
+			return classAttributes.AsReadOnly();
 		}
 
 		public IEnumerable<MemberInfo> GetMembers()
