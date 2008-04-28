@@ -74,15 +74,5 @@ namespace NHibernate.Validator.Cfg
 					throw new ValidatorConfigurationException("Unexpected ValidatorMode :" + validatorMode);
 			}
 		}
-
-		public static bool ModeAcceptsAttributes(ValidatorMode validatorMode)
-		{
-			return validatorMode != ValidatorMode.UseXml;
-		}
-
-		public static bool ModeAcceptsXml(ValidatorMode validatorMode)
-		{
-			return validatorMode != ValidatorMode.UseAttribute;
-		}
 	}
 }
