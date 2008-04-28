@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using NHibernate.Util;
 
 namespace NHibernate.Validator.Util
 {
@@ -11,6 +10,9 @@ namespace NHibernate.Validator.Util
 	/// </summary>
 	public sealed class TypeUtils
 	{
+		public static BindingFlags AnyVisibilityInstance = BindingFlags.Instance | BindingFlags.Public |
+																									 BindingFlags.NonPublic | BindingFlags.Static;
+
 		/// <summary>
 		/// Get the Generic Arguments of a <see cref="IDictionary{TKey,TValue}"/>
 		/// </summary>
@@ -52,7 +54,7 @@ namespace NHibernate.Validator.Util
 		/// <returns>is enumerable or not</returns>
 		public static bool IsEnumerable(System.Type clazz)
 		{
-			return clazz.GetInterface(typeof(IEnumerable).FullName) == null ? false : true;
+			return typeof (IEnumerable).IsAssignableFrom(clazz);
 		}
 
 		public static bool IsGenericDictionary(System.Type clazz)
@@ -96,46 +98,20 @@ namespace NHibernate.Validator.Util
 
 			PropertyInfo pi = member as PropertyInfo;
 			if (pi != null)
-				return pi.GetValue(bean, ReflectHelper.AnyVisibilityInstance | BindingFlags.GetProperty, null, null, null);
+				return pi.GetValue(bean, null);
 
 			return null;
 		}
 
 		public static MemberInfo GetPropertyOrField(System.Type currentClass, string name)
 		{
-			MemberInfo memberInfo = currentClass.GetProperty(name, ReflectHelper.AnyVisibilityInstance | BindingFlags.Static);
+			MemberInfo memberInfo = currentClass.GetProperty(name, AnyVisibilityInstance);
 			if (memberInfo == null)
 			{
-				memberInfo = currentClass.GetField(name, ReflectHelper.AnyVisibilityInstance | BindingFlags.Static);
+				memberInfo = currentClass.GetField(name, AnyVisibilityInstance);
 			}
 
 			return memberInfo;
-		}
-
-		/// <summary>
-		/// Tell if a type implements a interface.
-		/// </summary>
-		/// <param name="type"></param>
-		/// <param name="interfaceType">Implements this interface?</param>
-		/// <returns>
-		/// True if the type implements the interface and 
-		/// false if the doesn't or the interfaceType param isn't an interface
-		/// </returns>
-		public static bool IsImplementationOf(System.Type type, System.Type interfaceType)
-		{
-			if(!interfaceType.IsInterface)
-			{
-				return false;
-			}
-			else
-			{
-				foreach (System.Type @interface in type.GetInterfaces())
-				{
-					if (@interface.Equals(interfaceType)) 
-						return true;
-				}
-				return false;
-			}
 		}
 	}
 }

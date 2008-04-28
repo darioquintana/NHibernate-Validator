@@ -1,10 +1,10 @@
 using NHibernate.Validator.Util;
 using NUnit.Framework;
 
-namespace NHibernate.Validator.Tests.Attributes
+namespace NHibernate.Validator.Tests.Utils
 {
 	[TestFixture]
-	public class AttributesFixture
+	public class AttributeUtilsFixture
 	{
 		[Test]
 		public void AttributeCanBeMultiplied()

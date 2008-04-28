@@ -64,7 +64,6 @@
     <Compile Include="Base\Address.cs" />
     <Compile Include="Base\Animal.cs" />
     <Compile Include="Base\AssertAnimalAttribute.cs" />
-    <Compile Include="Attributes\AttributesFixture.cs" />
     <Compile Include="BaseValidatorFixture.cs" />
     <Compile Include="Base\Composition.cs" />
     <Compile Include="Base\Boo.cs" />
@@ -83,6 +82,8 @@
     <Compile Include="Mappings\ReflectionClassMappingFixture.cs" />
     <Compile Include="Mappings\MixSuricato.cs" />
     <Compile Include="Mappings\XmlClassMappingFixture.cs" />
+    <Compile Include="Utils\AttributeUtilsFixture.cs" />
+    <Compile Include="Utils\TypeUtilsFixture.cs" />
     <Compile Include="UtilValidatorFactory.cs" />
     <Compile Include="Collections\CollectionFixture.cs" />
     <Compile Include="Collections\HasArrayWithValid.cs" />
