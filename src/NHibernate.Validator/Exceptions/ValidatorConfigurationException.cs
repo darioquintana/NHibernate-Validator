@@ -1,6 +1,5 @@
 using System;
 using System.Runtime.Serialization;
-using NHibernate.Validator.Exceptions;
 
 namespace NHibernate.Validator.Exceptions
 {
@@ -9,16 +8,14 @@ namespace NHibernate.Validator.Exceptions
 	{
 		private const string baseMessage = "An exception occurred during configuration of Validation framework.";
 
-		public ValidatorConfigurationException() { }
+		public ValidatorConfigurationException() : base(baseMessage) {}
 
-		public ValidatorConfigurationException(string message) : base(message) { }
+		public ValidatorConfigurationException(string message) : base(message) {}
 
-		public ValidatorConfigurationException(string message, System.Exception inner) : base(message, inner) { }
+		public ValidatorConfigurationException(string message, Exception inner) : base(message, inner) {}
 
-		public ValidatorConfigurationException(Exception innerException)
-			: base(baseMessage, innerException) { }
+		public ValidatorConfigurationException(Exception innerException) : base(baseMessage, innerException) {}
 
-		protected ValidatorConfigurationException(SerializationInfo info, StreamingContext context)
-			: base(info, context) { }
+		protected ValidatorConfigurationException(SerializationInfo info, StreamingContext context) : base(info, context) {}
 	}
 }
