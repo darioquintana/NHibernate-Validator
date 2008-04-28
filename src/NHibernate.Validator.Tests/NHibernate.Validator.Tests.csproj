@@ -66,11 +66,13 @@
     <Compile Include="Base\AssertAnimalAttribute.cs" />
     <Compile Include="Attributes\AttributesFixture.cs" />
     <Compile Include="BaseValidatorFixture.cs" />
+    <Compile Include="Base\Composition.cs" />
     <Compile Include="Base\Boo.cs" />
     <Compile Include="Base\Brother.cs" />
     <Compile Include="Base\Building.cs" />
     <Compile Include="Base\Car.cs" />
     <Compile Include="Base\CarEngine.cs" />
+    <Compile Include="Base\CompositionFixture.cs" />
     <Compile Include="ConfigurationInjecterSectionHandler.cs" />
     <Compile Include="Configuration\MappingLoaderFixture.cs" />
     <Compile Include="Mappings\AssertAnimalAttribute.cs" />

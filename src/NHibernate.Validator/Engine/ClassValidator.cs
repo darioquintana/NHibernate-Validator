@@ -125,7 +125,7 @@ namespace NHibernate.Validator.Engine
 		{
 			get
 			{
-				return beanValidators.Count != 0 || memberValidators.Count != 0;
+				return memberValidators.Count != 0 || beanValidators.Count != 0 || childClassValidators.Count > 1;
 			}
 		}
 
@@ -179,7 +179,8 @@ namespace NHibernate.Validator.Engine
 
 				if (CfgXmlHelper.ModeAcceptsAttributes(validatorMode))
 				{
-					foreach (MemberInfo member in currentClass.GetMembers(ReflectHelper.AnyVisibilityInstance | BindingFlags.Static))
+					foreach (MemberInfo member in currentClass.GetMembers(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public |
+																											 BindingFlags.NonPublic | BindingFlags.Static))
 					{
 						CreateMemberAttributes(member);
 						CreateChildValidator(member);
@@ -311,26 +312,7 @@ namespace NHibernate.Validator.Engine
 		/// <returns></returns>
 		public InvalidValue[] GetInvalidValues(object bean)
 		{
-			System.Type type = bean.GetType();
-
-			if(!type.Equals(beanClass) && (type.IsSubclassOf(beanClass)|| TypeUtils.IsImplementationOf(type,beanClass)))
-			{
-				return HandlePolimorphicBehaviour(bean, type);
-			}
-
 			return GetInvalidValues(bean, new IdentitySet());
-		}
-
-		private InvalidValue[] HandlePolimorphicBehaviour(object bean, System.Type type)
-		{
-			log.WarnFormat("the type of the object to validate is {0}, but the ClassValidator was declared as {1}", type.FullName,
-			               beanClass.FullName);
-
-			IClassValidator polimorphicValidator;
-
-			polimorphicValidator = factory.GetRootValidator(bean.GetType());
-
-			return polimorphicValidator.GetInvalidValues(bean);
 		}
 
 		private InvalidValue[] GetInvalidValues(object bean, ISet circularityState)
@@ -648,9 +630,9 @@ namespace NHibernate.Validator.Engine
 		private static void AddSuperClassesAndInterfaces(System.Type clazz, ISet<System.Type> classes)
 		{
 			//iterate for all SuperClasses
-			for (System.Type currentClass = clazz; currentClass != null; currentClass = currentClass.BaseType)
+			for (System.Type currentClass = clazz; currentClass != null && currentClass != typeof(object); currentClass = currentClass.BaseType)
 			{
-				if (!classes.Add(clazz))
+				if (!classes.Add(currentClass))
 				{
 					return; //Base case for the recursivity
 				}

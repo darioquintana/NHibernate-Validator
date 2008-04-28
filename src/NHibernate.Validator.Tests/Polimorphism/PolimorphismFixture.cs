@@ -6,7 +6,10 @@ namespace NHibernate.Validator.Tests.Polimorphism
 	[TestFixture]
 	public class PolimorphismFixture
 	{
-		///See this post http://blogs.msdn.com/tomholl/archive/2008/03/02/polymorphism-and-the-validation-application-block.aspx"
+		//See this post http://blogs.msdn.com/tomholl/archive/2008/03/02/polymorphism-and-the-validation-application-block.aspx"
+		// NHV ClassValidator can be used without generics this mean that the right way to create a new 
+		// ClassValidator is in presence of polimorphic classes is : new ClassValidator(bean.GetType())
+		// Using the ValidatorEngine you can don't wary about that ;)
 
 		[Test]
 		public void DoPolimorphismWithClasses()
@@ -21,7 +24,11 @@ namespace NHibernate.Validator.Tests.Polimorphism
 			
 			ClassValidator vtor2 = new ClassValidator(typeof(BaseClass));
 			InvalidValue[] values2 = vtor2.GetInvalidValues(d);
-			Assert.AreEqual(2, values2.Length, "Polimorphic support is no working");
+			Assert.AreEqual(1, values2.Length, "Polimorphic support is no working");
+
+			ValidatorEngine ve = new ValidatorEngine();
+			values = ve.Validate(d);
+			Assert.AreEqual(2, values.Length);
 		}
 
 		[Test]
@@ -37,27 +44,87 @@ namespace NHibernate.Validator.Tests.Polimorphism
 
 			ClassValidator vtor2 = new ClassValidator(typeof(IContract));
 			InvalidValue[] values2 = vtor2.GetInvalidValues(obj);
-			Assert.AreEqual(2, values2.Length, "Polimorphic support is no working");
+			Assert.AreEqual(1, values2.Length, "Polimorphic support is no working");
+
+			ValidatorEngine ve = new ValidatorEngine();
+			values = ve.Validate(obj);
+			Assert.AreEqual(2, values.Length);
 		}
 
-		/// <summary>
-		/// This test if the internal storage of ClassValidator works.
-		/// </summary>
 		[Test]
-		public void StorageOfClassValidators()
+		public void Coposition()
 		{
-			DerivatedClass d1 = new DerivatedClass();
-			d1.A = "hola";
-			d1.B = "hola";
+			DerivatedClass dFullBroken = new DerivatedClass();
+			dFullBroken.A = "1234";
+			dFullBroken.B = "1234";
 
-			DerivatedClass d2 = new DerivatedClass();
-			d2.A = "hola";
-			d2.B = "hola";
+			DerivatedClass dPartialBroken = new DerivatedClass();
+			dPartialBroken.A = "1234";
 
-			IClassValidator vtor = new ClassValidator(typeof (BaseClass));
+			BaseClass bOk = new BaseClass();
+			bOk.A = "123";
 
-			Assert.AreEqual(2,vtor.GetInvalidValues(d1).Length);
-			Assert.AreEqual(2,vtor.GetInvalidValues(d2).Length);
+			BaseClass bBroken = new BaseClass();
+			bBroken.A = "1234";
+
+			ClassValidator vtor = new ClassValidator(typeof(Composition));
+			InvalidValue[] ivalues;
+			Composition c = new Composition();
+
+			c.Any = bBroken;
+			ivalues = vtor.GetInvalidValues(c);
+			Assert.AreEqual(1, ivalues.Length);
+
+			c.Any = dFullBroken;
+			ivalues = vtor.GetInvalidValues(c);
+			Assert.AreEqual(2, ivalues.Length);
+
+			c.Any = bOk;
+			ivalues = vtor.GetInvalidValues(c);
+			Assert.AreEqual(0, ivalues.Length);
+
+			c.Any = dPartialBroken;
+			ivalues = vtor.GetInvalidValues(c);
+			Assert.AreEqual(1, ivalues.Length);
+			Assert.AreEqual("A", ivalues[0].PropertyName);
+		}
+
+		[Test]
+		public void CopositionUsingEngine()
+		{
+			DerivatedClass dFullBroken = new DerivatedClass();
+			dFullBroken.A = "1234";
+			dFullBroken.B = "1234";
+
+			DerivatedClass dPartialBroken = new DerivatedClass();
+			dPartialBroken.A = "1234";
+
+			BaseClass bOk = new BaseClass();
+			bOk.A = "123";
+
+			BaseClass bBroken = new BaseClass();
+			bBroken.A = "1234";
+
+			ValidatorEngine ve = new ValidatorEngine();
+			InvalidValue[] ivalues;
+			Composition c = new Composition();
+
+			c.Any = bBroken;
+			ivalues = ve.Validate(c);
+			Assert.AreEqual(1, ivalues.Length);
+
+			c.Any = dFullBroken;
+			ivalues = ve.Validate(c);
+			Assert.AreEqual(2, ivalues.Length);
+
+			c.Any = bOk;
+			ivalues = ve.Validate(c);
+			Assert.AreEqual(0, ivalues.Length);
+
+			c.Any = dPartialBroken;
+			ivalues = ve.Validate(c);
+			Assert.AreEqual(1, ivalues.Length);
+			Assert.AreEqual("A", ivalues[0].PropertyName);
 		}
 	}
 }

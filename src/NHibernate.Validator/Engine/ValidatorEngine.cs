@@ -24,9 +24,9 @@ namespace NHibernate.Validator.Engine
 	public class ValidatorEngine
 	{
 		private static readonly ILog log = LogManager.GetLogger(typeof(ValidatorEngine));
-		private StateFullClassValidatorFactory factory;
 
 		// TODO : make the class thread-safe and may be serializable
+		private StateFullClassValidatorFactory factory;
 		private IMessageInterpolator interpolator;
 		private ValidatorMode defaultMode;
 		private bool applyToDDL;
@@ -408,6 +408,5 @@ namespace NHibernate.Validator.Engine
 			string binPath = relativeSearchPath == null ? baseDir : Path.Combine(baseDir, relativeSearchPath);
 			return Path.Combine(binPath, CfgXmlHelper.DefaultNHVCfgFileName);
 		}
-
 	}
 }

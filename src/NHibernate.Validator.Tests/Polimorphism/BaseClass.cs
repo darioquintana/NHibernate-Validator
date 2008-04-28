@@ -1,6 +1,10 @@
 namespace NHibernate.Validator.Tests.Polimorphism
 {
-	public class BaseClass
+	public interface IInheritance
+	{
+		
+	}
+	public class BaseClass : IInheritance
 	{
 		[Length(3)]
 		public string A;
@@ -10,5 +14,11 @@ namespace NHibernate.Validator.Tests.Polimorphism
 	{
 		[Length(3)]
 		public string B;
+	}
+
+	public class Composition
+	{
+		[Valid]
+		public IInheritance Any;
 	}
 }
