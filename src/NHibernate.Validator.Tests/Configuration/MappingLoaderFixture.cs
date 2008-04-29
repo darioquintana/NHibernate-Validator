@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Reflection;
 using System.Xml;
@@ -11,6 +12,13 @@ namespace NHibernate.Validator.Tests.Configuration
 	[TestFixture]
 	public class MappingLoaderFixture
 	{
+		[Test, ExpectedException(typeof(ArgumentNullException))]
+		public void LoadMappingsNull()
+		{
+			MappingLoader ml = new MappingLoader();
+			ml.LoadMappings(null);
+		}
+
 		[Test]
 		public void LoadMappingsTest()
 		{
@@ -26,6 +34,41 @@ namespace NHibernate.Validator.Tests.Configuration
 			MappingLoader ml = new MappingLoader();
 			ml.LoadMappings(cfg.Mappings);
 			Assert.AreEqual(2, ml.Mappings.Length);
+
+			xml =
+@"<nhv-configuration xmlns='urn:nhv-configuration-1.0'>
+		<mapping assembly='NHibernate.Validator.Tests'/>
+	</nhv-configuration>";
+			cfgXml = new XmlDocument();
+			cfgXml.LoadXml(xml);
+			xtr = new XmlTextReader(xml, XmlNodeType.Document, null);
+			cfg = new NHVConfiguration(xtr);
+			ml = new MappingLoader();
+			ml.LoadMappings(cfg.Mappings);
+			Assert.Less(1, ml.Mappings.Length); // the mappings of tests are more than 1 ;)
+
+			string tmpf = Path.GetTempFileName();
+			using (StreamWriter sw = new StreamWriter(tmpf))
+			{
+				sw.WriteLine("<?xml version='1.0' encoding='utf-8' ?>");
+				sw.WriteLine("<nhv-mapping xmlns='urn:nhibernate-validator-1.0'>");
+				sw.WriteLine("<class name='Boo'>");
+				sw.WriteLine("<property name='field'><notnullorempty/></property>");
+				sw.WriteLine("</class>");
+				sw.WriteLine("</nhv-mapping>");
+				sw.Flush();
+			}
+			xml = string.Format(
+@"<nhv-configuration xmlns='urn:nhv-configuration-1.0'>
+		<mapping file='{0}'/>
+	</nhv-configuration>", tmpf);
+			cfgXml = new XmlDocument();
+			cfgXml.LoadXml(xml);
+			xtr = new XmlTextReader(xml, XmlNodeType.Document, null);
+			cfg = new NHVConfiguration(xtr);
+			ml = new MappingLoader();
+			ml.LoadMappings(cfg.Mappings);
+			Assert.AreEqual(1, ml.Mappings.Length);
 		}
 
 		[Test, ExpectedException(typeof(ValidatorConfigurationException))]
@@ -59,7 +102,7 @@ namespace NHibernate.Validator.Tests.Configuration
 			}
 
 			MappingLoader ml = new MappingLoader();
-			using(StreamReader sr= new StreamReader(tmpf))
+			using (StreamReader sr = new StreamReader(tmpf))
 			{
 				ml.AddInputStream(sr.BaseStream, tmpf);
 			}
@@ -107,6 +150,22 @@ namespace NHibernate.Validator.Tests.Configuration
 		}
 
 		[Test, ExpectedException(typeof(ValidatorConfigurationException))]
+		public void AddWrongFile()
+		{
+			string tmpf = Path.GetTempFileName();
+			using (StreamWriter sw = new StreamWriter(tmpf))
+			{
+				sw.WriteLine("<?xml version='1.0' encoding='utf-8' ?>");
+				sw.WriteLine("<nhv-mapping xmlns='urn:nhibernate-validator-1.0'>");
+				sw.WriteLine("<no valid node>");
+				sw.WriteLine("</nhv-mapping>");
+				sw.Flush();
+			}
+			MappingLoader ml = new MappingLoader();
+			ml.AddFile(tmpf);
+		}
+
+		[Test, ExpectedException(typeof(ValidatorConfigurationException), "Could not load file NoExistFile")]
 		public void AddWrongFileName()
 		{
 			MappingLoader ml = new MappingLoader();
@@ -171,10 +230,18 @@ namespace NHibernate.Validator.Tests.Configuration
 		[Test]
 		public void GetMappingForType()
 		{
-			NhvMapping mapping = MappingLoader.GetMappingFor(typeof (Base.Address));
+			NhvMapping mapping = MappingLoader.GetMappingFor(typeof(Base.Address));
 			Assert.IsNotNull(mapping);
 			Assert.IsTrue(mapping == mapping.@class[0].rootMapping);
 			Assert.IsNull(MappingLoader.GetMappingFor(typeof(Base.Building)));
+		}
+
+		[Test, ExpectedException(typeof(ArgumentNullException))]
+		public void MappingDocumentParserTest()
+		{
+			// here we test only the exception since the other tests are included in MappingLoader
+			MappingDocumentParser mdp = new MappingDocumentParser();
+			mdp.Parse(null);
 		}
 	}
 }

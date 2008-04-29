@@ -1,3 +1,4 @@
+using System;
 using System.Xml;
 using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Exceptions;
@@ -72,6 +73,12 @@ namespace NHibernate.Validator.Tests.Configuration
 		}
 
 		[Test, ExpectedException(typeof(ValidatorConfigurationException))]
+		public void NullReader()
+		{
+			new NHVConfiguration(null);
+		}
+
+		[Test, ExpectedException(typeof(ValidatorConfigurationException))]
 		public void BadSchema()
 		{
 			string xml =
@@ -105,6 +112,10 @@ namespace NHibernate.Validator.Tests.Configuration
 			Assert.AreEqual("true", cfg.Properties["apply_to_ddl"]);
 			Assert.AreEqual("UseXml", cfg.Properties["default-validator-mode"]);
 			Assert.Contains(new MappingConfiguration("aAssembly", ""), (IList)cfg.Mappings);
+
+			// Accept only MappingConfiguration object for Equals comparison
+			Assert.IsFalse((new MappingConfiguration("NHibernate.Validator.Tests", "")).Equals("NHibernate.Validator.Tests"));
+			Assert.IsFalse((new MappingConfiguration("NHibernate.Validator.Tests", "")).Equals(null));
 		}
 
 		[Test]
@@ -142,5 +153,35 @@ namespace NHibernate.Validator.Tests.Configuration
 			Assert.AreEqual(0, cfg.Mappings.Count);
 		}
 
+		[Test]
+		public void MappingConfigurationCtors()
+		{
+			try
+			{
+				new MappingConfiguration("", "");
+				Assert.Fail("Constructor accept empty assembly name");
+			}
+			catch(ArgumentException)
+			{
+				//ok
+			}
+			try
+			{
+				new MappingConfiguration("");
+				Assert.Fail("Constructor accept empty file name");
+			}
+			catch (ArgumentException)
+			{
+				//ok
+			}
+		}
+
+		[Test]
+		public void MappingConfigurationToString()
+		{
+			Assert.AreEqual("file='';assembly='NHibernate.Validator.Tests';resource=''", (new MappingConfiguration("NHibernate.Validator.Tests", "")).ToString());
+			Assert.AreEqual("file='aFilePath';assembly='';resource=''", (new MappingConfiguration("aFilePath")).ToString());
+			Assert.AreEqual("file='';assembly='NHibernate.Validator.Tests';resource='AResource'", (new MappingConfiguration("NHibernate.Validator.Tests", "AResource")).ToString());
+		}
 	}
 }

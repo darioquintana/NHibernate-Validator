@@ -23,8 +23,6 @@ namespace NHibernate.Validator.Cfg
 
 			foreach (MappingConfiguration mc in mappings)
 			{
-				if (mc.IsEmpty())
-					throw new ValidatorConfigurationException("<mapping> element in configuration specifies no attributes");
 				if (!string.IsNullOrEmpty(mc.Resource))
 				{
 					log.Debug("Resource " + mc.Resource + " in " + mc.Assembly);
@@ -85,14 +83,6 @@ namespace NHibernate.Validator.Cfg
 			{
 				AddInputStream(stream, resource);
 			}
-			catch (MappingException)
-			{
-				throw;
-			}
-			catch (Exception e)
-			{
-				throw new ValidatorConfigurationException("Could not configure validator from resource " + resource, e);
-			}
 			finally
 			{
 				stream.Close();
@@ -107,14 +97,6 @@ namespace NHibernate.Validator.Cfg
 				textReader = new XmlTextReader(xmlInputStream);
 				AddXmlReader(textReader, fileName);
 			}
-			catch (ValidatorConfigurationException)
-			{
-				throw;
-			}
-			catch (Exception e)
-			{
-				throw new ValidatorConfigurationException("Could not configure validator from input stream " + fileName, e);
-			}
 			finally
 			{
 				if (textReader != null)
@@ -125,7 +107,14 @@ namespace NHibernate.Validator.Cfg
 		public void AddXmlReader(XmlTextReader reader, string fileName)
 		{
 			IMappingDocumentParser parser = new MappingDocumentParser();
-			mappings.Add(parser.Parse(reader));
+			try
+			{
+				mappings.Add(parser.Parse(reader));
+			}
+			catch(Exception e)
+			{
+				throw new ValidatorConfigurationException("Could not load file " + fileName, e);
+			}
 		}
 
 		public void AddFile(string filePath)
@@ -136,14 +125,6 @@ namespace NHibernate.Validator.Cfg
 			{
 				textReader = new XmlTextReader(filePath);
 				AddXmlReader(textReader, filePath);
-			}
-			catch (MappingException)
-			{
-				throw;
-			}
-			catch (Exception e)
-			{
-				throw new ValidatorConfigurationException("Could not configure validator from input file " + filePath, e);
 			}
 			finally
 			{
