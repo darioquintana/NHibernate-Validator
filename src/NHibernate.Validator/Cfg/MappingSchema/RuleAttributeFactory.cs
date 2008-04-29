@@ -40,9 +40,9 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			// public Only for test scope
 			ConvertSchemaRule converter;
 			if (wellKnownRules.TryGetValue(rule.GetType(), out converter))
-				return converter(new XmlNhvmRuleCoverterArgs(rule,defaultAssembly,defaultNameSpace));
+				return converter(new XmlNhvmRuleCoverterArgs(rule, defaultAssembly, defaultNameSpace));
 			else
-				return null;
+				throw new ValidatorConfigurationException("Unrecognized XML element:" + rule.GetType());
 		}
 
 		/// <summary>
