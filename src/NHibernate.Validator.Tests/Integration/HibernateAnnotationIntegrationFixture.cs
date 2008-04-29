@@ -1,3 +1,4 @@
+using System;
 using NHibernate.Validator.Exceptions;
 using NHibernate.Validator.Tests.Base;
 
@@ -42,6 +43,12 @@ namespace NHibernate.Validator.Tests.Integration
 
 			txn.Commit();
 			s.Close();
+		}
+
+		[Test, ExpectedException(typeof(ArgumentNullException))]
+		public void InvalidInitializer()
+		{
+			ValidatorInitializer.Initialize(null);
 		}
 
 		[Test]

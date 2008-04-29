@@ -8,12 +8,8 @@ using NHibernate.Validator.Event;
 
 namespace NHibernate.Validator.Cfg
 {
-	public class ValidatorInitializer
+	public static class ValidatorInitializer
 	{
-		private ValidatorInitializer()
-		{
-		}
-
 		private static readonly ILog log = LogManager.GetLogger(typeof(ValidatorInitializer));
 
 		public static void Initialize(Configuration cfg)
