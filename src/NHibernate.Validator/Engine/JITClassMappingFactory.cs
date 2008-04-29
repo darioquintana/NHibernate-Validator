@@ -4,6 +4,12 @@ using NHibernate.Validator.Mappings;
 
 namespace NHibernate.Validator.Engine
 {
+	/// <summary>
+	/// Just In Time Class Mapping Factory
+	/// </summary>
+	/// <remarks>
+	/// The JITClassMappingFactory work outside the engine configuration.
+	/// </remarks>
 	internal class JITClassMappingFactory : IClassMappingFactory
 	{
 		#region IClassMappingFactory Members
@@ -11,39 +17,35 @@ namespace NHibernate.Validator.Engine
 		public IClassMapping GetClassMapping(System.Type clazz, ValidatorMode mode)
 		{
 			NhvmClass nhvm;
+			IClassMapping result = null;
 			switch (mode)
 			{
 				case ValidatorMode.UseAttribute:
-					return new ReflectionClassMapping(clazz);
+					break;
 				case ValidatorMode.UseXml:
 					nhvm = GetXmlDefinitionFor(clazz);
 					if (nhvm == null)
 					{
-						return null;
+						return null; // <<<<<===
 					}
-					return new XmlClassMapping(nhvm);
+					result = new XmlClassMapping(nhvm);
+					break;
 				case ValidatorMode.OverrideAttributeWithXml:
 					nhvm = GetXmlDefinitionFor(clazz);
-					if (nhvm == null)
+					if (nhvm != null)
 					{
-						return new ReflectionClassMapping(clazz);
+						result = new XmlOverAttributeClassMapping(nhvm);
 					}
-					else
-					{
-						return new XmlOverAttributeClassMapping(nhvm);
-					}
+					break;
 				case ValidatorMode.OverrideXmlWithAttribute:
 					nhvm = GetXmlDefinitionFor(clazz);
-					if (nhvm == null)
+					if (nhvm != null)
 					{
-						return new ReflectionClassMapping(clazz);
+						result = new AttributeOverXmlClassMapping(nhvm);
 					}
-					else
-					{
-						return new AttributeOverXmlClassMapping(nhvm);
-					}
+					break;
 			}
-			return null;
+			return result ?? new ReflectionClassMapping(clazz);
 		}
 
 		#endregion
