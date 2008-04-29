@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using NHibernate.Validator.Cfg.MappingSchema;
 using NHibernate.Validator.Exceptions;
 using NHibernate.Validator.Mappings;
@@ -122,6 +123,41 @@ namespace NHibernate.Validator.Tests.Configuration
 		{
 			return (T)attr.Find(delegate(Attribute a)
 														{ return a is T; });
+		}
+
+		[Test, ExpectedException(typeof(InvalidPropertyNameException))]
+		public void WrongPropertyInCustomAttribute()
+		{
+			string tmpf = Path.GetTempFileName();
+			using (StreamWriter sw = new StreamWriter(tmpf))
+			{
+				sw.WriteLine("<?xml version='1.0' encoding='utf-8' ?>");
+				sw.WriteLine("<nhv-mapping xmlns='urn:nhibernate-validator-1.0'");
+				sw.WriteLine(" assembly='NHibernate.Validator.Tests'");
+				sw.WriteLine(" namespace='NHibernate.Validator.Tests.Configuration'>");
+				sw.WriteLine("<class name='WellKnownRules'>");
+				sw.WriteLine("<property name='AP'>");
+				sw.WriteLine("<rule attribute='ACustomAttribute'>");
+				sw.WriteLine("<param name='WrongName' value='A string value'/>");
+				sw.WriteLine("</rule>");
+				sw.WriteLine("</property>");
+				sw.WriteLine("</class>");
+				sw.WriteLine("</nhv-mapping>"); 
+				sw.Flush();
+			}
+
+			MappingLoader ml = new MappingLoader();
+			using (StreamReader sr = new StreamReader(tmpf))
+			{
+				ml.AddInputStream(sr.BaseStream, tmpf);
+			}
+			NhvMapping map = ml.Mappings[0];
+			NhvmClass cm = map.@class[0];
+			XmlClassMapping rm = new XmlClassMapping(cm);
+			MemberInfo mi;
+
+			mi = typeof(WellKnownRules).GetField("AP");
+			rm.GetMemberAttributes(mi);
 		}
 	}
 }

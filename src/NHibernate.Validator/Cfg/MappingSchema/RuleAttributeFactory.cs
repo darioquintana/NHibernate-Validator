@@ -126,7 +126,9 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 				}
 				else
 				{
-					log.Info("Could not get the property for name = " + parameter.name);
+					throw new InvalidPropertyNameException(
+						string.Format("The custom attribute '{0}' don't have the property '{1}'; Check for typo.", type.FullName, parameter.name), parameter.name,
+						type);
 				}
 			}
 

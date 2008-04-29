@@ -9,7 +9,12 @@ namespace NHibernate.Validator.Exceptions
 		private readonly System.Type clazz;
 
 		public InvalidPropertyNameException(string propertyName, System.Type clazz)
-			:base(string.Format("Property or field \"{0}\" was not found in the class: \"{1}\" ", propertyName, clazz.FullName))
+			: this(string.Format("Property or field \"{0}\" was not found in the class: \"{1}\" ", propertyName, clazz.FullName), propertyName, clazz)
+		{
+		}
+
+		public InvalidPropertyNameException(string message, string propertyName, System.Type clazz)
+			: base(message)
 		{
 			this.propertyName = propertyName;
 			this.clazz = clazz;

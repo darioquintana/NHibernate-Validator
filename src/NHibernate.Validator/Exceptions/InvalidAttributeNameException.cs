@@ -14,7 +14,7 @@ namespace NHibernate.Validator.Exceptions
 					@"Attribute '{0}' was not found for the class {1}; 
 Cause:
 - typo
-- Wrong namespace (thye attribute must stay in the same namespace of the related class)",
+- Wrong namespace (the attribute must stay in the same namespace of the related class)",
 					attributeName, clazz.FullName))
 		{
 			this.attributeName = attributeName;
