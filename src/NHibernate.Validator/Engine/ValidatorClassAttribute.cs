@@ -4,11 +4,7 @@ namespace NHibernate.Validator.Engine
 {
 	public class ValidatorClassAttribute : Attribute
 	{
-		private System.Type value;
-
-		public ValidatorClassAttribute()
-		{
-		}
+		private readonly System.Type value;
 
 		public ValidatorClassAttribute(System.Type value)
 		{
@@ -18,7 +14,6 @@ namespace NHibernate.Validator.Engine
 		public System.Type Value
 		{
 			get { return value; }
-			set { this.value = value; }
 		}
 	}
 }
