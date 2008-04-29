@@ -115,7 +115,14 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 				if (propInfo != null)
 				{
 					log.Info("propInfo value = " + parameter.value);
-					propInfo.SetValue(thisattribute, parameter.value, null);
+					object value;
+					if (!(propInfo.PropertyType is string))
+					{
+						value = Convert.ChangeType(parameter.value, propInfo.PropertyType);
+					}
+					else
+						value = parameter.value;
+					propInfo.SetValue(thisattribute, value, null);
 				}
 				else
 				{

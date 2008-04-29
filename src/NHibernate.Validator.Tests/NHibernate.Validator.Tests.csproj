@@ -73,8 +73,11 @@
     <Compile Include="Base\CarEngine.cs" />
     <Compile Include="Base\CompositionFixture.cs" />
     <Compile Include="ConfigurationInjecterSectionHandler.cs" />
+    <Compile Include="Configuration\ACustomAttribute.cs" />
+    <Compile Include="Configuration\ACustomValidator.cs" />
     <Compile Include="Configuration\MappingLoaderFixture.cs" />
     <Compile Include="Configuration\RuleAttributeFactoryFixture.cs" />
+    <Compile Include="Configuration\WellKnownRules.cs" />
     <Compile Include="Mappings\A.cs" />
     <Compile Include="Mappings\AssertAnimalAttribute.cs" />
     <Compile Include="Mappings\OtherValidator.cs" />
@@ -258,6 +261,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Mappings\A.nhv.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Configuration\WellKnownRules.nhv.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
