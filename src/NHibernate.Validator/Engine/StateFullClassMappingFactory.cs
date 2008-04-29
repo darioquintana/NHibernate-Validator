@@ -14,7 +14,6 @@ namespace NHibernate.Validator.Engine
 
 		public void AddClassDefinition(NhvmClass definition)
 		{
-			if (definition == null) return;
 			System.Type type =
 				ReflectHelper.ClassForFullName(
 					TypeNameParser.Parse(definition.name, definition.rootMapping.@namespace, definition.rootMapping.assembly).ToString());

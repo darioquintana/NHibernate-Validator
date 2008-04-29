@@ -61,5 +61,10 @@ namespace NHibernate.Validator.Engine
 			// TODO : Add an existing validators to child of the parent validator
 			new ClassValidator(childType, parentValidator.ChildClassValidators, this);
 		}
+
+		public IDictionary<System.Type, IClassValidator> Validators
+		{
+			get { return validators; }
+		}
 	}
 }

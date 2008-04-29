@@ -86,6 +86,7 @@
     <Compile Include="Mappings\ReflectionClassMappingFixture.cs" />
     <Compile Include="Mappings\MixSuricato.cs" />
     <Compile Include="Mappings\XmlClassMappingFixture.cs" />
+    <Compile Include="LoggerSpy.cs" />
     <Compile Include="Utils\AttributeUtilsFixture.cs" />
     <Compile Include="Utils\TypeUtilsFixture.cs" />
     <Compile Include="UtilValidatorFactory.cs" />
@@ -264,6 +265,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Configuration\WellKnownRules.nhv.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Engine\DuplicatedAddress.nhv.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

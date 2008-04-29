@@ -149,7 +149,7 @@ namespace NHibernate.Validator.Engine
 			if (configReader == null)
 			{
 				throw new ValidatorConfigurationException("Could not configure NHibernate.Validator.",
-				                                          new ArgumentException("A null value was passed in.", "configReader"));
+				                                          new ArgumentNullException("configReader"));
 			}
 
 			INHVConfiguration nhvc = new NHVConfiguration(configReader);
@@ -166,7 +166,10 @@ namespace NHibernate.Validator.Engine
 		public void Configure(INHVConfiguration config)
 		{
 			if (config == null)
-				throw new ArgumentNullException("config");
+			{
+				throw new ValidatorConfigurationException("Could not configure NHibernate.Validator.",
+				                                          new ArgumentNullException("config"));
+			}
 
 			Clear();
 
@@ -186,6 +189,10 @@ namespace NHibernate.Validator.Engine
 		private void Initialize(MappingLoader loader)
 		{
 			factory.Initialize(loader);
+			foreach (KeyValuePair<System.Type, IClassValidator> validator in factory.Validators)
+			{
+				AddValidatableElement(new ValidatableElement(validator.Key, validator.Value));
+			}
 		}
 
 		private void Clear()

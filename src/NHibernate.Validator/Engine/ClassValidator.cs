@@ -582,15 +582,23 @@ namespace NHibernate.Validator.Engine
 		{
 			List<InvalidValue> results = new List<InvalidValue>();
 
+			int getterFound = 0;
 			for (int i = 0; i < memberValidators.Count; i++)
 			{
 				MemberInfo getter = memberGetters[i];
 				if (getter.Name.Equals(propertyName))
 				{
+					getterFound++;
 					IValidator validator = memberValidators[i];
 					if (!validator.IsValid(value))
 						results.Add(new InvalidValue(Interpolate(validator), beanClass, propertyName, value, null));
 				}
+			}
+
+			if (getterFound == 0 && TypeUtils.GetPropertyOrField(beanClass, propertyName) == null)
+			{
+				throw new TargetException(
+					string.Format("The property or field '{0}' was not found in class {1}", propertyName, beanClass.FullName));
 			}
 
 			return results.ToArray();
