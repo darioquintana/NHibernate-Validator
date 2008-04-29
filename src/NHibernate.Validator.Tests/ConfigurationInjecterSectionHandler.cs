@@ -24,8 +24,8 @@ namespace NHibernate.Validator.Tests
 		{
 			if (cfgToInject == null)
 			{
-				XmlTextReader reader = new XmlTextReader(section.OuterXml, XmlNodeType.Document, null);
-				return new NHVConfiguration(reader);
+				IConfigurationSectionHandler defaultConf = new ConfigurationSectionHandler();
+				return defaultConf.Create(parent, configContext, section);
 			}
 			else
 			{
