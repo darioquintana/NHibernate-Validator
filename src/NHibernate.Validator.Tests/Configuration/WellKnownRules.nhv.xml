@@ -14,9 +14,30 @@
 		<property name="StrProp">
 			<not-empty message="not-empty message"/>
 			<not-null message="not-null message"/>
-			<notnullorempty message="not-null message"/>
+			<notnullorempty message="notnullorempty message"/>
 			<length min="1" max="10" message="length message"/>
-			<pattern regex="[0-9]+" message="pattern message" />
+			<pattern regex="[0-9]+" message="pattern message"/>
+			<email message="email message"/>
+			<ipAddress message="ipAddress message"/>
+		</property>
+
+		<property name="DtProp">
+			<future message="future message"/>
+			<past message="past message"/>
+		</property>
+
+		<property name="DecProp">
+			<digits integerDigits="5" fractionalDigits="2" message="digits message"/>
+			<min value="100" message="min message"/>
+			<max value="200" message="max message"/>
+		</property>
+		
+		<property name="BProp">
+			<asserttrue message="asserttrue message"/>
+		</property>
+
+		<property name="ArrProp">
+			<size min="2" max="9" message="size message"/>
 		</property>
 	</class>
 </nhv-mapping>
