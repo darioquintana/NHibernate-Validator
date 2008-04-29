@@ -3,6 +3,7 @@ using System.Reflection;
 using log4net;
 using NHibernate.Util;
 using System.Collections.Generic;
+using NHibernate.Validator.Exceptions;
 
 namespace NHibernate.Validator.Cfg.MappingSchema
 {
@@ -34,13 +35,44 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			wellKnownRules[typeof(NhvmDigits)] = ConvertToDigits;
 		}
 
-		internal static Attribute CreateAttributeFromRule(object rule, string defaultAssembly, string defaultNameSpace)
+		public static Attribute CreateAttributeFromRule(object rule, string defaultAssembly, string defaultNameSpace)
 		{
+			// public Only for test scope
 			ConvertSchemaRule converter;
 			if (wellKnownRules.TryGetValue(rule.GetType(), out converter))
 				return converter(new XmlNhvmRuleCoverterArgs(rule,defaultAssembly,defaultNameSpace));
 			else
 				return null;
+		}
+
+		/// <summary>
+		/// Create the attribute of a bean validator from XML definitions.
+		/// </summary>
+		/// <param name="beanClass">The entity class where associate the attribute.</param>
+		/// <param name="attributename">The attribute name in the mapping.</param>
+		/// <returns>The <see cref="Attribute"/> instance.</returns>
+		/// <remarks>
+		/// We are using the conventions:
+		/// - The attribute must be defined in the same namespace of the <paramref name="beanClass"/>.
+		/// - The attribute class may have the postfix "Attribute" without need to use it in the mapping.
+		/// </remarks>
+		public static Attribute CreateAttributeFromClass(System.Type beanClass, string attributename)
+		{
+			// public Only for test scope
+			Assembly assembly = beanClass.Assembly;
+			System.Type type = assembly.GetType(beanClass.Namespace + "." + attributename + "Attribute");
+
+			if (type == null)
+			{
+				type = assembly.GetType(beanClass.Namespace + "." + attributename);
+			}
+
+			if (type == null)
+			{
+				throw new InvalidAttributeNameException(attributename, beanClass);
+			}
+
+			return (Attribute)Activator.CreateInstance(type);
 		}
 
 		private static Attribute ConvertToDigits(XmlNhvmRuleCoverterArgs rule)
@@ -333,17 +365,6 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			}
 
 			return thisAttribute;
-		}
-
-		internal static Attribute CreateAttributeFromClass(System.Type currentClass, string attributename)
-		{
-			Assembly assembly = currentClass.Assembly;
-			System.Type type = assembly.GetType(currentClass.Namespace + "." + attributename + "Attribute");
-
-			if (type == null)
-				return null;
-
-			return (Attribute)Activator.CreateInstance(type);
 		}
 
 		private delegate Attribute ConvertSchemaRule(XmlNhvmRuleCoverterArgs schemaRule);

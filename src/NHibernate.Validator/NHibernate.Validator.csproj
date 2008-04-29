@@ -76,6 +76,7 @@
     <Compile Include="Engine\StateFullClassValidatorFactory.cs" />
     <Compile Include="Engine\ValidatableElement.cs" />
     <Compile Include="Engine\ValidatorEngine.cs" />
+    <Compile Include="Exceptions\InvalidAttributeNameException.cs" />
     <Compile Include="Exceptions\InvalidPropertyNameException.cs" />
     <Compile Include="FutureAttribute.cs" />
     <Compile Include="FutureValidator.cs" />

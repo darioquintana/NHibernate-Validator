@@ -74,6 +74,7 @@
     <Compile Include="Base\CompositionFixture.cs" />
     <Compile Include="ConfigurationInjecterSectionHandler.cs" />
     <Compile Include="Configuration\MappingLoaderFixture.cs" />
+    <Compile Include="Configuration\RuleAttributeFactoryFixture.cs" />
     <Compile Include="Mappings\A.cs" />
     <Compile Include="Mappings\AssertAnimalAttribute.cs" />
     <Compile Include="Mappings\OtherValidator.cs" />

@@ -34,8 +34,7 @@ namespace NHibernate.Validator.Mappings
 				{
 					log.Info("Attribute to look for = " + attributeName);
 					Attribute classAttribute = RuleAttributeFactory.CreateAttributeFromClass(clazz, attributeName);
-					if (classAttribute != null)
-						classAttributes.Add(classAttribute);
+					classAttributes.Add(classAttribute);
 				}
 			}
 
