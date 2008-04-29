@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
+using System.IO;
 using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Engine;
 using NHibernate.Validator.Tests.Integration;
 using NUnit.Framework;
-using Environment=NHibernate.Validator.Engine.Environment;
-using System.IO;
 
 namespace NHibernate.Validator.Tests.Engine
 {
