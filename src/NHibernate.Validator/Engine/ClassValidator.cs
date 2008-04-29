@@ -190,30 +190,12 @@ namespace NHibernate.Validator.Engine
 			}
 		}
 
-		private void AddAttributeToMember(MemberInfo currentMember, Attribute thisattribute, bool overrideAttribute)
+		private void AddAttributeToMember(MemberInfo currentMember, Attribute thisattribute)
 		{
 			log.Info(string.Format("Adding member {0} to dictionary with attribute {1}", currentMember.Name, thisattribute));
 			if (!membersAttributesDictionary.ContainsKey(currentMember))
 			{
 				membersAttributesDictionary.Add(currentMember, new List<Attribute>());
-			}
-			else
-			{
-				bool exists = membersAttributesDictionary[currentMember].Exists(
-					delegate(Attribute theattribute)
-						{
-							return thisattribute.ToString() == theattribute.ToString();
-						});
-
-				if (exists && !AttributeUtils.AttributeAllowsMultiple(thisattribute))
-				{
-					log.Info(string.Format("Attribute {0} was found , override was {1}", thisattribute, overrideAttribute));
-					// If we cannot override then exit without changing
-					if (!overrideAttribute)
-						return;
-
-					membersAttributesDictionary[currentMember].Remove(thisattribute);
-				}
 			}
 
 			membersAttributesDictionary[currentMember].Add(thisattribute);
@@ -509,7 +491,7 @@ namespace NHibernate.Validator.Engine
 
 			foreach (Attribute memberAttribute in memberAttributes)
 			{
-				AddAttributeToMember(member, memberAttribute, validatorMode== ValidatorMode.OverrideXmlWithAttribute);
+				AddAttributeToMember(member, memberAttribute);
 			}
 		}
 
