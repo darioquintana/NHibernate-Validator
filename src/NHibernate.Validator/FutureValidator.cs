@@ -15,7 +15,7 @@ namespace NHibernate.Validator
 
 			if (value is DateTime)
 			{
-				return DateTime.Now.CompareTo(value) <= 0;
+				return DateTime.Now.CompareTo(value) < 0;
 			}
 
 			return false;
