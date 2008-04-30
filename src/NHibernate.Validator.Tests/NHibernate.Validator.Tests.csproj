@@ -57,6 +57,7 @@
       <HintPath>..\..\..\..\lib\net\2.0\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -72,7 +73,6 @@
     <Compile Include="Base\Car.cs" />
     <Compile Include="Base\CarEngine.cs" />
     <Compile Include="Base\CompositionFixture.cs" />
-    <Compile Include="ConfigurationInjecterSectionHandler.cs" />
     <Compile Include="Configuration\ACustomAttribute.cs" />
     <Compile Include="Configuration\ACustomValidator.cs" />
     <Compile Include="Configuration\MappingLoaderFixture.cs" />
@@ -271,6 +271,13 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Engine\DuplicatedAddress.nhv.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Integration\MartianPk.nhv.xml" />
+    <EmbeddedResource Include="Integration\MarsAddress.nhv.xml" />
+    <Content Include="nhvalidator.cfg.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<nhv-mapping xmlns="urn:nhibernate-validator-1.0"
+			 namespace="NHibernate.Validator.Tests.Integration"
+			 assembly="NHibernate.Validator.Tests">
+	<class name="MarsAddress">
+		<property name="Canal">
+			<length min="5"/>
+		</property>
+		<property name="Continent">
+			<not-null/>
+		</property>
+	</class>
+</nhv-mapping>

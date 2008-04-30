@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- Default configuration for Integration test -->
+<nhv-configuration xmlns='urn:nhv-configuration-1.0'>
+	<property name='message_interpolator_class'>NHibernate.Validator.Tests.Integration.PrefixMessageInterpolator, NHibernate.Validator.Tests, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</property>
+</nhv-configuration>

@@ -14,6 +14,7 @@ using NHibernate.Validator.Exceptions;
 using NHibernate.Validator.Interpolator;
 using NHibernate.Validator.Mappings;
 using NHibernate.Validator.Util;
+using Environment=NHibernate.Validator.Cfg.Environment;
 
 namespace NHibernate.Validator.Engine
 {

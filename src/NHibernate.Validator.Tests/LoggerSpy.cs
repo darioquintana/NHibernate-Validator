@@ -47,5 +47,16 @@ namespace NHibernate.Validator.Tests
 			logger.Level = prevLogLevel;
 			logger.RemoveAppender(appender);
 		}
+
+		public int GetOccurenceContaining(string message)
+		{
+			int result = 0;
+			foreach (LoggingEvent loggingEvent in Appender.GetEvents())
+			{
+				if (loggingEvent.RenderedMessage.Contains(message))
+					result++;
+			}
+			return result;
+		}
 	}
 }

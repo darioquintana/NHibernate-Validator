@@ -1,3 +1,4 @@
+using log4net;
 using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Cfg.MappingSchema;
 using NHibernate.Validator.Mappings;
@@ -12,6 +13,8 @@ namespace NHibernate.Validator.Engine
 	/// </remarks>
 	internal class JITClassMappingFactory : IClassMappingFactory
 	{
+		private static readonly ILog log = LogManager.GetLogger(typeof(ClassValidator));
+
 		#region IClassMappingFactory Members
 
 		public IClassMapping GetClassMapping(System.Type clazz, ValidatorMode mode)
@@ -26,6 +29,7 @@ namespace NHibernate.Validator.Engine
 					nhvm = GetXmlDefinitionFor(clazz);
 					if (nhvm == null)
 					{
+						log.Warn(string.Format("XML definition not foud for class {0} in ValidatorMode.UseXml mode.", clazz.FullName));
 						return null; // <<<<<===
 					}
 					result = new XmlClassMapping(nhvm);

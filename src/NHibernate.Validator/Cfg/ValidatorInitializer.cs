@@ -16,39 +16,43 @@ namespace NHibernate.Validator.Cfg
 		{
 			if (cfg == null)
 				throw new ArgumentNullException("cfg");
-			ValidatorEngine ve = new ValidatorEngine();
-			ve.Configure();
-			bool applyToDDL = ve.ApplyToDDL;
-			bool autoRegisterListeners = ve.AutoRegisterListeners;
-			ValidatorMode vm = ve.DefaultMode;
-			log.Info("Using validation mode = " + vm);
-			Initialize(cfg, applyToDDL, autoRegisterListeners, vm);
+			ValidatorEngine ve;
+			if (Environment.SharedEngineProvider != null)
+			{
+				ve = Environment.SharedEngineProvider.GetEngine();
+			}
+			else
+			{
+				ve = new ValidatorEngine();
+				ve.Configure();
+			}
+			Initialize(cfg, ve);
 		}
 
-		public static void Initialize(Configuration cfg, bool applyToDDL, bool autoRegisterListeners, ValidatorMode validatorMode)
+		public static void Initialize(Configuration cfg, ValidatorEngine ve)
 		{
 			//Apply To DDL
-			if (applyToDDL)
+			if (ve.ApplyToDDL)
 			{
 				foreach (PersistentClass persistentClazz in cfg.ClassMappings)
 				{
-					ApplyValidatorToDDL(persistentClazz, validatorMode);
+					ApplyValidatorToDDL(persistentClazz, ve);
 				}
 			}
 
 			//Autoregister Listeners
-			if (autoRegisterListeners)
+			if (ve.AutoRegisterListeners)
 			{
 				cfg.SetListener(ListenerType.PreInsert, new ValidatePreInsertEventListener());
 				cfg.SetListener(ListenerType.PreUpdate, new ValidatePreUpdateEventListener());
 			}
 		}
 
-		private static void ApplyValidatorToDDL(PersistentClass persistentClass, ValidatorMode validatorMode)
+		private static void ApplyValidatorToDDL(PersistentClass persistentClass, ValidatorEngine ve)
 		{
 			try
 			{
-				ClassValidator classValidator = new ClassValidator(persistentClass.MappedClass, validatorMode);
+				IClassValidator classValidator = ve.GetClassValidator(persistentClass.MappedClass);
 				classValidator.Apply(persistentClass);
 			}
 			catch (Exception ex)

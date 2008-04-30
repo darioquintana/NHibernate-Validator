@@ -1,9 +1,11 @@
 using System;
 using System.Xml;
+using log4net.Config;
 using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Exceptions;
 using NUnit.Framework;
 using System.Collections;
+using log4net.Core;
 
 namespace NHibernate.Validator.Tests.Configuration
 {
@@ -34,26 +36,36 @@ namespace NHibernate.Validator.Tests.Configuration
 		[Test]
 		public void WellFormedConfiguration()
 		{
+			XmlConfigurator.Configure();
+
 			string xml =
 				@"<nhv-configuration xmlns='urn:nhv-configuration-1.0'>
 		<property name='apply_to_ddl'>false</property>
 		<property name='autoregister_listeners'>false</property>
 		<property name='message_interpolator_class'>Myinterpolator</property>
-		<property name='default-validator-mode'>OverrideAttributeWithXml</property>
+		<property name='default_validator_mode'>OverrideAttributeWithXml</property>
 		<mapping assembly='aAssembly'/>
 		<mapping file='aFile'/>
 		<mapping assembly='anotherAssembly' resource='TheResource'/>
+		<shared_engine_provider class='MySharedEngineProvider'/>
 	</nhv-configuration>";
 			XmlDocument cfgXml = new XmlDocument();
 			cfgXml.LoadXml(xml);
 			XmlTextReader xtr = new XmlTextReader(xml, XmlNodeType.Document, null);
-			NHVConfiguration cfg = new NHVConfiguration(xtr);
+			NHVConfiguration cfg;
+			using (LoggerSpy ls = new LoggerSpy(typeof(NHVConfiguration), Level.Warn))
+			{
+				cfg = new NHVConfiguration(xtr);
+				int found = ls.GetOccurenceContaining(NHibernate.Validator.Cfg.Environment.SharedEngineClass + " propety is ignored out of application configuration file.");
+				Assert.AreEqual(1, found);
+			}
+			Assert.AreEqual("MySharedEngineProvider", cfg.SharedEngineProviderClass);
 			Assert.AreEqual(4, cfg.Properties.Count);
 			Assert.AreEqual(3, cfg.Mappings.Count);
 			Assert.AreEqual("false", cfg.Properties["apply_to_ddl"]);
 			Assert.AreEqual("false", cfg.Properties["autoregister_listeners"]);
 			Assert.AreEqual("Myinterpolator", cfg.Properties["message_interpolator_class"]);
-			Assert.AreEqual("OverrideAttributeWithXml", cfg.Properties["default-validator-mode"]);
+			Assert.AreEqual("OverrideAttributeWithXml", cfg.Properties["default_validator_mode"]);
 			Assert.Contains(new MappingConfiguration("aAssembly", ""), (IList)cfg.Mappings);
 			Assert.Contains(new MappingConfiguration("aFile"), (IList)cfg.Mappings);
 			Assert.Contains(new MappingConfiguration("anotherAssembly", "TheResource"), (IList)cfg.Mappings);
@@ -98,8 +110,8 @@ namespace NHibernate.Validator.Tests.Configuration
 				@"<nhv-configuration xmlns='urn:nhv-configuration-1.0'>
 		<property name='apply_to_ddl'>false</property>
 		<property name='apply_to_ddl'>true</property>
-		<property name='default-validator-mode'>OverrideAttributeWithXml</property>
-		<property name='default-validator-mode'>UseXml</property>
+		<property name='default_validator_mode'>OverrideAttributeWithXml</property>
+		<property name='default_validator_mode'>UseXml</property>
 		<mapping assembly='aAssembly'/>
 		<mapping assembly='aAssembly' resource='TheResource'/>
 	</nhv-configuration>";
@@ -110,7 +122,7 @@ namespace NHibernate.Validator.Tests.Configuration
 			Assert.AreEqual(2, cfg.Properties.Count);
 			Assert.AreEqual(1, cfg.Mappings.Count);
 			Assert.AreEqual("true", cfg.Properties["apply_to_ddl"]);
-			Assert.AreEqual("UseXml", cfg.Properties["default-validator-mode"]);
+			Assert.AreEqual("UseXml", cfg.Properties["default_validator_mode"]);
 			Assert.Contains(new MappingConfiguration("aAssembly", ""), (IList)cfg.Mappings);
 
 			// Accept only MappingConfiguration object for Equals comparison
@@ -126,7 +138,7 @@ namespace NHibernate.Validator.Tests.Configuration
 		<property name='apply_to_ddl'></property>
 		<property name='autoregister_listeners'></property>
 		<property name='message_interpolator_class'></property>
-		<property name='default-validator-mode'></property>
+		<property name='default_validator_mode'></property>
 		<mapping assembly=''/>
 		<mapping file=''/>
 		<mapping assembly='' resource=''/>

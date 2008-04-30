@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Resources;
+using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Engine;
 using NUnit.Framework;
 

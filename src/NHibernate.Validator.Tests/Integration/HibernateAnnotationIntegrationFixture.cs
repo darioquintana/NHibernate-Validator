@@ -1,4 +1,6 @@
 using System;
+using NHibernate.Validator.Engine;
+using NHibernate.Validator.Event;
 using NHibernate.Validator.Exceptions;
 using NHibernate.Validator.Tests.Base;
 
@@ -30,8 +32,26 @@ namespace NHibernate.Validator.Tests.Integration
 
 		protected override void Configure(Configuration configuration)
 		{
-			ConfigurationInjecterSectionHandler.ResetCfgToInject();
+			// The ValidatorInitializer and the ValidateEventListener share the same engine
+
+			// Initialize the SharedEngine
+			Cfg.Environment.SharedEngineProvider = new NHibernateSharedEngineProvider();
+			ValidatorEngine ve = Cfg.Environment.SharedEngineProvider.GetEngine();
+			ve.Clear();
+			NHVConfiguration nhvc = new NHVConfiguration();
+			nhvc.Properties[Cfg.Environment.ApplyToDDL] = "true";
+			nhvc.Properties[Cfg.Environment.AutoregisterListeners] = "true";
+			nhvc.Properties[Cfg.Environment.ValidatorMode] = "UseAttribute";
+			nhvc.Properties[Cfg.Environment.MessageInterpolatorClass] = typeof(PrefixMessageInterpolator).AssemblyQualifiedName;
+			ve.Configure(nhvc);
+
 			ValidatorInitializer.Initialize(configuration);
+		}
+
+		protected override void OnTestFixtureTearDown()
+		{
+			// reset the engine
+			Cfg.Environment.SharedEngineProvider = null;
 		}
 
 		public void CleanupData()

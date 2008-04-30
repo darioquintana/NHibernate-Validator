@@ -27,14 +27,14 @@
 									apply_to_ddl= true;
 									autoregister_listeners= true;
 									message_interpolator_class=null (example: YourNameSpace.YourInterpolator, YourAssembly);
-									default-validator-mode= UseAttribute (see NHibernate.Validator.Engine.ValidatorMode for others values)
+									default_validator_mode= UseAttribute (see NHibernate.Validator.Engine.ValidatorMode for others values)
 								</xs:documentation>
 							</xs:annotation>
 							<xs:restriction base="xs:string">
 								<xs:enumeration value="apply_to_ddl" />
 								<xs:enumeration value="autoregister_listeners" />
 								<xs:enumeration value="message_interpolator_class" />
-								<xs:enumeration value="default-validator-mode" />
+								<xs:enumeration value="default_validator_mode" />
 							</xs:restriction>
 						</xs:simpleType>
 					</xs:attribute>
@@ -47,7 +47,15 @@
 			<xs:sequence>
 				<xs:element ref="property" minOccurs="0" maxOccurs="unbounded" />
 				<xs:element ref="mapping" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="shared_engine_provider" minOccurs="0" maxOccurs="1" />
 			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="shared_engine_provider">
+		<xs:complexType>
+			<xs:sequence>
+			</xs:sequence>
+			<xs:attribute name="class" type="xs:string" />
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

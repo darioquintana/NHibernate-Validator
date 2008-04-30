@@ -27,6 +27,13 @@ namespace NHibernate.Validator.Cfg
 		public const string CfgNamespacePrefix = "cfg";
 		private const string RootPrefixPath = "//" + CfgNamespacePrefix + ":";
 
+		/// <summary>XPath expression for shared-engine-class node</summary>
+		public static readonly XPathExpression SharedEngineClassExpression;
+		/// <summary>XPath expression for property nodes</summary>
+		public static readonly XPathExpression PropertiesExpression;
+		/// <summary>XPath expression for mapping nodes</summary>
+		public static readonly XPathExpression MappingsExpression;
+
 		private static readonly XmlNamespaceManager nsMgr;
 
 		static CfgXmlHelper()
@@ -35,14 +42,11 @@ namespace NHibernate.Validator.Cfg
 			nsMgr = new XmlNamespaceManager(nt);
 			nsMgr.AddNamespace(CfgNamespacePrefix, CfgSchemaXMLNS);
 
+			SharedEngineClassExpression = XPathExpression.Compile(RootPrefixPath + Environment.SharedEngineClass, nsMgr);
 			PropertiesExpression = XPathExpression.Compile(RootPrefixPath + "property", nsMgr);
 			MappingsExpression = XPathExpression.Compile(RootPrefixPath + "mapping", nsMgr);
 		}
 
-		/// <summary>XPath expression for property nodes</summary>
-		public static readonly XPathExpression PropertiesExpression;
-		/// <summary>XPath expression for mapping nodes</summary>
-		public static readonly XPathExpression MappingsExpression;
 
 		/// <summary>
 		/// Convert a given string to a <see cref="ValidatorMode"/>.

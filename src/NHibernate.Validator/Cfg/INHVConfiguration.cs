@@ -8,12 +8,17 @@ namespace NHibernate.Validator.Cfg
 	public interface INHVConfiguration
 	{
 		/// <summary>
-		/// Configured properties
+		/// Assembly qualified name for shared engine provider.
+		/// </summary>
+		string SharedEngineProviderClass { get;}
+
+		/// <summary>
+		/// Configured properties.
 		/// </summary>
 		IDictionary<string, string> Properties { get;}
 
 		/// <summary>
-		/// Configured Mappings
+		/// Configured Mappings.
 		/// </summary>
 		IList<MappingConfiguration> Mappings { get;}
 	}

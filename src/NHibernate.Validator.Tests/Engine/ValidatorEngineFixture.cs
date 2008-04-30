@@ -10,7 +10,7 @@ using NUnit.Framework;
 using System.Reflection;
 using log4net.Core;
 using System;
-using Environment=NHibernate.Validator.Engine.Environment;
+using Environment=NHibernate.Validator.Cfg.Environment;
 
 namespace NHibernate.Validator.Tests.Engine
 {
@@ -60,7 +60,7 @@ namespace NHibernate.Validator.Tests.Engine
 				sw.WriteLine("<nhv-configuration xmlns='urn:nhv-configuration-1.0'>");
 				sw.WriteLine("<property name='apply_to_ddl'>false</property>");
 				sw.WriteLine("<property name='autoregister_listeners'>false</property>");
-				sw.WriteLine("<property name='default-validator-mode'>OverrideAttributeWithXml</property>");
+				sw.WriteLine("<property name='default_validator_mode'>OverrideAttributeWithXml</property>");
 				sw.WriteLine("<property name='message_interpolator_class'>"
 										 + typeof(PrefixMessageInterpolator).AssemblyQualifiedName + "</property>");
 				sw.WriteLine("</nhv-configuration>");
@@ -78,7 +78,7 @@ namespace NHibernate.Validator.Tests.Engine
 		}
 
 		[Test]
-		public void ConfigureAppConfig()
+		public void Configure()
 		{
 			ValidatorEngine ve = new ValidatorEngine();
 
@@ -126,12 +126,7 @@ namespace NHibernate.Validator.Tests.Engine
 			using (LoggerSpy ls = new LoggerSpy(typeof(ValidatorEngine), Level.Warn))
 			{
 				ve.Configure(nhvc);
-				int found = 0;
-				foreach (LoggingEvent loggingEvent in ls.Appender.GetEvents())
-				{
-					if (loggingEvent.RenderedMessage.Contains("Duplicated XML definition for class " + typeof(Address).AssemblyQualifiedName))
-						found++;
-				}
+				int found = ls.GetOccurenceContaining("Duplicated XML definition for class " + typeof(Address).AssemblyQualifiedName);
 				Assert.AreEqual(1, found);
 			}
 		}

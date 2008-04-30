@@ -13,9 +13,9 @@ namespace NHibernate.Validator.Event
 	/// </summary>
 	public class ValidateEventListener : IPreInsertEventListener, IPreUpdateEventListener, IInitializable
 	{
+		private static readonly object padlock = new object();
 		private bool isInitialized;
-		// So far we are working with a private engine for persistence validation
-		private readonly ValidatorEngine ve = new ValidatorEngine();
+		private static ValidatorEngine ve; // engine for listeners
 
 		private class SubElementsInspector : IValidatableSubElementsInspector
 		{
@@ -46,7 +46,7 @@ namespace NHibernate.Validator.Event
 
 					IGetter getter = accesor.GetGetter(element.EntityType, property.Name);
 
-					ClassValidator validator = new ClassValidator(getter.ReturnType);
+					IClassValidator validator =  ve.GetClassValidator(getter.ReturnType);
 
 					ValidatableElement subElement = new ValidatableElement(getter.ReturnType, validator, getter);
 
@@ -70,8 +70,23 @@ namespace NHibernate.Validator.Event
 		public void Initialize(Configuration cfg)
 		{
 			if (isInitialized) return;
+			if(Validator.Cfg.Environment.SharedEngineProvider != null)
+			{
+				ve = Validator.Cfg.Environment.SharedEngineProvider.GetEngine();
+			}
+			else
+			{
+				// thread safe lazy initialization of local engine
+				lock (padlock)
+				{
+					if (ve == null)
+					{
+						ve = new ValidatorEngine();
+						ve.Configure(); // configure the private ValidatorEngine
+					}
+				}
+			}
 
-			ve.Configure(); // configure the private ValidatorEngine
 			IEnumerable<PersistentClass> classes = cfg.ClassMappings;
 
 			foreach (PersistentClass clazz in classes)
@@ -85,11 +100,6 @@ namespace NHibernate.Validator.Event
 
 		#region IPreInsertEventListener Members
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="event"></param>
-		/// <returns></returns>
 		public bool OnPreInsert(PreInsertEvent @event)
 		{
 			Validate(@event.Entity, @event.Source.EntityMode);
@@ -100,11 +110,6 @@ namespace NHibernate.Validator.Event
 
 		#region IPreUpdateEventListener Members
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="event"></param>
-		/// <returns></returns>
 		public bool OnPreUpdate(PreUpdateEvent @event)
 		{
 			Validate(@event.Entity, @event.Source.EntityMode);
@@ -114,12 +119,7 @@ namespace NHibernate.Validator.Event
 		#endregion
 
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="entity"></param>
-		/// <param name="mode"></param>
-		protected void Validate(object entity, EntityMode mode)
+		protected static void Validate(object entity, EntityMode mode)
 		{
 			if (entity == null || !EntityMode.Poco.Equals(mode)) return;
 

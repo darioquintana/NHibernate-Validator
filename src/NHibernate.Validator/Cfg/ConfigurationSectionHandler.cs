@@ -13,7 +13,7 @@ namespace NHibernate.Validator.Cfg
 		object IConfigurationSectionHandler.Create(object parent, object configContext, XmlNode section)
 		{
 			XmlTextReader reader = new XmlTextReader(section.OuterXml, XmlNodeType.Document, null);
-			return new NHVConfiguration(reader);
+			return new NHVConfiguration(reader, true);
 		}
 
 		#endregion

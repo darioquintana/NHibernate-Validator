@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.XPath;
+using log4net;
 using NHibernate.Validator.Exceptions;
 
 namespace NHibernate.Validator.Cfg
@@ -14,8 +15,11 @@ namespace NHibernate.Validator.Cfg
 	/// </summary>
 	public class NHVConfiguration : INHVConfiguration
 	{
+		private static readonly ILog log = LogManager.GetLogger(typeof(NHVConfiguration));
+
 		private const string CfgSchemaResource = "NHibernate.Validator.Cfg.nhv-configuration.xsd";
 		private readonly XmlSchema config = ReadXmlSchemaFromEmbeddedResource(CfgSchemaResource);
+		private string sharedEngineProviderClass;
 		private readonly IList<MappingConfiguration> mappings = new List<MappingConfiguration>();
 		private readonly IDictionary<string, string> properties = new Dictionary<string, string>();
 
@@ -23,7 +27,7 @@ namespace NHibernate.Validator.Cfg
 		/// Initializes a new instance of the <see cref="NHVConfiguration"/> class.
 		/// </summary>
 		/// <remarks>An empty configuration.</remarks>
-		public NHVConfiguration() {}
+		public NHVConfiguration() { }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="NHVConfiguration"/> class.
@@ -34,6 +38,9 @@ namespace NHibernate.Validator.Cfg
 		/// </remarks>
 		/// <exception cref="ValidatorConfigurationException">When nhibernate-configuration.xsd can't be applied.</exception>
 		public NHVConfiguration(XmlReader configurationReader)
+			: this(configurationReader, false) { }
+
+		internal NHVConfiguration(XmlReader configurationReader, bool fromAppSetting)
 		{
 			XPathNavigator nav;
 			try
@@ -49,10 +56,15 @@ namespace NHibernate.Validator.Cfg
 				// Encapsule and reThrow
 				throw new ValidatorConfigurationException(e);
 			}
-			Parse(nav);
+			Parse(nav, fromAppSetting);
 		}
 
 		#region INHVConfiguration Members
+
+		public string SharedEngineProviderClass
+		{
+			get { return sharedEngineProviderClass; }
+		}
 
 		/// <summary>
 		/// Configured properties
@@ -109,10 +121,27 @@ namespace NHibernate.Validator.Cfg
 			throw new ValidatorConfigurationException("An exception occurred parsing configuration :" + e.Message, e.Exception);
 		}
 
-		private void Parse(XPathNavigator navigator)
+		private void Parse(XPathNavigator navigator, bool fromAppSetting)
 		{
+			ParseSharedEngineProvider(navigator, fromAppSetting);
 			ParseProperties(navigator);
 			ParseMappings(navigator);
+		}
+
+		private void ParseSharedEngineProvider(XPathNavigator navigator, bool fromAppConfig)
+		{
+			XPathNavigator xpn = navigator.SelectSingleNode(CfgXmlHelper.SharedEngineClassExpression);
+			if (xpn != null)
+			{
+				xpn.MoveToFirstAttribute();
+				sharedEngineProviderClass = xpn.Value;
+
+				if (!fromAppConfig && !string.IsNullOrEmpty(sharedEngineProviderClass))
+				{
+					log.Warn(
+						string.Format("{0} propety is ignored out of application configuration file.", Environment.SharedEngineClass));
+				}
+			}
 		}
 
 		private void ParseProperties(XPathNavigator navigator)

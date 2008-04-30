@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.Resources;
 using System.Xml;
 using log4net;
 using NHibernate.Mapping;
 using NHibernate.Util;
 using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Exceptions;
+using Environment=NHibernate.Validator.Cfg.Environment;
 
 namespace NHibernate.Validator.Engine
 {
@@ -19,8 +19,9 @@ namespace NHibernate.Validator.Engine
 	/// The engine is the easy way to work with NHibernate.Validator.
 	/// It hold all class validators.
 	/// Usually an application will create a single <see cref="ValidatorEngine" />.
-	/// </para>
 	/// </remarks>
+	/// <seealso cref="Cfg.Environment"/>
+	/// <seealso cref="ISharedEngineProvider"/>.
 	public class ValidatorEngine
 	{
 		private static readonly ILog log = LogManager.GetLogger(typeof(ValidatorEngine));
@@ -106,6 +107,7 @@ namespace NHibernate.Validator.Engine
 		/// Configure NHibernate.Validator using the <c>&lt;nhv-configuration&gt;</c> section
 		/// from the application config file, if found, or the file <c>nhvalidator.cfg.xml</c> if the
 		/// <c>&lt;nhv-configuration&gt;</c> section not include the session-factory configuration.
+		/// If both are found merge the two configuration.
 		/// </summary>
 		/// <remarks>
 		/// To configure NHibernate explicitly using <c>nhvalidator.cfg.xml</c>, appling merge/override
@@ -121,10 +123,9 @@ namespace NHibernate.Validator.Engine
 			{
 				Configure(nhvhc);
 			}
-			else
-			{
-				Configure(GetDefaultConfigurationFilePath());
-			}
+			string filePath = GetDefaultConfigurationFilePath();
+			if (File.Exists(filePath))
+				Configure(filePath); // merge the configuration
 		}
 
 		/// <summary>
@@ -200,7 +201,7 @@ namespace NHibernate.Validator.Engine
 			}
 		}
 
-		private void Clear()
+		public void Clear()
 		{
 			validators.Clear();
 		}
@@ -346,7 +347,7 @@ namespace NHibernate.Validator.Engine
 
 		internal void AddValidator(System.Type entityType, IValidatableSubElementsInspector inspector)
 		{
-			IClassValidator cv = GetNewClassValidator(entityType, null);
+			IClassValidator cv = GetClassValidator(entityType);
 			ValidatableElement element = new ValidatableElement(entityType, cv);
 			if (inspector != null)
 				inspector.Inspect(element);
@@ -362,29 +363,29 @@ namespace NHibernate.Validator.Engine
 		}
 
 		/// <summary>
-		/// Get a knowed <see cref="IClassValidator"/>.
+		/// Gets an acquaintance <see cref="IClassValidator"/>.
 		/// </summary>
 		/// <typeparam name="T">The type of an entity.</typeparam>
-		/// <returns>A knowed <see cref="IClassValidator"/> for the give type 
+		/// <returns>A acquaintance <see cref="IClassValidator"/> for the give type 
 		/// or null if the the <typeparamref name="T"/> was never used in the engine instance.</returns>
 		public IClassValidator GetValidator<T>()
 		{
 			return GetValidator(typeof(T));
 		}
 
-		internal ValidatableElement GetElementOrNew(System.Type entityType)
+		private ValidatableElement GetElementOrNew(System.Type entityType)
 		{
 			ValidatableElement element;
 			if (!validators.TryGetValue(entityType, out element))
 			{
-				IClassValidator cv = GetNewClassValidator(entityType, null);
+				IClassValidator cv = GetClassValidator(entityType);
 				element = new ValidatableElement(entityType, cv);
 				AddValidatableElement(element);
 			}
 			return element;
 		}
 
-		private IClassValidator GetValidator(System.Type entityType)
+		internal IClassValidator GetValidator(System.Type entityType)
 		{
 			ValidatableElement element;
 			validators.TryGetValue(entityType, out element);
@@ -392,7 +393,16 @@ namespace NHibernate.Validator.Engine
 			return element == null ? null : element.Validator;
 		}
 
-		private IClassValidator GetNewClassValidator(System.Type entityType, ResourceManager resource)
+		/// <summary>
+		/// Gets a <see cref="IClassValidator"/> for a given <see cref="System.Type"/> without
+		/// add it to the engine.
+		/// </summary>
+		/// <param name="entityType">The given <see cref="System.Type"/>.</param>
+		/// <returns>A validator for a <see cref="System.Type"/>.</returns>
+		/// <remarks>
+		/// In general a common application don't need to use this method but it can be useful for some kind of framework.
+		/// </remarks>
+		public IClassValidator GetClassValidator(System.Type entityType)
 		{
 			return factory.GetRootValidator(entityType);
 		}
