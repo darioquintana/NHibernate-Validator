@@ -137,7 +137,6 @@ namespace NHibernate.Validator.Tests.Integration
 			s.Save(a);
 			try
 			{
-				
 				tx.Commit();
 				Assert.Fail("bean should have been validated");
 			}
@@ -179,6 +178,71 @@ namespace NHibernate.Validator.Tests.Integration
 					tx.Rollback();
 				
 				s.Close();
+			}
+
+			// Don't throw exception if it is valid
+			a = new Address();
+			a.Id = 13;
+			a.Country = "Country";
+			a.Line1 = "Line 1";
+			a.Zip = "4343";
+			a.State = "NY";
+			try
+			{
+				using (s = OpenSession())
+				using (ITransaction t = s.BeginTransaction())
+				{
+					s.Save(a);
+					t.Commit();
+				}
+			}
+			catch(InvalidStateException)
+			{
+				Assert.Fail("Valid entity cause InvalidStateException");
+			}
+
+			// Update check
+			try
+			{
+				using (s = OpenSession())
+				using (ITransaction t = s.BeginTransaction())
+				{
+					Address saved = s.Get<Address>(13L);
+					saved.State = "TOOLONG";
+					s.Update(saved);
+					t.Commit();
+					Assert.Fail("bean should have been validated");
+				}
+			}
+			catch (InvalidStateException e)
+			{
+				Assert.AreEqual(1, e.GetInvalidValues().Length);
+			}
+
+			try
+			{
+				using (s = OpenSession())
+				using (ITransaction t = s.BeginTransaction())
+				{
+					Address saved = s.Get<Address>(13L);
+					a.Zip = "1234";
+					saved.State = "BO";
+					s.Update(saved);
+					t.Commit();
+				}
+			}
+			catch (InvalidStateException)
+			{
+				Assert.Fail("Valid entity cause InvalidStateException");
+			}
+
+			// clean up
+			using (s = OpenSession())
+			using (ITransaction t = s.BeginTransaction())
+			{
+				Address saved = s.Get<Address>(13L);
+				s.Delete(saved);
+				t.Commit();
 			}
 		}
 
