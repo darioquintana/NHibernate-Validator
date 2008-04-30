@@ -10,6 +10,7 @@ namespace NHibernate.Validator
 	[ValidatorClass(typeof(FutureValidator))]
 	public class FutureAttribute : Attribute, IRuleArgs
 	{
+		// TODO : Add tolerance
 		private string message = "{validator.future}";
 
 		public string Message
