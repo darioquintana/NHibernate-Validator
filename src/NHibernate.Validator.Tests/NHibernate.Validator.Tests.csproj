@@ -78,6 +78,7 @@
     <Compile Include="Configuration\MappingLoaderFixture.cs" />
     <Compile Include="Configuration\RuleAttributeFactoryFixture.cs" />
     <Compile Include="Configuration\WellKnownRules.cs" />
+    <Compile Include="Engine\ClassValidatorFixture.cs" />
     <Compile Include="Mappings\A.cs" />
     <Compile Include="Mappings\AssertAnimalAttribute.cs" />
     <Compile Include="Mappings\OtherValidator.cs" />

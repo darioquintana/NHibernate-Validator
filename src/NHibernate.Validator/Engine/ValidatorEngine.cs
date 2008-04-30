@@ -46,6 +46,11 @@ namespace NHibernate.Validator.Engine
 				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
 			}
 
+			public InvalidValue[] GetInvalidValues(object bean, string propertyName)
+			{
+				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
+			}
+
 			public void AssertValid(object bean)
 			{
 			}
@@ -296,7 +301,12 @@ namespace NHibernate.Validator.Engine
 		/// </remarks>
 		public InvalidValue[] ValidatePropertyValue(object entity, string propertyName)
 		{
-			return null;
+			if (entity == null)
+				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
+
+			ValidatableElement element = GetElementOrNew(entity.GetType());
+
+			return element.Validator.GetInvalidValues(entity, propertyName);
 		}
 
 		/// <summary>

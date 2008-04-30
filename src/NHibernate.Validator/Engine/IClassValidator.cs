@@ -20,6 +20,15 @@ namespace NHibernate.Validator.Engine
 		InvalidValue[] GetInvalidValues(object bean);
 
 		/// <summary>
+		/// Apply constraints on a bean instance and return all the failures for the given property.
+		/// if <paramref name="bean"/> is null, an empty array is returned. 
+		/// </summary>
+		/// <param name="bean">Object to apply the constraints</param>
+		/// <param name="propertyName">The name of the property to validate.</param>
+		/// <returns></returns>
+		InvalidValue[] GetInvalidValues(object bean, string propertyName);
+
+		/// <summary>
 		/// Assert a valid Object. A <see cref="InvalidStateException"/> 
 		/// will be throw in a Invalid state.
 		/// </summary>

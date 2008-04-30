@@ -166,6 +166,7 @@ namespace NHibernate.Validator.Tests.Engine
 			ve.AssertValid(new AnyClass()); // not cause exception
 			Assert.AreEqual(0,ve.Validate(new AnyClass()).Length);
 			Assert.AreEqual(0, ve.ValidatePropertyValue<AnyClass>("aprop", new AnyClass()).Length);
+			Assert.AreEqual(0, ve.ValidatePropertyValue(new AnyClass(), "aprop").Length);
 		}
 
 		[Test]
@@ -219,7 +220,7 @@ namespace NHibernate.Validator.Tests.Engine
 			}
 		}
 
-		[Test, Ignore("Not implemented yet.")]
+		[Test]
 		public void ValidatePropertyValueOfInstance()
 		{
 			BaseClass b = new BaseClass();
@@ -234,9 +235,9 @@ namespace NHibernate.Validator.Tests.Engine
 			d.A = "1234";
 			Assert.AreEqual(1, ve.ValidatePropertyValue(d, "A").Length);
 			d.B = "123456";
-			Assert.AreEqual(2, ve.ValidatePropertyValue(d, "B").Length);
-			d.B = null;
 			Assert.AreEqual(1, ve.ValidatePropertyValue(d, "B").Length);
+			d.B = null;
+			Assert.AreEqual(0, ve.ValidatePropertyValue(d, "B").Length);
 
 			try
 			{
@@ -248,16 +249,8 @@ namespace NHibernate.Validator.Tests.Engine
 				//ok
 			}
 
-			try
-			{
-				ve.ValidatePropertyValue(null, "A");
-				Assert.Fail("Intent to validate a null instance don't throw any exception.");
-			}
-			catch (ArgumentNullException)
-			{
-				//ok
-			}
-
+			// same behavior GetInvalidValues(object)
+			Assert.AreEqual(0, ve.ValidatePropertyValue(null, "A").Length);
 
 			try
 			{

@@ -225,6 +225,24 @@ namespace NHibernate.Validator.Engine
 			return GetInvalidValues(bean, new IdentitySet());
 		}
 
+		public InvalidValue[] GetInvalidValues(object bean, string propertyName)
+		{
+			if (bean == null)
+			{
+				return EMPTY_INVALID_VALUE_ARRAY;
+			}
+			if (string.IsNullOrEmpty(propertyName))
+			{
+				throw new ArgumentNullException("propertyName");
+			}
+			if (!beanClass.IsInstanceOfType(bean))
+			{
+				throw new ArgumentException("not an instance of: " + bean.GetType());
+			}
+
+			return MembersValidation(bean, propertyName).ToArray();
+		}
+
 		private InvalidValue[] GetInvalidValues(object bean, ISet circularityState)
 		{
 			if (bean == null || circularityState.Contains(bean))
@@ -252,23 +270,7 @@ namespace NHibernate.Validator.Engine
 				}
 			}
 
-			//Property & Field Validation
-			for (int i = 0; i < memberValidators.Count; i++)
-			{
-				MemberInfo member = memberGetters[i];
-
-				if (NHibernateUtil.IsPropertyInitialized(bean, member.Name))
-				{
-					object value = TypeUtils.GetMemberValue(bean, member);
-
-					IValidator validator = memberValidators[i];
-
-					if (!validator.IsValid(value))
-					{
-						results.Add(new InvalidValue(Interpolate(validator), beanClass, member.Name, value, bean));
-					}
-				}
-			}
+			results.AddRange(MembersValidation(bean, null));
 
 			//Child validation
 			for (int i = 0; i < childGetters.Count; i++)
@@ -286,6 +288,41 @@ namespace NHibernate.Validator.Engine
 				}
 			}
 			return results.ToArray();
+		}
+
+		private List<InvalidValue> MembersValidation(object bean, string memberName)
+		{
+			//Property & Field Validation
+			List<InvalidValue> results = new List<InvalidValue>();
+
+			int getterFound = 0;
+			for (int i = 0; i < memberValidators.Count; i++)
+			{
+				MemberInfo member = memberGetters[i];
+				if (memberName == null || member.Name.Equals(memberName))
+				{
+					getterFound++;
+					if (NHibernateUtil.IsPropertyInitialized(bean, member.Name))
+					{
+						object value = TypeUtils.GetMemberValue(bean, member);
+
+						IValidator validator = memberValidators[i];
+
+						if (!validator.IsValid(value))
+						{
+							results.Add(new InvalidValue(Interpolate(validator), beanClass, member.Name, value, bean));
+						}
+					}
+				}
+			}
+
+			if (memberName != null && getterFound == 0 && TypeUtils.GetPropertyOrField(beanClass, memberName) == null)
+			{
+				throw new TargetException(
+					string.Format("The property or field '{0}' was not found in class {1}", memberName, beanClass.FullName));
+			}
+
+			return results;
 		}
 
 		/// <summary>
