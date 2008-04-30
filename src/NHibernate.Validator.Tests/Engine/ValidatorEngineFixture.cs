@@ -9,6 +9,8 @@ using NHibernate.Validator.Tests.Integration;
 using NUnit.Framework;
 using System.Reflection;
 using log4net.Core;
+using System;
+using Environment=NHibernate.Validator.Engine.Environment;
 
 namespace NHibernate.Validator.Tests.Engine
 {
@@ -37,7 +39,7 @@ namespace NHibernate.Validator.Tests.Engine
 		public void IntentWrongNHVConfig()
 		{
 			ValidatorEngine ve = new ValidatorEngine();
-			ve.Configure((INHVConfiguration) null);
+			ve.Configure((INHVConfiguration)null);
 		}
 
 		[Test, ExpectedException(typeof(ValidatorConfigurationException))]
@@ -153,7 +155,7 @@ namespace NHibernate.Validator.Tests.Engine
 
 		private class AnyClass
 		{
-
+			public int aprop;
 		}
 		[Test]
 		public void ValidateAnyClass()
@@ -162,6 +164,8 @@ namespace NHibernate.Validator.Tests.Engine
 			Assert.IsTrue(ve.IsValid(new AnyClass()));
 			Assert.IsNotNull(ve.GetValidator<AnyClass>());
 			ve.AssertValid(new AnyClass()); // not cause exception
+			Assert.AreEqual(0,ve.Validate(new AnyClass()).Length);
+			Assert.AreEqual(0, ve.ValidatePropertyValue<AnyClass>("aprop", new AnyClass()).Length);
 		}
 
 		[Test]
@@ -210,6 +214,57 @@ namespace NHibernate.Validator.Tests.Engine
 				Assert.Fail("Intent to validate a wrong property don't throw any exception.");
 			}
 			catch (TargetException)
+			{
+				//ok
+			}
+		}
+
+		[Test, Ignore("Not implemented yet.")]
+		public void ValidatePropertyValueOfInstance()
+		{
+			BaseClass b = new BaseClass();
+			DerivatedClass d = new DerivatedClass();
+
+			ValidatorEngine ve = new ValidatorEngine();
+			Assert.AreEqual(1, ve.ValidatePropertyValue(b, "A").Length);
+			Assert.AreEqual(1, ve.ValidatePropertyValue(d, "A").Length);
+
+			b.A = "1234";
+			Assert.AreEqual(1, ve.ValidatePropertyValue(b, "A").Length);
+			d.A = "1234";
+			Assert.AreEqual(1, ve.ValidatePropertyValue(d, "A").Length);
+			d.B = "123456";
+			Assert.AreEqual(2, ve.ValidatePropertyValue(d, "B").Length);
+			d.B = null;
+			Assert.AreEqual(1, ve.ValidatePropertyValue(d, "B").Length);
+
+			try
+			{
+				ve.ValidatePropertyValue(d, "WrongName");
+				Assert.Fail("Intent to validate a wrong property don't throw any exception.");
+			}
+			catch (TargetException)
+			{
+				//ok
+			}
+
+			try
+			{
+				ve.ValidatePropertyValue(null, "A");
+				Assert.Fail("Intent to validate a null instance don't throw any exception.");
+			}
+			catch (ArgumentNullException)
+			{
+				//ok
+			}
+
+
+			try
+			{
+				ve.ValidatePropertyValue(d, "");
+				Assert.Fail("Intent to validate a empty property name don't throw any exception.");
+			}
+			catch (ArgumentNullException)
 			{
 				//ok
 			}
