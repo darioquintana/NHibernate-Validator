@@ -7,21 +7,12 @@ namespace NHibernate.Validator
 	{
 		public bool IsValid(object value)
 		{
-			if (value == null)
-			{
-				return true;
-			}
+			if (value == null) return true;
 
 			if (value is DateTime)
 			{
-				DateTime date = (DateTime) value;
-				return date.CompareTo(DateTime.Now) < 0;
+				return DateTime.Now.CompareTo(value) > 0;
 			}
-
-			//TODO: Add support to System.Globalization.Calendar ?
-			//if(value is Calendar)
-			//{
-			//}
 
 			return false;
 		}
