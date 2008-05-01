@@ -152,6 +152,7 @@
     <Compile Include="ValidatorsTest\FooLength.cs" />
     <Compile Include="ValidatorsTest\FooNotEmpty.cs" />
     <Compile Include="ValidatorsTest\FutureValidatorFixture.cs" />
+    <Compile Include="ValidatorsTest\IPAddressValidatorFixture.cs" />
     <Compile Include="ValidatorsTest\NotNullOrEmptyValidatorFixture.cs" />
     <Compile Include="ValidatorsTest\PastValidatorFixture.cs" />
     <Compile Include="ValidatorsTest\ValidatorsFixture.cs" />

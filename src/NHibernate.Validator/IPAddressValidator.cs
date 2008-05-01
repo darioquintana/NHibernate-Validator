@@ -11,15 +11,17 @@ namespace NHibernate.Validator
 			{
 				return true;
 			}
-			
-			if (value is string)
+
+			if (value is IPAddress)
 			{
-				IPAddress ipAddress;
-				string ip = value.ToString();
-				if (IPAddress.TryParse(ip, out ipAddress))
-				{
-					return true;
-				}
+				return true;
+			}
+
+			string ip = value.ToString();
+			IPAddress ipAddress;
+			if (IPAddress.TryParse(ip, out ipAddress))
+			{
+				return true;
 			}
 
 			return false;
