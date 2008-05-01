@@ -151,6 +151,7 @@
     <Compile Include="Base\ValidatorFixture.cs" />
     <Compile Include="Base\ValidatorFixtureXml.cs" />
     <Compile Include="ValidatorsTest\AssertFalseFixture.cs" />
+    <Compile Include="ValidatorsTest\DigitsValidatorFixture.cs" />
     <Compile Include="ValidatorsTest\EANValidatorFixture.cs" />
     <Compile Include="ValidatorsTest\EmailValidatorFixture.cs" />
     <Compile Include="ValidatorsTest\FooDate.cs" />
@@ -158,6 +159,7 @@
     <Compile Include="ValidatorsTest\FooNotEmpty.cs" />
     <Compile Include="ValidatorsTest\FutureValidatorFixture.cs" />
     <Compile Include="ValidatorsTest\IPAddressValidatorFixture.cs" />
+    <Compile Include="ValidatorsTest\LengthValidatorFixture.cs" />
     <Compile Include="ValidatorsTest\MaxValidatorFixture.cs" />
     <Compile Include="ValidatorsTest\MinValidatorFixture.cs" />
     <Compile Include="ValidatorsTest\NotEmptyValidatorFixture.cs" />

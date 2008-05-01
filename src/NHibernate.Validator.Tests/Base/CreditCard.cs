@@ -6,10 +6,10 @@ namespace NHibernate.Validator.Tests.Base
 {
 	public class CreditCard
 	{
-		[CreditCardNumber]
+		[CreditCardNumber(Message="Invalid credit card number")]
 		public string number;
 
-		[EAN]
+		[EAN(Message="Invalid EAN number")]
 		public string ean;
 	}
 }
