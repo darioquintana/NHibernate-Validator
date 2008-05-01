@@ -623,8 +623,9 @@ namespace NHibernate.Validator.Engine
 		{
 			foreach (IValidator validator in beanValidators)
 			{
-				if (validator is IPersistentClassConstraint)
-					((IPersistentClassConstraint)validator).Apply(persistentClass);
+				IPersistentClassConstraint pcc = validator as IPersistentClassConstraint;
+				if (pcc != null)
+					pcc.Apply(persistentClass);
 			}
 
 			for (int i = 0; i < memberValidators.Count; i++)

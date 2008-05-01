@@ -57,7 +57,8 @@ namespace NHibernate.Validator.Cfg
 			}
 			catch (Exception ex)
 			{
-				log.Warn("Unable to apply constraints on DDL for " + persistentClass.ClassName, ex);
+				log.Warn(
+					string.Format("Unable to apply constraints on DDL for [MappedClass={0}]", persistentClass.MappedClass.FullName), ex);
 			}
 		}
 	}

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+				   namespace="NHibernate.Validator.Tests.Integration"
+				   assembly="NHibernate.Validator.Tests"
+				   default-lazy="false">
+
+	<class name="WrongClass">
+		<id name="Id" type="int">
+			<generator class="assigned"/>
+		</id>
+	</class>
+	<class name="WrongClass1">
+		<id name="Id" type="int">
+			<generator class="assigned"/>
+		</id>
+	</class>
+</hibernate-mapping>
