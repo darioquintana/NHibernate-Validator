@@ -7,7 +7,9 @@ namespace NHibernate.Validator
 {
 	public class MaxValidator : IInitializableValidator<MaxAttribute>, IPropertyConstraint
 	{
-		private long max;
+		private double max;
+
+		#region IInitializableValidator<MaxAttribute> Members
 
 		public bool IsValid(object value)
 		{
@@ -16,31 +18,26 @@ namespace NHibernate.Validator
 				return true;
 			}
 
-			if (value is string)
+			try
 			{
-				try
+				return Convert.ToDouble(value) <= max;
+			}
+			catch (InvalidCastException)
+			{
+				if (value is char)
 				{
-					return Convert.ToDecimal(value) <= Convert.ToDecimal(max);
+					return Convert.ToInt32(value) <= max;
 				}
-				catch (FormatException)
-				{
-					return false;
-				}
+				return false;
 			}
-			else if (value is decimal)
+			catch (FormatException)
 			{
-				return Convert.ToDecimal(value) <= Convert.ToDecimal(max);
+				return false;
 			}
-			else if (value is Int32)
+			catch (OverflowException)
 			{
-				return Convert.ToInt32(value) <= Convert.ToInt32(max);
+				return false;
 			}
-			else if (value is Int64)
-			{
-				return Convert.ToInt64(value) <= Convert.ToInt64(max);
-			}
-
-			return false;
 		}
 
 		public void Initialize(MaxAttribute parameters)
@@ -48,12 +45,18 @@ namespace NHibernate.Validator
 			max = parameters.Value;
 		}
 
+		#endregion
+
+		#region IPropertyConstraint Members
+
 		public void Apply(Property property)
 		{
 			IEnumerator ie = property.ColumnIterator.GetEnumerator();
 			ie.MoveNext();
-			Column col = (Column)ie.Current;
+			Column col = (Column) ie.Current;
 			col.CheckConstraint = col.Name + "<=" + max;
 		}
+
+		#endregion
 	}
 }
