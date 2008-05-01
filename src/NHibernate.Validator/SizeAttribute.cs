@@ -1,24 +1,25 @@
+using System;
 using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
-	using System;
-
 	/// <summary>
 	/// Size range for Arrays, Collections
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	[ValidatorClass(typeof(SizeValidator))]
+	[ValidatorClass(typeof (SizeValidator))]
 	public class SizeAttribute : Attribute, IRuleArgs
 	{
 		private int max = int.MaxValue;
 		private string message = "{validator.size}";
 		private int min = 0;
 
-		public string Message
+		public SizeAttribute() {}
+
+		public SizeAttribute(int min, int max)
 		{
-			get { return message; }
-			set { message = value; }
+			this.min = min;
+			this.max = max;
 		}
 
 		public int Min
@@ -32,5 +33,15 @@ namespace NHibernate.Validator
 			get { return max; }
 			set { max = value; }
 		}
+
+		#region IRuleArgs Members
+
+		public string Message
+		{
+			get { return message; }
+			set { message = value; }
+		}
+
+		#endregion
 	}
 }

@@ -156,6 +156,7 @@
     <Compile Include="ValidatorsTest\NotEmptyValidatorFixture.cs" />
     <Compile Include="ValidatorsTest\NotNullOrEmptyValidatorFixture.cs" />
     <Compile Include="ValidatorsTest\PastValidatorFixture.cs" />
+    <Compile Include="ValidatorsTest\SizeValidatorFixture.cs" />
     <Compile Include="ValidatorsTest\ValidatorsFixture.cs" />
     <Compile Include="ValidatorsTest\XmlValidatorFixture.cs" />
     <Compile Include="ValidTests\Address.cs" />

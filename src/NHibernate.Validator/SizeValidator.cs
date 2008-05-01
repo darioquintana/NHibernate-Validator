@@ -5,15 +5,18 @@ namespace NHibernate.Validator
 {
 	public class SizeValidator : IInitializableValidator<SizeAttribute>
 	{
-		private int min;
 		private int max;
-
+		private int min;
 
 		public bool IsValid(object value)
 		{
-			ICollection collection = value as ICollection;
+			if(value == null) return true;
 
-			if(collection == null) return true;
+			ICollection collection = value as ICollection;
+			if (collection == null)
+			{
+				return false;
+			}
 
 			return collection.Count >= min && collection.Count <= max;
 		}
