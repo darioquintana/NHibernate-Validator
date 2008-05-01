@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Iesi.Collections.Generic;
 using NHibernate.Properties;
+using NHibernate.Validator.Exceptions;
 
 namespace NHibernate.Validator.Engine
 {
@@ -28,6 +29,8 @@ namespace NHibernate.Validator.Engine
 		{
 			if (entityType == null)
 				throw new ArgumentNullException("entityType");
+			if (validator == null)
+				throw new ArgumentNullException("validator");
 
 			this.entityType = entityType;
 			this.validator = validator;
@@ -84,6 +87,8 @@ namespace NHibernate.Validator.Engine
 		/// <seealso cref="SubElements"/>
 		public void AddSubElement(ValidatableElement subValidatableElement)
 		{
+			if (subValidatableElement.Getter == null)
+				throw new ArgumentException("The sub element of ValidatableElement must have a Getter.", "subValidatableElement");
 			subElements.Add(subValidatableElement);
 		}
 

@@ -30,12 +30,19 @@ namespace NHibernate.Validator.Tests.Integration
 			}
 		}
 
+		protected class AnyClass
+		{
+			public int aprop;
+		}
+
+		protected ISharedEngineProvider fortest;
 		protected override void Configure(Configuration configuration)
 		{
 			// The ValidatorInitializer and the ValidateEventListener share the same engine
 
 			// Initialize the SharedEngine
-			Cfg.Environment.SharedEngineProvider = new NHibernateSharedEngineProvider();
+			fortest = new NHibernateSharedEngineProvider();
+			Cfg.Environment.SharedEngineProvider = fortest;
 			ValidatorEngine ve = Cfg.Environment.SharedEngineProvider.GetEngine();
 			ve.Clear();
 			NHVConfiguration nhvc = new NHVConfiguration();
@@ -44,6 +51,7 @@ namespace NHibernate.Validator.Tests.Integration
 			nhvc.Properties[Cfg.Environment.ValidatorMode] = "UseAttribute";
 			nhvc.Properties[Cfg.Environment.MessageInterpolatorClass] = typeof(PrefixMessageInterpolator).AssemblyQualifiedName;
 			ve.Configure(nhvc);
+			ve.IsValid(new AnyClass());// add the element to engine for test
 
 			ValidatorInitializer.Initialize(configuration);
 		}
@@ -63,6 +71,16 @@ namespace NHibernate.Validator.Tests.Integration
 
 			txn.Commit();
 			s.Close();
+		}
+
+		[Test]
+		public void EnsureSharedEngine()
+		{
+			Assert.IsTrue(ReferenceEquals(fortest, Cfg.Environment.SharedEngineProvider),
+			              "some process change the shared engine instance");
+			// Have something initialized before and after lister initialization
+			Assert.IsNotNull(fortest.GetEngine().GetValidator<AnyClass>());
+			Assert.IsNotNull(fortest.GetEngine().GetValidator<Address>());
 		}
 
 		[Test, ExpectedException(typeof(ArgumentNullException))]
