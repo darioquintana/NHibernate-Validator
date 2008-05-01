@@ -2,9 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using log4net;
-using NHibernate.Validator.Engine;
 using NHibernate.Util;
-using NHibernate.Validator.Exceptions;
+using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Cfg
 {
@@ -93,21 +92,12 @@ namespace NHibernate.Validator.Cfg
 		private static ISharedEngineProvider BuildSharedEngine(IDictionary<string, string> properties)
 		{
 			string clazz;
+			ISharedEngineProvider result = null;
 			if (properties.TryGetValue(SharedEngineClass, out clazz))
 			{
-				try
-				{
-					return (ISharedEngineProvider) Activator.CreateInstance(ReflectHelper.ClassForFullName(clazz));
-				}
-				catch (Exception e)
-				{
-					throw new ValidatorConfigurationException(
-						string.Format(
-							"Could not load type {0}.Can't find the type find the System.Type scanning all Assemblies of the AppDomain.CurrentDomain",
-							clazz), e);
-				}
+				result = (ISharedEngineProvider) Activator.CreateInstance(ReflectHelper.ClassForFullName(clazz));
 			}
-			return null;
+			return result;
 		}
 
 		/// <summary>
