@@ -150,6 +150,7 @@
     <Compile Include="Base\User.cs" />
     <Compile Include="Base\ValidatorFixture.cs" />
     <Compile Include="Base\ValidatorFixtureXml.cs" />
+    <Compile Include="ValidatorsTest\EANValidatorFixture.cs" />
     <Compile Include="ValidatorsTest\EmailValidatorFixture.cs" />
     <Compile Include="ValidatorsTest\FooDate.cs" />
     <Compile Include="ValidatorsTest\FooLength.cs" />

@@ -84,6 +84,10 @@ namespace NHibernate.Validator.Tests.Configuration
 			IPAddressAttribute ipa = FindAttribute<IPAddressAttribute>(attributes);
 			Assert.AreEqual("ipAddress message", ipa.Message);
 
+			EANAttribute enaa = FindAttribute<EANAttribute>(attributes);
+			Assert.AreEqual("ean message", enaa.Message);
+
+
 			mi = typeof(WellKnownRules).GetField("DtProp");
 			attributes = new List<Attribute>(rm.GetMemberAttributes(mi));
 			FutureAttribute fa = FindAttribute<FutureAttribute>(attributes);

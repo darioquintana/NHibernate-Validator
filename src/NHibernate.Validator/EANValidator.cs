@@ -1,25 +1,38 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using NHibernate.Validator.Engine;
+using System.Globalization;
 
 namespace NHibernate.Validator
 {
+	/// <summary>
+	/// Validate EAN13 and UPC-A
+	/// http://en.wikipedia.org/wiki/European_Article_Number
+	/// </summary>
 	public class EANValidator : IValidator
 	{
 		public bool IsValid(object value)
 		{
-			if (value == null) return true;
+			if (value == null)
+			{
+				return true;
+			}
 
-			if (!(value is string)) return false;
-
-			string creditCard = (string)value;
-			char[] chars = creditCard.ToCharArray();
+			long val;
+			string ean = value.ToString();
+			if (ean.Length != 13 || !long.TryParse(ean, out val))
+			{
+				return false;
+			}
+			char[] chars = val.ToString(NumberFormatInfo.InvariantInfo).ToCharArray();
 
 			IList<int> ints = new List<int>();
 			foreach (char c in chars)
 			{
-				if (Char.IsDigit(c)) ints.Add(c - '0');
+				if (Char.IsDigit(c))
+				{
+					ints.Add(c - '0');
+				}
 			}
 			int length = ints.Count;
 			int sum = 0;
@@ -38,6 +51,5 @@ namespace NHibernate.Validator
 
 			return sum % 10 == 0;
 		}
-
 	}
 }

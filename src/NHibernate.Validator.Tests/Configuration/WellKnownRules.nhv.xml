@@ -19,6 +19,7 @@
 			<pattern regex="[0-9]+" message="pattern message"/>
 			<email message="email message"/>
 			<ipAddress message="ipAddress message"/>
+			<ean message="ean message"/>
 		</property>
 
 		<property name="DtProp">
