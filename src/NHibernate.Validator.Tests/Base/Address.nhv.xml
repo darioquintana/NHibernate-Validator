@@ -19,6 +19,7 @@
 		<property name="Id">	
 				<min value="1" />
 				<range max="2000" />
+				<max value="2500"/>
 		</property>
 		
 		<property name="Line1" >	

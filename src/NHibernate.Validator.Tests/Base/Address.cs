@@ -18,7 +18,7 @@ namespace NHibernate.Validator.Tests.Base
 		private string state;
 		private string zip;
 
-		[Min(1), Range(Max = 2000)]
+		[Min(1), Range(Max = 2000), Max(2500)]
 		public long Id
 		{
 			get { return id; }

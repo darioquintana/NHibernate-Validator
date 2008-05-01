@@ -43,7 +43,7 @@ namespace NHibernate.Validator.Tests.Mappings
 
 			mi = typeof (Address).GetProperty("Id");
 			mas = new List<Attribute>(rm.GetMemberAttributes(mi));
-			Assert.AreEqual(2, mas.Count);
+			Assert.AreEqual(3, mas.Count);
 		}
 
 		[Test]
