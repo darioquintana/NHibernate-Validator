@@ -7,7 +7,7 @@ namespace NHibernate.Validator
 {
 	public class MaxValidator : IInitializableValidator<MaxAttribute>, IPropertyConstraint
 	{
-		private double max;
+		private double limit;
 
 		#region IInitializableValidator<MaxAttribute> Members
 
@@ -20,13 +20,13 @@ namespace NHibernate.Validator
 
 			try
 			{
-				return Convert.ToDouble(value) <= max;
+				return Convert.ToDouble(value) <= limit;
 			}
 			catch (InvalidCastException)
 			{
 				if (value is char)
 				{
-					return Convert.ToInt32(value) <= max;
+					return Convert.ToInt32(value) <= limit;
 				}
 				return false;
 			}
@@ -42,7 +42,7 @@ namespace NHibernate.Validator
 
 		public void Initialize(MaxAttribute parameters)
 		{
-			max = parameters.Value;
+			limit = parameters.Value;
 		}
 
 		#endregion
@@ -54,7 +54,7 @@ namespace NHibernate.Validator
 			IEnumerator ie = property.ColumnIterator.GetEnumerator();
 			ie.MoveNext();
 			Column col = (Column) ie.Current;
-			col.CheckConstraint = col.Name + "<=" + max;
+			col.CheckConstraint = col.Name + "<=" + limit;
 		}
 
 		#endregion
