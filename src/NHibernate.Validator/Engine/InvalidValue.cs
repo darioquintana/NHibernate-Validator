@@ -5,6 +5,9 @@ namespace NHibernate.Validator.Engine
 	/// <summary>
 	/// A single violation of a class level or method level constraint.
 	/// </summary>
+	/// <remarks>
+	/// Created by <see cref="ClassValidator"/>. The ctor is public only for test scope.
+	/// </remarks>
 	[Serializable]
 	public class InvalidValue
 	{
@@ -70,7 +73,7 @@ namespace NHibernate.Validator.Engine
 
 		public override string ToString()
 		{
-			return string.Concat(propertyName, " ", message);
+			return string.Concat(propertyName, "[", message, "]");
 		}
 	}
 }
