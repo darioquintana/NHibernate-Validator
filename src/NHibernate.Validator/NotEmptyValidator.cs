@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using NHibernate.Mapping;
 using NHibernate.Validator.Engine;
@@ -9,15 +8,13 @@ namespace NHibernate.Validator
 	{
 		public bool IsValid(object value)
 		{
-			if (value == null) return false;
+			IEnumerable ev = value as IEnumerable;
+			if (ev != null)
+			{
+				return ev.GetEnumerator().MoveNext();
+			}
 
-			if (value is ICollection)
-				return ((ICollection)value).Count > 0;
-
-			if (value is string)
-				return ((string)value).Length > 0;
-
-			throw new ArgumentException("the object to validate must be a string or a collection", "value");
+			return false;
 		}
 
 		public void Apply(Property property)
