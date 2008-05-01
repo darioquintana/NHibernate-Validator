@@ -423,7 +423,7 @@ namespace NHibernate.Validator.Engine
 				catch (InvalidCastException ex)
 				{
 					throw new ValidatorConfigurationException(
-						"Type does not implement the interface " + typeof(IMessageInterpolator).GetType().Name + ": " + interpolatorString,
+						"Type does not implement the interface '" + typeof(IMessageInterpolator).FullName + "': " + interpolatorString,
 						ex);
 				}
 				catch (Exception ex)

@@ -257,5 +257,73 @@ namespace NHibernate.Validator.Tests.Engine
 				//ok
 			}
 		}
+
+		private class NoDefConstructorInterpolator:IMessageInterpolator
+		{
+			private NoDefConstructorInterpolator() {}
+
+			public string Interpolate(string message, IValidator validator, IMessageInterpolator defaultInterpolator)
+			{
+				throw new NotImplementedException();
+			}
+		}
+		private class NoInterpolator{}
+		private class BadConstructorInterpolator : IMessageInterpolator
+		{
+			public BadConstructorInterpolator()
+			{
+				throw new NotImplementedException();
+			}
+			public string Interpolate(string message, IValidator validator, IMessageInterpolator defaultInterpolator)
+			{
+				throw new Exception("The method or operation is not implemented.");
+			}
+		}
+
+		[Test]
+		public void GetInterpolator()
+		{
+			ValidatorEngine ve = new ValidatorEngine();
+			NHVConfiguration nhvc = new NHVConfiguration();
+			try
+			{
+				nhvc.Properties[Environment.MessageInterpolatorClass] = typeof (NoDefConstructorInterpolator).AssemblyQualifiedName;
+				ve.Configure(nhvc);
+				Assert.Fail("Expected exception for invalid interpolator");
+			}
+			catch(ValidatorConfigurationException e)
+			{
+				Assert.AreEqual(
+					"Public constructor was not found at message interpolator: "
+					+ typeof (NoDefConstructorInterpolator).AssemblyQualifiedName, e.Message);
+			}
+
+			try
+			{
+				nhvc.Properties[Environment.MessageInterpolatorClass] = typeof(NoInterpolator).AssemblyQualifiedName;
+				ve.Configure(nhvc);
+				Assert.Fail("Expected exception for invalid interpolator");
+			}
+			catch (ValidatorConfigurationException e)
+			{
+				Assert.AreEqual(
+					"Type does not implement the interface '" + typeof(IMessageInterpolator).FullName + "': "
+					+ typeof(NoInterpolator).AssemblyQualifiedName, e.Message);
+			}
+
+			try
+			{
+				nhvc.Properties[Environment.MessageInterpolatorClass] = typeof(BadConstructorInterpolator).AssemblyQualifiedName;
+				ve.Configure(nhvc);
+				Assert.Fail("Expected exception for invalid interpolator");
+			}
+			catch (ValidatorConfigurationException e)
+			{
+				Assert.AreEqual(
+					"Unable to instanciate message interpolator: "
+					+ typeof(BadConstructorInterpolator).AssemblyQualifiedName, e.Message);
+			}
+
+		}
 	}
 }
