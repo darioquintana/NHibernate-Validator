@@ -493,13 +493,9 @@ namespace NHibernate.Validator.Engine
 				defaultInterpolator.AddInterpolator(attribute, beanValidator);
 				return beanValidator;
 			}
-			catch (HibernateValidatorException ex)
-			{
-				throw new HibernateValidatorException("could not instantiate ClassValidator, maybe some validator is not well formed", ex);
-			}
 			catch (Exception ex)
 			{
-				throw new HibernateValidatorException("could not instantiate ClassValidator", ex);
+				throw new HibernateValidatorException("could not instantiate ClassValidator, maybe some validator is not well formed; check InnerException", ex);
 			}
 		}
 
