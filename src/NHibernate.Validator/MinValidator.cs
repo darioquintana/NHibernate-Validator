@@ -7,15 +7,9 @@ namespace NHibernate.Validator
 {
 	public class MinValidator : IInitializableValidator<MinAttribute>, IPropertyConstraint
 	{
-		private long min;
+		private double limit;
 
-		public void Apply(Property property)
-		{
-			IEnumerator ie = property.ColumnIterator.GetEnumerator();
-			ie.MoveNext();
-			Column col = (Column)ie.Current;
-			col.CheckConstraint = col.Name + ">=" + min;
-		}
+		#region IInitializableValidator<MinAttribute> Members
 
 		public bool IsValid(object value)
 		{
@@ -24,36 +18,45 @@ namespace NHibernate.Validator
 				return true;
 			}
 
-			if (value is string)
+			try
 			{
-				try
+				return Convert.ToDouble(value) >= limit;
+			}
+			catch (InvalidCastException)
+			{
+				if (value is char)
 				{
-					return Convert.ToDecimal(value) >= Convert.ToDecimal(min);
+					return Convert.ToInt32(value) >= limit;
 				}
-				catch (FormatException)
-				{
-					return false;
-				}
+				return false;
 			}
-			else if (value is decimal)
+			catch (FormatException)
 			{
-				return Convert.ToDecimal(value) >= Convert.ToDecimal(min);
+				return false;
 			}
-			else if (value is Int32)
+			catch (OverflowException)
 			{
-				return Convert.ToInt32(value) >= Convert.ToInt32(min);
+				return false;
 			}
-			else if (value is Int64)
-			{
-				return Convert.ToInt64(value) >= Convert.ToInt64(min);
-			}
-
-			return false;
 		}
 
 		public void Initialize(MinAttribute parameters)
 		{
-			min = parameters.Value;
+			limit = parameters.Value;
 		}
+
+		#endregion
+
+		#region IPropertyConstraint Members
+
+		public void Apply(Property property)
+		{
+			IEnumerator ie = property.ColumnIterator.GetEnumerator();
+			ie.MoveNext();
+			Column col = (Column) ie.Current;
+			col.CheckConstraint = col.Name + ">=" + limit;
+		}
+
+		#endregion
 	}
 }

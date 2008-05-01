@@ -29,7 +29,7 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 			A=100
 		}
 		[Flags]
-		public enum CarOptions
+		private enum CarOptions
 		{
 			Spoiler = 0x02,
 			FogLights = 0x04,
