@@ -51,6 +51,8 @@
   <ItemGroup>
     <Compile Include="AbstractLuhnValidator.cs" />
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="AssertFalseAttribute.cs" />
+    <Compile Include="AssertFalseValidator.cs" />
     <Compile Include="AssertTrueAttribute.cs" />
     <Compile Include="AssertTrueValidator.cs" />
     <Compile Include="Cfg\CfgXmlHelper.cs" />
