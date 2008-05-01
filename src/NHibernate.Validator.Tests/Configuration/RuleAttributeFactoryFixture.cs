@@ -87,6 +87,8 @@ namespace NHibernate.Validator.Tests.Configuration
 			EANAttribute enaa = FindAttribute<EANAttribute>(attributes);
 			Assert.AreEqual("ean message", enaa.Message);
 
+			CreditCardNumberAttribute ccna = FindAttribute<CreditCardNumberAttribute>(attributes);
+			Assert.AreEqual("creditcardnumber message", ccna.Message);
 
 			mi = typeof(WellKnownRules).GetField("DtProp");
 			attributes = new List<Attribute>(rm.GetMemberAttributes(mi));

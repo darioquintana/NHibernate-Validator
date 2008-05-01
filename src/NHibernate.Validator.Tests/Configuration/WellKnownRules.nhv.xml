@@ -20,6 +20,7 @@
 			<email message="email message"/>
 			<ipAddress message="ipAddress message"/>
 			<ean message="ean message"/>
+			<creditcardnumber message="creditcardnumber message"/>
 		</property>
 
 		<property name="DtProp">
