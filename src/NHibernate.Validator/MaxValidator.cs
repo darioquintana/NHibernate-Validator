@@ -39,10 +39,6 @@ namespace NHibernate.Validator
 			{
 				return Convert.ToInt64(value) <= Convert.ToInt64(max);
 			}
-			else if (value is long)
-			{
-				return (long)value <= max;
-			}
 
 			return false;
 		}

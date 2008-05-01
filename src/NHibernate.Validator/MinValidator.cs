@@ -47,10 +47,6 @@ namespace NHibernate.Validator
 			{
 				return Convert.ToInt64(value) >= Convert.ToInt64(min);
 			}
-			else if (value is long)
-			{
-				return (long)value >= min;
-			}
 
 			return false;
 		}
