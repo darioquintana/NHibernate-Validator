@@ -428,7 +428,7 @@ namespace NHibernate.Validator.Engine
 		/// <returns></returns>
 		private string Interpolate(IValidator validator)
 		{
-			String message = defaultInterpolator.GetAttributeMessage(validator);
+			string message = defaultInterpolator.GetAttributeMessage(validator);
 
 			if (userInterpolator != null)
 			{

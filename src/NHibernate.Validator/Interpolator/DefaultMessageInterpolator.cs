@@ -12,24 +12,37 @@ namespace NHibernate.Validator.Interpolator
 {
 	public class DefaultMessageInterpolator : IMessageInterpolator
 	{
-		//TODO: Log this class!
-		//private static Log log = LogFactory.getLog( DefaultMessageInterpolator.class );
-
-		private CultureInfo culture = null;
-
-		private Dictionary<string, object> attributeParameters = new Dictionary<string, object>();
-
-		[NonSerialized] private ResourceManager messageBundle;
-
-		[NonSerialized] private ResourceManager defaultMessageBundle;
+		private readonly Dictionary<string, object> attributeParameters = new Dictionary<string, object>();
 
 		private string attributeMessage;
+		private CultureInfo culture = CultureInfo.CurrentUICulture;
+		[NonSerialized]
+		private ResourceManager defaultMessageBundle;
 
 		private string interpolateMessage;
+		[NonSerialized]
+		private ResourceManager messageBundle;
+
+		#region IMessageInterpolator Members
+
+		public string Interpolate(string message, IValidator validator, IMessageInterpolator defaultInterpolator)
+		{
+			bool same = attributeMessage.Equals(message);
+			if (same && interpolateMessage != null)
+				return interpolateMessage; //short cut
+
+			string result;
+			result = Replace(message);
+			if (same)
+				interpolateMessage = result; //short cut in next iteration
+			return result;
+		}
+
+		#endregion
 
 		public void Initialize(ResourceManager messageBundle, ResourceManager defaultMessageBundle, CultureInfo culture)
 		{
-			this.culture = culture;
+			this.culture = culture ?? CultureInfo.CurrentCulture;
 			this.messageBundle = messageBundle;
 			this.defaultMessageBundle = defaultMessageBundle;
 		}
@@ -40,38 +53,36 @@ namespace NHibernate.Validator.Interpolator
 			//For example:
 			//In LengthAttribute the parametter are Min and Max.
 			System.Type clazz = attribute.GetType();
-			
-			IRuleArgs HasMessage = attribute as IRuleArgs;
 
-			if (HasMessage == null)
-				throw new ArgumentException("Attribute " + clazz + " doesn't implements IRuleArgs interface.");
-			else
-				this.attributeMessage = HasMessage.Message;
+			IRuleArgs ruleArgs = attribute as IRuleArgs;
 
-			foreach(PropertyInfo property in clazz.GetProperties())
+			if (ruleArgs == null)
 			{
-				attributeParameters.Add(property.Name, property.GetValue(attribute, null));
+				throw new ArgumentException("Attribute " + clazz + " doesn't implements IRuleArgs interface.");
+			}
+			else
+			{
+				attributeMessage = ruleArgs.Message;
 			}
 
-			//if (attributeParameters.ContainsKey("Message"))
-			//    attributeMessage = (string) attributeParameters["Message"];
-			//else 
-			//    throw new ArgumentException("Attribute " + clazz + " does not have an (accessible) Message attribute");
-			
+			foreach (PropertyInfo property in clazz.GetProperties())
+			{
+				attributeParameters.Add(property.Name.ToLowerInvariant(), property.GetValue(attribute, null));
+			}
 		}
 
-		private String Replace(String message)
+		private string Replace(string message)
 		{
 			StringTokenizer tokens = new StringTokenizer(message, "#{}", true);
-			StringBuilder buf = new StringBuilder(30);
+			StringBuilder buf = new StringBuilder(100);
 			bool escaped = false;
 			bool el = false;
 
 			IEnumerator ie = tokens.GetEnumerator();
 
-			while(ie.MoveNext())
+			while (ie.MoveNext())
 			{
-				string token = (string) ie.Current;
+				string token = (string)ie.Current;
 
 				if (!escaped && "#".Equals(token))
 				{
@@ -95,8 +106,8 @@ namespace NHibernate.Validator.Interpolator
 				}
 				else
 				{
-					Object variable = attributeParameters.ContainsKey(token) ? attributeParameters[token] : null;
-					if (variable != null)
+					object variable;
+					if (attributeParameters.TryGetValue(token.ToLowerInvariant(), out variable))
 					{
 						buf.Append(variable);
 					}
@@ -105,41 +116,23 @@ namespace NHibernate.Validator.Interpolator
 						string _string = null;
 						try
 						{
-							//Diferent behavior that Hibernate.Validator
-							//Try first with the current Culture in the Custom ResourceManager
-							//Else trywith the default Culture in the Custom ResourceManager
-							if (culture == null)
-								_string = messageBundle != null ? messageBundle.GetString(token) : null;
-							else
-								_string = messageBundle != null ? messageBundle.GetString(token,culture) : null;
+							_string = messageBundle != null ? messageBundle.GetString(token, culture) : null;
 						}
-						catch(MissingManifestResourceException)
+						catch (MissingManifestResourceException)
 						{
 							//give a second chance with the default resource bundle
-							if (messageBundle.Equals(defaultMessageBundle))
-							{
-								//return the unchanged string
-								buf.Append('{').Append(token).Append('}');
-							}
 						}
 						if (_string == null)
 						{
-							try
-							{
-								//Try first with the current Culture in the Default ResourceManager
-								//Else trywith the default Culture in the Default ResourceManager
-								if(culture == null)
-									_string = defaultMessageBundle.GetString(token);
-								else
-									_string = defaultMessageBundle.GetString(token,culture);
-							}
-							catch(MissingManifestResourceException)
-							{
-								//return the unchanged string
-								buf.Append('{').Append(token).Append('}');
-							}
+							_string = defaultMessageBundle.GetString(token, culture);
+							// in this case we don't catch the MissingManifestResourceException because
+							// we are sure that we DefaultValidatorMessages.resx is an embedded resource
 						}
-						if (_string != null)
+						if (_string == null)
+						{
+							buf.Append('{').Append(token).Append('}');
+						}
+						else
 						{
 							buf.Append(Replace(_string));
 						}
@@ -147,24 +140,6 @@ namespace NHibernate.Validator.Interpolator
 				}
 			}
 			return buf.ToString();
-		}
-
-		public string Interpolate(string message, IValidator validator, IMessageInterpolator defaultInterpolator)
-		{
-			if (attributeMessage.Equals(message))
-			{
-				//short cut
-				if (interpolateMessage == null)
-				{
-					interpolateMessage = Replace(attributeMessage);
-				}
-				return interpolateMessage;
-			}
-			else
-			{
-				//TODO keep them in a weak hash map, but this might not even be useful
-				return Replace(message);
-			}
 		}
 
 		public string GetAttributeMessage()
