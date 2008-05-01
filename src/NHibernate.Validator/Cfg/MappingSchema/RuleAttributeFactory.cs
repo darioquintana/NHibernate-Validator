@@ -33,6 +33,8 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			wellKnownRules[typeof(NhvmRule)] = ConvertToRule;
 			wellKnownRules[typeof(NhvmIpAddress)] = ConvertToIPAddress;
 			wellKnownRules[typeof(NhvmDigits)] = ConvertToDigits;
+			wellKnownRules[typeof(NhvmCreditcardnumber)] = ConvertToCreditCardNumber;
+			wellKnownRules[typeof(NhvmEan)] = ConvertToEAN;
 		}
 
 		public static Attribute CreateAttributeFromRule(object rule, string defaultAssembly, string defaultNameSpace)
@@ -40,7 +42,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			// public Only for test scope
 			ConvertSchemaRule converter;
 			if (wellKnownRules.TryGetValue(rule.GetType(), out converter))
-				return converter(new XmlNhvmRuleCoverterArgs(rule, defaultAssembly, defaultNameSpace));
+				return converter(new XmlNhvmRuleConverterArgs(rule, defaultAssembly, defaultNameSpace));
 			else
 				throw new ValidatorConfigurationException("Unrecognized XML element:" + rule.GetType());
 		}
@@ -75,7 +77,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			return (Attribute)Activator.CreateInstance(type);
 		}
 
-		private static Attribute ConvertToDigits(XmlNhvmRuleCoverterArgs rule)
+		private static Attribute ConvertToDigits(XmlNhvmRuleConverterArgs rule)
 		{
 			NhvmDigits digitsRule = (NhvmDigits)rule.schemaRule;
 
@@ -97,7 +99,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			return thisAttribute;
 		}
 
-		private static Attribute ConvertToRule(XmlNhvmRuleCoverterArgs rule)
+		private static Attribute ConvertToRule(XmlNhvmRuleConverterArgs rule)
 		{
 			NhvmRule ruleRule = (NhvmRule)rule.schemaRule;
 
@@ -135,7 +137,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			return thisattribute;
 		}
 
-		private static Attribute ConvertToRange(XmlNhvmRuleCoverterArgs rule)
+		private static Attribute ConvertToRange(XmlNhvmRuleConverterArgs rule)
 		{
 			NhvmRange rangeRule = (NhvmRange)rule.schemaRule;
 
@@ -160,7 +162,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			return thisAttribute;
 		}
 
-		private static Attribute ConvertToPattern(XmlNhvmRuleCoverterArgs rule)
+		private static Attribute ConvertToPattern(XmlNhvmRuleConverterArgs rule)
 		{
 			NhvmPattern patternRule = (NhvmPattern)rule.schemaRule;
 
@@ -175,7 +177,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			return thisAttribute;
 		}
 
-		private static Attribute ConvertToIPAddress(XmlNhvmRuleCoverterArgs rule)
+		private static Attribute ConvertToIPAddress(XmlNhvmRuleConverterArgs rule)
 		{
 			NhvmIpAddress ipAddressRule = (NhvmIpAddress)rule.schemaRule;
 			log.Info("Converting to IP Address attribute");
@@ -189,7 +191,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			return thisAttribute;
 		}
 
-		private static Attribute ConvertToAssertTrue(XmlNhvmRuleCoverterArgs rule)
+		private static Attribute ConvertToAssertTrue(XmlNhvmRuleConverterArgs rule)
 		{
 			NhvmAsserttrue assertTrueRule = (NhvmAsserttrue)rule.schemaRule;
 
@@ -203,7 +205,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			return thisAttribute;
 		}
 
-		private static Attribute ConvertToMin(XmlNhvmRuleCoverterArgs rule)
+		private static Attribute ConvertToMin(XmlNhvmRuleConverterArgs rule)
 		{
 			NhvmMin minRule = (NhvmMin)rule.schemaRule;
 			long value = 0;
@@ -223,7 +225,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			return thisAttribute;
 		}
 
-		private static Attribute ConvertToMax(XmlNhvmRuleCoverterArgs rule)
+		private static Attribute ConvertToMax(XmlNhvmRuleConverterArgs rule)
 		{
 			NhvmMax maxRule = (NhvmMax)rule.schemaRule;
 			long value = long.MaxValue;
@@ -243,7 +245,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			return thisAttribute;
 		}
 
-		private static Attribute ConvertToEmail(XmlNhvmRuleCoverterArgs rule)
+		private static Attribute ConvertToEmail(XmlNhvmRuleConverterArgs rule)
 		{
 			NhvmEmail emailRule = (NhvmEmail)rule.schemaRule;
 			log.Info("Converting to Email attribute");
@@ -256,13 +258,13 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			return thisAttribute;
 		}
 
-		private static Attribute ConvertToValid(XmlNhvmRuleCoverterArgs rule)
+		private static Attribute ConvertToValid(XmlNhvmRuleConverterArgs rule)
 		{
 			log.Info("Converting to valid attribute");
 			return new ValidAttribute();
 		}
 
-		private static Attribute ConvertToPast(XmlNhvmRuleCoverterArgs rule)
+		private static Attribute ConvertToPast(XmlNhvmRuleConverterArgs rule)
 		{
 			NhvmPast pastRule = (NhvmPast)rule.schemaRule;
 			log.Info("Converting to Past attribute");
@@ -275,7 +277,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			return thisAttribute;
 		}
 
-		private static Attribute ConvertToFuture(XmlNhvmRuleCoverterArgs rule)
+		private static Attribute ConvertToFuture(XmlNhvmRuleConverterArgs rule)
 		{
 			NhvmFuture futureRule = (NhvmFuture)rule.schemaRule;
 			log.Info("Converting to future attribute");
@@ -288,7 +290,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			return thisAttribute;
 		}
 
-		private static Attribute ConvertToSize(XmlNhvmRuleCoverterArgs rule)
+		private static Attribute ConvertToSize(XmlNhvmRuleConverterArgs rule)
 		{
 			NhvmSize sizeRule = (NhvmSize)rule.schemaRule;
 			int min = int.MinValue;
@@ -312,7 +314,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			return thisAttribute;
 		}
 
-		private static Attribute ConvertToLength(XmlNhvmRuleCoverterArgs rule)
+		private static Attribute ConvertToLength(XmlNhvmRuleConverterArgs rule)
 		{
 			NhvmLength lengthRule = (NhvmLength)rule.schemaRule;
 			int min = 0;
@@ -334,7 +336,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			return thisAttribute;
 		}
 
-		private static Attribute ConvertToNotEmpty(XmlNhvmRuleCoverterArgs rule)
+		private static Attribute ConvertToNotEmpty(XmlNhvmRuleConverterArgs rule)
 		{
 			NhvmNotEmpty notEmptyRule = (NhvmNotEmpty)rule.schemaRule;
 			NotEmptyAttribute thisAttribute = new NotEmptyAttribute();
@@ -348,7 +350,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			return thisAttribute;
 		}
 
-		private static Attribute ConvertToNotNullOrEmpty(XmlNhvmRuleCoverterArgs rule)
+		private static Attribute ConvertToNotNullOrEmpty(XmlNhvmRuleConverterArgs rule)
 		{
 			NhvmNotnullorempty notNullOrEmptyRule = (NhvmNotnullorempty)rule.schemaRule;
 			NotNullOrEmptyAttribute thisAttribute = new NotNullOrEmptyAttribute();
@@ -362,7 +364,35 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			return thisAttribute;
 		}
 
-		private static Attribute ConvertToNotNull(XmlNhvmRuleCoverterArgs rule)
+		private static Attribute ConvertToCreditCardNumber(XmlNhvmRuleConverterArgs rule)
+		{
+			NhvmCreditcardnumber creditCardNumberRule = (NhvmCreditcardnumber)rule.schemaRule;
+			CreditCardNumberAttribute thisAttribute = new CreditCardNumberAttribute();
+			log.Info("Converting to CreditCardNumberAttribute");
+
+			if (creditCardNumberRule.message != null)
+			{
+				thisAttribute.Message = creditCardNumberRule.message;
+			}
+
+			return thisAttribute;
+		}
+
+		private static Attribute ConvertToEAN(XmlNhvmRuleConverterArgs rule)
+		{
+			NhvmEan eanRule = (NhvmEan)rule.schemaRule;
+			EANAttribute thisAttribute = new EANAttribute();
+			log.Info("Converting to EANAttribute");
+
+			if (eanRule.message != null)
+			{
+				thisAttribute.Message = eanRule.message;
+			}
+
+			return thisAttribute;
+		}
+
+		private static Attribute ConvertToNotNull(XmlNhvmRuleConverterArgs rule)
 		{
 			NhvmNotNull notNullRule = (NhvmNotNull)rule.schemaRule;
 			NotNullAttribute thisAttribute = new NotNullAttribute();
@@ -376,14 +406,14 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			return thisAttribute;
 		}
 
-		private delegate Attribute ConvertSchemaRule(XmlNhvmRuleCoverterArgs schemaRule);
-		private class XmlNhvmRuleCoverterArgs
+		private delegate Attribute ConvertSchemaRule(XmlNhvmRuleConverterArgs schemaRule);
+		private class XmlNhvmRuleConverterArgs
 		{
 			public readonly object schemaRule;
 			public readonly string defaultAssembly;
 			public readonly string defaultNameSpace;
 
-			public XmlNhvmRuleCoverterArgs(object schemaRule, string defaultAssembly, string defaultNameSpace)
+			public XmlNhvmRuleConverterArgs(object schemaRule, string defaultAssembly, string defaultNameSpace)
 			{
 				this.schemaRule = schemaRule;
 				this.defaultAssembly = defaultAssembly;

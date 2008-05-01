@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractLuhnValidator.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="AssertTrueAttribute.cs" />
     <Compile Include="AssertTrueValidator.cs" />
@@ -59,8 +60,12 @@
     <Compile Include="Cfg\MappingSchema\NhvmClass.cs" />
     <Compile Include="Cfg\NHVConfiguration.cs" />
     <Compile Include="Cfg\ValidatorInitializer.cs" />
+    <Compile Include="CreditCardNumberAttribute.cs" />
+    <Compile Include="CreditCardNumberValidator.cs" />
     <Compile Include="DigitsAttribute.cs" />
     <Compile Include="DigitsValidator.cs" />
+    <Compile Include="EANAttribute.cs" />
+    <Compile Include="EANValidator.cs" />
     <Compile Include="EmailAttribute.cs" />
     <Compile Include="EmailValidator.cs" />
     <Compile Include="Engine\AbstractClassValidatorFactory.cs" />
@@ -134,7 +139,10 @@
     <Compile Include="ValidAttribute.cs" />
     <Compile Include="Cfg\MappingSchema\IMappingDocumentParser.cs" />
     <Compile Include="Cfg\MappingSchema\MappingDocumentParser.cs" />
-    <Compile Include="Cfg\MappingSchema\Validator.GeneratedSchema.cs" />
+    <Compile Include="Cfg\MappingSchema\Validator.GeneratedSchema.cs">
+      <SubType>
+      </SubType>
+    </Compile>
     <Compile Include="Cfg\MappingSchema\RuleAttributeFactory.cs" />
   </ItemGroup>
   <ItemGroup>

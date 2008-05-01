@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<nhv-mapping xmlns="urn:nhibernate-validator-1.0"
+			 namespace="NHibernate.Validator.Tests.Base"
+			 assembly="NHibernate.Validator.Tests">
+	<class name="CreditCard">
+		<property name="number">
+			<creditcardnumber />
+		</property>
+		<property name="ean">
+			<ean/>
+		</property>
+	</class>
+</nhv-mapping>

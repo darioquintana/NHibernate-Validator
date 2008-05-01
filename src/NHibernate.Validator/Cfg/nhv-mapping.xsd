@@ -20,6 +20,8 @@
 					<xs:element ref="notnullorempty" />
 					<xs:element ref="ipAddress" />
 					<xs:element ref="digits" />
+					<xs:element ref="ean" />
+					<xs:element ref="creditcardnumber" />
 				</xs:choice>
 			</xs:sequence>
 			<xs:attribute name="name" type="xs:string" use="required" />
@@ -179,6 +181,18 @@
 			<xs:sequence />
 			<xs:attribute name="integerDigits" type="xs:int" use="required" />
 			<xs:attribute name="fractionalDigits" type="xs:int" use="optional" />
+			<xs:attribute name="message" type="xs:string" use="optional" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ean">
+		<xs:complexType>
+			<xs:sequence />
+			<xs:attribute name="message" type="xs:string" use="optional" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="creditcardnumber">
+		<xs:complexType>
+			<xs:sequence />
 			<xs:attribute name="message" type="xs:string" use="optional" />
 		</xs:complexType>
 	</xs:element>
