@@ -74,7 +74,7 @@ namespace NHibernate.Validator.Tests.Integration
 		}
 
 		[Test]
-		protected virtual void EnsureSharedEngine()
+		public virtual void EnsureSharedEngine()
 		{
 			Assert.IsTrue(ReferenceEquals(fortest, Cfg.Environment.SharedEngineProvider),
 			              "some process change the shared engine instance");

@@ -1,4 +1,5 @@
 using NHibernate.Validator.Cfg;
+using NUnit.Framework;
 
 namespace NHibernate.Validator.Tests.Integration
 {
@@ -11,8 +12,9 @@ namespace NHibernate.Validator.Tests.Integration
 			ValidatorInitializer.Initialize(configuration);
 		}
 
-		protected override void EnsureSharedEngine()
+		public override void EnsureSharedEngine()
 		{
+			Assert.IsNull(Environment.SharedEngineProvider);
 		}
 	}
 }
