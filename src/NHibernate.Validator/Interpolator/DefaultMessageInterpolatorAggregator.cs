@@ -9,29 +9,15 @@ namespace NHibernate.Validator.Interpolator
 	[Serializable]
 	public class DefaultMessageInterpolatorAggregator : IMessageInterpolator
 	{
-		private IDictionary<IValidator, DefaultMessageInterpolator> interpolators =
+		private readonly IDictionary<IValidator, DefaultMessageInterpolator> interpolators =
 			new Dictionary<IValidator, DefaultMessageInterpolator>();
 
 		//transient but repopulated by the object owing a reference to the interpolator
+		[NonSerialized] private CultureInfo culture;
+		[NonSerialized] private ResourceManager defaultMessageBundle;
 		[NonSerialized] private ResourceManager messageBundle;
 
-		//transient but repopulated by the object owing a reference to the interpolator
-		[NonSerialized] private ResourceManager defaultMessageBundle;
-
-		private CultureInfo culture;
-
-		public void Initialize(ResourceManager messageBundle, ResourceManager defaultMessageBundle, CultureInfo culture)
-		{
-			this.culture = culture;
-			this.messageBundle = messageBundle;
-			this.defaultMessageBundle = defaultMessageBundle;
-
-			//useful when we deserialize
-			foreach(DefaultMessageInterpolator interpolator in interpolators.Values)
-			{
-				interpolator.Initialize(messageBundle, defaultMessageBundle,culture);
-			}
-		}
+		#region IMessageInterpolator Members
 
 		public string Interpolate(string message, IValidator validator, IMessageInterpolator defaultInterpolator)
 		{
@@ -45,6 +31,21 @@ namespace NHibernate.Validator.Interpolator
 			return defaultMessageInterpolator.Interpolate(message, validator, defaultInterpolator);
 		}
 
+		#endregion
+
+		public void Initialize(ResourceManager messageBundle, ResourceManager defaultMessageBundle, CultureInfo culture)
+		{
+			this.culture = culture;
+			this.messageBundle = messageBundle;
+			this.defaultMessageBundle = defaultMessageBundle;
+
+			//useful when we deserialize
+			foreach (DefaultMessageInterpolator interpolator in interpolators.Values)
+			{
+				interpolator.Initialize(messageBundle, defaultMessageBundle, culture);
+			}
+		}
+
 		public void AddInterpolator(Attribute attribute, IValidator validator)
 		{
 			DefaultMessageInterpolator interpolator = new DefaultMessageInterpolator();
@@ -55,17 +56,15 @@ namespace NHibernate.Validator.Interpolator
 
 		public string GetAttributeMessage(IValidator validator)
 		{
-			DefaultMessageInterpolator defaultMessageInterpolator = interpolators[validator];
-
-			string message = defaultMessageInterpolator != null
-			                 	? defaultMessageInterpolator.GetAttributeMessage()
-			                 	: null;
-
-			if (message == null)
+			DefaultMessageInterpolator defaultMessageInterpolator;
+			if (interpolators.TryGetValue(validator, out defaultMessageInterpolator))
+			{
+				return defaultMessageInterpolator.AttributeMessage;
+			}
+			else
 			{
 				throw new AssertionFailure("Validator not registred to the messageInterceptorAggregator");
 			}
-			return message;
 		}
 	}
 }

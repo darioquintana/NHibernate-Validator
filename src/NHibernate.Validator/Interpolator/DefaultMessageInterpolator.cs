@@ -16,12 +16,10 @@ namespace NHibernate.Validator.Interpolator
 
 		private string attributeMessage;
 		private CultureInfo culture = CultureInfo.CurrentUICulture;
-		[NonSerialized]
-		private ResourceManager defaultMessageBundle;
+		[NonSerialized] private ResourceManager defaultMessageBundle;
 
 		private string interpolateMessage;
-		[NonSerialized]
-		private ResourceManager messageBundle;
+		[NonSerialized] private ResourceManager messageBundle;
 
 		#region IMessageInterpolator Members
 
@@ -29,12 +27,16 @@ namespace NHibernate.Validator.Interpolator
 		{
 			bool same = attributeMessage.Equals(message);
 			if (same && interpolateMessage != null)
+			{
 				return interpolateMessage; //short cut
+			}
 
 			string result;
 			result = Replace(message);
 			if (same)
+			{
 				interpolateMessage = result; //short cut in next iteration
+			}
 			return result;
 		}
 
@@ -82,7 +84,7 @@ namespace NHibernate.Validator.Interpolator
 
 			while (ie.MoveNext())
 			{
-				string token = (string)ie.Current;
+				string token = (string) ie.Current;
 
 				if (!escaped && "#".Equals(token))
 				{
@@ -142,9 +144,9 @@ namespace NHibernate.Validator.Interpolator
 			return buf.ToString();
 		}
 
-		public string GetAttributeMessage()
+		public string AttributeMessage
 		{
-			return attributeMessage;
+			get { return attributeMessage; }
 		}
 	}
 }
