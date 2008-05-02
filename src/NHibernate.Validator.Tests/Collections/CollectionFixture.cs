@@ -43,6 +43,7 @@ namespace NHibernate.Validator.Tests.Collections
 			showNok.name = null;
 			tv.shows.Add("Midnight", showOk);
 			tv.shows.Add("Primetime", showNok);
+			tv.shows.Add("Nothing", null);
 			ClassValidator validator = GetClassValidator(typeof(Tv));
 			InvalidValue[] values = validator.GetInvalidValues(tv);
 			Assert.AreEqual(1, values.Length);

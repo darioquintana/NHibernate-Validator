@@ -321,7 +321,7 @@ namespace NHibernate.Validator.Engine
 			else
 			{
 				//Simple Value, Not a Collection
-				InvalidValue[] invalidValues = GetClassValidator(value).GetInvalidValues(value, circularityState);
+				InvalidValue[] invalidValues = GetClassValidator(value.GetType()).GetInvalidValues(value, circularityState);
 
 				foreach (InvalidValue invalidValue in invalidValues)
 				{
@@ -346,16 +346,10 @@ namespace NHibernate.Validator.Engine
 				int index = 0;
 				foreach (object item in value)
 				{
-					if (item == null)
-					{
-						index++;
-						continue;
-					}
-
 					IGetter ValueProperty = new BasicPropertyAccessor().GetGetter(item.GetType(), "Value");
 					IGetter KeyProperty = new BasicPropertyAccessor().GetGetter(item.GetType(), "Key");
 
-					InvalidValue[] invalidValuesKey = GetClassValidator(ValueProperty.Get(item)).GetInvalidValues(ValueProperty.Get(item), circularityState);
+					InvalidValue[] invalidValuesKey = GetClassValidator(ValueProperty.ReturnType).GetInvalidValues(ValueProperty.Get(item), circularityState);
 					String indexedPropName = string.Format("{0}[{1}]", member.Name, index);
 
 					foreach (InvalidValue invalidValue in invalidValuesKey)
@@ -364,7 +358,7 @@ namespace NHibernate.Validator.Engine
 						results.Add(invalidValue);
 					}
 
-					InvalidValue[] invalidValuesValue = GetClassValidator(KeyProperty.Get(item)).GetInvalidValues(KeyProperty.Get(item), circularityState);
+					InvalidValue[] invalidValuesValue = GetClassValidator(KeyProperty.ReturnType).GetInvalidValues(KeyProperty.Get(item), circularityState);
 					indexedPropName = string.Format("{0}[{1}]", member.Name, index);
 
 					foreach (InvalidValue invalidValue in invalidValuesValue)
@@ -387,7 +381,7 @@ namespace NHibernate.Validator.Engine
 						continue;
 					}
 
-					InvalidValue[] invalidValues = GetClassValidator(item).GetInvalidValues(item, circularityState);
+					InvalidValue[] invalidValues = GetClassValidator(item.GetType()).GetInvalidValues(item, circularityState);
 
 					String indexedPropName = string.Format("{0}[{1}]", member.Name, index);
 
@@ -403,18 +397,17 @@ namespace NHibernate.Validator.Engine
 		}
 
 		/// <summary>
-		/// Get the ClassValidator for the <see cref="Type"/> of the <see cref="value"/>
+		/// Get the ClassValidator for the <paramref name="beanType"/>
 		/// parametter  from <see cref="childClassValidators"/>. If doesn't exist, a 
 		/// new <see cref="ClassValidator"/> is returned.
 		/// </summary>
-		/// <param name="value">object to get type</param>
+		/// <param name="beanType">type</param>
 		/// <returns></returns>
-		private IClassValidatorImplementor GetClassValidator(object value)
+		private IClassValidatorImplementor GetClassValidator(System.Type beanType)
 		{
-			System.Type clazz = value.GetType();
 			IClassValidator result;
-			if (!childClassValidators.TryGetValue(clazz, out result))
-				return (factory.GetRootValidator(clazz) as IClassValidatorImplementor);
+			if (!childClassValidators.TryGetValue(beanType, out result))
+				return (factory.GetRootValidator(beanType) as IClassValidatorImplementor);
 			else
 				return (result as IClassValidatorImplementor);
 		}
