@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Resources;
+using System.Runtime.Serialization;
 using NHibernate.Validator.Engine;
+using NHibernate.Validator.Exceptions;
 
 namespace NHibernate.Validator.Interpolator
 {
@@ -21,9 +23,9 @@ namespace NHibernate.Validator.Interpolator
 
 		public string Interpolate(string message, IValidator validator, IMessageInterpolator defaultInterpolator)
 		{
-			DefaultMessageInterpolator defaultMessageInterpolator = interpolators[validator];
+			DefaultMessageInterpolator defaultMessageInterpolator;
 
-			if (defaultMessageInterpolator == null)
+			if (!interpolators.TryGetValue(validator, out defaultMessageInterpolator))
 			{
 				return message;
 			}
@@ -38,8 +40,11 @@ namespace NHibernate.Validator.Interpolator
 			this.culture = culture;
 			this.messageBundle = messageBundle;
 			this.defaultMessageBundle = defaultMessageBundle;
+		}
 
-			//useful when we deserialize
+		[OnDeserialized]
+		private void DeserializationCallBack(StreamingContext context)
+		{
 			foreach (DefaultMessageInterpolator interpolator in interpolators.Values)
 			{
 				interpolator.Initialize(messageBundle, defaultMessageBundle, culture);
@@ -51,7 +56,7 @@ namespace NHibernate.Validator.Interpolator
 			DefaultMessageInterpolator interpolator = new DefaultMessageInterpolator();
 			interpolator.Initialize(messageBundle, defaultMessageBundle, culture);
 			interpolator.Initialize(attribute, null);
-			interpolators.Add(validator, interpolator);
+			interpolators[validator] = interpolator;
 		}
 
 		public string GetAttributeMessage(IValidator validator)
@@ -63,7 +68,7 @@ namespace NHibernate.Validator.Interpolator
 			}
 			else
 			{
-				throw new AssertionFailure("Validator not registred to the messageInterceptorAggregator");
+				throw new AssertionFailureException("Validator not registred to the MessageInterceptorAggregator");
 			}
 		}
 	}

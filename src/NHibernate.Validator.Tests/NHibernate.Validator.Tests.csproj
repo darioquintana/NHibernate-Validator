@@ -87,6 +87,7 @@
     <Compile Include="Integration\WrongClass.cs" />
     <Compile Include="Integration\WrongConstraint.cs" />
     <Compile Include="Integration\ValidatorInitializerFixture.cs" />
+    <Compile Include="Interpolation\DefaultMessageInterpolatorAggregatorFixture.cs" />
     <Compile Include="Interpolation\InterpolationFixture.cs" />
     <Compile Include="Mappings\A.cs" />
     <Compile Include="Mappings\AssertAnimalAttribute.cs" />

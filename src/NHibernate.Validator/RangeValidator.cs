@@ -5,6 +5,7 @@ using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
+	[Serializable]
 	public class RangeValidator : IInitializableValidator<RangeAttribute>, IPropertyConstraint
 	{
 		private long min;
