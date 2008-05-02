@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using NUnit.Framework;
 
 namespace NHibernate.Validator.Tests.ValidatorsTest
@@ -32,6 +29,11 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 			Assert.IsFalse(v.IsValid(1000.0));
 			Assert.IsFalse(v.IsValid(9.233));
 			Assert.IsFalse(v.IsValid("1233"));
+
+			v.Initialize(new DigitsAttribute(0, 2));
+			Assert.IsTrue(v.IsValid(0.12));
+			Assert.IsFalse(v.IsValid(1.12));
+			Assert.IsFalse(v.IsValid(0.123));
 		}
 	}
 }
