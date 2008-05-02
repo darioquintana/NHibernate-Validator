@@ -2,8 +2,6 @@ using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Tests.Integration
 {
-	using System;
-
 	/// <summary>
 	/// Interpolator with the prefix '_prefix'
 	/// </summary>
