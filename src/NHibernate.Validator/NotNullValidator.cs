@@ -5,7 +5,7 @@ namespace NHibernate.Validator
 {
 	public class NotNullValidator : IValidator, IPropertyConstraint
 	{
-		public bool IsValid(object value)
+		public virtual bool IsValid(object value)
 		{
 			return value != null;
 		}
