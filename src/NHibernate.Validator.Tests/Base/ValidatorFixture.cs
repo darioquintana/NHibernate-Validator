@@ -146,7 +146,7 @@ namespace NHibernate.Validator.Tests.Base
 		}
 
 		[Test]
-		public void FieldIsNotNullOrEmpty()
+		public void FieldIsNotNullNotEmpty()
 		{
 			Boo boo = new Boo();
 			boo.field = null;

@@ -10,7 +10,6 @@
 		</property>
 
 		<property name="Name">
-			<not-empty/>
 			<not-null/>
 		</property>
 	</class>

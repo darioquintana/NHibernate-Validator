@@ -7,10 +7,10 @@ namespace NHibernate.Validator
 	/// Not empty and not null constraint
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
-	[ValidatorClass(typeof(NotNullOrEmptyValidator))]
-	public class NotNullOrEmptyAttribute : Attribute, IRuleArgs
+	[ValidatorClass(typeof(NotNullNotEmptyValidator))]
+	public class NotNullNotEmptyAttribute : Attribute, IRuleArgs
 	{
-		private string message = "{validator.notNullOrEmpty}";
+		private string message = "{validator.notNullNotEmpty}";
 		#region IHasMessage Members
 
 		/// <summary>

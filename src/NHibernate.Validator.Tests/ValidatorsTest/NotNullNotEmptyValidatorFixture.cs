@@ -4,12 +4,12 @@ using NUnit.Framework;
 namespace NHibernate.Validator.Tests.ValidatorsTest
 {
 	[TestFixture]
-	public class NotNullOrEmptyValidatorFixture
+	public class NotNullNotEmptyValidatorFixture
 	{
 		[Test]
 		public void IsValid()
 		{
-			NotNullOrEmptyValidator v = new NotNullOrEmptyValidator();
+			NotNullNotEmptyValidator v = new NotNullNotEmptyValidator();
 			Assert.IsTrue(v.IsValid("abc"));
 			Assert.IsTrue(v.IsValid(new int[] {1}));
 			Assert.IsTrue(v.IsValid(new List<int>(new int[] { 1 })));

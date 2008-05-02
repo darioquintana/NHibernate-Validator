@@ -8,7 +8,7 @@
 		</property>
 
 		<property name="Name">
-			<not-empty/>
+			<notnull-notempty/>
 		</property>
 	</class>
 </nhv-mapping>

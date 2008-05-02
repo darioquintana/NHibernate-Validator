@@ -18,7 +18,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 		{
 			wellKnownRules[typeof(NhvmNotNull)] = ConvertToNotNull;
 			wellKnownRules[typeof(NhvmNotEmpty)] = ConvertToNotEmpty;
-			wellKnownRules[typeof(NhvmNotnullorempty)] = ConvertToNotNullOrEmpty;
+			wellKnownRules[typeof(NhvmNotnullNotempty)] = ConvertToNotNullNotEmpty;
 			wellKnownRules[typeof(NhvmLength)] = ConvertToLength;
 			wellKnownRules[typeof(NhvmSize)] = ConvertToSize;
 			wellKnownRules[typeof(NhvmFuture)] = ConvertToFuture;
@@ -350,10 +350,10 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			return thisAttribute;
 		}
 
-		private static Attribute ConvertToNotNullOrEmpty(XmlNhvmRuleConverterArgs rule)
+		private static Attribute ConvertToNotNullNotEmpty(XmlNhvmRuleConverterArgs rule)
 		{
-			NhvmNotnullorempty notNullOrEmptyRule = (NhvmNotnullorempty)rule.schemaRule;
-			NotNullOrEmptyAttribute thisAttribute = new NotNullOrEmptyAttribute();
+			NhvmNotnullNotempty notNullOrEmptyRule = (NhvmNotnullNotempty)rule.schemaRule;
+			NotNullNotEmptyAttribute thisAttribute = new NotNullNotEmptyAttribute();
 			log.Info("Converting to NotEmptyAttribute");
 
 			if (notNullOrEmptyRule.message != null)

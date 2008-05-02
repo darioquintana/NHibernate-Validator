@@ -5,7 +5,7 @@ namespace NHibernate.Validator.Tests.ValidTests
 		private Author author;
 		private string title;
 
-		[NotEmpty]
+		[NotNullNotEmpty]
 		public string Title
 		{
 			get { return title; }

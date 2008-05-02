@@ -65,8 +65,8 @@ namespace NHibernate.Validator.Tests.Configuration
 			NotNullAttribute nna = FindAttribute<NotNullAttribute>(attributes);
 			Assert.AreEqual("not-null message", nna.Message);
 			
-			NotNullOrEmptyAttribute nnea = FindAttribute<NotNullOrEmptyAttribute>(attributes);
-			Assert.AreEqual("notnullorempty message", nnea.Message);
+			NotNullNotEmptyAttribute nnea = FindAttribute<NotNullNotEmptyAttribute>(attributes);
+			Assert.AreEqual("notnullnotempty message", nnea.Message);
 			
 			LengthAttribute la = FindAttribute<LengthAttribute>(attributes);
 			Assert.AreEqual("length message", la.Message);

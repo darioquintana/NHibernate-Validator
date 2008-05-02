@@ -4,7 +4,7 @@
 			 assembly="NHibernate.Validator.Tests">
 	<class name="FooNotEmpty">
 		<property name="Message">
-			<not-empty />
+			<notnull-notempty/>
 		</property>
 	</class>
 </nhv-mapping>

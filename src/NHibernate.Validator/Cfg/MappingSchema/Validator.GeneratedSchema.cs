@@ -23,7 +23,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
         [System.Xml.Serialization.XmlElementAttribute("min", typeof(NhvmMin))]
         [System.Xml.Serialization.XmlElementAttribute("not-empty", typeof(NhvmNotEmpty))]
         [System.Xml.Serialization.XmlElementAttribute("not-null", typeof(NhvmNotNull))]
-        [System.Xml.Serialization.XmlElementAttribute("notnullorempty", typeof(NhvmNotnullorempty))]
+        [System.Xml.Serialization.XmlElementAttribute("notnull-notempty", typeof(NhvmNotnullNotempty))]
         [System.Xml.Serialization.XmlElementAttribute("past", typeof(NhvmPast))]
         [System.Xml.Serialization.XmlElementAttribute("pattern", typeof(NhvmPattern))]
         [System.Xml.Serialization.XmlElementAttribute("range", typeof(NhvmRange))]
@@ -255,8 +255,8 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-1.0")]
-    [System.Xml.Serialization.XmlRootAttribute("notnullorempty", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
-    public partial class NhvmNotnullorempty {
+    [System.Xml.Serialization.XmlRootAttribute("notnull-notempty", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
+    public partial class NhvmNotnullNotempty {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]

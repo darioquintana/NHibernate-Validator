@@ -7,7 +7,7 @@ namespace NHibernate.Validator
 	/// <summary>
 	/// Validator for any kind of IEnumerable (including string)
 	/// </summary>
-	public class NotNullOrEmptyValidator : IValidator, IPropertyConstraint
+	public class NotNullNotEmptyValidator : IValidator, IPropertyConstraint
 	{
 		public bool IsValid(object value)
 		{
@@ -23,11 +23,11 @@ namespace NHibernate.Validator
 		public void Apply(Property property)
 		{
 			//single table should not be forced to null
-			if (property is SingleTableSubclass) return;
-
-			if (!property.IsComposite)
+			if (!property.IsComposite && !(property.PersistentClass is SingleTableSubclass))
+			{
 				foreach (Column column in property.ColumnIterator)
 					column.IsNullable = false;
+			}
 		}
 	}
 }

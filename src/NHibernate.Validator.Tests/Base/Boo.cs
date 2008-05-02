@@ -2,7 +2,7 @@ namespace NHibernate.Validator.Tests.Base
 {
 	public class Boo
 	{
-		[NotNullOrEmpty]
+		[NotNullNotEmpty]
 		public string field;
 	}
 }

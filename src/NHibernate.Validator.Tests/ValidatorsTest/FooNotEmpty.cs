@@ -13,7 +13,7 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 			this.message = message;
 		}
 
-		[NotEmpty]
+		[NotNullNotEmpty]
 		private string message;
 	}
 }

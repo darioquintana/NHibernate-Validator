@@ -183,7 +183,7 @@ namespace NHibernate.Validator.Tests.Engine
 
 		public class BaseClass
 		{
-			[Length(3), NotNullOrEmpty]
+			[Length(3), NotNullNotEmpty]
 			public string A;
 		}
 

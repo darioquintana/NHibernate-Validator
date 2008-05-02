@@ -5,7 +5,7 @@ namespace NHibernate.Validator.Tests.ValidTests
 		private Blog blog;
 		private string name;
 
-		[NotEmpty]
+		[NotNullNotEmpty]
 		public string Name
 		{
 			get { return name; }

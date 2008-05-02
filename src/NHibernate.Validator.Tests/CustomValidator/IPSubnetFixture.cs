@@ -20,11 +20,11 @@ namespace NHibernate.Validator.Tests.CustomValidator
 			ClassValidator validator = GetClassValidator(typeof(Controller));
 
 			InvalidValue[] res = validator.GetInvalidValues(controller);
-			Assert.AreEqual(3, res.Length);
+			Assert.AreEqual(2, res.Length);
 
 			controller.IP = "192.168.2.1";
 			res = validator.GetInvalidValues(controller);
-			Assert.AreEqual(2, res.Length);
+			Assert.AreEqual(1, res.Length);
 
 			controller.Name = "Controller";
 			res = validator.GetInvalidValues(controller);

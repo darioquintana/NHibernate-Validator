@@ -13,11 +13,10 @@ namespace NHibernate.Validator
 		public void Apply(Property property)
 		{
 			//single table should not be forced to null
-			if (!(property.PersistentClass is SingleTableSubclass))
+			if (!property.IsComposite && !(property.PersistentClass is SingleTableSubclass))
 			{
-				if (!property.IsComposite)
-					foreach (Column column in property.ColumnIterator)
-						column.IsNullable = false;
+				foreach (Column column in property.ColumnIterator)
+					column.IsNullable = false;
 			}
 		}
 	}
