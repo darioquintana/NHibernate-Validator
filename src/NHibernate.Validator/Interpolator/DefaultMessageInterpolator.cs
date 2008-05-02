@@ -10,16 +10,21 @@ using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Interpolator
 {
+	[Serializable]
 	public class DefaultMessageInterpolator : IMessageInterpolator
 	{
 		private readonly Dictionary<string, object> attributeParameters = new Dictionary<string, object>();
-
 		private string attributeMessage;
-		private CultureInfo culture = CultureInfo.CurrentUICulture;
-		[NonSerialized] private ResourceManager defaultMessageBundle;
 
-		private string interpolateMessage;
+		[NonSerialized] private CultureInfo culture = CultureInfo.CurrentUICulture;
+		[NonSerialized] private ResourceManager defaultMessageBundle;
+		[NonSerialized] private string interpolateMessage;
 		[NonSerialized] private ResourceManager messageBundle;
+
+		public string AttributeMessage
+		{
+			get { return attributeMessage; }
+		}
 
 		#region IMessageInterpolator Members
 
@@ -142,11 +147,6 @@ namespace NHibernate.Validator.Interpolator
 				}
 			}
 			return buf.ToString();
-		}
-
-		public string AttributeMessage
-		{
-			get { return attributeMessage; }
 		}
 	}
 }
