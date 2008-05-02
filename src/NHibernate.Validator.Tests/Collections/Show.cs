@@ -14,5 +14,10 @@ namespace NHibernate.Validator.Tests.Collections
 		{
 			this.name = name;
 		}
+
+		public override string ToString()
+		{
+			return name ?? "null";
+		}
 	}
 }

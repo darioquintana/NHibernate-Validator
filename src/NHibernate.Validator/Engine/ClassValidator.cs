@@ -311,12 +311,12 @@ namespace NHibernate.Validator.Engine
 		/// <param name="member"></param>
 		/// <param name="circularityState"></param>
 		/// <param name="results"></param>
-		private void MakeChildValidation(object value, object bean, MemberInfo member, ISet circularityState, IList<InvalidValue> results)
+		private void MakeChildValidation(object value, object bean, MemberInfo member, ISet circularityState, ICollection<InvalidValue> results)
 		{
 			IEnumerable valueEnum = value as IEnumerable;
 			if (valueEnum != null)
 			{
-				MakeChildValidation(valueEnum, bean, member, circularityState, results);
+				MakeCollectionValidation(valueEnum, bean, member, circularityState, results);
 			}
 			else
 			{
@@ -331,26 +331,21 @@ namespace NHibernate.Validator.Engine
 			}
 		}
 
-		/// <summary>
-		/// Validate the child validation to collections
-		/// </summary>
-		/// <param name="value"></param>
-		/// <param name="bean"></param>
-		/// <param name="member"></param>
-		/// <param name="circularityState"></param>
-		/// <param name="results"></param>
-		private void MakeChildValidation(IEnumerable value, object bean, MemberInfo member, ISet circularityState, IList<InvalidValue> results)
+		private void MakeCollectionValidation(IEnumerable value, object bean, MemberInfo member, ISet circularityState, ICollection<InvalidValue> results)
 		{
 			if (TypeUtils.IsGenericDictionary(value.GetType())) //Generic Dictionary
 			{
-				int index = 0;
 				foreach (object item in value)
 				{
 					IGetter ValueProperty = new BasicPropertyAccessor().GetGetter(item.GetType(), "Value");
 					IGetter KeyProperty = new BasicPropertyAccessor().GetGetter(item.GetType(), "Key");
 
-					InvalidValue[] invalidValuesKey = GetClassValidator(ValueProperty.ReturnType).GetInvalidValues(ValueProperty.Get(item), circularityState);
-					String indexedPropName = string.Format("{0}[{1}]", member.Name, index);
+					object valueValue = ValueProperty.Get(item);
+					object keyValue = KeyProperty.Get(item);
+					string indexedPropName = string.Format("{0}[{1}]", member.Name, keyValue);
+
+					InvalidValue[] invalidValuesKey =
+						GetClassValidator(ValueProperty.ReturnType).GetInvalidValues(valueValue, circularityState);
 
 					foreach (InvalidValue invalidValue in invalidValuesKey)
 					{
@@ -358,16 +353,13 @@ namespace NHibernate.Validator.Engine
 						results.Add(invalidValue);
 					}
 
-					InvalidValue[] invalidValuesValue = GetClassValidator(KeyProperty.ReturnType).GetInvalidValues(KeyProperty.Get(item), circularityState);
-					indexedPropName = string.Format("{0}[{1}]", member.Name, index);
-
+					InvalidValue[] invalidValuesValue =
+						GetClassValidator(KeyProperty.ReturnType).GetInvalidValues(keyValue, circularityState);
 					foreach (InvalidValue invalidValue in invalidValuesValue)
 					{
 						invalidValue.AddParentBean(bean, indexedPropName);
 						results.Add(invalidValue);
 					}
-
-					index++;
 				}
 			}
 			else //Generic collection

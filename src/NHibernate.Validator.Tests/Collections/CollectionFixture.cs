@@ -35,6 +35,8 @@ namespace NHibernate.Validator.Tests.Collections
 		[Test]
 		public void Dictionary()
 		{
+			ClassValidator validator = GetClassValidator(typeof(Tv));
+
 			Tv tv = new Tv();
 			tv.name = "France 2";
 			Show showOk = new Show();
@@ -44,11 +46,23 @@ namespace NHibernate.Validator.Tests.Collections
 			tv.shows.Add("Midnight", showOk);
 			tv.shows.Add("Primetime", showNok);
 			tv.shows.Add("Nothing", null);
-			ClassValidator validator = GetClassValidator(typeof(Tv));
 			InvalidValue[] values = validator.GetInvalidValues(tv);
 			Assert.AreEqual(1, values.Length);
-			Assert.AreEqual("shows[1].name", values[0].PropertyPath);
-			//Assert.AreEqual("shows['Primetime'].name", values[0].PropertyPath);
+			Assert.AreEqual("shows[Primetime].name", values[0].PropertyPath);
+
+			//Inverted dictionary
+			tv = new Tv();
+			tv.name = "France 2";
+			showOk = new Show();
+			showOk.name = "Tout le monde en parle";
+			showNok = new Show();
+			showNok.name = null;
+			tv.invertshows = new Dictionary<Show, string>();
+			tv.invertshows.Add(showOk, "Midnight");
+			tv.invertshows.Add(showNok, "Primetime");
+			values = validator.GetInvalidValues(tv);
+			Assert.AreEqual(1, values.Length);
+			Assert.AreEqual("invertshows[null].name", values[0].PropertyPath);
 		}
 
 		/// <summary>

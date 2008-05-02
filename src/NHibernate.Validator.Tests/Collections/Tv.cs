@@ -14,6 +14,9 @@ namespace NHibernate.Validator.Tests.Collections
 		[Valid] 
 		public IDictionary<String, Show> shows = new Dictionary<String, Show>();
 
+		[Valid] 
+		public IDictionary<Show, string> invertshows;
+
 		[Valid]
 		public Movie[] movies;
 	}

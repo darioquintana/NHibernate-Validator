@@ -15,5 +15,8 @@
 		<property name="movies">
 			<valid/>
 		</property>
+		<property name="invertshows">
+			<valid/>
+		</property>
 	</class>
 </nhv-mapping>
