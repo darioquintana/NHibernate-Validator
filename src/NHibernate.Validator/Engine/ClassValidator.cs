@@ -621,22 +621,16 @@ namespace NHibernate.Validator.Engine
 
 				if (validator is IPropertyConstraint)
 				{
-					try
-					{
-						Property property = FindPropertyByName(persistentClass, propertyName);
-						if (property != null)
-							((IPropertyConstraint)validator).Apply(property);
-					}
-					catch (MappingException)
-					{
-					}
+					Property property = FindPropertyByName(persistentClass, propertyName);
+					if (property != null)
+						((IPropertyConstraint) validator).Apply(property);
 				}
 			}
 		}
 
 		private static Property FindPropertyByName(PersistentClass associatedClass, string propertyName)
 		{
-			Property property = null;
+			Property property;
 			Property idProperty = associatedClass.IdentifierProperty;
 			string idName = idProperty != null ? idProperty.Name : null;
 			try
@@ -646,54 +640,42 @@ namespace NHibernate.Validator.Engine
 					property = idProperty;
 				else //if it's a property
 				{
-					if (propertyName.IndexOf(idName + ".") == 0)
-					{
-						property = idProperty;
-						propertyName = propertyName.Substring(idName.Length + 1);
-					}
-
-					foreach (string element in new StringTokenizer(propertyName, ".", false))
-					{
-						if (property == null)
-							property = associatedClass.GetProperty(element);
-						else
-						{
-							if (property.IsComposite)
-								property = ((Component)property.Value).GetProperty(element);
-							else
-								return null;
-						}
-					}
+					property = associatedClass.GetProperty(propertyName);
 				}
 			}
 			catch (MappingException)
 			{
-				try
-				{
-					//if we do not find it try to check the identifier mapper
-					if (associatedClass.IdentifierMapper == null) return null;
-					StringTokenizer st = new StringTokenizer(propertyName, ".", false);
+				#region Unsupported future of NH2.0
 
-					foreach (string element in st)
-					{
-						if (property == null)
-						{
-							property = associatedClass.IdentifierMapper.GetProperty(element);
-						}
-						else
-						{
-							if (property.IsComposite)
-								property = ((Component)property.Value).GetProperty(element);
-							else
-								return null;
-						}
-					}
-				}
-				catch (MappingException)
-				{
-					return null;
-				}
+				//try
+				//{
+				//if we do not find it try to check the identifier mapper
+				//if (associatedClass.IdentifierMapper == null) return null;
 
+				//StringTokenizer st = new StringTokenizer(propertyName, ".", false);
+
+				//foreach (string element in st)
+				//{
+				//  if (property == null)
+				//  {
+				//    property = associatedClass.IdentifierMapper.GetProperty(element);
+				//  }
+				//  else
+				//  {
+				//    if (property.IsComposite)
+				//      property = ((Component)property.Value).GetProperty(element);
+				//    else
+				//      return null;
+				//  }
+				//}
+				//}
+				//catch (MappingException)
+				//{
+
+				return null;
+				//}
+
+				#endregion
 			}
 
 			return property;
