@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace NHibernate.Validator
 {
 	public abstract class AbstractLuhnValidator
 	{
+		private const string pattern = @"\d*$";
+		private static readonly Regex regex = new Regex(pattern);
 		public abstract int Multiplicator { get; }
 
 		public bool IsValid(object value)
@@ -15,7 +18,7 @@ namespace NHibernate.Validator
 			}
 
 			string creditCard = value as string;
-			if (string.IsNullOrEmpty(creditCard) || creditCard.Length > 19 || ulong.Parse(creditCard) == 0)
+			if (string.IsNullOrEmpty(creditCard) || creditCard.Length > 19 || !regex.IsMatch(creditCard) || ulong.Parse(creditCard) == 0)
 			{
 				return false;
 			}
