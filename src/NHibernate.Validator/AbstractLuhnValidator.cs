@@ -7,7 +7,7 @@ namespace NHibernate.Validator
 	public abstract class AbstractLuhnValidator
 	{
 		private const string pattern = @"\d*$";
-		private static readonly Regex regex = new Regex(pattern);
+		private static readonly Regex regex = new Regex(pattern, RegexOptions.Compiled);
 		public abstract int Multiplicator { get; }
 
 		public bool IsValid(object value)

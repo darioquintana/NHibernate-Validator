@@ -12,7 +12,7 @@ namespace NHibernate.Validator
 	public class EANValidator : IValidator
 	{
 		private const string pattern = @"\d*$";
-		private static readonly Regex regex = new Regex(pattern);
+		private static readonly Regex regex = new Regex(pattern, RegexOptions.Compiled);
 		public bool IsValid(object value)
 		{
 			if (value == null)
