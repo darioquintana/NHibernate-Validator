@@ -1,17 +1,15 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	[ValidatorClass(typeof(CreditCardNumberValidator))]
+	[ValidatorClass(typeof (CreditCardNumberValidator))]
 	public class CreditCardNumberAttribute : Attribute, IRuleArgs
 	{
-		#region IRuleArgs Members
-
 		private string message = "{validator.creditCardNumber}";
+
+		#region IRuleArgs Members
 
 		public string Message
 		{

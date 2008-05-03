@@ -1,45 +1,47 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace NHibernate.Validator
 {
 	public abstract class AbstractLuhnValidator
 	{
-		public abstract int multiplicator();
+		public abstract int Multiplicator { get; }
 
 		public bool IsValid(object value)
 		{
-			if (value == null) return true;
-
-			if (!(value is string)) return false;
-
-			string creditCard = (string)value;
-
-			char[] chars = creditCard.ToCharArray();
-
-			IList<int> ints = new List<int>();
-			foreach (char c in chars)
+			if (value == null)
 			{
-				if (Char.IsDigit(c))
-					ints.Add(c - '0');
+				return true;
 			}
 
-			int length = ints.Count;
+			string creditCard = value as string;
+			if (string.IsNullOrEmpty(creditCard) || creditCard.Length > 19 || ulong.Parse(creditCard) == 0)
+			{
+				return false;
+			}
+
+			IList<int> ints = new List<int>();
+			foreach (char c in creditCard)
+			{
+				if (Char.IsDigit(c))
+				{
+					ints.Add(c - '0');
+				}
+			}
+
 			int sum = 0;
 			bool even = false;
 
-			for (int index = length - 1; index >= 0; index--)
+			for (int index = ints.Count - 1; index >= 0; index--)
 			{
 				int digit = ints[index];
 				if (even)
 				{
-					digit *= multiplicator();
-				}
-
-				if (digit > 9)
-				{
-					digit = digit / 10 + digit % 10;
+					digit *= Multiplicator;
+					if (digit > 9)
+					{
+						digit = digit / 10 + digit % 10;
+					}
 				}
 
 				sum += digit;

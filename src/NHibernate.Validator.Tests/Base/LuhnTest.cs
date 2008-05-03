@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using NUnit.Framework;
 using NHibernate.Validator.Engine;
+using NUnit.Framework;
 
 namespace NHibernate.Validator.Tests.Base
 {
