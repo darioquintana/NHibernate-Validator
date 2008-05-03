@@ -11,9 +11,9 @@ namespace NHibernate.Validator
 	[ValidatorClass(typeof(RangeValidator))]
 	public class RangeAttribute : Attribute, IRuleArgs
 	{
+		private long min = long.MinValue;
 		private long max = long.MaxValue;
 		private string message = "{validator.range}";
-		private long min = long.MinValue;
 
 		public RangeAttribute(long min, long max)
 		{

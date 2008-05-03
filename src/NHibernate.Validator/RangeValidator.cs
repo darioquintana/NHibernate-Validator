@@ -8,8 +8,8 @@ namespace NHibernate.Validator
 	[Serializable]
 	public class RangeValidator : IInitializableValidator<RangeAttribute>, IPropertyConstraint
 	{
-		private long min;
-		private long max;
+		private double min;
+		private double max;
 
 		public void Initialize(RangeAttribute parameters)
 		{
@@ -24,35 +24,29 @@ namespace NHibernate.Validator
 				return true;
 			}
 
-			if (value is string)
+			try
 			{
-				try
+				double cvalue = Convert.ToDouble(value);
+				return cvalue >= min && cvalue <= max;
+			}
+			catch (InvalidCastException)
+			{
+				if (value is char)
 				{
-					return Convert.ToDecimal(value) >= Convert.ToDecimal(min) &&
-							Convert.ToDecimal(value) <= Convert.ToDecimal(max);
+					int i = Convert.ToInt32(value);
+					return i >= min && i <= max;
 				}
-				catch (FormatException)
-				{
-					return false;
-				}
+				return false;
 			}
-			else if (value is decimal)
+			catch (FormatException)
 			{
-				return Convert.ToDecimal(value) >= Convert.ToDecimal(min) &&
-						Convert.ToDecimal(value) <= Convert.ToDecimal(max);
+				return false;
 			}
-			else if (value is Int32)
+			catch (OverflowException)
 			{
-				return Convert.ToInt32(value) >= Convert.ToInt32(min) &&
-						Convert.ToInt32(value) <= Convert.ToInt32(max);
-			}
-			else if (value is Int64)
-			{
-				return Convert.ToInt64(value) >= Convert.ToInt64(min) &&
-						Convert.ToInt64(value) <= Convert.ToInt64(max);
+				return false;
 			}
 
-			return false;
 		}
 
 		public void Apply(Property property)

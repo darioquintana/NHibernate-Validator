@@ -15,6 +15,6 @@
 		<property name="Zip" />
 		<property name="Line1" />
 		<property name="Line2" />
-
+		<property name ="floor" access="field"/>
 	</class>
 </hibernate-mapping>
