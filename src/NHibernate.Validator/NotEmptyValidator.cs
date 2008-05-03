@@ -11,6 +11,13 @@ namespace NHibernate.Validator
 			{
 				return true;
 			}
+
+			string check = value as string;
+			if(check != null)
+			{
+				return !string.Empty.Equals(check.Trim());
+			}
+
 			IEnumerable ev = value as IEnumerable;
 			if (ev != null)
 			{

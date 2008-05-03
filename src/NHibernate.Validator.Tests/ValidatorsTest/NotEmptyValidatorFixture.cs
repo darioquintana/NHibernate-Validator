@@ -16,6 +16,7 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 			Assert.IsTrue(v.IsValid(null));
 
 			Assert.IsFalse(v.IsValid(""));
+			Assert.IsFalse(v.IsValid("    "));
 			Assert.IsFalse(v.IsValid(123));
 			Assert.IsFalse(v.IsValid(new int[0]));
 			Assert.IsFalse(v.IsValid(new List<int>()));
