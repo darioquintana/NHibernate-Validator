@@ -11,6 +11,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     public partial class NhvmProperty {
         
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("assertfalse", typeof(NhvmAssertfalse))]
         [System.Xml.Serialization.XmlElementAttribute("asserttrue", typeof(NhvmAsserttrue))]
         [System.Xml.Serialization.XmlElementAttribute("creditcardnumber", typeof(NhvmCreditcardnumber))]
         [System.Xml.Serialization.XmlElementAttribute("digits", typeof(NhvmDigits))]
@@ -35,6 +36,20 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string name;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-1.0")]
+    [System.Xml.Serialization.XmlRootAttribute("assertfalse", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
+    public partial class NhvmAssertfalse {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string message;
     }
     
     /// <remarks/>

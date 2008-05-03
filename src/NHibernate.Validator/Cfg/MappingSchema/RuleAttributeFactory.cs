@@ -29,6 +29,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			wellKnownRules[typeof(NhvmMin)] = ConvertToMin;
 			wellKnownRules[typeof(NhvmMax)] = ConvertToMax;
 			wellKnownRules[typeof(NhvmAsserttrue)] = ConvertToAssertTrue;
+			wellKnownRules[typeof(NhvmAssertfalse)] = ConvertToAssertFalse;
 			wellKnownRules[typeof(NhvmPattern)] = ConvertToPattern;
 			wellKnownRules[typeof(NhvmRule)] = ConvertToRule;
 			wellKnownRules[typeof(NhvmIpAddress)] = ConvertToIPAddress;
@@ -197,6 +198,20 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 
 			log.Info("Converting to AssertTrue attribute");
 			AssertTrueAttribute thisAttribute = new AssertTrueAttribute();
+			if (assertTrueRule.message != null)
+			{
+				thisAttribute.Message = assertTrueRule.message;
+			}
+
+			return thisAttribute;
+		}
+
+		private static Attribute ConvertToAssertFalse(XmlNhvmRuleConverterArgs rule)
+		{
+			NhvmAssertfalse assertTrueRule = (NhvmAssertfalse)rule.schemaRule;
+
+			log.Info("Converting to AssertFalse attribute");
+			AssertFalseAttribute thisAttribute = new AssertFalseAttribute();
 			if (assertTrueRule.message != null)
 			{
 				thisAttribute.Message = assertTrueRule.message;

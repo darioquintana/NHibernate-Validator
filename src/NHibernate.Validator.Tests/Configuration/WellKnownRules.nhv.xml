@@ -36,6 +36,7 @@
 		
 		<property name="BProp">
 			<asserttrue message="asserttrue message"/>
+			<assertfalse message="assertfalse message"/>
 		</property>
 
 		<property name="ArrProp">

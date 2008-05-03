@@ -1,12 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
 	/// <summary>
-	/// The annotated element has to be true
+	/// The annotated element has to be false
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof(AssertFalseValidator))]

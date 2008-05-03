@@ -116,6 +116,9 @@ namespace NHibernate.Validator.Tests.Configuration
 			attributes = new List<Attribute>(rm.GetMemberAttributes(mi));
 			AssertTrueAttribute ata = FindAttribute<AssertTrueAttribute>(attributes);
 			Assert.AreEqual("asserttrue message", ata.Message);
+			AssertFalseAttribute afa = FindAttribute<AssertFalseAttribute>(attributes);
+			Assert.AreEqual("assertfalse message", afa.Message);
+
 
 			mi = typeof(WellKnownRules).GetField("ArrProp");
 			attributes = new List<Attribute>(rm.GetMemberAttributes(mi));
