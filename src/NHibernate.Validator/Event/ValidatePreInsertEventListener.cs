@@ -20,7 +20,6 @@ namespace NHibernate.Validator.Event
 	/// </remarks>
 	public class ValidatePreInsertEventListener : ValidateEventListener, IPreInsertEventListener, IInitializable
 	{
-		private static readonly object padlock = new object();
 		private bool isInitialized;
 
 		#region IInitializable Members
@@ -31,33 +30,21 @@ namespace NHibernate.Validator.Event
 		/// <param name="cfg"></param>
 		public void Initialize(Configuration cfg)
 		{
-			if (isInitialized)
+			if (isInitialized || cfg == null)
 			{
 				return;
 			}
-			ve = null;
+			Engine = null;
 			if (Environment.SharedEngineProvider != null)
 			{
-				ve = Environment.SharedEngineProvider.GetEngine();
-			}
-			else
-			{
-				// thread safe lazy initialization of local engine
-				lock (padlock)
-				{
-					if (ve == null)
-					{
-						ve = new ValidatorEngine();
-						ve.Configure(); // configure the private ValidatorEngine
-					}
-				}
+				Engine = Environment.SharedEngineProvider.GetEngine();
 			}
 
 			IEnumerable<PersistentClass> classes = cfg.ClassMappings;
 
 			foreach (PersistentClass clazz in classes)
 			{
-				ve.AddValidator(clazz.MappedClass, new SubElementsInspector(clazz));
+				Engine.AddValidator(clazz.MappedClass, new SubElementsInspector(clazz));
 			}
 
 			isInitialized = true;
@@ -114,7 +101,7 @@ namespace NHibernate.Validator.Event
 
 					IGetter getter = accesor.GetGetter(element.EntityType, property.Name);
 
-					IClassValidator validator = ve.GetClassValidator(getter.ReturnType);
+					IClassValidator validator = Engine.GetClassValidator(getter.ReturnType);
 
 					ValidatableElement subElement = new ValidatableElement(getter.ReturnType, validator, getter);
 

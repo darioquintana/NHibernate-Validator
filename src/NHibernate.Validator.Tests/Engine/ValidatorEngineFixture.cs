@@ -159,7 +159,7 @@ namespace NHibernate.Validator.Tests.Engine
 			Assert.IsTrue(ve.IsValid(new AnyClass()));
 			Assert.IsNotNull(ve.GetValidator<AnyClass>());
 			ve.AssertValid(new AnyClass()); // not cause exception
-			Assert.AreEqual(0,ve.Validate(new AnyClass()).Length);
+			Assert.AreEqual(0, ve.Validate(new AnyClass()).Length);
 			Assert.AreEqual(0, ve.ValidatePropertyValue<AnyClass>("aprop", new AnyClass()).Length);
 			Assert.AreEqual(0, ve.ValidatePropertyValue(new AnyClass(), "aprop").Length);
 		}

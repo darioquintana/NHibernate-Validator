@@ -85,6 +85,7 @@
     <Compile Include="Engine\ClassValidatorFixture.cs" />
     <Compile Include="Engine\ValidatableElementFixture.cs" />
     <Compile Include="Integration\IntegrationOwnEngineFixture.cs" />
+    <Compile Include="Integration\ValidateEventsFixture.cs" />
     <Compile Include="Integration\WrongClass.cs" />
     <Compile Include="Integration\WrongConstraint.cs" />
     <Compile Include="Integration\ValidatorInitializerFixture.cs" />

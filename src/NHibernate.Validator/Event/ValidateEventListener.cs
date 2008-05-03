@@ -8,7 +8,8 @@ namespace NHibernate.Validator.Event
 	/// </summary>
 	public class ValidateEventListener
 	{
-		protected static ValidatorEngine ve; // engine for listeners
+		private static readonly object padlock = new object();
+		private static ValidatorEngine ve; // engine for listeners
 
 		protected static void Validate(object entity, EntityMode mode)
 		{
@@ -17,10 +18,33 @@ namespace NHibernate.Validator.Event
 				return;
 			}
 
-			InvalidValue[] consolidatedInvalidValues = ve.Validate(entity);
+			InvalidValue[] consolidatedInvalidValues = Engine.Validate(entity);
 			if (consolidatedInvalidValues.Length > 0)
 			{
 				throw new InvalidStateException(consolidatedInvalidValues, entity.GetType().Name);
+			}
+		}
+
+		protected static ValidatorEngine Engine
+		{
+			get
+			{
+				lock (padlock)
+				{
+					if (ve == null)
+					{
+						ve = new ValidatorEngine();
+						ve.Configure(); // configure the private ValidatorEngine
+					}
+				}
+				return ve;
+			}
+			set
+			{
+				lock (padlock)
+				{
+					ve = value;
+				}
 			}
 		}
 	}
