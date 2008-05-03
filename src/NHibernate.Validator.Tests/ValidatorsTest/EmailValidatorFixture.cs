@@ -20,6 +20,8 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 			Assert.IsFalse(v.IsValid("emmanuel@"));
 			Assert.IsTrue(v.IsValid("emma+nuel@hibernate.org"));
 			Assert.IsTrue(v.IsValid("emma=nuel@hibernate.org"));
+			Assert.IsFalse(v.IsValid("emma;nuel@hibernate.org"));
+			Assert.IsFalse(v.IsValid("emma(;nuel@hibernate.org"));
 			Assert.IsFalse(v.IsValid("emma\nnuel@hibernate.org"));
 			Assert.IsFalse(v.IsValid("emma@nuel@hibernate.org"));
 			Assert.IsFalse(v.IsValid("emmanuel@@hibernate.org"));

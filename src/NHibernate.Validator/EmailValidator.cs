@@ -5,7 +5,7 @@ namespace NHibernate.Validator
 {
 	public class EmailValidator : IValidator
 	{
-		private const string ATOM = "[^\\x00-\\x1F^\\(^\\)^\\<^\\>^\\@^\\,^\\(;^\\:^\\\\^\\\"^\\.^\\[^\\]^\\s]";
+		private const string ATOM = "[^\\x00-\\x1F^\\(^\\)^\\<^\\>^\\@^\\,^\\;^\\:^\\\\^\\\"^\\.^\\[^\\]^\\s]";
 		private const string DOMAIN = "(" + ATOM + "+(\\." + ATOM + "+)*";
 		private const string IP_DOMAIN = "\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\]";
 		private readonly Regex regex = new Regex(string.Concat("^",ATOM, "+(\\." , ATOM , "+)*@" , DOMAIN , "|" , IP_DOMAIN , ")$"), RegexOptions.Compiled);
