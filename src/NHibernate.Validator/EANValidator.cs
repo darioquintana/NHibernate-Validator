@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using NHibernate.Validator.Engine;
-using System.Globalization;
 
 namespace NHibernate.Validator
 {
@@ -11,6 +11,8 @@ namespace NHibernate.Validator
 	/// </summary>
 	public class EANValidator : IValidator
 	{
+		private const string pattern = @"\d*$";
+		private static readonly Regex regex = new Regex(pattern);
 		public bool IsValid(object value)
 		{
 			if (value == null)
@@ -18,16 +20,14 @@ namespace NHibernate.Validator
 				return true;
 			}
 
-			long val;
 			string ean = value.ToString();
-			if (ean.Length != 13 || !long.TryParse(ean, out val))
+			if (ean.Length != 13 || !regex.IsMatch(ean))
 			{
 				return false;
 			}
-			char[] chars = val.ToString(NumberFormatInfo.InvariantInfo).ToCharArray();
 
 			IList<int> ints = new List<int>();
-			foreach (char c in chars)
+			foreach (char c in ean)
 			{
 				if (Char.IsDigit(c))
 				{
