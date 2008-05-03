@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using log4net;
 using NHibernate.Util;
 using System.Collections.Generic;
@@ -170,12 +171,59 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			log.Info("Converting to Pattern attribute");
 			PatternAttribute thisAttribute = new PatternAttribute();
 			thisAttribute.Regex = patternRule.regex;
+			if (!string.IsNullOrEmpty(patternRule.regexoptions))
+			{
+				thisAttribute.Flags = ParsePatternFlags(patternRule.regexoptions);
+			}
 			if (patternRule.message != null)
 			{
 				thisAttribute.Message = patternRule.message;
 			}
 
 			return thisAttribute;
+		}
+
+		public static RegexOptions ParsePatternFlags(string xmlValue)
+		{
+			RegexOptions result = RegexOptions.None;
+			string[] tokens = xmlValue.Split(new char[] {'|', ' '}, StringSplitOptions.RemoveEmptyEntries);
+			foreach (string token in tokens)
+			{
+				result |= ParsePatternSingleFlags(token);
+			}
+			return result;
+		}
+
+		public static RegexOptions ParsePatternSingleFlags(string xmlValue)
+		{
+			switch (xmlValue.ToLowerInvariant())
+			{
+				case "compiled":
+					return RegexOptions.Compiled;
+				case "cultureinvariant":
+					return RegexOptions.CultureInvariant;
+				case "ecmascript":
+					return RegexOptions.ECMAScript;
+				case "explicitcapture":
+					return RegexOptions.ExplicitCapture;
+				case "ignorecase":
+					return RegexOptions.IgnoreCase;
+				case "ignorepatternwhitespace":
+					return RegexOptions.IgnorePatternWhitespace;
+				case "multiline":
+					return RegexOptions.Multiline;
+				case "none":
+					return RegexOptions.None;
+				case "righttoleft":
+					return RegexOptions.RightToLeft;
+				case "singleline":
+					return RegexOptions.Singleline;
+				default:
+					throw new ValidatorConfigurationException(
+						string.Format(
+							"Invalid value for regex-options: '{0}' ; see documentation of System.Text.RegularExpressions.RegexOptions for valid values.",
+							xmlValue));
+			}
 		}
 
 		private static Attribute ConvertToIPAddress(XmlNhvmRuleConverterArgs rule)

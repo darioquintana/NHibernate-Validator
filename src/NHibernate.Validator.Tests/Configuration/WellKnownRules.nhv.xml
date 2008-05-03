@@ -17,10 +17,17 @@
 			<notnull-notempty message="notnullnotempty message"/>
 			<length min="1" max="10" message="length message"/>
 			<pattern regex="[0-9]+" message="pattern message"/>
+			<pattern regex="\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b" 
+					 regex-options="CultureInvariant|IgnoreCase"/>
 			<email message="email message"/>
 			<ipAddress message="ipAddress message"/>
 			<ean message="ean message"/>
 			<creditcardnumber message="creditcardnumber message"/>
+		</property>
+
+		<property name="Pattern">
+			<pattern regex="\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b"
+					 regex-options="CultureInvariant|IgnoreCase"/>
 		</property>
 
 		<property name="DtProp">

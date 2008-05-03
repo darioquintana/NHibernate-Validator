@@ -173,6 +173,7 @@
     <Compile Include="ValidatorsTest\NotEmptyValidatorFixture.cs" />
     <Compile Include="ValidatorsTest\NotNullNotEmptyValidatorFixture.cs" />
     <Compile Include="ValidatorsTest\PastValidatorFixture.cs" />
+    <Compile Include="ValidatorsTest\PatternValidatorFixture.cs" />
     <Compile Include="ValidatorsTest\RangeValidatorFixture.cs" />
     <Compile Include="ValidatorsTest\SizeValidatorFixture.cs" />
     <Compile Include="ValidatorsTest\ValidatorsFixture.cs" />

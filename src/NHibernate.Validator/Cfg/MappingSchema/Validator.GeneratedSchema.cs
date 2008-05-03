@@ -308,6 +308,10 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string message;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute("regex-options")]
+        public string regexoptions;
     }
     
     /// <remarks/>

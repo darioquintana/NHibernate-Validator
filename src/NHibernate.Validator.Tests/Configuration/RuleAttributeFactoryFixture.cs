@@ -8,6 +8,7 @@ using NHibernate.Validator.Tests.Base;
 using NUnit.Framework;
 using NHibernate.Validator.Cfg;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace NHibernate.Validator.Tests.Configuration
 {
@@ -76,7 +77,7 @@ namespace NHibernate.Validator.Tests.Configuration
 			PatternAttribute pa = FindAttribute<PatternAttribute>(attributes);
 			Assert.AreEqual("pattern message", pa.Message);
 			Assert.AreEqual("[0-9]+", pa.Regex);
-			// TODO : Change the XSD to allow the definition of PatternAttribute.RegexOptions
+			Assert.AreEqual(RegexOptions.Compiled, pa.Flags);
 
 			EmailAttribute ea = FindAttribute<EmailAttribute>(attributes);
 			Assert.AreEqual("email message", ea.Message);
@@ -126,6 +127,13 @@ namespace NHibernate.Validator.Tests.Configuration
 			Assert.AreEqual("size message", sa.Message);
 			Assert.AreEqual(2, sa.Min);
 			Assert.AreEqual(9, sa.Max);
+
+			mi = typeof(WellKnownRules).GetField("Pattern");
+			attributes = new List<Attribute>(rm.GetMemberAttributes(mi));
+			PatternAttribute spa = FindAttribute<PatternAttribute>(attributes);
+			Assert.AreEqual("{validator.pattern}", spa.Message);
+			Assert.AreEqual(@"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b", spa.Regex);
+			Assert.AreEqual(RegexOptions.CultureInvariant | RegexOptions.IgnoreCase, spa.Flags);
 		}
 
 		private static T FindAttribute<T>(List<Attribute> attr) where T : Attribute
@@ -167,6 +175,42 @@ namespace NHibernate.Validator.Tests.Configuration
 
 			mi = typeof(WellKnownRules).GetField("AP");
 			rm.GetMemberAttributes(mi);
+		}
+
+		[Test]
+		public void SingleRegexOptionsParsing()
+		{
+			Assert.AreEqual(RegexOptions.Compiled, RuleAttributeFactory.ParsePatternSingleFlags("cOmPiLed"));
+			Assert.AreEqual(RegexOptions.CultureInvariant, RuleAttributeFactory.ParsePatternSingleFlags("CultureInvariant"));
+			Assert.AreEqual(RegexOptions.ECMAScript, RuleAttributeFactory.ParsePatternSingleFlags("ECMAScript"));
+			Assert.AreEqual(RegexOptions.ExplicitCapture, RuleAttributeFactory.ParsePatternSingleFlags("ExplicitCapture"));
+			Assert.AreEqual(RegexOptions.IgnoreCase, RuleAttributeFactory.ParsePatternSingleFlags("IgnoreCase"));
+			Assert.AreEqual(RegexOptions.IgnorePatternWhitespace, RuleAttributeFactory.ParsePatternSingleFlags("IgnorePatternWhitespace"));
+			Assert.AreEqual(RegexOptions.Multiline, RuleAttributeFactory.ParsePatternSingleFlags("Multiline"));
+			Assert.AreEqual(RegexOptions.None, RuleAttributeFactory.ParsePatternSingleFlags("None"));
+			Assert.AreEqual(RegexOptions.RightToLeft, RuleAttributeFactory.ParsePatternSingleFlags("RightToLeft"));
+			Assert.AreEqual(RegexOptions.Singleline, RuleAttributeFactory.ParsePatternSingleFlags("Singleline"));
+			try
+			{
+				RuleAttributeFactory.ParsePatternSingleFlags("Pizza");
+			}
+			catch(ValidatorConfigurationException)
+			{
+				// Ok
+			}
+		}
+
+		[Test]
+		public void RegexOptionsParsing()
+		{
+			Assert.AreEqual(RegexOptions.Compiled | RegexOptions.CultureInvariant,
+			                RuleAttributeFactory.ParsePatternFlags("cOmPiLed | CultureInvariant"));
+			Assert.AreEqual(RegexOptions.Compiled | RegexOptions.IgnorePatternWhitespace | RegexOptions.IgnoreCase,
+			                RuleAttributeFactory.ParsePatternFlags("Compiled|IgnoreCase|IgnorePatternWhitespace"));
+
+			// Ignore strange user ;)
+			Assert.AreEqual(RegexOptions.Compiled | RegexOptions.IgnorePatternWhitespace,
+			                RuleAttributeFactory.ParsePatternFlags("Compiled||  | |IgnorePatternWhitespace"));
 		}
 	}
 }

@@ -10,5 +10,6 @@ namespace NHibernate.Validator.Tests.Configuration
 		public decimal DecProp;
 		public bool BProp;
 		public int[] ArrProp;
+		public string Pattern;
 	}
 }

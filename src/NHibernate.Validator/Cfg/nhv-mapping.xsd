@@ -118,9 +118,11 @@
 	</xs:element>
 	<xs:element name="pattern">
 		<xs:complexType>
-			<xs:sequence />
+			<xs:sequence>
+			</xs:sequence>
 			<xs:attribute name="regex" type="xs:string" use="optional" />
 			<xs:attribute name="message" type="xs:string" use="optional" />
+			<xs:attribute name="regex-options" type="xs:string" />
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="asserttrue">
