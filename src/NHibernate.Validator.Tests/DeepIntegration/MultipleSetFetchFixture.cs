@@ -1,10 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Iesi.Collections;
-using NHibernate.Validator.Tests.DeepIntegration;
-using NUnit.Framework;
 using Iesi.Collections.Generic;
+using NUnit.Framework;
 
 namespace NHibernate.Validator.Tests.DeepIntegration
 {

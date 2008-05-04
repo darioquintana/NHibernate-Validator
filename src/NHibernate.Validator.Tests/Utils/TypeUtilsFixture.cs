@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using NHibernate.Validator.Exceptions;
 using NHibernate.Validator.Util;
 using NUnit.Framework;
 
@@ -28,6 +29,11 @@ namespace NHibernate.Validator.Tests.Utils
 		public int IntProp
 		{
 			get { return 31; }
+		}
+
+		public string Problem
+		{
+			get { throw new Exception(); }
 		}
 	}
 
@@ -111,6 +117,14 @@ namespace NHibernate.Validator.Tests.Utils
 			// we don't take care if, for some reason, we are looking for a value of something else than a field or property
 			MemberInfo methodMember = typeof(TestingClass).GetMethod("ToString");
 			Assert.IsNull(TypeUtils.GetMemberValue(tc, methodMember));
+		}
+
+		[Test, ExpectedException(typeof(InvalidStateException))]
+		public void GetterWithException()
+		{
+			TestingClass tc = new TestingClass();
+			MemberInfo propMember = typeof(TestingClass).GetProperty("Problem");
+			TypeUtils.GetMemberValue(tc, propMember);
 		}
 
 		[Test]

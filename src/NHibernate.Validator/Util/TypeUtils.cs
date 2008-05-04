@@ -105,7 +105,8 @@ namespace NHibernate.Validator.Util
 			}
 			catch(Exception e)
 			{
-				throw new InvalidStateException("Could not get property value", e);
+				throw new InvalidStateException(
+					string.Format("Could not get property value:{0} of {1}", member.Name, member.ReflectedType), e);
 			}
 			return null;
 		}
