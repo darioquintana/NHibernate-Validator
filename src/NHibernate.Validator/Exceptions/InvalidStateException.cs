@@ -7,6 +7,8 @@ namespace NHibernate.Validator.Exceptions
 	{
 		private static InvalidValue[] _invalidValues;
 
+		public InvalidStateException(string message, Exception inner) : base(message, inner) { }
+
 		public InvalidStateException(InvalidValue[] invalidValues)
 			: this(invalidValues, invalidValues[0].GetType().Name)
 		{

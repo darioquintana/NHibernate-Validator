@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using NHibernate.Validator.Exceptions;
 
 namespace NHibernate.Validator.Util
 {
@@ -92,14 +93,20 @@ namespace NHibernate.Validator.Util
 		/// <returns></returns>
 		public static object GetMemberValue(object bean, MemberInfo member)
 		{
-			FieldInfo fi = member as FieldInfo;
-			if (fi != null)
-				return fi.GetValue(bean);
+			try
+			{
+				FieldInfo fi = member as FieldInfo;
+				if (fi != null)
+					return fi.GetValue(bean);
 
-			PropertyInfo pi = member as PropertyInfo;
-			if (pi != null)
-				return pi.GetValue(bean, null);
-
+				PropertyInfo pi = member as PropertyInfo;
+				if (pi != null)
+					return pi.GetValue(bean, null);
+			}
+			catch(Exception e)
+			{
+				throw new InvalidStateException("Could not get property value", e);
+			}
 			return null;
 		}
 

@@ -82,6 +82,11 @@
     <Compile Include="Configuration\MappingLoaderFixture.cs" />
     <Compile Include="Configuration\RuleAttributeFactoryFixture.cs" />
     <Compile Include="Configuration\WellKnownRules.cs" />
+    <Compile Include="DeepIntegration\AbstractMultipleCollectionFixture.cs" />
+    <Compile Include="DeepIntegration\MultipleBagFetchFixture.cs" />
+    <Compile Include="DeepIntegration\MultipleListFetchFixture.cs" />
+    <Compile Include="DeepIntegration\MultipleSetFetchFixture.cs" />
+    <Compile Include="DeepIntegration\Person.cs" />
     <Compile Include="Engine\ClassValidatorFixture.cs" />
     <Compile Include="Engine\ValidatableElementFixture.cs" />
     <Compile Include="Integration\IntegrationOwnEngineFixture.cs" />
@@ -301,6 +306,9 @@
     <EmbeddedResource Include="Integration\MarsAddress.nhv.xml" />
     <EmbeddedResource Include="Base\CreditCard.nhv.xml" />
     <EmbeddedResource Include="Integration\WrongClass.whbm.xml" />
+    <EmbeddedResource Include="DeepIntegration\PersonBag.hbm.xml" />
+    <EmbeddedResource Include="DeepIntegration\PersonList.hbm.xml" />
+    <EmbeddedResource Include="DeepIntegration\PersonSet.hbm.xml" />
     <Content Include="nhvalidator.cfg.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

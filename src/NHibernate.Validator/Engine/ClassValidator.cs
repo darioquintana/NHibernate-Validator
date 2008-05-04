@@ -283,12 +283,19 @@ namespace NHibernate.Validator.Engine
 					if (NHibernateUtil.IsPropertyInitialized(bean, member.Name))
 					{
 						object value = TypeUtils.GetMemberValue(bean, member);
-
-						IValidator validator = memberValidators[i];
-
-						if (!validator.IsValid(value))
+						/* The implementation of NHibernateUtil.IsPropertyInitialized is not enough for us
+						 * because NH call it only for some kind of propeties and especially only when NH need this check.
+						 * We need to check if is itilialized its value to prevent the initialization of
+						 * lazy-properties and lazy-collections.
+						 */
+						if (NHibernateUtil.IsInitialized(value))
 						{
-							results.Add(new InvalidValue(Interpolate(validator), beanClass, member.Name, value, bean));
+							IValidator validator = memberValidators[i];
+
+							if (!validator.IsValid(value))
+							{
+								results.Add(new InvalidValue(Interpolate(validator), beanClass, member.Name, value, bean));
+							}
 						}
 					}
 				}
