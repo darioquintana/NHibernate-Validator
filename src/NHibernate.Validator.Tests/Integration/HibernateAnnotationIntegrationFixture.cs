@@ -293,5 +293,38 @@ namespace NHibernate.Validator.Tests.Integration
 				s.Close();
 			}
 		}
+
+		private class EventCrack : ValidateEventListener
+		{
+			public static void ValidateCrack(object entity, EntityMode mode)
+			{
+				Validate(entity, mode);
+			}
+		}
+
+		[Test]
+		public void DontValidate()
+		{
+			EventCrack.ValidateCrack(null, EntityMode.Poco); // don't throw exception
+
+			Address a = new Address();
+			Address.blacklistedZipCode = "3232";
+			a.Id = 12;
+			a.Country = "Country";
+			a.Line1 = "Line 1";
+			a.Zip = "nonnumeric";
+			a.State = "NY";
+			try
+			{
+				EventCrack.ValidateCrack(a, EntityMode.Poco);
+				Assert.Fail("This test don't make sense if we are not sharing the validator engine.");
+			}
+			catch (InvalidStateException)
+			{
+				// Ok
+			}
+			EventCrack.ValidateCrack(a, EntityMode.Xml); // don't throw exception
+			EventCrack.ValidateCrack(a, EntityMode.Map); // don't throw exception
+		}
 	}
 }
