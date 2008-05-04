@@ -38,7 +38,7 @@ namespace NHibernate.Validator.Tests.DeepIntegration
 			set { children = value; }
 		}
 
-		[Valid]
+		[Valid, Size(Max=5)]
 		public virtual ICollection Friends
 		{
 			get { return friends; }

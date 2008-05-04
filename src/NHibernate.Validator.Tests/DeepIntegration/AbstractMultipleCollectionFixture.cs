@@ -44,38 +44,6 @@ namespace NHibernate.Validator.Tests.DeepIntegration
 			return parent;
 		}
 
-		protected virtual void RunFetchTest(Person parent)
-		{
-			// Saved object are valid and don't need to initialize it for validation matters
-			using (ISession s = OpenSession())
-			using(ITransaction tx = s.BeginTransaction())
-			{
-				s.Save(parent);
-				tx.Commit();
-			}
-			using (ISession s = OpenSession())
-			{
-				Person p = s.CreateQuery("from Person p where p.Name = 'GP'")
-					.UniqueResult<Person>();
-
-				// This two lines are not needed for tests because is a NH matter
-				// use it only to check where the problem really is
-				Assert.IsFalse(NHibernateUtil.IsInitialized(p.Children));
-				Assert.IsFalse(NHibernateUtil.IsInitialized(p.Friends));
-				
-				vengine.Validate(p);
-				
-				Assert.IsFalse(NHibernateUtil.IsInitialized(p.Children));
-				Assert.IsFalse(NHibernateUtil.IsInitialized(p.Friends));
-			}
-			using (ISession s = OpenSession())
-			using (ITransaction t = s.BeginTransaction())
-			{
-				s.Delete("from Person p where p.Parent is null");
-				t.Commit();
-			}
-		}
-
 		protected ValidatorEngine vengine;
 		protected override void Configure(NHibernate.Cfg.Configuration configuration)
 		{
@@ -100,8 +68,194 @@ namespace NHibernate.Validator.Tests.DeepIntegration
 		[Test]
 		public void NoInitializeAfterFetch()
 		{
+			// Saved object are valid and don't need to initialize it for validation matters
+
 			Person parent = CreateGrandparent();
-			RunFetchTest(parent);
+			SavePerson(parent);
+			int savedId = parent.Id;
+			using (ISession s = OpenSession())
+			{
+				Person p = s.CreateQuery("from Person p where p.Name = 'GP'")
+					.UniqueResult<Person>();
+
+				// This two lines are not needed for tests because is a NH matter
+				// we use it only to check where the problem really is
+				Assert.IsFalse(NHibernateUtil.IsInitialized(p.Children));
+				Assert.IsFalse(NHibernateUtil.IsInitialized(p.Friends));
+
+				vengine.Validate(p);
+
+				Assert.IsFalse(NHibernateUtil.IsInitialized(p.Children));
+				Assert.IsFalse(NHibernateUtil.IsInitialized(p.Friends));
+			}
+
+			// No initialized many-to-one
+			using (ISession s = OpenSession())
+			{
+				Person p = s.CreateQuery("from Person p where p.Name = 'C1'")
+					.UniqueResult<Person>();
+
+				// This line are not needed for tests because is a NH matter
+				// we use it only to check where the problem really is
+				Assert.IsFalse(NHibernateUtil.IsInitialized(p.Parent));
+
+				vengine.Validate(p);
+
+				Assert.IsFalse(NHibernateUtil.IsInitialized(p.Parent));
+			}
+
+			// No initialized the proxie it self
+			using (ISession s = OpenSession())
+			{
+				Person p = s.Load<Person>(savedId);
+
+				Assert.IsFalse(NHibernateUtil.IsInitialized(p));
+
+				vengine.Validate(p);
+
+				Assert.IsFalse(NHibernateUtil.IsInitialized(p));
+			}
+
+			CleanUp();
+		}
+
+		private void CleanUp()
+		{
+			using (ISession s = OpenSession())
+			using (ITransaction t = s.BeginTransaction())
+			{
+				s.Delete("from Person p where p.Parent is null");
+				t.Commit();
+			}
+		}
+
+		private void SavePerson(Person parent)
+		{
+			using (ISession s = OpenSession())
+			using (ITransaction tx = s.BeginTransaction())
+			{
+				s.Save(parent);
+				tx.Commit();
+			}
+		}
+
+		[Test]
+		public void InvalidValuesInCollections()
+		{
+			// we are testing it using proxies created by NH
+			Person parent = CreateGrandparent();
+			SavePerson(parent);
+
+			// Generic collection
+			using (ISession s = OpenSession())
+			using (ITransaction tx = s.BeginTransaction())
+			{
+				Person p = s.CreateQuery("from Person p where p.Name = 'GP'")
+					.UniqueResult<Person>();
+				IEnumerator<Person> ep = p.Children.GetEnumerator();
+				ep.MoveNext();
+				Person aChildren = ep.Current;
+				IEnumerator<Person> ep1 = aChildren.Children.GetEnumerator();
+				ep1.MoveNext();
+				Person aCh11 = ep1.Current;
+
+				Assert.IsTrue(vengine.IsValid(p));
+
+				aCh11.Name = null;
+
+				Assert.IsFalse(vengine.IsValid(p));
+
+				tx.Rollback();
+			}
+
+			// No generic collection
+			using (ISession s = OpenSession())
+			using (ITransaction tx = s.BeginTransaction())
+			{
+				Person p = s.CreateQuery("from Person p where p.Name = 'GP'")
+					.UniqueResult<Person>();
+				IEnumerator ep = p.Friends.GetEnumerator();
+				ep.MoveNext();
+				Person aFriend = (Person)ep.Current;
+				Assert.IsTrue(vengine.IsValid(p));
+
+				aFriend.Name = "A";
+
+				Assert.IsFalse(vengine.IsValid(p));
+
+				tx.Rollback();
+			}
+
+			// Many-to-one
+			using (ISession s = OpenSession())
+			using (ITransaction tx = s.BeginTransaction())
+			{
+				Person p = s.CreateQuery("from Person p where p.Name = 'C1'")
+					.UniqueResult<Person>();
+				NHibernateUtil.Initialize(p.Parent);
+
+				Assert.IsTrue(vengine.IsValid(p));
+
+				p.Parent.Name = "A";
+
+				Assert.IsFalse(vengine.IsValid(p));
+
+				tx.Rollback();
+			}
+			CleanUp();
+		}
+
+		[Test]
+		public void InvalidCollection()
+		{
+			// we are testing that work for Bag, List, Set PersistentCollections
+			Person parent = CreateGrandparent();
+			SavePerson(parent);
+
+			using (ISession s = OpenSession())
+			using (ITransaction tx = s.BeginTransaction())
+			{
+				Person p = s.CreateQuery("from Person p where p.Name = 'GP'")
+					.UniqueResult<Person>();
+
+				NHibernateUtil.Initialize(p.Children);
+
+				Assert.IsTrue(vengine.IsValid(p));
+
+				for (int i = 0; i < 10; i++)
+				{
+					Person child = new Person("CC" + i);
+					child.Parent = parent;
+					AddToCollection(p.Children, child);
+				}
+
+				Assert.IsFalse(vengine.IsValid(p));
+
+				tx.Rollback();
+			}
+
+			using (ISession s = OpenSession())
+			using (ITransaction tx = s.BeginTransaction())
+			{
+				Person p = s.CreateQuery("from Person p where p.Name = 'GP'")
+					.UniqueResult<Person>();
+
+				NHibernateUtil.Initialize(p.Friends);
+
+				Assert.IsTrue(vengine.IsValid(p));
+
+				for (int i = 0; i < 3; i++)
+				{
+					Person friend = new Person("FF" + i);
+					AddToCollection(p.Friends, friend);
+				}
+
+				Assert.IsFalse(vengine.IsValid(p));
+
+				tx.Rollback();
+			}
+
+			CleanUp();
 		}
 	}
 }

@@ -26,7 +26,7 @@ namespace NHibernate.Validator.Tests.DeepIntegration
 
 		protected override void AddToCollection(ICollection<Person> collection, Person person)
 		{
-			((ISet<Person>) collection).Add(person);
+			collection.Add(person);
 		}
 
 		protected override ICollection<Person> GCreateCollection()

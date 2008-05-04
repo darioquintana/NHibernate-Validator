@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using NHibernate.Collection;
 using NUnit.Framework;
 
 namespace NHibernate.Validator.Tests.DeepIntegration
@@ -14,7 +15,11 @@ namespace NHibernate.Validator.Tests.DeepIntegration
 
 		protected override void AddToCollection(ICollection collection, Person person)
 		{
-			((ArrayList) collection).Add(person);
+			PersistentList concrete = collection as PersistentList;
+			if (concrete != null)
+				concrete.Add(person);
+			else
+				((ArrayList)collection).Add(person);
 		}
 
 		protected override ICollection CreateCollection()

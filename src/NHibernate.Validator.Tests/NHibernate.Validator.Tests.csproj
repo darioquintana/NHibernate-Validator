@@ -83,6 +83,8 @@
     <Compile Include="Configuration\RuleAttributeFactoryFixture.cs" />
     <Compile Include="Configuration\WellKnownRules.cs" />
     <Compile Include="DeepIntegration\AbstractMultipleCollectionFixture.cs" />
+    <Compile Include="DeepIntegration\DynaEntity.cs" />
+    <Compile Include="DeepIntegration\DynamicComponentFixture.cs" />
     <Compile Include="DeepIntegration\MultipleBagFetchFixture.cs" />
     <Compile Include="DeepIntegration\MultipleListFetchFixture.cs" />
     <Compile Include="DeepIntegration\MultipleSetFetchFixture.cs" />
@@ -309,6 +311,7 @@
     <EmbeddedResource Include="DeepIntegration\PersonBag.hbm.xml" />
     <EmbeddedResource Include="DeepIntegration\PersonList.hbm.xml" />
     <EmbeddedResource Include="DeepIntegration\PersonSet.hbm.xml" />
+    <EmbeddedResource Include="DeepIntegration\DynaEntity.hbm.xml" />
     <Content Include="nhvalidator.cfg.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
