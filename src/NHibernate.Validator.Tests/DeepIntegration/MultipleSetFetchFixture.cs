@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Iesi.Collections;
 using NHibernate.Validator.Tests.DeepIntegration;
 using NUnit.Framework;
+using Iesi.Collections.Generic;
 
 namespace NHibernate.Validator.Tests.DeepIntegration
 {
@@ -27,12 +28,12 @@ namespace NHibernate.Validator.Tests.DeepIntegration
 
 		protected override void AddToCollection(ICollection<Person> collection, Person person)
 		{
-			throw new NotImplementedException();
+			((ISet<Person>) collection).Add(person);
 		}
 
 		protected override ICollection<Person> GCreateCollection()
 		{
-			throw new NotImplementedException();
+			return new HashedSet<Person>();
 		}
 	}
 }

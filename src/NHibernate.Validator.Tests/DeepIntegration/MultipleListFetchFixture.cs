@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using NHibernate.Validator.Tests.DeepIntegration;
 using NUnit.Framework;
 
 namespace NHibernate.Validator.Tests.DeepIntegration
@@ -26,12 +24,12 @@ namespace NHibernate.Validator.Tests.DeepIntegration
 
 		protected override void AddToCollection(ICollection<Person> collection, Person person)
 		{
-			throw new NotImplementedException();
+			collection.Add(person);
 		}
 
 		protected override ICollection<Person> GCreateCollection()
 		{
-			throw new NotImplementedException();
+			return new List<Person>();
 		}
 	}
 }
