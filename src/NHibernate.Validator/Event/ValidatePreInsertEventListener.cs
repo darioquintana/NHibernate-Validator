@@ -102,17 +102,19 @@ namespace NHibernate.Validator.Event
 					IGetter getter = accesor.GetGetter(element.EntityType, property.Name);
 
 					IClassValidator validator = Engine.GetClassValidator(getter.ReturnType);
-
-					ValidatableElement subElement = new ValidatableElement(getter.ReturnType, validator, getter);
-
-					foreach (Property currentProperty in component.PropertyIterator)
+					if (validator != null)
 					{
-						AddSubElement(currentProperty, subElement);
-					}
+						ValidatableElement subElement = new ValidatableElement(getter.ReturnType, validator, getter);
 
-					if (subElement.HasSubElements || subElement.Validator.HasValidationRules)
-					{
-						element.AddSubElement(subElement);
+						foreach (Property currentProperty in component.PropertyIterator)
+						{
+							AddSubElement(currentProperty, subElement);
+						}
+
+						if (subElement.HasSubElements || subElement.Validator.HasValidationRules)
+						{
+							element.AddSubElement(subElement);
+						}
 					}
 				}
 			}

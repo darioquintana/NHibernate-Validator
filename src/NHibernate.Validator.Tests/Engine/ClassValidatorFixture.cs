@@ -44,5 +44,11 @@ namespace NHibernate.Validator.Tests.Engine
 			}
 		}
 
+		[Test, ExpectedException(typeof(ArgumentOutOfRangeException))]
+		public void CrazyUseOrNHVFault()
+		{
+			// In case of NHV we are prevent unecessary validations
+			new ClassValidator(typeof(string));
+		}
 	}
 }

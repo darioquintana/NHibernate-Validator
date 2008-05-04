@@ -162,6 +162,9 @@ namespace NHibernate.Validator.Tests.Engine
 			Assert.AreEqual(0, ve.Validate(new AnyClass()).Length);
 			Assert.AreEqual(0, ve.ValidatePropertyValue<AnyClass>("aprop", new AnyClass()).Length);
 			Assert.AreEqual(0, ve.ValidatePropertyValue(new AnyClass(), "aprop").Length);
+
+			Assert.AreEqual(0, ve.Validate("always valid").Length);
+			Assert.AreEqual(0, ve.ValidatePropertyValue("always valid", "Length").Length);
 		}
 
 		[Test]

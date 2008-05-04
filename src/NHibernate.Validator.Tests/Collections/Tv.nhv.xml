@@ -15,8 +15,12 @@
 		<property name="movies">
 			<valid/>
 		</property>
-		<property name="invertshows">
+		<property name="validatableInKey">
 			<valid/>
+		</property>
+		<property name="dontNeedDeepValidation">
+			<valid/>
+			<size max="1"/>
 		</property>
 	</class>
 </nhv-mapping>

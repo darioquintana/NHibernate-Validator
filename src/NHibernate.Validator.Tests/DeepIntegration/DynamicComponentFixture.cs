@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace NHibernate.Validator.Tests.DeepIntegration
 {
-	[TestFixture, Ignore("Not supported yet.")]
+	[TestFixture]
 	public class DynamicComponentFixture : PersistenceTest
 	{
 		protected override IList Mappings

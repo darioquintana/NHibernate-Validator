@@ -27,6 +27,16 @@ namespace NHibernate.Validator.Tests.Collections
 			InvalidValue[] values = validator.GetInvalidValues(tv);
 			Assert.AreEqual(1, values.Length);
 			Assert.AreEqual("presenters[1].name", values[0].PropertyPath);
+			tv.presenters.Clear();
+
+			tv.dontNeedDeepValidation = new List<string>();
+			tv.dontNeedDeepValidation.Add("something");
+			values = validator.GetInvalidValues(tv);
+			Assert.AreEqual(0, values.Length);
+			tv.dontNeedDeepValidation.Add("something else");
+			values = validator.GetInvalidValues(tv);
+			Assert.AreEqual(1, values.Length);
+			Assert.AreEqual("dontNeedDeepValidation", values[0].PropertyPath);
 		}
 
 		/// <summary>
@@ -53,16 +63,12 @@ namespace NHibernate.Validator.Tests.Collections
 			//Inverted dictionary
 			tv = new Tv();
 			tv.name = "France 2";
-			showOk = new Show();
-			showOk.name = "Tout le monde en parle";
-			showNok = new Show();
-			showNok.name = null;
-			tv.invertshows = new Dictionary<Show, string>();
-			tv.invertshows.Add(showOk, "Midnight");
-			tv.invertshows.Add(showNok, "Primetime");
+			tv.validatableInKey = new Dictionary<Simple, string>();
+			tv.validatableInKey.Add(new Simple("Exalibur"), "Coll1");
+			tv.validatableInKey.Add(new Simple(), "Coll2");
 			values = validator.GetInvalidValues(tv);
 			Assert.AreEqual(1, values.Length);
-			Assert.AreEqual("invertshows[null].name", values[0].PropertyPath);
+			Assert.AreEqual("validatableInKey[null].name", values[0].PropertyPath);
 		}
 
 		/// <summary>

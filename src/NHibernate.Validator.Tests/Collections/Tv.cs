@@ -12,12 +12,14 @@ namespace NHibernate.Validator.Tests.Collections
 		public IList<Presenter> presenters = new List<Presenter>();
 
 		[Valid] 
-		public IDictionary<String, Show> shows = new Dictionary<String, Show>();
+		public IDictionary<string, Show> shows = new Dictionary<String, Show>();
 
-		[Valid] 
-		public IDictionary<Show, string> invertshows;
+		[Valid]
+		public IDictionary<Simple, string> validatableInKey;
 
 		[Valid]
 		public Movie[] movies;
+
+		[Valid, Size(Max = 1)] public IList<string> dontNeedDeepValidation;
 	}
 }

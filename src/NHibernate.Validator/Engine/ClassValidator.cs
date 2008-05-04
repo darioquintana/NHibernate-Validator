@@ -25,7 +25,6 @@ namespace NHibernate.Validator.Engine
 	public class ClassValidator : IClassValidator, IClassValidatorImplementor
 	{
 		private static readonly ILog log = LogManager.GetLogger(typeof(ClassValidator));
-
 		private readonly System.Type beanClass;
 
 		private readonly Dictionary<MemberInfo, List<Attribute>> membersAttributesDictionary =
@@ -82,6 +81,9 @@ namespace NHibernate.Validator.Engine
 
 		internal ClassValidator(System.Type clazz, IDictionary<System.Type, IClassValidator> childClassValidators, IClassValidatorFactory factory)
 		{
+			if (!ShouldNeedValidation(clazz))
+				throw new ArgumentOutOfRangeException("clazz", "Create a validator for a System class.");
+
 			beanClass = clazz;
 			this.factory = factory;
 			messageBundle = factory.ResourceManager ?? GetDefaultResourceManager();
@@ -93,6 +95,11 @@ namespace NHibernate.Validator.Engine
 
 			//Initialize the ClassValidator
 			InitValidator(beanClass, childClassValidators);
+		}
+
+		internal static bool ShouldNeedValidation(System.Type clazz)
+		{
+			return !clazz.FullName.StartsWith("System");
 		}
 
 		/// <summary>
@@ -351,21 +358,27 @@ namespace NHibernate.Validator.Engine
 					object keyValue = KeyProperty.Get(item);
 					string indexedPropName = string.Format("{0}[{1}]", member.Name, keyValue);
 
-					InvalidValue[] invalidValuesKey =
-						GetClassValidator(ValueProperty.ReturnType).GetInvalidValues(valueValue, circularityState);
-
-					foreach (InvalidValue invalidValue in invalidValuesKey)
+					if (ShouldNeedValidation(ValueProperty.ReturnType))
 					{
-						invalidValue.AddParentBean(bean, indexedPropName);
-						results.Add(invalidValue);
+						InvalidValue[] invalidValuesKey =
+							GetClassValidator(ValueProperty.ReturnType).GetInvalidValues(valueValue, circularityState);
+
+						foreach (InvalidValue invalidValue in invalidValuesKey)
+						{
+							invalidValue.AddParentBean(bean, indexedPropName);
+							results.Add(invalidValue);
+						}
 					}
 
-					InvalidValue[] invalidValuesValue =
-						GetClassValidator(KeyProperty.ReturnType).GetInvalidValues(keyValue, circularityState);
-					foreach (InvalidValue invalidValue in invalidValuesValue)
+					if (ShouldNeedValidation(KeyProperty.ReturnType))
 					{
-						invalidValue.AddParentBean(bean, indexedPropName);
-						results.Add(invalidValue);
+						InvalidValue[] invalidValuesValue =
+							GetClassValidator(KeyProperty.ReturnType).GetInvalidValues(keyValue, circularityState);
+						foreach (InvalidValue invalidValue in invalidValuesValue)
+						{
+							invalidValue.AddParentBean(bean, indexedPropName);
+							results.Add(invalidValue);
+						}
 					}
 				}
 			}
@@ -380,17 +393,20 @@ namespace NHibernate.Validator.Engine
 						continue;
 					}
 
-					InvalidValue[] invalidValues = GetClassValidator(item.GetType()).GetInvalidValues(item, circularityState);
-
-					String indexedPropName = string.Format("{0}[{1}]", member.Name, index);
-
-					index++;
-
-					foreach (InvalidValue invalidValue in invalidValues)
+					System.Type itemType = item.GetType();
+					if (ShouldNeedValidation(itemType))
 					{
-						invalidValue.AddParentBean(bean, indexedPropName);
-						results.Add(invalidValue);
+						InvalidValue[] invalidValues = GetClassValidator(itemType).GetInvalidValues(item, circularityState);
+
+						String indexedPropName = string.Format("{0}[{1}]", member.Name, index);
+
+						foreach (InvalidValue invalidValue in invalidValues)
+						{
+							invalidValue.AddParentBean(bean, indexedPropName);
+							results.Add(invalidValue);
+						}
 					}
+					index++;
 				}
 			}
 		}
@@ -514,9 +530,9 @@ namespace NHibernate.Validator.Engine
 			if (TypeUtils.IsGenericDictionary(TypeUtils.GetType(member)))
 			{
 				clazzDictionary = TypeUtils.GetGenericTypesOfDictionary(member);
-				if (!childClassValidators.ContainsKey(clazzDictionary.Key))
+				if (ShouldNeedValidation(clazzDictionary.Key) && !childClassValidators.ContainsKey(clazzDictionary.Key))
 					factory.GetChildValidator(this, clazzDictionary.Key);
-				if (!childClassValidators.ContainsKey(clazzDictionary.Value))
+				if (ShouldNeedValidation(clazzDictionary.Value) && !childClassValidators.ContainsKey(clazzDictionary.Value))
 					factory.GetChildValidator(this, clazzDictionary.Value);
 
 				return;
@@ -526,7 +542,7 @@ namespace NHibernate.Validator.Engine
 				clazz = TypeUtils.GetTypeOfMember(member);
 			}
 
-			if (!childClassValidators.ContainsKey(clazz))
+			if (ShouldNeedValidation(clazz) && !childClassValidators.ContainsKey(clazz))
 			{
 				factory.GetChildValidator(this, clazz);
 			}

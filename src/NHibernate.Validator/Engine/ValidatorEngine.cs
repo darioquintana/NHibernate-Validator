@@ -220,7 +220,12 @@ namespace NHibernate.Validator.Engine
 			if (entity == null) 
 				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
 
-			ValidatableElement element = GetElementOrNew(entity.GetType());
+			System.Type entityType = entity.GetType();
+
+			if (!ClassValidator.ShouldNeedValidation(entityType))
+				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
+
+			ValidatableElement element = GetElementOrNew(entityType);
 
 			List<InvalidValue> result = new List<InvalidValue>();
 			ValidateSubElements(element, entity, result);
@@ -304,8 +309,13 @@ namespace NHibernate.Validator.Engine
 		{
 			if (entity == null)
 				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
+			
+			System.Type entityType = entity.GetType();
 
-			ValidatableElement element = GetElementOrNew(entity.GetType());
+			if (!ClassValidator.ShouldNeedValidation(entityType))
+				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
+
+			ValidatableElement element = GetElementOrNew(entityType);
 
 			return element.Validator.GetInvalidValues(entity, propertyName);
 		}
@@ -398,12 +408,18 @@ namespace NHibernate.Validator.Engine
 		/// add it to the engine.
 		/// </summary>
 		/// <param name="entityType">The given <see cref="System.Type"/>.</param>
-		/// <returns>A validator for a <see cref="System.Type"/>.</returns>
+		/// <returns>
+		/// A validator for a <see cref="System.Type"/> or null if the <paramref name="entityType"/>
+		/// is not supported by <see cref="ClassValidator"/>.
+		/// </returns>
 		/// <remarks>
 		/// In general a common application don't need to use this method but it can be useful for some kind of framework.
 		/// </remarks>
 		public IClassValidator GetClassValidator(System.Type entityType)
 		{
+			if (!ClassValidator.ShouldNeedValidation(entityType))
+				return null;
+
 			return factory.GetRootValidator(entityType);
 		}
 

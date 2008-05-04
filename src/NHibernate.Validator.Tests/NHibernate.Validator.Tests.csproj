@@ -76,6 +76,7 @@
     <Compile Include="Base\CreditCard.cs" />
     <Compile Include="Base\LuhnTest.cs" />
     <Compile Include="Base\LuhnTestXml.cs" />
+    <Compile Include="Collections\Simple.cs" />
     <Compile Include="Collections\XmlCollectionFixture.cs" />
     <Compile Include="Configuration\ACustomAttribute.cs" />
     <Compile Include="Configuration\ACustomValidator.cs" />
@@ -312,6 +313,7 @@
     <EmbeddedResource Include="DeepIntegration\PersonList.hbm.xml" />
     <EmbeddedResource Include="DeepIntegration\PersonSet.hbm.xml" />
     <EmbeddedResource Include="DeepIntegration\DynaEntity.hbm.xml" />
+    <EmbeddedResource Include="Collections\Simple.nhv.xml" />
     <Content Include="nhvalidator.cfg.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
