@@ -1,16 +1,19 @@
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Resources;
+using System.Runtime.Serialization;
 using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Cfg.MappingSchema;
 
 namespace NHibernate.Validator.Engine
 {
+	[Serializable]
 	internal class StateFullClassValidatorFactory : AbstractClassValidatorFactory
 	{
 		private static readonly IClassMappingFactory defaultClassMappingFactory = new JITClassMappingFactory();
 
-		private IClassMappingFactory classMappingFactory = defaultClassMappingFactory;
+		[NonSerialized] private IClassMappingFactory classMappingFactory = defaultClassMappingFactory;
 		private readonly Dictionary<System.Type, IClassValidator> validators = new Dictionary<System.Type, IClassValidator>();
 
 		public StateFullClassValidatorFactory(ResourceManager resourceManager, CultureInfo culture, IMessageInterpolator userInterpolator, ValidatorMode validatorMode) 
@@ -65,6 +68,12 @@ namespace NHibernate.Validator.Engine
 		public IDictionary<System.Type, IClassValidator> Validators
 		{
 			get { return validators; }
+		}
+
+		[OnDeserialized]
+		private void DeserializationCallBack(StreamingContext context)
+		{
+			classMappingFactory = defaultClassMappingFactory;
 		}
 	}
 }

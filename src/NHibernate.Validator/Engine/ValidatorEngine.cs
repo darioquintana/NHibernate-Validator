@@ -22,6 +22,7 @@ namespace NHibernate.Validator.Engine
 	/// </remarks>
 	/// <seealso cref="Cfg.Environment"/>
 	/// <seealso cref="ISharedEngineProvider"/>.
+	[Serializable]
 	public class ValidatorEngine
 	{
 		private static readonly ILog log = LogManager.GetLogger(typeof(ValidatorEngine));

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Iesi.Collections.Generic;
 using NHibernate.Properties;
-using NHibernate.Validator.Exceptions;
 
 namespace NHibernate.Validator.Engine
 {
@@ -13,7 +12,7 @@ namespace NHibernate.Validator.Engine
 	public class ValidatableElement
 	{
 		private readonly System.Type entityType;
-		private readonly IGetter getter; // TODO : the getter is not serializable
+		private readonly IGetter getter;
 		private readonly HashedSet<ValidatableElement> subElements = new HashedSet<ValidatableElement>();
 		private readonly IClassValidator validator;
 

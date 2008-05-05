@@ -1,8 +1,10 @@
 using System.Globalization;
 using System.Resources;
+using System;
 
 namespace NHibernate.Validator.Engine
 {
+	[Serializable]
 	internal abstract class AbstractClassValidatorFactory : IClassValidatorFactory
 	{
 		private readonly ResourceManager resourceManager;
