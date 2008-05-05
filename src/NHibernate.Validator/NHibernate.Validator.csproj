@@ -88,6 +88,8 @@
     <Compile Include="Exceptions\AssertionFailureException.cs" />
     <Compile Include="Exceptions\InvalidAttributeNameException.cs" />
     <Compile Include="Exceptions\InvalidPropertyNameException.cs" />
+    <Compile Include="FileExistsAttribute.cs" />
+    <Compile Include="FileExistsValidator.cs" />
     <Compile Include="FutureAttribute.cs" />
     <Compile Include="FutureValidator.cs" />
     <Compile Include="Exceptions\HibernateValidatorException.cs" />

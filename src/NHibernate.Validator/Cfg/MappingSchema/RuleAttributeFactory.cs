@@ -24,7 +24,6 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			wellKnownRules[typeof(NhvmSize)] = ConvertToSize;
 			wellKnownRules[typeof(NhvmFuture)] = ConvertToFuture;
 			wellKnownRules[typeof(NhvmPast)] = ConvertToPast;
-			wellKnownRules[typeof(NhvmValid)] = ConvertToValid;
 			wellKnownRules[typeof(NhvmEmail)] = ConvertToEmail;
 			wellKnownRules[typeof(NhvmRange)] = ConvertToRange;
 			wellKnownRules[typeof(NhvmMin)] = ConvertToMin;
@@ -37,6 +36,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			wellKnownRules[typeof(NhvmDigits)] = ConvertToDigits;
 			wellKnownRules[typeof(NhvmCreditcardnumber)] = ConvertToCreditCardNumber;
 			wellKnownRules[typeof(NhvmEan)] = ConvertToEAN;
+			wellKnownRules[typeof(NhvmFileexists)] = ConvertToFileExists;
 		}
 
 		public static Attribute CreateAttributeFromRule(object rule, string defaultAssembly, string defaultNameSpace)
@@ -321,12 +321,6 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			return thisAttribute;
 		}
 
-		private static Attribute ConvertToValid(XmlNhvmRuleConverterArgs rule)
-		{
-			log.Info("Converting to valid attribute");
-			return new ValidAttribute();
-		}
-
 		private static Attribute ConvertToPast(XmlNhvmRuleConverterArgs rule)
 		{
 			NhvmPast pastRule = (NhvmPast)rule.schemaRule;
@@ -352,6 +346,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 
 			return thisAttribute;
 		}
+
 
 		private static Attribute ConvertToSize(XmlNhvmRuleConverterArgs rule)
 		{
@@ -464,6 +459,20 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			if (notNullRule.message != null)
 			{
 				thisAttribute.Message = notNullRule.message;
+			}
+
+			return thisAttribute;
+		}
+
+
+		private static Attribute ConvertToFileExists(XmlNhvmRuleConverterArgs rule)
+		{
+			NhvmFileexists fileExistsRule = (NhvmFileexists)rule.schemaRule;
+			log.Info("Converting to file exists attribute");
+			FileExistsAttribute thisAttribute = new FileExistsAttribute();
+			if (fileExistsRule.message != null)
+			{
+				thisAttribute.Message = fileExistsRule.message;
 			}
 
 			return thisAttribute;

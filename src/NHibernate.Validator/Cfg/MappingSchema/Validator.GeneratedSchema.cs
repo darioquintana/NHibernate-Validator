@@ -17,6 +17,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
         [System.Xml.Serialization.XmlElementAttribute("digits", typeof(NhvmDigits))]
         [System.Xml.Serialization.XmlElementAttribute("ean", typeof(NhvmEan))]
         [System.Xml.Serialization.XmlElementAttribute("email", typeof(NhvmEmail))]
+        [System.Xml.Serialization.XmlElementAttribute("fileexists", typeof(NhvmFileexists))]
         [System.Xml.Serialization.XmlElementAttribute("future", typeof(NhvmFuture))]
         [System.Xml.Serialization.XmlElementAttribute("ipAddress", typeof(NhvmIpAddress))]
         [System.Xml.Serialization.XmlElementAttribute("length", typeof(NhvmLength))]
@@ -30,7 +31,6 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
         [System.Xml.Serialization.XmlElementAttribute("range", typeof(NhvmRange))]
         [System.Xml.Serialization.XmlElementAttribute("rule", typeof(NhvmRule))]
         [System.Xml.Serialization.XmlElementAttribute("size", typeof(NhvmSize))]
-        [System.Xml.Serialization.XmlElementAttribute("valid", typeof(NhvmValid))]
         public object[] Items;
         
         /// <remarks/>
@@ -128,6 +128,20 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-1.0")]
     [System.Xml.Serialization.XmlRootAttribute("email", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
     public partial class NhvmEmail {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string message;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-1.0")]
+    [System.Xml.Serialization.XmlRootAttribute("fileexists", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
+    public partial class NhvmFileexists {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -408,16 +422,6 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string message;
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-1.0")]
-    [System.Xml.Serialization.XmlRootAttribute("valid", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
-    public partial class NhvmValid {
     }
     
     /// <remarks/>
