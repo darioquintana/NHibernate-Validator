@@ -6,6 +6,7 @@ namespace NHibernate.Validator
 	/// <summary>
 	/// Min restriction on a numeric annotated elemnt (or the string representation of a numeric)
 	/// </summary>
+	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof (MinValidator))]
 	public class MinAttribute : Attribute, IRuleArgs

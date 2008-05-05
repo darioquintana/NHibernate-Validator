@@ -3,6 +3,7 @@ using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
+	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof (CreditCardNumberValidator))]
 	public class CreditCardNumberAttribute : Attribute, IRuleArgs

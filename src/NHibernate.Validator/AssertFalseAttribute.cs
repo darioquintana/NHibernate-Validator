@@ -6,6 +6,7 @@ namespace NHibernate.Validator
 	/// <summary>
 	/// The annotated element has to be false
 	/// </summary>
+	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof(AssertFalseValidator))]
 	public class AssertFalseAttribute : Attribute, IRuleArgs

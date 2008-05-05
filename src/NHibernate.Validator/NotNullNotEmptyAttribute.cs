@@ -6,12 +6,12 @@ namespace NHibernate.Validator
 	/// <summary>
 	/// Not empty and not null constraint
 	/// </summary>
+	[Serializable]
 	[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
 	[ValidatorClass(typeof(NotNullNotEmptyValidator))]
 	public class NotNullNotEmptyAttribute : Attribute, IRuleArgs
 	{
 		private string message = "{validator.notNullNotEmpty}";
-		#region IHasMessage Members
 
 		/// <summary>
 		/// The message to be sent to the user if it is not valid
@@ -21,7 +21,5 @@ namespace NHibernate.Validator
 			get { return message; }
 			set { message = value; }
 		}
-
-		#endregion
 	}
 }

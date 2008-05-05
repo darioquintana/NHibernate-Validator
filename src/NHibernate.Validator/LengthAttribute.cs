@@ -6,6 +6,7 @@ namespace NHibernate.Validator
 	/// <summary>
 	/// Apply some length restrictions to the annotated element. It has to be a string
 	/// </summary>
+	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof(LengthValidator))]
 	public class LengthAttribute : Attribute, IRuleArgs

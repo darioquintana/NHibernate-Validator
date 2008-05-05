@@ -6,6 +6,7 @@ namespace NHibernate.Validator
 	/// <summary>
 	/// The string has to be a well-formed email address
 	/// </summary>
+	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof (EmailValidator))]
 	public class EmailAttribute : Attribute, IRuleArgs

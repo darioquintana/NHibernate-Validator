@@ -7,6 +7,7 @@ namespace NHibernate.Validator
 	/// The annotated elemnt has to be in the appropriate range. Apply on numeric values or string
 	/// representation of the numeric value.
 	/// </summary>
+	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof(RangeValidator))]
 	public class RangeAttribute : Attribute, IRuleArgs

@@ -7,6 +7,7 @@ namespace NHibernate.Validator
 	/// <summary>
 	/// The annotated element must follow the regex pattern
 	/// </summary>
+	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true)]
 	[ValidatorClass(typeof (PatternValidator))]
 	public class PatternAttribute : Attribute, IRuleArgs

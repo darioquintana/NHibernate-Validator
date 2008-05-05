@@ -8,6 +8,7 @@ namespace NHibernate.Validator
 	/// which aims to check for user mistake, not actual number validity!
 	/// http://en.wikipedia.org/wiki/European_Article_Number
 	/// </summary>
+	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof (EANValidator))]
 	public class EANAttribute : Attribute, IRuleArgs

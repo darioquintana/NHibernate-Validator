@@ -6,6 +6,7 @@ namespace NHibernate.Validator
 	/// <summary>
 	/// Check that a Date representation apply in the past
 	/// </summary>
+	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof(PastValidator))]
 	public class PastAttribute : Attribute, IRuleArgs

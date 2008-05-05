@@ -6,6 +6,7 @@ namespace NHibernate.Validator
 	/// <summary>
 	/// Size range for Arrays, Collections
 	/// </summary>
+	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof (SizeValidator))]
 	public class SizeAttribute : Attribute, IRuleArgs

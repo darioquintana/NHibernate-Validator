@@ -3,6 +3,7 @@ using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
+	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof(DigitsValidator))]
 	public class DigitsAttribute : Attribute, IRuleArgs

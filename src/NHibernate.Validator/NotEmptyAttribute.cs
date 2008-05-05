@@ -10,6 +10,7 @@ namespace NHibernate.Validator
 	/// <remarks>
 	/// To validate for NotNull and Not Empty use NotNullNotEmptyAttribute.
 	/// </remarks>
+	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof(NotEmptyValidator))]
 	public class NotEmptyAttribute : Attribute, IRuleArgs
