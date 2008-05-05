@@ -5,6 +5,7 @@ using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
+	[Serializable]
 	public class MinValidator : IInitializableValidator<MinAttribute>, IPropertyConstraint
 	{
 		private double limit;

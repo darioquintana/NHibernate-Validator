@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace NHibernate.Validator
 {
+	[Serializable]
 	public abstract class AbstractLuhnValidator
 	{
 		private const string pattern = @"\d*$";

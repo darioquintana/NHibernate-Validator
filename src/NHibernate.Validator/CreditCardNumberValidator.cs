@@ -1,7 +1,9 @@
+using System;
 using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
+	[Serializable]
 	public class CreditCardNumberValidator : AbstractLuhnValidator, IValidator
 	{
 		public override int Multiplicator

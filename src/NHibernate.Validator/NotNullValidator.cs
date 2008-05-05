@@ -1,8 +1,10 @@
+using System;
 using NHibernate.Mapping;
 using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
+	[Serializable]
 	public class NotNullValidator : IValidator, IPropertyConstraint
 	{
 		public virtual bool IsValid(object value)

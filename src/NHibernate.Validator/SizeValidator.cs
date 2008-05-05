@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
+	[Serializable]
 	public class SizeValidator : IInitializableValidator<SizeAttribute>
 	{
 		private int max;

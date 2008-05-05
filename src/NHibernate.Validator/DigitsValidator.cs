@@ -4,6 +4,7 @@ using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
+	[Serializable]
 	public class DigitsValidator : IInitializableValidator<DigitsAttribute>
 	{
 		int integerDigits;

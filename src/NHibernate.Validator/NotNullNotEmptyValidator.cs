@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 
 namespace NHibernate.Validator
@@ -5,6 +6,7 @@ namespace NHibernate.Validator
 	/// <summary>
 	/// Validator for any kind of IEnumerable (including string)
 	/// </summary>
+	[Serializable]
 	public class NotNullNotEmptyValidator : NotNullValidator
 	{
 		public override bool IsValid(object value)

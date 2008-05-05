@@ -1,11 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
-using NHibernate.Validator.Engine;
 using System.IO;
+using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
+	[Serializable]
 	public class FileExistsValidator : IValidator
 	{
 		public bool IsValid(object value)

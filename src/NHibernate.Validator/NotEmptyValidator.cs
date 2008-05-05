@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
+	[Serializable]
 	public class NotEmptyValidator : IValidator
 	{
 		public bool IsValid(object value)

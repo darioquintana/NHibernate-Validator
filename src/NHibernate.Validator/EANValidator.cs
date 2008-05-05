@@ -9,6 +9,7 @@ namespace NHibernate.Validator
 	/// Validate EAN13 and UPC-A
 	/// http://en.wikipedia.org/wiki/European_Article_Number
 	/// </summary>
+	[Serializable]
 	public class EANValidator : IValidator
 	{
 		private const string pattern = @"\d*$";

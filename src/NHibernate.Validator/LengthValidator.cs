@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using NHibernate.Mapping;
 using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
+	[Serializable]
 	public class LengthValidator : IInitializableValidator<LengthAttribute>, IPropertyConstraint
 	{
 		private int min;

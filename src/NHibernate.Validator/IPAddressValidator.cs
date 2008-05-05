@@ -1,8 +1,10 @@
+using System;
 using System.Net;
 using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
+	[Serializable]
 	public class IPAddressValidator : IValidator
 	{
 		public bool IsValid(object value)
