@@ -79,6 +79,9 @@
     <Compile Include="Base\CreditCard.cs" />
     <Compile Include="Base\LuhnTest.cs" />
     <Compile Include="Base\LuhnTestXml.cs" />
+    <Compile Include="Base\WebImage.cs" />
+    <Compile Include="Base\WebImageFixture.cs" />
+    <Compile Include="Base\WebImageFixtureXml.cs" />
     <Compile Include="Collections\Simple.cs" />
     <Compile Include="Collections\XmlCollectionFixture.cs" />
     <Compile Include="Configuration\ACustomAttribute.cs" />
@@ -324,6 +327,7 @@
     <EmbeddedResource Include="DeepIntegration\PersonSet.hbm.xml" />
     <EmbeddedResource Include="DeepIntegration\DynaEntity.hbm.xml" />
     <EmbeddedResource Include="Collections\Simple.nhv.xml" />
+    <EmbeddedResource Include="Base\WebImage.nhv.xml" />
     <Content Include="nhvalidator.cfg.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
