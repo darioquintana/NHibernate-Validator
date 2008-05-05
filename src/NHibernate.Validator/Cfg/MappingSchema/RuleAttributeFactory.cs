@@ -37,6 +37,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			wellKnownRules[typeof(NhvmCreditcardnumber)] = ConvertToCreditCardNumber;
 			wellKnownRules[typeof(NhvmEan)] = ConvertToEAN;
 			wellKnownRules[typeof(NhvmFileexists)] = ConvertToFileExists;
+			wellKnownRules[typeof(NhvmValid)] = ConvertToValid;
 		}
 
 		public static Attribute CreateAttributeFromRule(object rule, string defaultAssembly, string defaultNameSpace)
@@ -99,6 +100,12 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			}
 
 			return thisAttribute;
+		}
+
+		private static Attribute ConvertToValid(XmlNhvmRuleConverterArgs rule)
+		{
+			ValidAttribute validAttribute = new ValidAttribute();
+			return validAttribute;
 		}
 
 		private static Attribute ConvertToRule(XmlNhvmRuleConverterArgs rule)

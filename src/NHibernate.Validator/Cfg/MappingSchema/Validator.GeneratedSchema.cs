@@ -31,6 +31,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
         [System.Xml.Serialization.XmlElementAttribute("range", typeof(NhvmRange))]
         [System.Xml.Serialization.XmlElementAttribute("rule", typeof(NhvmRule))]
         [System.Xml.Serialization.XmlElementAttribute("size", typeof(NhvmSize))]
+        [System.Xml.Serialization.XmlElementAttribute("valid", typeof(NhvmValid))]
         public object[] Items;
         
         /// <remarks/>
@@ -422,6 +423,16 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string message;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-1.0")]
+    [System.Xml.Serialization.XmlRootAttribute("valid", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
+    public partial class NhvmValid {
     }
     
     /// <remarks/>

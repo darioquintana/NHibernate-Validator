@@ -14,7 +14,6 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		[Test]
 		public void IsValid()
 		{
-
 			FileExistsValidator v = new FileExistsValidator();
 			try
 			{
