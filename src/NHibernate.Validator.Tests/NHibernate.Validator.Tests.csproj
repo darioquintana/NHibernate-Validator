@@ -161,7 +161,7 @@
     <Compile Include="Polimorphism\PolimorphismFixture.cs" />
     <Compile Include="Polimorphism\IContract.cs" />
     <Compile Include="ResourceFixture\ResourcesTest.cs" />
-    <Compile Include="Serialization\SerializationFixture.cs" />
+    <Compile Include="Serialization\XmlSerializationFixture.cs" />
     <Compile Include="Base\Suricato.cs" />
     <Compile Include="TestConfigurationHelper.cs" />
     <Compile Include="Base\Tv.cs" />

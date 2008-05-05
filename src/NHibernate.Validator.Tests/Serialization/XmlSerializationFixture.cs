@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace NHibernate.Validator.Tests.Serialization
 {
 	[TestFixture]
-	public class SerializationFixture : BaseValidatorFixture
+	public class XmlSerializationFixture : BaseValidatorFixture
 	{
 		[Test]
 		public void CanParseValidator()
