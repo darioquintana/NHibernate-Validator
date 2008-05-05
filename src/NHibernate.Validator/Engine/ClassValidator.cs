@@ -79,6 +79,19 @@ namespace NHibernate.Validator.Engine
 		public ClassValidator(System.Type beanClass, ResourceManager resourceManager, CultureInfo culture, ValidatorMode validatorMode)
 			: this(beanClass, new Dictionary<System.Type, IClassValidator>(), new JITClassValidatorFactory(resourceManager, culture, null, validatorMode)) {}
 
+		/// <summary>
+		/// Create the validator engine for a particular bean class, using a resource bundle
+		/// for message rendering on violation
+		/// </summary>
+		/// <param name="beanClass">bean type</param>
+		/// <param name="resourceManager"></param>
+		/// <param name="userInterpolator">Custom interpolator.</param>
+		/// <param name="culture">The CultureInfo for the <paramref name="beanClass"/>.</param>
+		/// <param name="validatorMode">Validator definition mode</param>
+		public ClassValidator(System.Type beanClass, ResourceManager resourceManager, IMessageInterpolator userInterpolator, CultureInfo culture, ValidatorMode validatorMode)
+			: this(beanClass, new Dictionary<System.Type, IClassValidator>(), new JITClassValidatorFactory(resourceManager, culture, userInterpolator, validatorMode)) { }
+
+
 		internal ClassValidator(System.Type clazz, IDictionary<System.Type, IClassValidator> childClassValidators, IClassValidatorFactory factory)
 		{
 			if (!ShouldNeedValidation(clazz))

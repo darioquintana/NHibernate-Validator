@@ -112,6 +112,8 @@
     <Compile Include="Mappings\XmlClassMappingFixture.cs" />
     <Compile Include="LoggerSpy.cs" />
     <Compile Include="NHVAssert.cs" />
+    <Compile Include="SerializationHelper.cs" />
+    <Compile Include="Serialization\ClassValidatorSerialization.cs" />
     <Compile Include="Serialization\ValidatorsSerializationFixture.cs" />
     <Compile Include="Utils\AttributeUtilsFixture.cs" />
     <Compile Include="Utils\TypeUtilsFixture.cs" />
