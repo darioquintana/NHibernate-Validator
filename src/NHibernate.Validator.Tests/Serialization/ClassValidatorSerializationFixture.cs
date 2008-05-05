@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace NHibernate.Validator.Tests.Serialization
 {
 	[TestFixture]
-	public class ClassValidatorSerialization
+	public class ClassValidatorSerializationFixture
 	{
 		[Test]
 		public void IsSerializable()
