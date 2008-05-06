@@ -45,7 +45,11 @@ namespace NHibernate.Validator.Demo.Winforms
 			this.label6 = new System.Windows.Forms.Label();
 			this.listBox1 = new System.Windows.Forms.ListBox();
 			this.label7 = new System.Windows.Forms.Label();
+			this.UseAttributes = new System.Windows.Forms.RadioButton();
+			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.UseXml = new System.Windows.Forms.RadioButton();
 			((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
+			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// btnSend
@@ -178,11 +182,45 @@ namespace NHibernate.Validator.Demo.Winforms
 			this.label7.TabIndex = 14;
 			this.label7.Text = "Errors List";
 			// 
+			// UseAttributes
+			// 
+			this.UseAttributes.AutoSize = true;
+			this.UseAttributes.Checked = true;
+			this.UseAttributes.Location = new System.Drawing.Point(70, 24);
+			this.UseAttributes.Name = "UseAttributes";
+			this.UseAttributes.Size = new System.Drawing.Size(91, 17);
+			this.UseAttributes.TabIndex = 15;
+			this.UseAttributes.TabStop = true;
+			this.UseAttributes.Text = "Use Attributes";
+			this.UseAttributes.UseVisualStyleBackColor = true;
+			// 
+			// groupBox1
+			// 
+			this.groupBox1.Controls.Add(this.UseXml);
+			this.groupBox1.Controls.Add(this.UseAttributes);
+			this.groupBox1.Location = new System.Drawing.Point(361, 238);
+			this.groupBox1.Name = "groupBox1";
+			this.groupBox1.Size = new System.Drawing.Size(318, 58);
+			this.groupBox1.TabIndex = 16;
+			this.groupBox1.TabStop = false;
+			this.groupBox1.Text = "Validation mode";
+			// 
+			// UseXml
+			// 
+			this.UseXml.AutoSize = true;
+			this.UseXml.Location = new System.Drawing.Point(182, 24);
+			this.UseXml.Name = "UseXml";
+			this.UseXml.Size = new System.Drawing.Size(69, 17);
+			this.UseXml.TabIndex = 15;
+			this.UseXml.Text = "Use XML";
+			this.UseXml.UseVisualStyleBackColor = true;
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(738, 308);
+			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.label7);
 			this.Controls.Add(this.listBox1);
 			this.Controls.Add(this.txtPhone);
@@ -203,6 +241,8 @@ namespace NHibernate.Validator.Demo.Winforms
 			this.Name = "Form1";
 			this.Text = "NHibernate.Validator Demo";
 			((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
+			this.groupBox1.ResumeLayout(false);
+			this.groupBox1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -226,6 +266,9 @@ namespace NHibernate.Validator.Demo.Winforms
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.ListBox listBox1;
 		private System.Windows.Forms.Label label7;
+		private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.RadioButton UseXml;
+		private System.Windows.Forms.RadioButton UseAttributes;
 	}
 }
 

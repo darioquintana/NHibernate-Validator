@@ -1,29 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<validator xmlns="urn:nhibernate-validator-0.1">
-
-  <class name="Customer"
-         assembly="NHibernate.Validator.Demo.Winforms"
-         namespace=" NHibernate.Validator.Demo.Winforms.Model">
-
-
+<nhv-mapping xmlns="urn:nhibernate-validator-1.0">
+  <class name="NHibernate.Validator.Demo.Winforms.Model.Customer, NHibernate.Validator.Demo.Winforms">    
     <property name="FirstName">
       <not-empty/>
-      <not-null/>      
+      <not-null/>
     </property>
-
+    
     <property name="LastName">
       <not-empty/>
       <not-null/>
     </property>
-
-    <property name="Zip">
-          
-      
+    
+    <property name="Born">
+      <past/>
     </property>
     
+    <property name="Phone">
+      <rule attribute="NHibernate.Validator.Demo.Winforms.Model.PhoneAttribute, NHibernate.Validator.Demo.Winforms">
+        <param name="Message" value ="Wrong phone number. Examples of valid matches: 800-555-5555 | 333-444-5555 | 212-666-1234"/>
+      </rule>
+    </property>
+
+    <property name="Email">
+      <email/>
+    </property>
+
+    <property name="Zip">
+      <pattern  regex="^[A-Z0-9-]+$" message="Examples of valid matches: 234G-34DA | 3432-DF23"/>
+      <pattern  regex="^....-....$" message="Must match ....-...."/>
+    </property>    
     
-  </class>
-  
-  
-  
-</validator>
+  </class>  
+</nhv-mapping>

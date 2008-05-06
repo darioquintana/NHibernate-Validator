@@ -1,8 +1,10 @@
 using System;
 using System.Windows.Forms;
 using NHibernate.Validator.Binding;
+using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Demo.Winforms.Model;
 using NHibernate.Validator.Engine;
+using Environment=NHibernate.Validator.Cfg.Environment;
 
 namespace NHibernate.Validator.Demo.Winforms
 {
@@ -31,7 +33,13 @@ namespace NHibernate.Validator.Demo.Winforms
 		private void btnSend_Click(object sender, EventArgs e)
 		{
 			ValidatorEngine ve = vvtor.ValidatorEngine;
-			//ve.
+			ve.Clear();
+			NHVConfiguration nhvc = new NHVConfiguration();
+			nhvc.Properties[Environment.ApplyToDDL] = "false";
+			nhvc.Properties[Environment.AutoregisterListeners] = "false";
+			nhvc.Properties[Environment.ValidatorMode] = GetMode();
+			nhvc.Mappings.Add(new MappingConfiguration("NHibernate.Validator.Demo.Winforms",""));
+			ve.Configure(nhvc);
 
 			Customer customer = GetCustomerFromUI();
 
@@ -45,6 +53,17 @@ namespace NHibernate.Validator.Demo.Winforms
 				InvalidValue[] values = ve.Validate(customer);
 				FillErrorsOnListBox(values);
 			}
+		}
+
+		private string GetMode()
+		{
+			if (UseAttributes.Checked)
+				return "UseAttribute";
+
+			if (UseXml.Checked)
+				return "UseXml";
+
+			throw new InvalidOperationException();
 		}
 
 		private void FillErrorsOnListBox(InvalidValue[] values)
@@ -71,6 +90,7 @@ namespace NHibernate.Validator.Demo.Winforms
 			customer.LastName = txtLastName.Text.Trim();
 			customer.Zip = txtZip.Text.Trim();
 			customer.Born = dtpBorn.Value;
+			customer.Phone = txtPhone.Text.Trim();
 			return customer;
 		}
 	}

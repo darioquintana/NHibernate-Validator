@@ -39,7 +39,7 @@ namespace NHibernate.Validator.Demo.Winforms.Model
 			set { born = value; }
 		}
 
-		//Note: here you can use the [Pattern] attribute setting the parameters as Message and Regex to get the same behavior.
+		//This is a custom validator
 		[Phone(Message = "Wrong phone number. Examples of valid matches: 800-555-5555 | 333-444-5555 | 212-666-1234")]
 		public string Phone
 		{

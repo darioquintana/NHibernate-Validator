@@ -72,7 +72,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Model\Customer.nhv.xml" />
+    <EmbeddedResource Include="Model\Customer.nhv.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\src\NHibernate.Validator\NHibernate.Validator.csproj">
