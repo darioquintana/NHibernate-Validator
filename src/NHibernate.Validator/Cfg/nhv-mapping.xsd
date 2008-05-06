@@ -17,7 +17,7 @@
 					<xs:element ref="rule" />
 					<xs:element ref="max" />
 					<xs:element ref="notnull-notempty" />
-					<xs:element ref="ipAddress" />
+					<xs:element ref="ipaddress" />
 					<xs:element ref="digits" />
 					<xs:element ref="ean" />
 					<xs:element ref="creditcardnumber" />
@@ -170,7 +170,7 @@
 			<xs:attribute name="message" type="xs:string" use="optional" />
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="ipAddress">
+	<xs:element name="ipaddress">
 		<xs:complexType>
 			<xs:sequence />
 			<xs:attribute name="message" type="xs:string" use="optional" />

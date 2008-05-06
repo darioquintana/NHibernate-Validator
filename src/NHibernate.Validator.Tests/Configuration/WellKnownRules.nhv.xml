@@ -20,7 +20,7 @@
 			<pattern regex="\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b" 
 					 regex-options="CultureInvariant|IgnoreCase"/>
 			<email message="email message"/>
-			<ipAddress message="ipAddress message"/>
+			<ipaddress message="ipAddress message"/>
 			<ean message="ean message"/>
 			<creditcardnumber message="creditcardnumber message"/>
 		</property>

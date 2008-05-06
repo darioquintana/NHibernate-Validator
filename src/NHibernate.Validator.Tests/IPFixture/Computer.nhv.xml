@@ -2,7 +2,7 @@
 <nhv-mapping xmlns="urn:nhibernate-validator-1.0">
 	<class name="NHibernate.Validator.Tests.IPFixture.Computer, NHibernate.Validator.Tests">
 		<property name="IpAddress">
-			<ipAddress/>
+			<ipaddress/>
 		</property>
 	</class>
 </nhv-mapping>

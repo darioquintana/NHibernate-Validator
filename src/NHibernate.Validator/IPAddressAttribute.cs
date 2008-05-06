@@ -8,7 +8,7 @@ namespace NHibernate.Validator
 	[ValidatorClass(typeof (IPAddressValidator))]
 	public class IPAddressAttribute : Attribute, IRuleArgs
 	{
-		private string message = "{validator.ipAddress}";
+		private string message = "{validator.ipaddress}";
 
 		public string Message
 		{

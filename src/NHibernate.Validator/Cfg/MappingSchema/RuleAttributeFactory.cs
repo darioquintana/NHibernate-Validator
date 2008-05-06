@@ -32,7 +32,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			wellKnownRules[typeof(NhvmAssertfalse)] = ConvertToAssertFalse;
 			wellKnownRules[typeof(NhvmPattern)] = ConvertToPattern;
 			wellKnownRules[typeof(NhvmRule)] = ConvertToRule;
-			wellKnownRules[typeof(NhvmIpAddress)] = ConvertToIPAddress;
+			wellKnownRules[typeof(NhvmIpaddress)] = ConvertToIPAddress;
 			wellKnownRules[typeof(NhvmDigits)] = ConvertToDigits;
 			wellKnownRules[typeof(NhvmCreditcardnumber)] = ConvertToCreditCardNumber;
 			wellKnownRules[typeof(NhvmEan)] = ConvertToEAN;
@@ -235,7 +235,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 
 		private static Attribute ConvertToIPAddress(XmlNhvmRuleConverterArgs rule)
 		{
-			NhvmIpAddress ipAddressRule = (NhvmIpAddress)rule.schemaRule;
+			NhvmIpaddress ipAddressRule = (NhvmIpaddress)rule.schemaRule;
 			log.Info("Converting to IP Address attribute");
 			IPAddressAttribute thisAttribute = new IPAddressAttribute();
 
