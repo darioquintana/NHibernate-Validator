@@ -31,6 +31,7 @@ namespace NHibernate.Validator.Demo.Winforms
 		private void btnSend_Click(object sender, EventArgs e)
 		{
 			ValidatorEngine ve = vvtor.ValidatorEngine;
+			//ve.
 
 			Customer customer = GetCustomerFromUI();
 

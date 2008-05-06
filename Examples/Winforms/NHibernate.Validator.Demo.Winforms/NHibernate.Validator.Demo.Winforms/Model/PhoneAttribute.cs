@@ -13,7 +13,7 @@ namespace NHibernate.Validator.Demo.Winforms.Model
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof(PhoneValidator))]
-	public class PhoneAttribute : Attribute, IHasMessage
+	public class PhoneAttribute : Attribute, IRuleArgs
 	{
 		private string message = string.Empty;
 
