@@ -34,11 +34,13 @@ namespace NHibernate.Validator.Demo.Winforms
 		{
 			ValidatorEngine ve = vvtor.ValidatorEngine;
 			ve.Clear();
+
+			//Configuration of NHV. You can also configure this stuff using xml, outside of the code
 			NHVConfiguration nhvc = new NHVConfiguration();
 			nhvc.Properties[Environment.ApplyToDDL] = "false";
 			nhvc.Properties[Environment.AutoregisterListeners] = "false";
 			nhvc.Properties[Environment.ValidatorMode] = GetMode();
-			nhvc.Mappings.Add(new MappingConfiguration("NHibernate.Validator.Demo.Winforms",""));
+			nhvc.Mappings.Add(new MappingConfiguration("NHibernate.Validator.Demo.Winforms",null));
 			ve.Configure(nhvc);
 
 			Customer customer = GetCustomerFromUI();
@@ -80,7 +82,7 @@ namespace NHibernate.Validator.Demo.Winforms
 
 		public void Send()
 		{
-			//Code here
+			//Application code here
 		}
 
 		private Customer GetCustomerFromUI()
@@ -91,6 +93,7 @@ namespace NHibernate.Validator.Demo.Winforms
 			customer.Zip = txtZip.Text.Trim();
 			customer.Born = dtpBorn.Value;
 			customer.Phone = txtPhone.Text.Trim();
+			customer.Email = txtEmail.Text.Trim();
 			return customer;
 		}
 	}
