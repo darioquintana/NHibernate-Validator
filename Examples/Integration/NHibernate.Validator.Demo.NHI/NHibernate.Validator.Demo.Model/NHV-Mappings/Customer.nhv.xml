@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<nhv-mapping xmlns="urn:nhibernate-validator-1.0">
+  <class name="NHibernate.Validator.Demo.Model.Customer, NHibernate.Validator.Demo.Model">    
+    <property name="FirstName">
+      <not-empty/>
+      <not-null/>
+    </property>
+    
+    <property name="LastName">
+      <not-empty/>
+      <not-null/>
+    </property>
+    
+    <property name="Born">
+      <past/>
+    </property>
+    
+    <property name="Phone">
+      <rule attribute="NHibernate.Validator.Demo.Model.PhoneAttribute, NHibernate.Validator.Demo.Model">
+        <param name="Message" value ="Wrong phone number. Examples of valid matches: 800-555-5555 | 333-444-5555 | 212-666-1234"/>
+      </rule>
+    </property>
+
+    <property name="Email">
+      <email/>
+    </property>
+
+    <property name="Zip">
+      <pattern  regex="^[A-Z0-9-]+$" message="Examples of valid matches: 234G-34DA | 3432-DF23"/>
+      <pattern  regex="^....-....$" message="Must match ....-...."/>
+    </property>    
+    
+  </class>  
+</nhv-mapping>

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="NHibernate.Validator.Demo.Model"
+                   namespace="NHibernate.Validator.Demo.Model"
+                   default-lazy="false">
+
+  <class name="Customer">
+
+    <id name="Id">
+      <generator class="hilo"/>
+    </id>
+
+    <property name="FirstName"/>
+    <property name="LastName"/>
+    <property name="Zip"/>
+    <property name="Phone"/>
+    <property name="Born"/>
+    <property name="Email"/>    
+    
+  </class>
+  
+</hibernate-mapping>
+                   
