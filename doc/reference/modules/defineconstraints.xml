@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Don't touch this comment. If you are using Oxygen XML Editor uncomment this following line -->
 <!--DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5b1//EN" "../support/docbook-dtd/docbookx.dtd"-->
 <chapter id="validator-defineconstraints">
   <title>Defining constraints</title>
