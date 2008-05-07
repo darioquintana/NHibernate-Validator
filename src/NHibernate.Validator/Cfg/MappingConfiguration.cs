@@ -11,7 +11,7 @@ namespace NHibernate.Validator.Cfg
 	/// There are 3 possible combinations of mapping attributes
 	/// 1 - resource and assembly:  NHV will read the mapping resource from the specified assembly
 	/// 2 - file only: NHV will read the mapping from the file.
-	/// 3 - assembly only: NHV will find all the resources ending in hbm.xml from the assembly.
+	/// 3 - assembly only: NHV will find all the resources ending in nhv.xml from the assembly.
 	/// </remarks>
 	public class MappingConfiguration : IEquatable<MappingConfiguration>
 	{
