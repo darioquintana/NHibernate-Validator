@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Don't touch this comment. If you are using Oxygen XML Editor uncomment this following line -->
+<!--Don't touch this comment. If you are using Oxygen XML Editor uncomment this following line-->
 <!--DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5b1//EN" "../support/docbook-dtd/docbookx.dtd"-->
 <chapter id="validator-defineconstraints">
   <title>Defining constraints</title>
@@ -156,94 +156,79 @@
       two pieces: the constraint <emphasis>descriptor</emphasis> (the annotation) and the constraint
         <emphasis>validator</emphasis> (the implementation class). Here is a simple user-defined
       descriptor:</para>
-    <programlisting>@ValidatorClass(CapitalizedValidator.class)
-@Target(METHOD)
-@Retention(RUNTIME)
-@Documented
-public @interface Capitalized {
-    CapitalizeType type() default Capitalize.FIRST;
-    String message() default "has incorrect capitalization"
-}        </programlisting>
-    <para><literal>type</literal> is a parameter describing how the property should to be
-      capitalized. This is a user parameter fully dependant on the annotation business.</para>
-    <para><literal>message</literal> is the default string used to describe the constraint violation
-      and is mandatory. You can hard code the string or you can externalize part/all of it through
-      the Java ResourceBundle mechanism. Parameters values are going to be injected inside the
-      message when the <literal>{parameter}</literal> string is found (in our example <literal
-        >Capitalization is not {type}</literal> would generate <literal>Capitalization is not
-      FIRST</literal> ), externalizing the whole string in <filename
-      >ValidatorMessages.properties</filename> is considered good practice. See <xref
-        linkend="validator-defineconstraints-error"/> .</para>
-    <programlisting>@ValidatorClass(CapitalizedValidator.class)
-@Target(METHOD)
-@Retention(RUNTIME)
-@Documented
-public @interface Capitalized {
-    CapitalizeType type() default Capitalize.FIRST;
-    String message() default "{validator.capitalized}";
-}
-
-
-#in ValidatorMessages.properties
-validator.capitalized = <literal>Capitalization is not {type}</literal>
-        </programlisting>
-    <para>As you can see the {} notation is recursive.</para>
+    <programlisting>
+[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
+[ValidatorClass(typeof(PhoneValidator))]
+public class PhoneAttribute : Attribute, IRuleArgs
+{
+    private string message = string.Empty;
+    public string Message
+    {
+        get { return message; }
+        set { message = value; }
+    }
+}</programlisting>
     <para>To link a descriptor to its validator implementation, we use the <literal
-      >@ValidatorClass</literal> meta-annotation. The validator class parameter must name a class
-      which implements <literal>Validator&lt;ConstraintAnnotation&gt;</literal> .</para>
+      >[ValidatorClass]</literal> meta-annotation. Here you can see an implementation of a
+      constraint validator:</para>
+    <para>
+      <programlisting>
+public class PhoneValidator : IValidator
+{
+     public bool IsValid(object value)
+     {
+         Regex regex = new Regex(@"^[2-9]\d{2}-\d{3}-\d{4}$");
+         if (value == null) return true;
+         return regex.IsMatch(value.ToString());
+     }
+}
+</programlisting>
+    </para>
+    <para>This PhoneValidator class is simple. The method <literal>IsValid()</literal> receives a
+      string that should be validated with a Regex expression. The <literal>IsValid()</literal>
+      method should return false if the constraint has been violated. </para>
+    <para>If you need to initialize the class validator you can implement the interface <literal
+        >IInitializableValidator&lt;A></literal> and the class should look like this: </para>
+    <para>
+      <programlisting>
+public class PhoneValidator : IInitializableValidator&lt;PhoneAttribute>
+{
+    private Regex regex;
+
+    public bool IsValid(object value)
+    {
+        if (value == null) return true;
+        return regex.IsMatch(value.ToString());
+    }
+
+    public void Initialize(PhoneAttribute parameters)
+    {
+        regex = new Regex(@"^[2-9]\d{2}-\d{3}-\d{4}$");
+    }
+}</programlisting>
+    </para>
+    <para>The <literal>IsValid()</literal> method should return <literal>false</literal> if the constraint has been
+      violated. For more examples, refer to the built-in validator implementations.</para>
     <para>We now have to implement the validator (ie. the rule checking implementation). A
       validation implementation can check the value of the a property (by implementing <literal
-        >PropertyConstraint</literal> ) and/or can modify the hibernate mapping metadata to express
+        >PropertyConstraint</literal> ) and/or can modify the NHibernate mapping metadata to express
       the constraint at the database level (by implementing <literal
       >PersistentClassConstraint</literal> )</para>
-    <programlisting>public class CapitalizedValidator : Validator&lt;Capitalized&gt;, PropertyConstraint 
-{
-    private CapitalizeType type;
-
-    //part of the Validator&lt;Annotation&gt; contract,
-    //allows to get and use the annotation values
-    public void initialize(Capitalized parameters) {
-        type = parameters.type();
-    }
-
-    //part of the property constraint contract
-    public boolean isValid(Object value) {
-        if (value==null) return true;
-        if ( !(value instanceof String) ) return false;
-        String string = (String) value;
-        if (type == CapitalizeType.ALL) {
-            return string.equals( string.toUpperCase() );
-        }
-        else {
-            String first = string.substring(0,1);
-            return first.equals( first.toUpperCase();
-        }
-    }
-}        </programlisting>
-    <para>The <literal>isValid()</literal> method should return false if the constraint has been
-      violated. For more examples, refer to the built-in validator implementations.</para>
     <para>We only have seen property level validation, but you can write a Bean level validation
-      annotation. Instead of receiving the return instance of a property, the bean itself will be
+      attribute. Instead of receiving the return instance of a property, the bean itself will be
       passed to the validator. To activate the validation checking, just annotated the bean itself
       instead. A small sample can be found in the unit test suite.</para>
     <para>If your constraint can be applied multiple times (with different parameters) on the same
-      property or type, you can use the following annotation form:</para>
-    <programlisting>@Target(METHOD)
-@Retention(RUNTIME)
-@Documented
-<emphasis role="bold">public @interface Patterns {</emphasis>
-    Pattern[] value();
-}
-
-@Target(METHOD)
-@Retention(RUNTIME)
-@Documented
-@ValidatorClass(PatternValidator.class)
-public @interface Pattern {
-    String regexp();
-}</programlisting>
-    <para>Basically an annotation containing the value attribute as an array of validator
-      annotations.</para>
+      property or type, you can use set the <literal>AllowMultiple</literal> parameter to <literal
+        >true</literal> on the <literal>AttributeUsage</literal> attribute. An example of this it's
+      the built-in validator Pattern, have a look:</para>
+    <programlisting>[Serializable]
+[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true)]
+[ValidatorClass(typeof (PatternValidator))]
+public class PatternAttribute : Attribute, IRuleArgs
+{
+    ...
+</programlisting>
   </section>
   <section>
     <title>Annotating your domain model</title>
