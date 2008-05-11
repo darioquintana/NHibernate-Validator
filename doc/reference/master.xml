@@ -3,6 +3,7 @@
                "support/docbook-dtd/docbookx.dtd" [
 <!ENTITY defineconstraints                SYSTEM "modules/checkconstraints.xml">
 <!ENTITY checkconstraints             SYSTEM "modules/defineconstraints.xml">
+<!ENTITY globalconfiguration             SYSTEM "modules/globalconfiguration.xml">
 ]>
 <book lang="en">
  <bookinfo><title>NHibernate Validator</title><subtitle>NHibernate Validator Reference
@@ -37,5 +38,5 @@
    information, the <classname>InvalidValue</classname> contains an error description message that
    can embed the parameter values bundle with the annotation (eg. length limit), and message strings
    that may be externalized to a <classname>ResourceManager</classname> .</para>
- </preface>&defineconstraints;&checkconstraints;
+ </preface>&defineconstraints;&checkconstraints;&globalconfiguration;
 </book>
