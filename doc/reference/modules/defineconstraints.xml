@@ -207,8 +207,9 @@ public class PhoneValidator : IInitializableValidator&lt;PhoneAttribute>
     }
 }</programlisting>
     </para>
-    <para>The <literal>IsValid()</literal> method should return <literal>false</literal> if the constraint has been
-      violated. For more examples, refer to the built-in validator implementations.</para>
+    <para>The <literal>IsValid()</literal> method should return <literal>false</literal> if the
+      constraint has been violated. For more examples, refer to the built-in validator
+      implementations.</para>
     <para>We now have to implement the validator (ie. the rule checking implementation). A
       validation implementation can check the value of the a property (by implementing <literal
         >PropertyConstraint</literal> ) and/or can modify the NHibernate mapping metadata to express
@@ -231,7 +232,7 @@ public class PatternAttribute : Attribute, IRuleArgs
 </programlisting>
   </section>
   <section>
-    <title>Annotating your domain model</title>
+    <title>Configuring your domain model with .Net Attributes</title>
     <para>Since you are already familiar with attributes now, the syntax should be very familiar</para>
     <programlisting>
 public class Address
@@ -241,8 +242,7 @@ public class Address
     public static string blacklistedZipCode;
     
     // field a not null string of 20 characters maximum
-    [Length(Max = 20), NotNull]
-    
+    [Length(Max = 20), NotNull]    
     private string country;
     private long id;
     private bool internalValid = true;
@@ -330,17 +330,68 @@ public class Dog
 
 public class Dog : Named 
 {
-
     [AssertTrue] private bool isMale;
-
     public string Name { get {...} set{...} }
-
 }
         </programlisting>
     <para>The name property will be checked for nullity when the Dog type is validated.</para>
   </section>
   <section>
     <title>Configuring your domain model with XML</title>
-    <para>[TODO]</para>
+    <para>You also can configurate your domain model with constrains using xml files: the nhv.xml
+      files. We prefer to embed this Xml files into the assemblies, and NHibernate Validator is
+      prepared to inspect into them and retrieve the resources with constrains.</para>
+    <programlisting>
+&lt;?xml version="1.0" encoding="utf-8" ?>
+&lt;nhv-mapping xmlns="urn:nhibernate-validator-1.0"
+                        namespace="NHibernate.Validator.Tests.Base"
+                        assembly="NHibernate.Validator.Tests">
+    &lt;class name="Address">
+	&lt;property name="blacklistedZipCode">
+                  &lt;not-null/>
+	&lt;/property>
+	
+	&lt;property name="country">
+	       &lt;length max="20"/>
+	       &lt;not-null />	
+	&lt;/property>
+	
+	&lt;property name="floor">	
+	      &lt;range min="-2" max="50" message="{floor.out.of.range} (escaping #{el})" />
+	&lt;/property>
+	
+	&lt;property name="Id">	
+	      &lt;min value="1" />
+	      &lt;range max="2000" />
+	      &lt;max value="2500"/>
+	&lt;/property>
+	
+	&lt;property name="Line1" >	
+	      &lt;not-null/>
+	&lt;/property>
+	
+	&lt;property name="State">	
+	      &lt;not-null/>
+	      &lt;length max="3"/>
+	&lt;/property>
+
+	&lt;property name="Zip">
+	      &lt;length max="5" message="{long}"/>
+	      &lt;pattern regex="[0-9]+" />
+	      &lt;not-null/>
+	&lt;/property>
+	
+	&lt;property name="InternalValid">	
+	      &lt;asserttrue />
+	&lt;/property>
+    &lt;/class>
+&lt;/nhv-mapping>      
+</programlisting>
+    <para><emphasis role="bold">We strongly recommend</emphasis> to validate every nhv.xml file of
+      your application with the respective XSD file. Every nhv.xml file should be validated with the
+        <literal>nhv-mapping.xsd</literal> file included within the NHibernate Validator
+      distribution whether in source or binaries. Indeed if you are using a IDE like Visual Studio
+      bring it to you the capabilities of Intellisense in the hbm.xml file the which is very
+    good.</para>
   </section>
 </chapter>
