@@ -207,6 +207,9 @@ public class PhoneValidator : IInitializableValidator&lt;PhoneAttribute>
     }
 }</programlisting>
     </para>
+    <para>As you can see implementing the <literal>IInitializableValidator&lt;A></literal> interface
+      we have to implement the method <methodname>Initialize(...)</methodname> that initialize the
+      validator, and it's executed first of all.</para>
     <para>The <literal>IsValid()</literal> method should return <literal>false</literal> if the
       constraint has been violated. For more examples, refer to the built-in validator
       implementations.</para>
