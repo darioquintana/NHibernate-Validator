@@ -6,6 +6,67 @@
     <para> NHibernate Validator has global parameters that you can configurate at the startup. This
         configuration can be made of differents ways: programmaticaly or using xml files. If you are
         involved with NHibernate this could be very familiar to you.</para>
+    <para>Configuration properties:</para>
+    <para/>
+    <table>
+        <title>Configuration properties</title>
+        <tgroup cols="2">
+            <colspec align="center"/>
+            <thead>
+                <row>
+                    <entry>Property name</entry>
+                    <entry>Purpose</entry>
+                </row>
+            </thead>
+            <tbody>
+                <row>
+                    <entry><literal>apply_to_ddl</literal></entry>
+                    <entry>Configure NHibernate to apply the constrainst to the DDL.</entry>
+                </row>
+                <row>
+                    <entry><literal>autoregister_listeners</literal></entry>
+                    <entry>Register the Event-Listeners automatically on Inserts and
+                    Updates.</entry>
+                </row>
+                <row>
+                    <entry><literal>default_validator_mode</literal></entry>
+                    <entry>Tell to NHV what are the constraints sources and how to proceed. There
+                        are some built-in configurations:<para>
+                            <itemizedlist>
+                                <listitem>
+                                    <para><literal>UseAttribute</literal> (by default): Use
+                                        Attributes to configurate the validators on types and/or
+                                        members.</para>
+                                </listitem>
+                                <listitem>
+                                    <para><literal>UseXml</literal>: Use Xml to configurate the
+                                        validators on types and/or members.</para>
+                                </listitem>
+                                <listitem>
+                                    <para><literal>OverrideAttributeWithXml</literal>: Overrides the
+                                        type/member already annotated with Attribute using the Xml
+                                        configuration for that type/member.</para>
+                                </listitem>
+                                <listitem>
+                                    <para><literal>OverrideXmlWithAttribute</literal>: Overrides the
+                                        type/member already with Xml using the Attribute
+                                        configuration for that type/member.</para>
+                                </listitem>
+                            </itemizedlist>
+                        </para></entry>
+                </row>
+                <row>
+                    <entry><literal>assembly</literal></entry>
+                    <entry>What are the assemblies with the nhv.xml files embedded. You can have
+                        more than one assembly.</entry>
+                </row>
+                <row>
+                    <entry><literal>shared_engine_provider</literal></entry>
+                    <entry>To inject a custom Shared Engine Provider.</entry>
+                </row>
+            </tbody>
+        </tgroup>
+    </table>
     <section id="validator-globalconfiguration-programatically" revision="2">
         <title>Programatically configuration</title>
         <para>You can configurate NHibernate.Validator into your code if you wish. Proceed in this
@@ -17,7 +78,6 @@ using using Environment=NHibernate.Validator.Cfg.Environment;
 
 ValidatorEngine ve = new ValidatorEngine();
 
-//Configuration of NHV. You can also configure this stuff using xml, outside of the code
 NHVConfiguration nhvc = new NHVConfiguration();
 nhvc.Properties[Environment.ApplyToDDL] = "false";
 nhvc.Properties[Environment.AutoregisterListeners] = "false";
@@ -25,12 +85,12 @@ nhvc.Properties[Environment.ValidatorMode] = GetMode();
 nhvc.Mappings.Add(new MappingConfiguration("NHibernate.Validator.Demo.Model",null));
 ve.Configure(nhvc);            
         </programlisting>
-        <para> The <literal>ValidatorEngine</literal> will be set with the configuration. The NHibernate Validator
-            configuration is represented by the <literal
-            >NHibernate.Validator.Cfg.NHVConfiguration</literal> type. Other class used to configure
-            all the stuff is the <literal>NHibernate.Validator.Cfg.Environment</literal> type, this
-            class contain the string with the names of the properties of the configuration of
-            NHibernate Validator.</para>
+        <para> The <literal>ValidatorEngine</literal> will be set with the configuration. The
+            NHibernate Validator configuration is represented by the <literal
+                >NHibernate.Validator.Cfg.NHVConfiguration</literal> type. Other class used to
+            configure all the stuff is the <literal>NHibernate.Validator.Cfg.Environment</literal>
+            type, this class contain the string with the names of the properties of the
+            configuration of NHibernate Validator.</para>
     </section>
     <section id="validator-globalconfiguration-declarative">
         <title>Declarative configuration: using Xml files</title>
@@ -66,12 +126,27 @@ engine.Configure(); //by convention reads the nhvalidator.cfg.xml file.
 ValidatorEngine engine = new ValidatorEngine();
 engine.Configure("path/to/MyNHVConfigurationFile.xml"); //you can use whatever path to point to the configuration file
             </programlisting>
-            <para>
-            </para>
         </section>
         <section id="validator-globalconfiguration-declarative-appconfig" revision="2">
             <title>Configuration Application file: app.config/web.config</title>
-            <para>...</para>
+            <para>The configuration can be declared into our configuration application .Net files:
+                app.config or web.config. In the below example you will see how to do it.</para>
+            <programlisting>
+&lt;?xml version="1.0" encoding="utf-8" ?>
+&lt;configuration>
+    &lt;configSections>
+        &lt;section name="nhv-configuration" 
+                            type="NHibernate.Validator.Cfg.ConfigurationSectionHandler, NHibernate.Validator" />
+        ...
+    &lt;/configSections>
+    ...
+    &lt;nhv-configuration xmlns='urn:nhv-configuration-1.0'>
+        &lt;shared_engine_provider 
+         class='NHibernate.Validator.Event.NHibernateSharedEngineProvider, NHibernate.Validator'/>
+    &lt;/nhv-configuration>
+    ...
+&lt;/configuration>                
+            </programlisting>
         </section>
     </section>
 </chapter>
