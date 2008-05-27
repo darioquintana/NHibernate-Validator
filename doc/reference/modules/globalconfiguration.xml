@@ -21,7 +21,7 @@
             <tbody>
                 <row>
                     <entry><literal>apply_to_ddl</literal></entry>
-                    <entry>Configure NHibernate to apply the constrainst to the DDL.</entry>
+                    <entry>Configure NHibernate to apply the constraints to the DDL.</entry>
                 </row>
                 <row>
                     <entry><literal>autoregister_listeners</literal></entry>
@@ -36,29 +36,30 @@
                                 <listitem>
                                     <para><literal>UseAttribute</literal> (by default): Use
                                         Attributes to configurate the validators on types and/or
-                                        members.</para>
+                                        members. Xml is ignored.</para>
                                 </listitem>
                                 <listitem>
                                     <para><literal>UseXml</literal>: Use Xml to configurate the
-                                        validators on types and/or members.</para>
+                                        validators on types and/or members. Attributes are
+                                    ignored.</para>
                                 </listitem>
                                 <listitem>
-                                    <para><literal>OverrideAttributeWithXml</literal>: Overrides the
-                                        type/member already annotated with Attribute using the Xml
-                                        configuration for that type/member.</para>
+                                    <para><literal>OverrideAttributeWithXml</literal>: If the same
+                                        type/member is annotated with an Attribute and has a Xml
+                                        rule the Attribute annotation will be used.</para>
                                 </listitem>
                                 <listitem>
-                                    <para><literal>OverrideXmlWithAttribute</literal>: Overrides the
-                                        type/member already with Xml using the Attribute
-                                        configuration for that type/member.</para>
+                                    <para><literal>OverrideXmlWithAttribute</literal>: If the same
+                                        type/member is annotated with an Attribute and has a Xml
+                                        rule the Attribute annotation will be used.</para>
                                 </listitem>
                             </itemizedlist>
                         </para></entry>
                 </row>
                 <row>
                     <entry><literal>assembly</literal></entry>
-                    <entry>What are the assemblies with the nhv.xml files embedded. You can have
-                        more than one assembly.</entry>
+                    <entry>Which are the assemblies with contains the nhv.xml files embedded. You
+                        can have more than one assembly.</entry>
                 </row>
                 <row>
                     <entry><literal>shared_engine_provider</literal></entry>
@@ -69,8 +70,7 @@
     </table>
     <section id="validator-globalconfiguration-programatically" revision="2">
         <title>Programatically configuration</title>
-        <para>You can configurate NHibernate.Validator into your code if you wish. Proceed in this
-            manner in order to do achieve this:</para>
+        <para>You can use the following code to configurate NHibernate.Validator by code:</para>
         <programlisting>using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Engine;
 using using Environment=NHibernate.Validator.Cfg.Environment;
@@ -94,10 +94,10 @@ ve.Configure(nhvc);
     </section>
     <section id="validator-globalconfiguration-declarative">
         <title>Declarative configuration: using Xml files</title>
-        <para>The declarative configuration consist on configuration out of the code, this means,
+        <para>The declarative configuration consists on configuration out of the code, this means,
             configure the application using a different file, in this case a XML file. But the
             options doesn't end here: you can choose whether configurate NHibernate Validator using
-            a simple Xml file or put the configuration in our well known App.Config/Web.Config. Is
+            a simple Xml file or put the configuration in the well known App.Config/Web.Config. Is
             up to you.</para>
         <section id="validator-globalconfiguration-declarative-xmlfile" revision="1">
             <title>Simple xml file</title>
@@ -110,12 +110,12 @@ ve.Configure(nhvc);
   &lt;mapping assembly='NHibernate.Validator.Demo.Model'/>
 &lt;/nhv-configuration>
    </programlisting>
-            <para>We encouraged to call the configuration file as <literal
-                >nhvalidator.cfg.xml</literal>, in that way NHibernate Validator will pick up on the
-                application directory for this file in order to get the configuration paramaters.
-                However you can call this file as you wish.</para>
+            <para>We encourage to call the configuration file as <literal
+                >nhvalidator.cfg.xml</literal>, in that way NHibernate Validator will pick up this
+                file from the application directory in order to get the configuration parameters,
+                however you can name this file as you wish.</para>
             <para>In order to configurate NHibernate Validator with the <literal
-                >nhvalidator.cfg.xml</literal> you can do this:</para>
+                >nhvalidator.cfg.xml</literal> you can use the following codeו:</para>
             <programlisting>
 ValidatorEngine engine = new ValidatorEngine();
 engine.Configure(); //by convention reads the nhvalidator.cfg.xml file.

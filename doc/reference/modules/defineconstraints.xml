@@ -6,15 +6,16 @@
   <section id="validator-defineconstraints-definition" revision="1">
     <title>What is a constraint?</title>
     <para>A constraint is a rule that a given element (field, property or type) has to comply to.
-      The rule semantic is expressed by an Attribute or configured in a XML files. A constraint
-      usually has some values in order to parameterize the constraints limits. The constraint
-      applies to the annotated/configured element.</para>
+      The rule semantic is expressed by an Attribute or configured in Xml files. A constraint may
+      have some properties to configure the associated validator, for example a Min constratin will
+      have a value property setting the minimum acceptable value for the element to be valid.
+    </para>
   </section>
   <section id="validator-defineconstraints-builtin" revision="2">
     <title>Built in constraints</title>
-    <para>Hibernate Validator comes with some built-in constraints, which covers most basic data
-      checks. As we'll see later, you're not limited to them, you can literally in a minute write
-      your own constraints.</para>
+    <para>Hibernate Validator comes with some built-in constraints, which cover most of the basic
+      data checks. As we'll see later, you're not limited to them, you can literally in a minute
+      write your own constraints.</para>
     <table>
       <title>Built-in constraints</title>
       <tgroup cols="4">
@@ -31,38 +32,37 @@
           <row>
             <entry>Length(Min=, Max=)</entry>
             <entry>property (String)</entry>
-            <entry>check if the string length match the range</entry>
+            <entry>checks if the string length is between the min-max range</entry>
             <entry>Column length will be set to max</entry>
           </row>
           <row>
             <entry>Max(Value=)</entry>
             <entry>property (numeric or string representation of a numeric)</entry>
-            <entry>check if the value is less than or equals to max</entry>
+            <entry>checks if the value is less than or equals to max</entry>
             <entry>Add a check constraint on the column</entry>
           </row>
           <row>
             <entry>Min(Value=)</entry>
             <entry>property (numeric or string representation of a numeric)</entry>
-            <entry>check if the value is more than or equals to min</entry>
+            <entry>checks if the value is more than or equals to min</entry>
             <entry>Add a check constraint on the column</entry>
           </row>
           <row>
             <entry>NotNull</entry>
             <entry>property</entry>
-            <entry>check if the value is not null</entry>
+            <entry>checks if the value is not null</entry>
             <entry>Column(s) are not null</entry>
           </row>
           <row>
             <entry>NotEmpty</entry>
             <entry>property</entry>
-            <entry>check if the string is not null nor empty. Check if the connection is not null
-              nor empty</entry>
+            <entry>checks if the string is not empty. </entry>
             <entry>Column(s) are not null (for String)</entry>
           </row>
           <row>
             <entry>NotEmptyOrNull</entry>
             <entry>property</entry>
-            <entry>TODO</entry>
+            <entry>Checks if the string is not null or not empty.</entry>
             <entry>TODO</entry>
           </row>
           <row>
@@ -123,13 +123,13 @@
           <row>
             <entry>Email</entry>
             <entry>property (String)</entry>
-            <entry>check whether the string is conform to the email address specification</entry>
+            <entry>check whether the string conforms to the email address specification</entry>
             <entry>none</entry>
           </row>
           <row>
             <entry>Digits</entry>
             <entry>property (numeric or string representation of a numeric)</entry>
-            <entry>check whether the property is a number having up to <literal
+            <entry>checks whether the property is a number having up to <literal
               >integerDigits</literal> integer digits and <literal>fractionalDigits</literal>
               fractonal digits</entry>
             <entry>define column precision and scale</entry>
@@ -140,8 +140,8 @@
   </section>
   <section id="validator-defineconstraints-error" xreflabel="Error messages">
     <title>Error messages</title>
-    <para>NHibernate Validator comes with a default set of error messages translated in about some
-      languages (if yours is not part of it, please sent us a patch). You can add your own
+    <para>NHibernate Validator comes with a default set of error messages translated in several
+      languages (if yours is not part of it, please send us a patch). You can add your own
       additional set of messages while writing your validator Attributes or at XML. If NHibernate
       Validator cannot resolve a key from your ResourceManager nor from ValidatorMessage, it falls
       back to the default built-in values.</para>
@@ -152,8 +152,8 @@
   </section>
   <section id="validator-defineconstraints-own" revision="1">
     <title>Writing your own constraints</title>
-    <para>Extending the set of built-in constraints is extremely easy. Any constraint consists of
-      two pieces: the constraint <emphasis>descriptor</emphasis> (the annotation) and the constraint
+    <para>Extending the set of  built-in constraints is extremely easy. Any constraint consists of
+      two pieces: the constraint <emphasis>descriptor</emphasis> (the attribute) and the constraint
         <emphasis>validator</emphasis> (the implementation class). Here is a simple user-defined
       descriptor:</para>
     <programlisting>
@@ -169,8 +169,8 @@ public class PhoneAttribute : Attribute, IRuleArgs
     }
 }</programlisting>
     <para>To link a descriptor to its validator implementation, we use the <literal
-      >[ValidatorClass]</literal> meta-annotation. Here you can see an implementation of a
-      constraint validator:</para>
+      >[ValidatorClass]</literal> meta-attribute. Here you can see an implementation of a constraint
+      validator:</para>
     <para>
       <programlisting>
 public class PhoneValidator : IValidator
@@ -218,10 +218,11 @@ public class PhoneValidator : IInitializableValidator&lt;PhoneAttribute>
         >PropertyConstraint</literal> ) and/or can modify the NHibernate mapping metadata to express
       the constraint at the database level (by implementing <literal
       >PersistentClassConstraint</literal> )</para>
-    <para>We only have seen property level validation, but you can write a Bean level validation
+    <para>We only have seen property level validation, but you can write a class level validation
       attribute. Instead of receiving the return instance of a property, the bean itself will be
-      passed to the validator. To activate the validation checking, just annotated the bean itself
-      instead. A small sample can be found in the unit test suite.</para>
+      passed to the validator. To activate the validation checking, just put the validation
+      attribute to the class itself instead of in a property. A small sample can be found in the
+      unit test suite.</para>
     <para>If your constraint can be applied multiple times (with different parameters) on the same
       property or type, you can use set the <literal>AllowMultiple</literal> parameter to <literal
         >true</literal> on the <literal>AttributeUsage</literal> attribute. An example of this it's
@@ -313,8 +314,8 @@ public class Address
     }
 } </programlisting>
     <para>While the example only shows public property validation, you can also annotate fields of
-      any kind of visibility. In the example <classname>MyBeanConstraint</classname> is an custom
-      Bean Validator, we will talk about this later.</para>
+      any kind of visibility. In the example <classname>MyBeanConstraint</classname> is a custom
+      Class Validator, we will talk about this later.</para>
     <programlisting>[MyBeanConstraint(Max=45)]
 public class Dog 
 {
@@ -343,7 +344,8 @@ public class Dog : Named
     <title>Configuring your domain model with XML</title>
     <para>You also can configurate your domain model with constrains using xml files: the nhv.xml
       files. We prefer to embed this Xml files into the assemblies, and NHibernate Validator is
-      prepared to inspect into them and retrieve the resources with constrains.</para>
+      prepared to inspect into them and retrieve the resources with constrains, like NHibernate does
+      with hbm.xml files.</para>
     <programlisting>
 &lt;?xml version="1.0" encoding="utf-8" ?>
 &lt;nhv-mapping xmlns="urn:nhibernate-validator-1.0"
@@ -394,7 +396,9 @@ public class Dog : Named
       your application with the respective XSD file. Every nhv.xml file should be validated with the
         <literal>nhv-mapping.xsd</literal> file included within the NHibernate Validator
       distribution whether in source or binaries. Indeed if you are using a IDE like Visual Studio
-      bring it to you the capabilities of Intellisense in the hbm.xml file the which is very
-    good.</para>
+      bring it to you the capabilities of Intellisense in the hbm.xml file the which is very good.</para>
+    <para><emphasis role="bold">Xml beauties:</emphasis> The nicest use of Xml for validation is
+      that you can put xml validators in a different dll so you don't need to recompile your domain
+      when validation rules change. Only the dll with the Xml files..</para>
   </section>
 </chapter>

@@ -3,7 +3,7 @@
 <!--DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5b1//EN" "../support/docbook-dtd/docbookx.dtd"-->
 <chapter id="validator-abouttheproject">
     <title>About the project</title>
-    <para> NHibernate Validator is a powerful and extensible framework to validate objects on the
+    <para>NHibernate Validator is a powerful and extensible framework to validate objects using the
         .Net Platform. Born as a port of <emphasis role="italic">Hibernate Validator
         3.0.0</emphasis> project at december of 2007. Later many improvements and changes were made
         to the Core and API, and now we can say that NHibernate Validator is more than a port.
@@ -16,11 +16,11 @@
         you can download it <ulink
             url="http://sourceforge.net/project/showfiles.php?group_id=216446&amp;package_id=275108&amp;release_id=597674"
             >here</ulink>.</para>
-    <para>You can make questions about the whether the development or the use of NHibernate Validator
-        on the follow mailing lists:</para>
-    <para>Development mailing list be found <ulink url="http://groups.google.com/group/nhcdevs"
-        >here</ulink></para>
-    <para>User forum be found <ulink url="http://groups.google.com/group/nhusers">here</ulink>
+    <para>You can make questions about the development and utilization of NHibernate Validator on
+        the following mailing lists:</para>
+    <para>Development mailing list can be found <ulink url="http://groups.google.com/group/nhcdevs"
+            >here</ulink></para>
+    <para>User forum can be found <ulink url="http://groups.google.com/group/nhusers">here</ulink>
     </para>
-    <para>The bug/issue report can be made to the development mailing list.</para>
+    <para>Bug and issues report should be sent to the development mailing list.</para>
 </chapter>
