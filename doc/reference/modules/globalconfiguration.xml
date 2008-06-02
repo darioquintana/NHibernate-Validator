@@ -3,8 +3,8 @@
 <!--DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5b1//EN" "../support/docbook-dtd/docbookx.dtd"-->
 <chapter id="validator-globalconfiguration">
     <title>Configuration</title>
-    <para> NHibernate Validator has global parameters that you can configurate at the startup. This
-        configuration can be made of differents ways: programmaticaly or using xml files. If you are
+    <para> NHibernate Validator has global parameters that you can configure at the startup. This
+        configuration can be done in differents ways: programmaticaly or using xml files. If you are
         involved with NHibernate this could be very familiar to you.</para>
     <para>Configuration properties:</para>
     <para/>
@@ -30,7 +30,7 @@
                 </row>
                 <row>
                     <entry><literal>default_validator_mode</literal></entry>
-                    <entry>Tell to NHV what are the constraints sources and how to proceed. There
+                    <entry>Define what are the constraints sources are and how to proceed. There
                         are some built-in configurations:<para>
                             <itemizedlist>
                                 <listitem>
@@ -69,8 +69,8 @@
         </tgroup>
     </table>
     <section id="validator-globalconfiguration-programatically" revision="2">
-        <title>Programatically configuration</title>
-        <para>You can use the following code to configurate NHibernate.Validator by code:</para>
+        <title>Programmatic configuration</title>
+        <para>You can use the following code to configure NHibernate.Validator programmatically:</para>
         <programlisting>using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Engine;
 using using Environment=NHibernate.Validator.Cfg.Environment;
@@ -94,14 +94,13 @@ ve.Configure(nhvc);
     </section>
     <section id="validator-globalconfiguration-declarative">
         <title>Declarative configuration: using Xml files</title>
-        <para>The declarative configuration consists on configuration out of the code, this means,
-            configure the application using a different file, in this case a XML file. But the
-            options doesn't end here: you can choose whether configurate NHibernate Validator using
-            a simple Xml file or put the configuration in the well known App.Config/Web.Config. Is
-            up to you.</para>
+        <para>The declarative configuration keeps configuration out of the code. This means 
+            configuring the application using a different file, in this case a XML file. But the
+            options don't end here: you can choose to configure NHibernate Validator using
+            a simple Xml file or you can put the configuration in the well known App.Config/Web.Config. </para>
         <section id="validator-globalconfiguration-declarative-xmlfile" revision="1">
             <title>Simple xml file</title>
-            <para>This is a sample of a simple configuration on a xml file:</para>
+            <para>This is a sample of a simple configuration in a xml file:</para>
             <programlisting>&lt;?xml version="1.0" encoding="utf-8" ?>
 &lt;nhv-configuration xmlns='urn:nhv-configuration-1.0'>
   &lt;property name='apply_to_ddl'>true&lt;/property>
@@ -110,21 +109,21 @@ ve.Configure(nhvc);
   &lt;mapping assembly='NHibernate.Validator.Demo.Model'/>
 &lt;/nhv-configuration>
    </programlisting>
-            <para>We encourage to call the configuration file as <literal
-                >nhvalidator.cfg.xml</literal>, in that way NHibernate Validator will pick up this
+            <para>We encourage to name the configuration file <literal
+                >nhvalidator.cfg.xml</literal>, because NHibernate Validator will pick up this
                 file from the application directory in order to get the configuration parameters,
                 however you can name this file as you wish.</para>
             <para>In order to configurate NHibernate Validator with the <literal
                 >nhvalidator.cfg.xml</literal> you can use the following codeו:</para>
             <programlisting>
 ValidatorEngine engine = new ValidatorEngine();
-engine.Configure(); //by convention reads the nhvalidator.cfg.xml file.
+engine.Configure(); // by convention reads the nhvalidator.cfg.xml file.
             </programlisting>
-            <para> You can choose another name for you configuration file and proceed of this
+            <para> You can choose another name for your configuration file and proceed of this
                 manner: </para>
             <programlisting>
 ValidatorEngine engine = new ValidatorEngine();
-engine.Configure("path/to/MyNHVConfigurationFile.xml"); //you can use whatever path to point to the configuration file
+engine.Configure("path/to/MyNHVConfigurationFile.xml"); // you can use whatever path to point to the configuration file
             </programlisting>
         </section>
         <section id="validator-globalconfiguration-declarative-appconfig" revision="2">

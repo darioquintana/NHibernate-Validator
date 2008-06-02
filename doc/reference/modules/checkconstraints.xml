@@ -25,9 +25,9 @@
             <title>NHibernate event-based validation</title>
             <para>NHibernate Validator has two built-in NHibernate event listeners. Whenever a
                     <literal>PreInsertEvent</literal> or <literal>PreUpdateEvent</literal> occurs,
-                the listeners will verify all constraint of the entity instance and throw an
-                exception if any of them is violated. Basically, objects will be checked before any
-                insert and before any update triggered by NHibernate. This includes cascade changes!
+                the listeners will verify all constraints of the entity instance and throw an
+                exception if any of them are violated. Basically, objects will be checked before any
+                insert and before any update triggered by NHibernate. This includes cascading changes!
                 This is the most convenient and easiest way to activate the validation process. If a
                 constraint is violated, the event will raise a runtime
                     <classname>InvalidStateException</classname> which contains an array of <literal
@@ -59,16 +59,16 @@
             main class: <classname>ValidatorEngine</classname>. </para>
         <programlisting>ValidatorEngine validator = new ValidatorEngine();
 bool isValid = validator.IsValid(customer);</programlisting>
-        <para>This two lines are enough to validate an object with its validation rules which can be
+        <para>These two lines are enough to validate an object with its validation rules, which can be
             configured using Attributes or XML. The first line is the instantiation of the validator
             engine of NHibernate Validator. The second line is the validation of an object, and the
             result of the <methodname>IsValid(...)</methodname> method indicates if the object is
             valid or not. In order to get the invalid values of an object, you can
             do:<programlisting>ValidatorEngine validator = new ValidatorEngine();
 InvalidValue[] validationMessages = validator.GetInvalidValues(customer);</programlisting></para>
-        <para>Now instead of getting only if the object is valid or not, we get an array of
+        <para>Now instead of only knowing if the object is valid or not, we get an array of
             InvalidValues. If this array length is greater than zero then there are validation
-            errors and you can travers the InvalidValue array to get verbose information about the
+            errors and you can traverse the InvalidValue array to get verbose information about the
             problems that cause the object to be invalid. </para>
     </section>
     <section>
@@ -82,7 +82,7 @@ InvalidValue[] validationMessages = validator.GetInvalidValues(customer);</progr
             caused the entity to be invalid.</para>
         <para><methodname>BeanClass</methodname> retrieves the failing bean type</para>
         <para><methodname>Bean</methodname>retrieves the failing instance (if any ie not when using
-                <methodname>GetPotentianInvalidValues()</methodname>)</para>
+                <methodname>GetPotentialInvalidValues()</methodname>)</para>
         <para><methodname>Value</methodname> retrieves the failing value</para>
         <para><methodname>Message</methodname> retrieves the proper internationalized error message</para>
         <para><methodname>RootBean</methodname> retrieves the root bean instance generating the

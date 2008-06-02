@@ -7,7 +7,7 @@
     <title>What is a constraint?</title>
     <para>A constraint is a rule that a given element (field, property or type) has to comply to.
       The rule semantic is expressed by an Attribute or configured in Xml files. A constraint may
-      have some properties to configure the associated validator, for example a Min constratin will
+      have some properties to configure the associated validator, for example a Min constraint will
       have a value property setting the minimum acceptable value for the element to be valid.
     </para>
   </section>
@@ -80,7 +80,7 @@
           <row>
             <entry>Pattern(Regex="regexp", Flag=) </entry>
             <entry>property (string)</entry>
-            <entry>check if the property match the regular expression given a match flag. The
+            <entry>check if the property matches the regular expression given a match flag. The
                 <methodname>Flag</methodname> parameter is a
                 <classname>System.Text.RegularExpressions.RegexOptions</classname> enum. You can
               also declare multiple Pattern attributes on the same member. </entry>
@@ -141,7 +141,7 @@
   <section id="validator-defineconstraints-error" xreflabel="Error messages">
     <title>Error messages</title>
     <para>NHibernate Validator comes with a default set of error messages translated in several
-      languages (if yours is not part of it, please send us a patch). You can add your own
+      languages (if yours is not present, please send us a patch). You can add your own
       additional set of messages while writing your validator Attributes or at XML. If NHibernate
       Validator cannot resolve a key from your ResourceManager nor from ValidatorMessage, it falls
       back to the default built-in values.</para>
@@ -207,8 +207,8 @@ public class PhoneValidator : IInitializableValidator&lt;PhoneAttribute>
     }
 }</programlisting>
     </para>
-    <para>As you can see implementing the <literal>IInitializableValidator&lt;A></literal> interface
-      we have to implement the method <methodname>Initialize(...)</methodname> that initialize the
+    <para>As you can see, implementing the <literal>IInitializableValidator&lt;A></literal> interface
+      we have to implement the method <methodname>Initialize(...)</methodname> that initializes the
       validator, and it's executed first of all.</para>
     <para>The <literal>IsValid()</literal> method should return <literal>false</literal> if the
       constraint has been violated. For more examples, refer to the built-in validator
@@ -218,7 +218,7 @@ public class PhoneValidator : IInitializableValidator&lt;PhoneAttribute>
         >PropertyConstraint</literal> ) and/or can modify the NHibernate mapping metadata to express
       the constraint at the database level (by implementing <literal
       >PersistentClassConstraint</literal> )</para>
-    <para>We only have seen property level validation, but you can write a class level validation
+    <para>We have only seen property level validation, but you can write a class level validation
       attribute. Instead of receiving the return instance of a property, the bean itself will be
       passed to the validator. To activate the validation checking, just put the validation
       attribute to the class itself instead of in a property. A small sample can be found in the
@@ -342,9 +342,9 @@ public class Dog : Named
   </section>
   <section>
     <title>Configuring your domain model with XML</title>
-    <para>You also can configurate your domain model with constrains using xml files: the nhv.xml
-      files. We prefer to embed this Xml files into the assemblies, and NHibernate Validator is
-      prepared to inspect into them and retrieve the resources with constrains, like NHibernate does
+    <para>You also can configurate your domain model with constraints using xml files: the nhv.xml
+      files. We prefer to embed these Xml files into the assemblies, and NHibernate Validator is
+      prepared to inspect them and retrieve the resources with constrains, like NHibernate does
       with hbm.xml files.</para>
     <programlisting>
 &lt;?xml version="1.0" encoding="utf-8" ?>
@@ -395,9 +395,9 @@ public class Dog : Named
     <para><emphasis role="bold">We strongly recommend</emphasis> to validate every nhv.xml file of
       your application with the respective XSD file. Every nhv.xml file should be validated with the
         <literal>nhv-mapping.xsd</literal> file included within the NHibernate Validator
-      distribution whether in source or binaries. Indeed if you are using a IDE like Visual Studio
-      bring it to you the capabilities of Intellisense in the hbm.xml file the which is very good.</para>
-    <para><emphasis role="bold">Xml beauties:</emphasis> The nicest use of Xml for validation is
+      distribution whether in source or binaries. Indeed, if you are using an IDE like Visual Studio it offers
+      IntelliSense support in the nhv.xml file if you add the schema to Visual Studio's xml schemas folder.</para>
+    <para><emphasis role="bold">Xml beauties:</emphasis> The nicest part of Xml for validation is
       that you can put xml validators in a different dll so you don't need to recompile your domain
       when validation rules change. Only the dll with the Xml files..</para>
   </section>

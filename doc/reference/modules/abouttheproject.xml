@@ -5,8 +5,8 @@
     <title>About the project</title>
     <para>NHibernate Validator is a powerful and extensible framework to validate objects using the
         .Net Platform. Born as a port of <emphasis role="italic">Hibernate Validator
-        3.0.0</emphasis> project at december of 2007. Later many improvements and changes were made
-        to the Core and API, and now we can say that NHibernate Validator is more than a port.
+        3.0.0</emphasis> project at december of 2007. Later on, many improvements and changes were made
+        to the Core and API, and now we can say that NHibernate Validator is more than just a port.
         NHibernate Validator is entirely written in C#. The first release of NHibernate Validator
         was entirely developed by <emphasis role="italic">Dario Quintana</emphasis>, <emphasis
             role="italic">Gustavo Ringel</emphasis> and <emphasis role="italic">Fabio
@@ -16,11 +16,11 @@
         you can download it <ulink
             url="http://sourceforge.net/project/showfiles.php?group_id=216446&amp;package_id=275108&amp;release_id=597674"
             >here</ulink>.</para>
-    <para>You can make questions about the development and utilization of NHibernate Validator on
+    <para>You can ask questions about the development and utilization of NHibernate Validator on
         the following mailing lists:</para>
-    <para>Development mailing list can be found <ulink url="http://groups.google.com/group/nhcdevs"
+    <para>The development mailing list can be found <ulink url="http://groups.google.com/group/nhcdevs"
             >here</ulink></para>
-    <para>User forum can be found <ulink url="http://groups.google.com/group/nhusers">here</ulink>
+    <para>The user forum can be found <ulink url="http://groups.google.com/group/nhusers">here</ulink>
     </para>
     <para>Bug and issues report should be sent to the development mailing list.</para>
 </chapter>
