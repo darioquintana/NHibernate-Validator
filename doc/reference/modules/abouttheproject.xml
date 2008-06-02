@@ -5,22 +5,24 @@
     <title>About the project</title>
     <para>NHibernate Validator is a powerful and extensible framework to validate objects using the
         .Net Platform. Born as a port of <emphasis role="italic">Hibernate Validator
-        3.0.0</emphasis> project at december of 2007. Later on, many improvements and changes were made
-        to the Core and API, and now we can say that NHibernate Validator is more than just a port.
-        NHibernate Validator is entirely written in C#. The first release of NHibernate Validator
-        was entirely developed by <emphasis role="italic">Dario Quintana</emphasis>, <emphasis
-            role="italic">Gustavo Ringel</emphasis> and <emphasis role="italic">Fabio
-        Maulo</emphasis>.</para>
+        3.0.0</emphasis> project at december of 2007. Later on, many improvements and changes were
+        made to the Core and API, and now we can say that NHibernate Validator is more than just a
+        port. NHibernate Validator is entirely written in C#. The first release of NHibernate
+        Validator was entirely developed by <emphasis role="italic">Dario Quintana</emphasis>,
+            <emphasis role="italic">Gustavo Ringel</emphasis> and <emphasis role="italic">Fabio
+                Maulo</emphasis>. We appreciate the help of <emphasis role="italic">Davy Brion</emphasis>
+        in the revision of this document.</para>
     <para>NHibernate Validator is part of the <ulink
             url="http://sourceforge.net/projects/nhcontrib/">NHibernate Contrib</ulink> project and
         you can download it <ulink
             url="http://sourceforge.net/project/showfiles.php?group_id=216446&amp;package_id=275108&amp;release_id=597674"
             >here</ulink>.</para>
-    <para>You can ask questions about the development and utilization of NHibernate Validator on
-        the following mailing lists:</para>
-    <para>The development mailing list can be found <ulink url="http://groups.google.com/group/nhcdevs"
-            >here</ulink></para>
-    <para>The user forum can be found <ulink url="http://groups.google.com/group/nhusers">here</ulink>
+    <para>You can ask questions about the development and utilization of NHibernate Validator on the
+        following mailing lists:</para>
+    <para>The development mailing list can be found <ulink
+            url="http://groups.google.com/group/nhcdevs">here</ulink></para>
+    <para>The user forum can be found <ulink url="http://groups.google.com/group/nhusers"
+        >here</ulink>
     </para>
     <para>Bug and issues report should be sent to the development mailing list.</para>
 </chapter>
