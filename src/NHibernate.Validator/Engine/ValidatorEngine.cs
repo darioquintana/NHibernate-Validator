@@ -8,6 +8,7 @@ using NHibernate.Mapping;
 using NHibernate.Util;
 using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Exceptions;
+using NHibernate.Validator.Util;
 using Environment=NHibernate.Validator.Cfg.Environment;
 
 namespace NHibernate.Validator.Engine
@@ -33,7 +34,9 @@ namespace NHibernate.Validator.Engine
 		private ValidatorMode defaultMode;
 		private bool applyToDDL;
 		private bool autoRegisterListeners;
-		private readonly Dictionary<System.Type, ValidatableElement> validators = new Dictionary<System.Type, ValidatableElement>();
+
+		private readonly ThreadSafeDictionary<System.Type, ValidatableElement> validators =
+			new ThreadSafeDictionary<System.Type, ValidatableElement>(new Dictionary<System.Type, ValidatableElement>());
 		private static readonly ValidatableElement alwaysValidPlaceHolder = new ValidatableElement(typeof (object), new EmptyClassValidator());
 
 		private class EmptyClassValidator: IClassValidator
