@@ -36,12 +36,17 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="It\PartitaIvaAttribute.cs" />
     <Compile Include="It\PartitaIvaValidator.cs" />
+    <Compile Include="Uy\CedulaIdentidadAttribute.cs" />
+    <Compile Include="Uy\CedulaIdentidadValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NHibernate.Validator\NHibernate.Validator.csproj">
       <Project>{599516E0-E10D-4F44-B5E1-B7B67EFC931A}</Project>
       <Name>NHibernate.Validator</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
