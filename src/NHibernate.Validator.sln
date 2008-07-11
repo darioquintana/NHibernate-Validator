@@ -19,6 +19,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernate.Tool.NhvXsd", "N
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernate.Validator.Specific", "NHibernate.Validator.Specific\NHibernate.Validator.Specific.csproj", "{F23C735C-50FE-4932-9C10-F48FCECC0DCF}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernate.Validator.Specific.Tests", "NHibernate.Validator.Specific.Tests\NHibernate.Validator.Specific.Tests.csproj", "{36608B70-0854-42CE-9A18-AB97D42C543B}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +48,14 @@ Global
 		{446E148D-A9D5-4D7D-A706-BEDD45B2BC7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{446E148D-A9D5-4D7D-A706-BEDD45B2BC7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{446E148D-A9D5-4D7D-A706-BEDD45B2BC7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F23C735C-50FE-4932-9C10-F48FCECC0DCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F23C735C-50FE-4932-9C10-F48FCECC0DCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F23C735C-50FE-4932-9C10-F48FCECC0DCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F23C735C-50FE-4932-9C10-F48FCECC0DCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36608B70-0854-42CE-9A18-AB97D42C543B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36608B70-0854-42CE-9A18-AB97D42C543B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36608B70-0854-42CE-9A18-AB97D42C543B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36608B70-0854-42CE-9A18-AB97D42C543B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
