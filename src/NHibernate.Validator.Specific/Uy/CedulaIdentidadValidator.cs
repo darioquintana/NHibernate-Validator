@@ -12,10 +12,11 @@ namespace NHibernate.Validator.Specific.Uy
 
 		public bool IsValid(object value)
 		{
-			if (value == null)
+			if (value == null || value.ToString() == string.Empty)
 			{
 				return true;
 			}
+
 			string cedula = value.ToString();
 			if (cedula.Length > 8)
 			{

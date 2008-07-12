@@ -25,8 +25,8 @@ namespace NHibernate.Validator.Specific.Tests.It
 			Assert.IsTrue(v.IsValid("00711710764"));
 			Assert.IsTrue(v.IsValid(711710764));
 			Assert.IsTrue(v.IsValid(null));
+			Assert.IsTrue(v.IsValid(string.Empty));
 
-			Assert.IsFalse(v.IsValid(""));
 			Assert.IsFalse(v.IsValid("1234567890123"));
 			Assert.IsFalse(v.IsValid("A0007016322"));
 			Assert.IsFalse(v.IsValid("000A7016322"));
@@ -54,19 +54,19 @@ namespace NHibernate.Validator.Specific.Tests.It
 			c.Piva = "00523580520";
 			Assert.AreEqual(0, userValidator.GetInvalidValues(c).Length);
 		}
-	}
 
-	public class Cliente
-	{
-		[PartitaIva]
-		private string pivaField = "01636120634";
-		private string piva;
-
-		[PartitaIva]
-		public string Piva
+		public class Cliente
 		{
-			get { return piva; }
-			set { piva = value; }
+			[PartitaIva]
+			private string pivaField = "01636120634";
+			private string piva;
+
+			[PartitaIva]
+			public string Piva
+			{
+				get { return piva; }
+				set { piva = value; }
+			}
 		}
 	}
 }

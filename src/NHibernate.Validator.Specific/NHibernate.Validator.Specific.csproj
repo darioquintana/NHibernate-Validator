@@ -34,6 +34,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="It\CodiceFiscaleAttribute.cs" />
+    <Compile Include="It\CodiceFiscaleValidator.cs" />
     <Compile Include="It\PartitaIvaAttribute.cs" />
     <Compile Include="It\PartitaIvaValidator.cs" />
     <Compile Include="Uy\CedulaIdentidadAttribute.cs" />

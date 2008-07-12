@@ -11,10 +11,11 @@ namespace NHibernate.Validator.Specific.It
 
 		public bool IsValid(object value)
 		{
-			if (value == null)
+			if (value == null || value.ToString() == string.Empty)
 			{
 				return true;
 			}
+
 			string piva = value.ToString().Trim().PadLeft(11, '0');
 			if (piva.Length > 11)
 			{
