@@ -95,6 +95,8 @@
     <Compile Include="Exceptions\HibernateValidatorException.cs" />
     <Compile Include="Engine\IClassValidator.cs" />
     <Compile Include="Engine\IRuleArgs.cs" />
+    <Compile Include="IBANAttribute.cs" />
+    <Compile Include="IBANValidator.cs" />
     <Compile Include="IPAddressAttribute.cs" />
     <Compile Include="IPAddressValidator.cs" />
     <Compile Include="Mappings\AbstractClassMapping.cs" />

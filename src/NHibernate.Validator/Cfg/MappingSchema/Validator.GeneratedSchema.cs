@@ -1,7 +1,7 @@
 namespace NHibernate.Validator.Cfg.MappingSchema {
     
     
-    /// <comentarios/>
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -10,7 +10,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.Xml.Serialization.XmlRootAttribute("property", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
     public partial class NhvmProperty {
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("assertfalse", typeof(NhvmAssertfalse))]
         [System.Xml.Serialization.XmlElementAttribute("asserttrue", typeof(NhvmAsserttrue))]
         [System.Xml.Serialization.XmlElementAttribute("creditcardnumber", typeof(NhvmCreditcardnumber))]
@@ -19,6 +19,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
         [System.Xml.Serialization.XmlElementAttribute("email", typeof(NhvmEmail))]
         [System.Xml.Serialization.XmlElementAttribute("fileexists", typeof(NhvmFileexists))]
         [System.Xml.Serialization.XmlElementAttribute("future", typeof(NhvmFuture))]
+        [System.Xml.Serialization.XmlElementAttribute("iban", typeof(NhvmIban))]
         [System.Xml.Serialization.XmlElementAttribute("ipaddress", typeof(NhvmIpaddress))]
         [System.Xml.Serialization.XmlElementAttribute("length", typeof(NhvmLength))]
         [System.Xml.Serialization.XmlElementAttribute("max", typeof(NhvmMax))]
@@ -34,12 +35,12 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
         [System.Xml.Serialization.XmlElementAttribute("valid", typeof(NhvmValid))]
         public object[] Items;
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string name;
     }
     
-    /// <comentarios/>
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -48,12 +49,12 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.Xml.Serialization.XmlRootAttribute("assertfalse", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
     public partial class NhvmAssertfalse {
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string message;
     }
     
-    /// <comentarios/>
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -62,12 +63,12 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.Xml.Serialization.XmlRootAttribute("asserttrue", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
     public partial class NhvmAsserttrue {
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string message;
     }
     
-    /// <comentarios/>
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -76,12 +77,12 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.Xml.Serialization.XmlRootAttribute("creditcardnumber", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
     public partial class NhvmCreditcardnumber {
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string message;
     }
     
-    /// <comentarios/>
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -90,24 +91,24 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.Xml.Serialization.XmlRootAttribute("digits", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
     public partial class NhvmDigits {
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public int integerDigits;
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public int fractionalDigits;
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool fractionalDigitsSpecified;
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string message;
     }
     
-    /// <comentarios/>
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -116,12 +117,12 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.Xml.Serialization.XmlRootAttribute("ean", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
     public partial class NhvmEan {
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string message;
     }
     
-    /// <comentarios/>
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -130,12 +131,12 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.Xml.Serialization.XmlRootAttribute("email", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
     public partial class NhvmEmail {
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string message;
     }
     
-    /// <comentarios/>
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -144,12 +145,12 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.Xml.Serialization.XmlRootAttribute("fileexists", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
     public partial class NhvmFileexists {
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string message;
     }
     
-    /// <comentarios/>
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -158,12 +159,26 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.Xml.Serialization.XmlRootAttribute("future", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
     public partial class NhvmFuture {
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string message;
     }
     
-    /// <comentarios/>
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-1.0")]
+    [System.Xml.Serialization.XmlRootAttribute("iban", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
+    public partial class NhvmIban {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string message;
+    }
+    
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -172,12 +187,12 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.Xml.Serialization.XmlRootAttribute("ipaddress", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
     public partial class NhvmIpaddress {
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string message;
     }
     
-    /// <comentarios/>
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -186,28 +201,28 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.Xml.Serialization.XmlRootAttribute("length", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
     public partial class NhvmLength {
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public int min;
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool minSpecified;
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public int max;
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool maxSpecified;
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string message;
     }
     
-    /// <comentarios/>
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -216,20 +231,20 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.Xml.Serialization.XmlRootAttribute("max", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
     public partial class NhvmMax {
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public long value;
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool valueSpecified;
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string message;
     }
     
-    /// <comentarios/>
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -238,20 +253,20 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.Xml.Serialization.XmlRootAttribute("min", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
     public partial class NhvmMin {
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public long value;
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool valueSpecified;
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string message;
     }
     
-    /// <comentarios/>
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -260,12 +275,12 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.Xml.Serialization.XmlRootAttribute("not-empty", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
     public partial class NhvmNotEmpty {
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string message;
     }
     
-    /// <comentarios/>
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -274,12 +289,12 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.Xml.Serialization.XmlRootAttribute("not-null", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
     public partial class NhvmNotNull {
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string message;
     }
     
-    /// <comentarios/>
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -288,12 +303,12 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.Xml.Serialization.XmlRootAttribute("notnull-notempty", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
     public partial class NhvmNotnullNotempty {
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string message;
     }
     
-    /// <comentarios/>
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -302,12 +317,12 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.Xml.Serialization.XmlRootAttribute("past", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
     public partial class NhvmPast {
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string message;
     }
     
-    /// <comentarios/>
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -316,20 +331,20 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.Xml.Serialization.XmlRootAttribute("pattern", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
     public partial class NhvmPattern {
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string regex;
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string message;
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute("regex-options")]
         public string regexoptions;
     }
     
-    /// <comentarios/>
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -338,28 +353,28 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.Xml.Serialization.XmlRootAttribute("range", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
     public partial class NhvmRange {
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public long min;
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool minSpecified;
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public long max;
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool maxSpecified;
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string message;
     }
     
-    /// <comentarios/>
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -368,16 +383,16 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.Xml.Serialization.XmlRootAttribute("rule", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
     public partial class NhvmRule {
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("param")]
         public NhvmParam[] param;
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string attribute;
     }
     
-    /// <comentarios/>
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -386,16 +401,16 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.Xml.Serialization.XmlRootAttribute("param", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
     public partial class NhvmParam {
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string name;
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string value;
     }
     
-    /// <comentarios/>
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -404,28 +419,28 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.Xml.Serialization.XmlRootAttribute("size", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
     public partial class NhvmSize {
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public int min;
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool minSpecified;
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public int max;
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool maxSpecified;
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string message;
     }
     
-    /// <comentarios/>
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -435,7 +450,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     public partial class NhvmValid {
     }
     
-    /// <comentarios/>
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -444,20 +459,20 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.Xml.Serialization.XmlRootAttribute("nhv-mapping", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
     public partial class NhvMapping {
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("class")]
         public NhvmClass[] @class;
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string @namespace;
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string assembly;
     }
     
-    /// <comentarios/>
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -466,15 +481,15 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.Xml.Serialization.XmlRootAttribute("class", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
     public partial class NhvmClass {
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("attributename")]
         public string[] attributename;
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("property")]
         public NhvmProperty[] property;
         
-        /// <comentarios/>
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string name;
     }

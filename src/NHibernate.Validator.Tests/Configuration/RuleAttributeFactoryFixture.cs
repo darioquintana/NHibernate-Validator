@@ -91,6 +91,9 @@ namespace NHibernate.Validator.Tests.Configuration
 			CreditCardNumberAttribute ccna = FindAttribute<CreditCardNumberAttribute>(attributes);
 			Assert.AreEqual("creditcardnumber message", ccna.Message);
 
+			IBANAttribute iban = FindAttribute<IBANAttribute>(attributes);
+			Assert.AreEqual("iban message", iban.Message);
+
 			mi = typeof(WellKnownRules).GetField("DtProp");
 			attributes = new List<Attribute>(rm.GetMemberAttributes(mi));
 			FutureAttribute fa = FindAttribute<FutureAttribute>(attributes);

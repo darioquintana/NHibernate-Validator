@@ -38,6 +38,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			wellKnownRules[typeof(NhvmEan)] = ConvertToEAN;
 			wellKnownRules[typeof(NhvmFileexists)] = ConvertToFileExists;
 			wellKnownRules[typeof(NhvmValid)] = ConvertToValid;
+			wellKnownRules[typeof(NhvmIban)] = ConvertToIBAN;
 		}
 
 		public static Attribute CreateAttributeFromRule(object rule, string defaultAssembly, string defaultNameSpace)
@@ -480,6 +481,20 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			if (fileExistsRule.message != null)
 			{
 				thisAttribute.Message = fileExistsRule.message;
+			}
+
+			return thisAttribute;
+		}
+
+		private static Attribute ConvertToIBAN(XmlNhvmRuleConverterArgs rule)
+		{
+			NhvmIban ibanRule = (NhvmIban)rule.schemaRule;
+			log.Info("Converting to IBAN attribute");
+			IBANAttribute thisAttribute = new IBANAttribute();
+
+			if (ibanRule.message != null)
+			{
+				thisAttribute.Message = ibanRule.message;
 			}
 
 			return thisAttribute;

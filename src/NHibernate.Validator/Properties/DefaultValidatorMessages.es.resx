@@ -138,6 +138,9 @@
   <data name="validator.future" xml:space="preserve">
     <value>debe ser una fecha futura</value>
   </data>
+  <data name="validator.iban" xml:space="preserve">
+    <value>IBAN no valido</value>
+  </data>
   <data name="validator.length" xml:space="preserve">
     <value>la longitud debe ser entre {Min} y {Max}</value>
   </data>

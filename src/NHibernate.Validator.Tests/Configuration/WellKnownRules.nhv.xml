@@ -23,6 +23,7 @@
 			<ipaddress message="ipAddress message"/>
 			<ean message="ean message"/>
 			<creditcardnumber message="creditcardnumber message"/>
+			<iban message="iban message"/>
 		</property>
 
 		<property name="Pattern">

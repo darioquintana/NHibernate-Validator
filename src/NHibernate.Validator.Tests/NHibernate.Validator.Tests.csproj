@@ -187,6 +187,7 @@
     <Compile Include="ValidatorsTest\FooLength.cs" />
     <Compile Include="ValidatorsTest\FooNotEmpty.cs" />
     <Compile Include="ValidatorsTest\FutureValidatorFixture.cs" />
+    <Compile Include="ValidatorsTest\IBANFixture.cs" />
     <Compile Include="ValidatorsTest\IPAddressValidatorFixture.cs" />
     <Compile Include="ValidatorsTest\LengthValidatorFixture.cs" />
     <Compile Include="ValidatorsTest\MaxValidatorFixture.cs" />
