@@ -55,6 +55,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ar\CUITFixture.cs" />
     <Compile Include="It\CodFiscaleFixture.cs" />
     <Compile Include="It\PartitaIVAFixture.cs" />
     <Compile Include="Uy\CedulaIdentidadFixture.cs" />

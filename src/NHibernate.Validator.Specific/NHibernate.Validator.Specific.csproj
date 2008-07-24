@@ -33,6 +33,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ar\CUITAttribute.cs" />
+    <Compile Include="Ar\CUITValidator.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="It\CodiceFiscaleAttribute.cs" />
     <Compile Include="It\CodiceFiscaleValidator.cs" />
