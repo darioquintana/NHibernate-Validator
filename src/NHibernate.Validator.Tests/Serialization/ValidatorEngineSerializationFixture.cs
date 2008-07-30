@@ -27,7 +27,7 @@ namespace NHibernate.Validator.Tests.Serialization
 			NHVAssert.CanBeSerialized(ve);
 		}
 
-		[Test, Ignore("Not supported yet")]
+		[Test]
 		public void WorkAfterDeserialization()
 		{
 			ValidatorEngine ve = new ValidatorEngine();
