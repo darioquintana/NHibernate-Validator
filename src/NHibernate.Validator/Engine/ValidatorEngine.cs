@@ -28,13 +28,13 @@ namespace NHibernate.Validator.Engine
 	{
 		private static readonly ILog log = LogManager.GetLogger(typeof(ValidatorEngine));
 
-		// TODO : make the class thread-safe and may be serializable
 		private StateFullClassValidatorFactory factory;
 		private IMessageInterpolator interpolator;
 		private ValidatorMode defaultMode;
 		private bool applyToDDL;
 		private bool autoRegisterListeners;
 
+		//TODO: test the thread-safeness
 		private readonly ThreadSafeDictionary<System.Type, ValidatableElement> validators =
 			new ThreadSafeDictionary<System.Type, ValidatableElement>(new Dictionary<System.Type, ValidatableElement>());
 		private static readonly ValidatableElement alwaysValidPlaceHolder = new ValidatableElement(typeof (object), new EmptyClassValidator());
