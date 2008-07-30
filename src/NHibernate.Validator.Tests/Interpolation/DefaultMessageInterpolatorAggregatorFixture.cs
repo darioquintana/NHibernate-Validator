@@ -52,6 +52,8 @@ namespace NHibernate.Validator.Tests.Interpolation
 				 * - Each bean member have an instance of an attribute initialized with values.
 				 * - A bean can have the same validator more than one time but with different attribute instance
 				 *	(different values of Message for example).
+				 * 
+				 * Note: if each Validator overrides Equals this test would pass, but it's too much invasive
 				 */
 			}
 		}

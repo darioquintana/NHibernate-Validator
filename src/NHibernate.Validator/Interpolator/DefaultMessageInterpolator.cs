@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using System.Resources;
+using System.Runtime.Serialization;
 using System.Text;
 using NHibernate.Util;
 using NHibernate.Validator.Engine;
@@ -11,7 +12,7 @@ using NHibernate.Validator.Engine;
 namespace NHibernate.Validator.Interpolator
 {
 	[Serializable]
-	public class DefaultMessageInterpolator : IMessageInterpolator
+	public class DefaultMessageInterpolator : IMessageInterpolator, ISerializable
 	{
 		private readonly Dictionary<string, object> attributeParameters = new Dictionary<string, object>();
 		private string attributeMessage;
@@ -147,6 +148,25 @@ namespace NHibernate.Validator.Interpolator
 				}
 			}
 			return buf.ToString();
+		}
+
+		public DefaultMessageInterpolator()
+		{
+		}
+
+		public DefaultMessageInterpolator (SerializationInfo info, StreamingContext context)
+		{
+			attributeParameters = (Dictionary<string, object>) info.GetValue("attributeParameters",typeof(Dictionary<string, object>) );
+			attributeMessage = (string) info.GetValue("message",typeof(string));
+		}
+
+		public void GetObjectData(SerializationInfo info, StreamingContext context)
+		{
+			//private readonly Dictionary<string, object> attributeParameters = new Dictionary<string, object>();
+			//private string attributeMessage;
+
+			info.AddValue("attributeParameters",attributeParameters );
+			info.AddValue("message",attributeMessage );
 		}
 	}
 }

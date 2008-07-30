@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using System.Resources;
+using System.Runtime.Serialization;
 using Iesi.Collections;
 using Iesi.Collections.Generic;
 using log4net;
@@ -22,7 +23,7 @@ namespace NHibernate.Validator.Engine
 	/// Engine that take a object and check every expressed attribute restrictions
 	/// </summary>
 	[Serializable]
-	public class ClassValidator : IClassValidator, IClassValidatorImplementor
+	public class ClassValidator : IClassValidator, IClassValidatorImplementor, ISerializable 
 	{
 		private static readonly ILog log = LogManager.GetLogger(typeof(ClassValidator));
 		private readonly System.Type beanClass;
@@ -39,7 +40,12 @@ namespace NHibernate.Validator.Engine
 		private readonly ResourceManager defaultMessageBundle;
 
 		[NonSerialized]
-		private readonly IMessageInterpolator userInterpolator;
+		private IMessageInterpolator userInterpolator;
+
+		/// <summary>
+		/// Used to create an instance when deserialize
+		/// </summary>
+		private System.Type userInterpolatorType; 
 
 		[NonSerialized]
 		private readonly IClassValidatorFactory factory;
@@ -103,9 +109,10 @@ namespace NHibernate.Validator.Engine
 			defaultMessageBundle = GetDefaultResourceManager();
 			culture = factory.Culture;
 			userInterpolator = factory.UserInterpolator;
+			if (userInterpolator !=null) userInterpolatorType = factory.UserInterpolator.GetType();
 			this.childClassValidators = childClassValidators;
 			validatorMode = factory.ValidatorMode;
-
+			
 			//Initialize the ClassValidator
 			InitValidator(beanClass, childClassValidators);
 		}
@@ -763,5 +770,56 @@ namespace NHibernate.Validator.Engine
 
 			#endregion
 		}
+
+		//[OnDeserialized]
+		//private void DeserializationCallBack(StreamingContext context)
+		//{
+		//    userInterpolator = (IMessageInterpolator)Activator.CreateInstance(userInterpolatorType);
+			
+		//    messageBundle = GetDefaultResourceManager();
+		//    defaultMessageBundle = GetDefaultResourceManager();
+		//    culture = factory.Culture;
+		//    userInterpolator = factory.UserInterpolator;
+		//    userInterpolatorType = factory.UserInterpolator.GetType();
+		//    this.childClassValidators = childClassValidators;
+		//    validatorMode = factory.ValidatorMode;
+		//}
+
+
+		public void GetObjectData(SerializationInfo info, StreamingContext context)
+		{
+			info.AddValue("interpolator", userInterpolatorType);
+			info.AddValue("beanClass", beanClass);
+			info.AddValue("beanValidators", beanValidators);
+			info.AddValue("memberValidators", memberValidators);
+			info.AddValue("childClassValidators", childClassValidators);
+			info.AddValue("memberGetters", memberGetters);
+			info.AddValue("childGetters", childGetters);
+			info.AddValue("defaultInterpolator", defaultInterpolator);
+			info.AddValue("membersAttributesDictionary", membersAttributesDictionary);
+		}
+
+		public ClassValidator(SerializationInfo info, StreamingContext ctxt)
+		{
+			System.Type interpolatorType = (System.Type)info.GetValue("interpolator", typeof(System.Type));
+			if(interpolatorType != null) userInterpolator = (IMessageInterpolator)Activator.CreateInstance(interpolatorType);
+			this.beanClass = (System.Type)info.GetValue("beanClass", typeof(System.Type));
+			this.beanValidators = (IList<IValidator>)info.GetValue("beanValidators", typeof(IList<IValidator>));
+			this.memberValidators = (IList<IValidator>)info.GetValue("memberValidators", typeof(IList<IValidator>));
+			this.childClassValidators = (IDictionary<System.Type, IClassValidator>)info.GetValue("childClassValidators", typeof(IDictionary<System.Type, IClassValidator>));
+			this.memberGetters = (List<MemberInfo>)info.GetValue("memberGetters", typeof(List<MemberInfo>));
+			this.childGetters = (List<MemberInfo>)info.GetValue("childGetters", typeof(List<MemberInfo>));
+			membersAttributesDictionary =
+				(Dictionary<MemberInfo, List<Attribute>>)
+				info.GetValue("membersAttributesDictionary", typeof (Dictionary<MemberInfo, List<Attribute>>));
+			defaultMessageBundle = GetDefaultResourceManager();
+			messageBundle = GetDefaultResourceManager();
+			
+			culture = CultureInfo.CurrentCulture;
+			this.defaultInterpolator = (DefaultMessageInterpolatorAggregator)info.GetValue("defaultInterpolator", typeof(DefaultMessageInterpolatorAggregator));
+			defaultInterpolator.Initialize(messageBundle,defaultMessageBundle,culture);
+
+		}
+
 	}
 }

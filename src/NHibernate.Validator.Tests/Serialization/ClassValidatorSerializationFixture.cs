@@ -24,25 +24,21 @@ namespace NHibernate.Validator.Tests.Serialization
 			NHVAssert.CanBeSerialized(cv);
 		}
 
-		[Test, Ignore("Not supported yet")]
+		[Test]
 		public void WorkAfterDeserialization()
 		{
 			PrefixMessageInterpolator pmi = new PrefixMessageInterpolator();
 
-			ClassValidator cv =
-				new ClassValidator(typeof(Address),
-													 new ResourceManager("NHibernate.Validator.Tests.Resource.Messages",
-																							 Assembly.GetExecutingAssembly()), pmi, new CultureInfo("en"),
+			ClassValidator cv = new ClassValidator(typeof(Address),
+													new ResourceManager("NHibernate.Validator.Tests.Resource.Messages",
+													Assembly.GetExecutingAssembly()), pmi, new CultureInfo("en"),
 													 ValidatorMode.UseAttribute);
 
 			RunSerializationTest(cv);
 
-			cv =
-				new ClassValidator(typeof(Address),
-													 new ResourceManager("NHibernate.Validator.Tests.Resource.Messages",
-																							 Assembly.GetExecutingAssembly()), pmi, new CultureInfo("en"),
-													 ValidatorMode.UseXml);
-
+			cv = new ClassValidator(typeof(Address), new ResourceManager("NHibernate.Validator.Tests.Resource.Messages",
+													Assembly.GetExecutingAssembly()), pmi, new CultureInfo("en"),
+													ValidatorMode.UseXml);
 			RunSerializationTest(cv);
 		}
 

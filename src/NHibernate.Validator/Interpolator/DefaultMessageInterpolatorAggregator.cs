@@ -9,20 +9,23 @@ using NHibernate.Validator.Exceptions;
 namespace NHibernate.Validator.Interpolator
 {
 	[Serializable]
-	public class DefaultMessageInterpolatorAggregator : IMessageInterpolator
+	public class DefaultMessageInterpolatorAggregator : IMessageInterpolator, ISerializable
 	{
-		private readonly IDictionary<IValidator, DefaultMessageInterpolator> interpolators =
-			new Dictionary<IValidator, DefaultMessageInterpolator>();
+		private readonly IDictionary<IValidator, DefaultMessageInterpolator> interpolators;
+			
 
 		//transient but repopulated by the object owing a reference to the interpolator
 		[NonSerialized] private CultureInfo culture;
 		[NonSerialized] private ResourceManager defaultMessageBundle;
 		[NonSerialized] private ResourceManager messageBundle;
+		[NonSerialized] private bool IsInitilized;
 
 		#region IMessageInterpolator Members
 
 		public string Interpolate(string message, IValidator validator, IMessageInterpolator defaultInterpolator)
 		{
+			CheckInitialized();
+
 			DefaultMessageInterpolator defaultMessageInterpolator;
 
 			if (!interpolators.TryGetValue(validator, out defaultMessageInterpolator))
@@ -31,6 +34,22 @@ namespace NHibernate.Validator.Interpolator
 			}
 
 			return defaultMessageInterpolator.Interpolate(message, validator, defaultInterpolator);
+		}
+
+		private void CheckInitialized()
+		{
+			lock (this)
+			{
+				if (!IsInitilized)
+				{
+					foreach (DefaultMessageInterpolator interpolator in interpolators.Values)
+					{
+						interpolator.Initialize(messageBundle, defaultMessageBundle, culture);
+					}
+
+					IsInitilized = true;
+				}
+			}
 		}
 
 		#endregion
@@ -42,14 +61,14 @@ namespace NHibernate.Validator.Interpolator
 			this.defaultMessageBundle = defaultMessageBundle;
 		}
 
-		[OnDeserialized]
-		private void DeserializationCallBack(StreamingContext context)
-		{
-			foreach (DefaultMessageInterpolator interpolator in interpolators.Values)
-			{
-				interpolator.Initialize(messageBundle, defaultMessageBundle, culture);
-			}
-		}
+		//[OnDeserialized]
+		//private void DeserializationCallBack(StreamingContext context)
+		//{
+		//    foreach (DefaultMessageInterpolator interpolator in interpolators.Values)
+		//    {
+		//        interpolator.Initialize(messageBundle, defaultMessageBundle, culture);
+		//    }
+		//}
 
 		public void AddInterpolator(Attribute attribute, IValidator validator)
 		{
@@ -70,6 +89,27 @@ namespace NHibernate.Validator.Interpolator
 			{
 				throw new AssertionFailureException("Validator not registred to the MessageInterceptorAggregator");
 			}
+		}
+
+		public DefaultMessageInterpolatorAggregator()
+		{
+			interpolators = new Dictionary<IValidator, DefaultMessageInterpolator>();
+		}
+
+		public DefaultMessageInterpolatorAggregator(SerializationInfo info, StreamingContext context)
+		{
+			interpolators = (IDictionary<IValidator, DefaultMessageInterpolator>)
+				info.GetValue("interpolators", typeof(IDictionary<IValidator, DefaultMessageInterpolator>));
+
+			 foreach (DefaultMessageInterpolator interpolator in interpolators.Values)
+		    {
+		        interpolator.Initialize(messageBundle, defaultMessageBundle, culture);
+		    }
+		}
+
+		public void GetObjectData(SerializationInfo info, StreamingContext context)
+		{
+			info.AddValue("interpolators", interpolators);
 		}
 	}
 }
