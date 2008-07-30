@@ -61,15 +61,6 @@ namespace NHibernate.Validator.Interpolator
 			this.defaultMessageBundle = defaultMessageBundle;
 		}
 
-		//[OnDeserialized]
-		//private void DeserializationCallBack(StreamingContext context)
-		//{
-		//    foreach (DefaultMessageInterpolator interpolator in interpolators.Values)
-		//    {
-		//        interpolator.Initialize(messageBundle, defaultMessageBundle, culture);
-		//    }
-		//}
-
 		public void AddInterpolator(Attribute attribute, IValidator validator)
 		{
 			DefaultMessageInterpolator interpolator = new DefaultMessageInterpolator();
@@ -101,10 +92,6 @@ namespace NHibernate.Validator.Interpolator
 			interpolators = (IDictionary<IValidator, DefaultMessageInterpolator>)
 				info.GetValue("interpolators", typeof(IDictionary<IValidator, DefaultMessageInterpolator>));
 
-			 foreach (DefaultMessageInterpolator interpolator in interpolators.Values)
-		    {
-		        interpolator.Initialize(messageBundle, defaultMessageBundle, culture);
-		    }
 		}
 
 		public void GetObjectData(SerializationInfo info, StreamingContext context)
