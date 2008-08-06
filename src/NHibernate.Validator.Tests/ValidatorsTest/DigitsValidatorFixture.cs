@@ -10,6 +10,7 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		{
 			DigitsValidator v = new DigitsValidator();
 			v.Initialize(new DigitsAttribute(3));
+			Assert.IsTrue(v.IsValid(0));
 			Assert.IsTrue(v.IsValid(9));
 			Assert.IsTrue(v.IsValid(99));
 			Assert.IsTrue(v.IsValid(99.0));
@@ -24,16 +25,26 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 			Assert.IsFalse(v.IsValid("aa.bb"));
 
 			v.Initialize(new DigitsAttribute(3, 2));
+			Assert.IsTrue(v.IsValid(0));
+			Assert.IsTrue(v.IsValid(1));
 			Assert.IsTrue(v.IsValid(100.100));
 			Assert.IsTrue(v.IsValid(99.99));
+
 			Assert.IsFalse(v.IsValid(1000.0));
 			Assert.IsFalse(v.IsValid(9.233));
 			Assert.IsFalse(v.IsValid("1233"));
+			
 
 			v.Initialize(new DigitsAttribute(0, 2));
+			Assert.IsTrue(v.IsValid(0));
 			Assert.IsTrue(v.IsValid(0.12));
+			Assert.IsTrue(v.IsValid(0.1));
+			Assert.IsTrue(v.IsValid(0.00000000000));
+
 			Assert.IsFalse(v.IsValid(1.12));
 			Assert.IsFalse(v.IsValid(0.123));
+			
+			
 		}
 	}
 }
