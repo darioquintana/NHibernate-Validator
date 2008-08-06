@@ -4,7 +4,13 @@ using NHibernate.Validator.Engine;
 namespace NHibernate.Validator
 {
 	/// <summary>
-	/// Not empty and not null constraint
+	/// Ensure a IEnumerable (including string) to be not null and not empty.
+	/// <code>
+	/// <example>
+	/// Valid values: "abc"; new int[] {1}; new List&lt;int>(new int[] { 1 });
+	/// Invalid values: null; ""; 123; new int[0]; new List&lt;int>();
+	/// </example>
+	/// </code>
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
