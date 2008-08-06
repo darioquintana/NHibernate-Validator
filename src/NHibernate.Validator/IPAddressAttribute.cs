@@ -3,6 +3,9 @@ using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
+	/// <summary>
+	/// Must be a valid IP address.
+	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof (IPAddressValidator))]

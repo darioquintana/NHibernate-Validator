@@ -4,7 +4,7 @@ using NHibernate.Validator.Engine;
 namespace NHibernate.Validator
 {
 	/// <summary>
-	/// Check that a Date representation apply in the past
+	/// Check that a date representation apply in the past
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]

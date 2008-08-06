@@ -4,7 +4,7 @@ using NHibernate.Validator.Engine;
 namespace NHibernate.Validator
 {
 	/// <summary>
-	/// Not null constraint
+	/// Ensure the member to be not null.
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]

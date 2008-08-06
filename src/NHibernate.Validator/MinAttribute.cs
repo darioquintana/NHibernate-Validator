@@ -4,7 +4,7 @@ using NHibernate.Validator.Engine;
 namespace NHibernate.Validator
 {
 	/// <summary>
-	/// Min restriction on a numeric annotated elemnt (or the string representation of a numeric)
+	/// Min restriction on a numeric annotated element (or the string representation of a numeric)
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
