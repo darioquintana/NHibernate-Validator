@@ -70,6 +70,15 @@ namespace NHibernate.Validator.Interpolator
 			}
 			else
 			{
+				if (ruleArgs.Message == null)
+				{
+					throw new ArgumentException(string.Format("The value of the message in {0} attribute is null (nothing for VB.Net Users). Add some message ", clazz) +
+"on the attribute to solve this issue. For Example:\n" +
+"- private string message = \"Error on property Foo\";\n" +
+"Or you can use interpolators with resources files:\n" +
+"-private string message = \"{validator.MyValidatorMessage}\";");
+				}
+				
 				attributeMessage = ruleArgs.Message;
 			}
 

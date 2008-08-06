@@ -13,6 +13,12 @@ namespace NHibernate.Validator.Tests.CustomValidator
 			private string SomeField;
 		}
 
+		public class Foo2
+		{
+			[BadValidatorMessageIsNull]
+			private string SomeField;
+		}
+
 
 		[Test,ExpectedException(typeof(HibernateValidatorException))]
 		public void ExceptionMustBeThrown()
@@ -23,5 +29,21 @@ namespace NHibernate.Validator.Tests.CustomValidator
 
 			vtor.GetInvalidValues(f);
 		}
+
+		/// <summary>
+		/// Expected an HibernateValidatorException instead of a NullReferenceException.
+		/// </summary>
+		[Test, ExpectedException(typeof(HibernateValidatorException))]
+		public void MessageNull()
+		{
+			IClassValidator vtor = new ClassValidator(typeof(Foo2));
+
+			Foo2 f = new Foo2();
+
+			vtor.GetInvalidValues(f);
+		}
+
+
+
 	}
 }
