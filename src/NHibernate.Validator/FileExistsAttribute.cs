@@ -3,6 +3,9 @@ using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator
 {
+	/// <summary>
+	/// The file, where string is pointing to, must exist.
+	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof(FileExistsValidator))]
