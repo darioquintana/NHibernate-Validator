@@ -8,6 +8,6 @@ using System.Reflection;
 [assembly: AssemblyProduct("NHibernate.Validator")]
 [assembly: AssemblyCopyright("Licensed under LGPL.")]
 [assembly: AssemblyVersionAttribute("1.0.0.0")]
-[assembly: AssemblyInformationalVersionAttribute("1.0.0.0 Beta1")]
-[assembly: AssemblyFileVersionAttribute("1.0.0.0 Beta1")]
+[assembly: AssemblyInformationalVersionAttribute("1.0.0.0 CR1")]
+[assembly: AssemblyFileVersionAttribute("1.0.0.0 CR1")]
 [assembly: AssemblyDelaySignAttribute(false)]
