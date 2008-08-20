@@ -1,14 +1,19 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{599516E0-E10D-4F44-B5E1-B7B67EFC931A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NHibernate.Validator</RootNamespace>
     <AssemblyName>NHibernate.Validator</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -175,13 +180,15 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Cfg\nhv-configuration.xsd">
-      <SubType>Designer</SubType>
+      <SubType>
+      </SubType>
     </EmbeddedResource>
     <None Include="Cfg\nhv-configuration.xsx">
       <DependentUpon>nhv-configuration.xsd</DependentUpon>
     </None>
     <None Include="Cfg\nhv-mapping.xsd">
-      <SubType>Designer</SubType>
+      <SubType>
+      </SubType>
     </None>
     <None Include="Cfg\nhv-mapping.xsx">
       <DependentUpon>nhv-mapping.xsd</DependentUpon>
