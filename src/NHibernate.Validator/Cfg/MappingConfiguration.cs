@@ -76,7 +76,7 @@ namespace NHibernate.Validator.Cfg
 			get { return resource; }
 		}
 
-		#region IEquatable<MappingConfiguration> Members
+		#region IEquatable<MappingConfiguration> And System.Object Members
 
 		public bool Equals(MappingConfiguration other)
 		{
@@ -107,6 +107,18 @@ namespace NHibernate.Validator.Cfg
 
 			// invalid or empty
 			return false;
+		}
+
+		public override bool Equals(object obj)
+		{
+			MappingConfiguration other = obj as MappingConfiguration;
+			if (other == null) return false;
+			return Equals(other);
+		}
+
+		public override int GetHashCode()
+		{
+			return (file + assembly + resource).GetHashCode();
 		}
 
 		#endregion
