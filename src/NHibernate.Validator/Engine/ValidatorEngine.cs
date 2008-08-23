@@ -408,8 +408,7 @@ namespace NHibernate.Validator.Engine
 		}
 
 		/// <summary>
-		/// Gets a <see cref="IClassValidator"/> for a given <see cref="System.Type"/> without
-		/// add it to the engine.
+		/// Gets a <see cref="IClassValidator"/> for a given <see cref="System.Type"/>
 		/// </summary>
 		/// <param name="entityType">The given <see cref="System.Type"/>.</param>
 		/// <returns>

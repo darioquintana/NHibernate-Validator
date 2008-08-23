@@ -48,6 +48,11 @@ namespace NHibernate.Validator.Engine
 			get { return classMappingFactory; }
 		}
 
+		/// <summary>
+		/// Get the validator for a type. If doesn't exists, will create one, add to the engine and return it.
+		/// </summary>
+		/// <param name="type">Type for the validator</param>
+		/// <returns>Validator encountered or created-and-added.</returns>
 		public override IClassValidator GetRootValidator(System.Type type)
 		{
 			IClassValidator result;
