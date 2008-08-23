@@ -23,7 +23,7 @@ namespace NHibernate.Validator.Tests.Assertions
 			{
 				if (!tp.IsSerializable)
 				{
-					FailureMessage.AddLine(string.Format("    class {0} is not Serializable", tp.FullName));
+					FailureMessage.WriteLine(string.Format("    class {0} is not Serializable", tp.FullName));
 					failedCount++;
 				}
 			}
