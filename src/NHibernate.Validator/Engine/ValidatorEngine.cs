@@ -34,7 +34,6 @@ namespace NHibernate.Validator.Engine
 		private bool applyToDDL;
 		private bool autoRegisterListeners;
 
-		//TODO: test the thread-safeness
 		private readonly ThreadSafeDictionary<System.Type, ValidatableElement> validators =
 			new ThreadSafeDictionary<System.Type, ValidatableElement>(new Dictionary<System.Type, ValidatableElement>());
 		private static readonly ValidatableElement alwaysValidPlaceHolder = new ValidatableElement(typeof (object), new EmptyClassValidator());
