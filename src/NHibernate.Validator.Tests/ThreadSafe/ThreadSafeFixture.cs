@@ -59,15 +59,6 @@ namespace NHibernate.Validator.Tests.ThreadSafe
 			    	});
 		}
 
-		[Test, Explicit]
-		public void AddValidatorWithoutConcurrence()
-		{
-			for (int i = 0; i < ITERATIONS; i++)
-			{
-				ve.AddValidator<Foo>();
-			}
-		}
-
 		[Test]
 		public void IsValid()
 		{
@@ -83,6 +74,23 @@ namespace NHibernate.Validator.Tests.ThreadSafe
 				}
 			});
 		}
+
+		[Test]
+		public void Validate()
+		{
+			ve = new ValidatorEngine();
+
+			Run(delegate
+			{
+				for (int i = 0; i < ITERATIONS; i++)
+				{
+					Thread t = new Thread(delegate() { ve.Validate(new Foo()); });
+
+					t.Start();
+				}
+			});
+		}
+
 
 
 	}
