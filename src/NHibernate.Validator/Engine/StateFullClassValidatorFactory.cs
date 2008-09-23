@@ -14,7 +14,7 @@ namespace NHibernate.Validator.Engine
 		private static readonly IClassMappingFactory defaultClassMappingFactory = new JITClassMappingFactory();
 
 		[NonSerialized] private IClassMappingFactory classMappingFactory = defaultClassMappingFactory;
-		private readonly Dictionary<System.Type, IClassValidator> validators = new Dictionary<System.Type, IClassValidator>();
+		private readonly IDictionary<System.Type, IClassValidator> validators = new Dictionary<System.Type, IClassValidator>();
 
 		public StateFullClassValidatorFactory(ResourceManager resourceManager, CultureInfo culture, IMessageInterpolator userInterpolator, ValidatorMode validatorMode) 
 			: base(resourceManager, culture, userInterpolator, validatorMode) {}
@@ -55,13 +55,16 @@ namespace NHibernate.Validator.Engine
 		/// <returns>Validator encountered or created-and-added.</returns>
 		public override IClassValidator GetRootValidator(System.Type type)
 		{
-			IClassValidator result;
-			if(!validators.TryGetValue(type, out result))
+			lock (this)
 			{
-				result = new ClassValidator(type, new Dictionary<System.Type, IClassValidator>(), this);
-				validators.Add(type, result);
+                IClassValidator result;
+				if (!validators.TryGetValue(type, out result))
+				{
+					result = new ClassValidator(type, new Dictionary<System.Type, IClassValidator>(), this);
+					validators.Add(type, result);
+				}
+				return result;
 			}
-			return result;
 		}
 
 		public override void GetChildValidator(IClassValidatorImplementor parentValidator, System.Type childType)
