@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using System.Security;
 
 [assembly: CLSCompliant(true)]
 [assembly: AssemblyTitle("NHibernate.Validator.Specific")]
@@ -11,3 +12,4 @@ using System.Reflection;
 [assembly: AssemblyInformationalVersionAttribute("1.0.0.0 GA")]
 [assembly: AssemblyFileVersionAttribute("1.0.0.0 GA")]
 [assembly: AssemblyDelaySignAttribute(false)]
+[assembly: AllowPartiallyTrustedCallers]
