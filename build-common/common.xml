@@ -14,7 +14,7 @@
 	<!-- 
 		These are used to set the correct attributes in AssemblyInfo.cs.  
 	-->
-	<property name="project.company" value="nhforge.org" />
+	<property name="project.company" value="NHibernate Community - www.nhforge.org" />
 
 	<!--
 		Version number computation

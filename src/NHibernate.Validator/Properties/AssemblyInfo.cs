@@ -16,7 +16,7 @@ using System.Security;
 [assembly: CLSCompliantAttribute(true)]
 [assembly: AssemblyTitleAttribute("NHibernate.Validator")]
 [assembly: AssemblyDescriptionAttribute("NHibernate Validator")]
-[assembly: AssemblyCompanyAttribute("nhforge.org")]
+[assembly: AssemblyCompanyAttribute("NHibernate Community - www.nhforge.org")]
 [assembly: AssemblyProductAttribute("NHibernate.Validator")]
 [assembly: AssemblyCopyrightAttribute("Licensed under LGPL.")]
 [assembly: AssemblyVersionAttribute("1.0.0.4000")]
