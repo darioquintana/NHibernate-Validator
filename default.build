@@ -29,7 +29,8 @@
 	</fileset>
 
 	<fileset id="buildfiles.tests" basedir="src">
-		<include name="NHibernate.Validator.Tests/default.build" />				
+		<include name="NHibernate.Validator.Tests/default.build" />
+		<include name="NHibernate.Validator.Specific.Tests/default.build" />
 	</fileset>
 
 	<target name="init" depends="common.init"

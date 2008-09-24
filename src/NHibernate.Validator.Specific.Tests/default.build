@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<project
+		name="NHibernate.Validator.Specific.Tests"
+		default="build"
+		description="Unit tests for NHibernate Validator Specific"
+		xmlns="http://nant.sf.net/release/0.85-rc3/nant.xsd">
+
+	<property name="root.dir" value="../.." />
+	<include buildfile="${root.dir}/build-common/common-project.xml" />
+
+	<target name="init" depends="common.init">
+		<property name="clover.instrument" value="false" />
+		<assemblyfileset id="project.references" basedir="${bin.dir}">
+			<include name="System.dll" />
+			<include name="System.Data.dll" />
+			<include name="System.XML.dll" />
+			<include name="NHibernate.Validator.dll" />
+			<include name="NHibernate.Validator.Specific.dll" />
+			<include name="NHibernate.Validator.Tests.dll" />
+			<include name="NHibernate.dll" />
+			<include name="nunit.framework.dll" />
+			<include name="log4net.dll" />
+			<include name="Iesi.Collections.dll" />
+		</assemblyfileset>
+		
+		<resourcefileset id="project.resources" prefix="NHibernate.Validator.Specific.Tests" dynamicprefix="true">
+			
+			<include name="**/*.resx"/>	
+			<include name="**/*.xsd" />
+			<include name="**/*.xml" />			
+			
+			<exclude name="**/_ReSharper*/**"/>
+			<exclude name="**/*.resharper" />
+			<exclude name="bin/**/*.xml" />
+			<exclude name="obj/**" />
+			
+		</resourcefileset>
+		
+		<fileset id="project.sources">
+			<include name="**/*.cs" />
+		</fileset>
+		
+	</target>
+	
+	<target name="build" depends="init common.compile-tests" >	
+	</target>
+	
+	<target name="test" depends="init build common.run-tests" />
+
+	<!-- Intentionally empty -->
+	<target name="generate-assemblyinfo" />
+</project>
