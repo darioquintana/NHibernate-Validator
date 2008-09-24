@@ -44,10 +44,22 @@
 		<!-- Copy framework-neutral libraries -->
 		<copy todir="${bin.dir}" >
 			<fileset basedir="${lib.dir}">
-				<include name="*.dll" /> 
-				<include name="*.exe" />
-				<include name="*.xml" />
-				<include name="*.license.txt" />
+				<!--include name="*.dll" /--> 				
+				<include name="Castle.Core.dll"  />
+				<include name="Castle.DynamicProxy2.dll"  />
+				<include name="nunit.*.dll"  />
+				<include name="log4net.dll"  />
+				<include name="Iesi.Collections.dll" />
+				<include name="NHibernate.dll"  />
+				
+				<!--include name="*.xml" /-->
+				<include name="Castle.Core.xml"  />
+				<include name="Castle.DynamicProxy2.xml"  />
+				<include name="log4net.xml"  />
+				<include name="Iesi.Collections.xml" />
+				<include name="NHibernate.xml"  />				
+				<!--include name="*.exe" /-->
+				<!--include name="*.license.txt" /-->
 			</fileset>
 		</copy>
 	</target>
@@ -106,7 +118,8 @@
 		<copy todir="${source.tmpdir}">
 			<fileset>
 				<!-- copy dlls used by this build -->
-				<include name="${lib.dir}/**"  />
+				<include name="${lib.dir}/**"  />				
+				
 				<include name="${example.dir}/**"  />
 
 				<!-- copy all of the NHibernate source -->
