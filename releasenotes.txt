@@ -1,0 +1,40 @@
+Documentation and examples are available at www.nhforge.org
+Any feedback or issue can be sent to NHibernate user group(http://groups.google.com/group/nhusers) and will be greatly anticipated. 
+
+
+
+Release Notes - NHibernate.Validator - Version 1.0.0GA
+
+
+** Bug
+    * [NHV-14] - Make NHibernate.Validator Assembly Strongly-Named
+
+** Improvement
+    * [NHV-12] - ValidatorEngine Serializable
+    * [NHV-13] - ValidatorEngine Thread-Safe
+    * [NHV-17] - Also use String in ValidatorClass("Company.Project.MyValidator, MyAssembly") attribute
+    * [NHV-20] - Nant scripts
+
+
+** Patch
+    * [NHV-19] - Mark Assemblies with Allow Partially Trusted Callers by Default
+
+Release Notes - NHibernate.Validator - Version 1.0.0CR1
+
+** New Feature
+    * [NHV-2] - Add Validation for Uruguayan Identity document check digit
+    * [NHV-7] - New IBAN generic Validator
+    * [NHV-11] - CUIT/CUIL Validator for Argentina
+
+Release Notes - NHibernate.Validator - Version 1.0.0Beta1
+
+** Improvement
+    * [NHV-4] - Suggest: Return True if a PartitaIva value is String.Empty
+
+** New Feature
+    * [NHV-1] - Add a DLL with specific validations for different countries-cultures
+    * [NHV-3] - PartitaIVA
+    * [NHV-6] - Specific Validator for Italy: CodiceFiscale
+
+** Patch
+    * [NHV-5] - Change name of class "Cliente" under NHibernate.Validator.Specific.Tests.It
