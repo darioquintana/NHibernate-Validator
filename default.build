@@ -29,7 +29,7 @@
 	</fileset>
 
 	<fileset id="buildfiles.tests" basedir="src">
-		<include name="NHibernate.Validator.Test/default.build" />		
+		<include name="NHibernate.Validator.Tests/default.build" />		
 	</fileset>
 
 	<target name="init" depends="common.init"
@@ -83,12 +83,12 @@
 		</nunit2report>
 	</target>
 
-	<target name="test" depends="init build" description="Runs all NHibernate.ProxyGenerators tests for the current framework" unless="${skip.tests}">
-		<!--
+	<target name="test" depends="init build" description="Runs all NHibernate.Validator tests for the current framework" unless="${skip.tests}">
+		
 		<nant target="test">
 			<buildfiles refid="buildfiles.tests" />
 		</nant>
-		-->
+		
 		<!-- -->
 		<foreach item="File" property="buildfile">
 			<in>
