@@ -25,8 +25,9 @@
 
 		<resourcefileset id="project.resources" prefix="NHibernate.Validator" dynamicprefix="true">
 			
-			<include name="**/*.resx"/> 
-			
+			<include name="**/*.resx"/>
+
+			<include name="NHibernate.Validator.pfx"/>
 			
 			<include name="**/*.xsd" />
 			<include name="**/*.xml" />
@@ -39,7 +40,7 @@
 		
 		<fileset id="project.sources">
 			<include name="**/*.cs" />
-		</fileset>
+		</fileset>		
 		
 	</target>
 

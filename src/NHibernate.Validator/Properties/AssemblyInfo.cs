@@ -23,5 +23,6 @@ using System.Security;
 [assembly: AssemblyInformationalVersionAttribute("1.0.0.4000")]
 [assembly: AssemblyFileVersionAttribute("1.0.0.4000")]
 [assembly: AssemblyDelaySignAttribute(false)]
+[assembly: AssemblyKeyFileAttribute("..\\..\\..\\..\\src\\NHibernate.Validator.snk")]
 [assembly: AllowPartiallyTrustedCallersAttribute()]
 
