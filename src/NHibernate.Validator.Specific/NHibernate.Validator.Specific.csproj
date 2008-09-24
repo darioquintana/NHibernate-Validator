@@ -44,11 +44,11 @@
   <ItemGroup>
     <Compile Include="Ar\CUITAttribute.cs" />
     <Compile Include="Ar\CUITValidator.cs" />
-    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="It\CodiceFiscaleAttribute.cs" />
     <Compile Include="It\CodiceFiscaleValidator.cs" />
     <Compile Include="It\PartitaIvaAttribute.cs" />
     <Compile Include="It\PartitaIvaValidator.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Uy\CedulaIdentidadAttribute.cs" />
     <Compile Include="Uy\CedulaIdentidadValidator.cs" />
   </ItemGroup>
@@ -60,9 +60,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

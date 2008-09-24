@@ -25,11 +25,11 @@
 
 	<fileset id="buildfiles.all" basedir="src">
 		<include name="NHibernate.Validator/default.build" />
-		
+		<include name="NHibernate.Validator.Specific/default.build" />
 	</fileset>
 
 	<fileset id="buildfiles.tests" basedir="src">
-		<include name="NHibernate.Validator.Tests/default.build" />		
+		<include name="NHibernate.Validator.Tests/default.build" />				
 	</fileset>
 
 	<target name="init" depends="common.init"
