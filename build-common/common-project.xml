@@ -104,9 +104,8 @@
 		<property overwrite="false" name="assembly.title" value="${project::get-name()}" />
 		<property overwrite="false" name="assembly.version" value="${project.version.numeric}" />
 		<property overwrite="false" name="assembly.version.informational" value="${project.version.numeric}" />
-		<property overwrite="false" name="assembly.version.file" value="${project.version.numeric}" />
+		<property overwrite="false" name="assembly.version.file" value="${project.version.numeric}" />	
 		<property overwrite="false" name="assembly.copyright" value="Licensed under LGPL." />
- 
 	</target>
 
 	<target name="common.generate-assemblyinfo"
@@ -131,6 +130,7 @@
 				<attribute type="AssemblyInformationalVersionAttribute" value="${assembly.version.informational}" />
 				<attribute type="AssemblyFileVersionAttribute" value="${assembly.version.file}" /> 
 				<attribute type="AssemblyDelaySignAttribute" value="false" />
+				<attribute type="AssemblyKeyFileAttribute" value="..\..\..\..\src\NHibernate.Validator.snk" />
 				
 				<!-- For some reason, NAnt doesn't detect that APTCA has a public no-argument constructor -->
 				<attribute asis="true" type="AllowPartiallyTrustedCallersAttribute" if="${assembly.allow-partially-trusted-callers}" />
