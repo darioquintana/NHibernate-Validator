@@ -4,6 +4,7 @@
 	<description>
 		<![CDATA[
 		This file contains common tasks tailored specifically for the NHibernate
+
 		build process. The goal was to define all the actions in this file, so
 		that actual project build files only have to configure a few variables
 		and call tasks in this file.
@@ -49,17 +50,9 @@
 
 	<include buildfile="common.xml" />
 
-	<target name="common.clover-setup" if="${clover.enabled}">
-		<clover-setup 
-			initstring="${root.dir}/${clover.db}"
-			builddir="${root.dir}/${clover.src}/${project::get-name()}"
-			enabled="${clover.instrument}"
-			flushinterval="1000"
-		/>
-	</target>
+	 
 
-	<target name="common.compile-tests"
-		depends="common.clover-setup"
+	<target name="common.compile-tests" 
 		description="Compile NUnit tests and copy App.config file to the output directory, if it exists.">
 
 		<csc 
@@ -67,6 +60,7 @@
 			define="${current.build.defines}"
 			debug="${build.debug}"
 			output="${bin.dir}/${project::get-name()}.dll"
+			optimize="${build.optimize}"
 		>
 			<sources refid="project.sources" />
 			<references refid="project.references" />
@@ -82,8 +76,7 @@
 	</target>
 
 	<target name="common.compile-dll"
-		depends="common.clover-setup"
-		description="Compile sources into a DLL, using Clover if enabled">
+		description="Compile sources into a DLL">
 
 		<csc
 			target="library" 
@@ -100,25 +93,7 @@
 			<resources refid="project.resources" />
 		</csc>
 	</target>
-
-	<target name="common.compile-exe"
-		depends="common.clover-setup"
-		description="Compile sources into a console executable">
-
-		<csc
-			target="exe"
-			define="${current.build.defines}" 
-			debug="${build.debug}"
-			output="${bin.dir}/${project::get-name()}.exe" 
-		>
-			<nowarn>
-				<warning number="1591" /> <!-- No XML comment for publicly visible member -->
-			</nowarn>
-			<sources refid="project.sources" />
-			<references refid="project.references" />
-			<resources refid="project.resources" />
-		</csc>
-	</target>
+ 
 
 	<target name="common.set-assembly-attribute-values">
 		<property overwrite="false" name="assembly.is-cls-compliant" value="true" />
@@ -131,21 +106,14 @@
 		<property overwrite="false" name="assembly.version.informational" value="${project.version.numeric}" />
 		<property overwrite="false" name="assembly.version.file" value="${project.version.numeric}" />
 		<property overwrite="false" name="assembly.copyright" value="Licensed under LGPL." />
-		<property overwrite="false" name="assembly.keyfile" value="${key.file}" />
-		<property overwrite="false" name="assembly.sign" value="${sign}" />
-
-		<!--
-			Disable CLSCompliantAttribute for non-instrumented assemblies during Clover
-			build. The attribute causes build problems.
-		-->
-		<property name="assembly.is-cls-compliant" value="false" if="${clover.enabled and not clover.instrument}" />
+ 
 	</target>
 
 	<target name="common.generate-assemblyinfo"
 		depends="common.init common.set-assembly-attribute-values"
 		description="Generate AssemblyInfo.cs using assembly.* properties."
 	>
-		<asminfo output="AssemblyInfo.cs" language="CSharp">
+		<asminfo output="Properties\AssemblyInfo.cs" language="CSharp">
 			<imports>
 				<import namespace="System" />
 				<import namespace="System.Reflection" />
@@ -161,8 +129,7 @@
 				<attribute type="AssemblyCopyrightAttribute" value="${assembly.copyright}" />
 				<attribute type="AssemblyVersionAttribute" value="${assembly.version}" />
 				<attribute type="AssemblyInformationalVersionAttribute" value="${assembly.version.informational}" />
-				<attribute type="AssemblyFileVersionAttribute" value="${assembly.version.file}" />
-				<attribute type="AssemblyKeyFileAttribute" value="${assembly.keyfile}" if="${assembly.sign}"/>
+				<attribute type="AssemblyFileVersionAttribute" value="${assembly.version.file}" /> 
 				<attribute type="AssemblyDelaySignAttribute" value="false" />
 				
 				<!-- For some reason, NAnt doesn't detect that APTCA has a public no-argument constructor -->
@@ -188,44 +155,6 @@
 
 	</target>
 
-	<target name="common.run-database-tests"
-		depends="common.put-connection-settings-into-app-config common.run-tests common.remove-connection-settings-from-app-config" />
-
-	<target name="common.put-connection-settings-into-app-config">
-
-		<property name="app.config" value="${bin.dir}/${project::get-name()}.dll.config" />
-
-		<!-- make sure the config file is writable -->
-		<attrib file="${app.config}" readonly="false" />
-
-		<!-- 
-			Tell nhibernate how to connect to the test database.
-		-->
-		<xmlpoke
-			file="${app.config}"
-			xpath="/configuration/nhibernate/add[@key='hibernate.dialect']/@value"
-			value="${nhibernate.dialect}" 
-		/>
-		<xmlpoke
-			file="${app.config}"
-			xpath="/configuration/nhibernate/add[@key='hibernate.connection.driver_class']/@value"
-			value="${nhibernate.connection.driver_class}" 
-		/>
-		<xmlpoke
-			file="${app.config}"
-			xpath="/configuration/nhibernate/add[@key='hibernate.connection.connection_string']/@value"
-			value="${nhibernate.connection.connection_string}" 
-		/>
-	</target>
-
-	<target name="common.remove-connection-settings-from-app-config">
-		<property name="app.config" value="${bin.dir}/${project::get-name()}.dll.config" />
-
-		<xmlpoke
-			file="${app.config}"
-			xpath="/configuration/nhibernate/add[@key='hibernate.connection.connection_string']/@value"
-			value="conn string here" 
-		/>
-	</target>
+ 
 
 </project>
