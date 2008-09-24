@@ -25,12 +25,16 @@
 
 		<resourcefileset id="project.resources" prefix="NHibernate.Validator" dynamicprefix="true">
 			
+			<include name="**/*.resx"/> 
+			
+			
 			<include name="**/*.xsd" />
 			<include name="**/*.xml" />
 			
 			<exclude name="**/_ReSharper*/**"/>
 			<exclude name="**/*.resharper" />
 			<exclude name="bin/**/*.xml" />
+			<exclude name="obj/**" />
 		</resourcefileset>
 		
 		<fileset id="project.sources">
