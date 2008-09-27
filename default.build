@@ -9,8 +9,7 @@
 	<property name="lib.dir" value="${root.dir}../../lib/net/2.0/" />
 	<property name="doc.dir" value="${root.dir}/doc" /> 
 	<property name="example.dir" value="${root.dir}/examples" /> 
-
-
+	
 	<!-- Pass -D:skip.tests=true to NAnt to skip running tests when building -->
 	<property name="skip.tests" value="false" overwrite="false" />
 
@@ -63,6 +62,11 @@
 				<!--include name="*.license.txt" /-->
 			</fileset>
 		</copy>
+
+		<copy file="src/NHibernate.Validator/Cfg/nhv-mapping.xsd" tofile="${build.dir}/schema/nhv-mapping.xsd"/>	
+		<copy file="src/NHibernate.Validator/Cfg/nhv-configuration.xsd" tofile="${build.dir}/schema/nhv-configuration.xsd"/>	
+
+		
 	</target>
 
 	<target name="build"
