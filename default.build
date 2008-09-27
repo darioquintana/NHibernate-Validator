@@ -188,12 +188,24 @@
 			<fileset basedir="${build.dir}">
 				<include name="releasenotes.txt" />
 				<include name="*.xsd" />
-				<include name="bin/**" />
+				<include name="bin/**" />								
 				<include name="schema/**" />
+				
 				<exclude name="**/*.hbm.xml" />
 				<exclude name="**/*.commandlog" />
 				<exclude name="**/MyTest*" />
 			</fileset>
+			
+			 <fileset basedir="${build.dir}/tmp-src" prefix="bin/net-2.0">
+				<include name="Castle.Core.xml" />
+				<include name="Castle.DynamicProxy2.xml" />
+				<include name="Iesi.Collections.xml" />
+				<include name="log4net.xml" />
+				<include name="NHibernate.xml" />
+				<include name="NHibernate.Validator.xml" />
+				<include name="NHibernate.Validator.Specific.dll" />
+			</fileset>
+
 		</zip>
 	</target>
 
