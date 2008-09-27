@@ -189,6 +189,7 @@
 				<include name="releasenotes.txt" />
 				<include name="*.xsd" />
 				<include name="bin/**" />
+				<include name="schema/**" />
 				<exclude name="**/*.hbm.xml" />
 				<exclude name="**/*.commandlog" />
 				<exclude name="**/MyTest*" />
