@@ -179,11 +179,11 @@
 				<include name="*.Test*" />
 			</fileset>
 		</delete>
-		<copy todir="${example.dir}/lib">
+		<!--copy todir="${example.dir}/lib">
 			<fileset basedir="${bin.dir}">
 				<include name="*" />
 			</fileset>
-		</copy>
+		</copy-->
 	</target>
 	
 	<target name="binaries-zip" depends="init binaries copy-release-notes">
