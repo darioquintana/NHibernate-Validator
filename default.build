@@ -156,7 +156,7 @@
 
 	<target name="sources-zip" depends="sources">
 		<mkdir dir="${build.dir}/src" />
-		<zip zipfile="${build.dir}/src/NHibernate.Validator-${project.version}-src.zip">
+		<zip zipfile="${build.dir}/src/NHibernate.Validator-${project.version}-src-and-examples.zip">
 			<fileset basedir="${source.tmpdir}">
 				<include name="**/*" />
 			</fileset>
@@ -218,7 +218,7 @@
 		<move todir="${dist.output.dir}" flatten="true" overwrite="true">
 			<fileset basedir="${build.dir}">
 				<include name="*.msi" />
-				<include name="src/NHibernate.Validator-${project.version}-src.zip" />
+				<include name="src/NHibernate.Validator-${project.version}-src-and-examples.zip" />
 				<include name="bin/NHibernate.Validator-${project.version}-bin.zip" />
 			</fileset>
 		</move>    
