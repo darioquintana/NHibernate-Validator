@@ -134,6 +134,7 @@
 				<include name="build-common/**" />
 
 				<include name="*.build" />
+				<include name="*.bat" />
 				<include name="gfdl.txt" />
 				<include name="lgpl.txt" />
 				<include name="releasenotes.txt" />
