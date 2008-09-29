@@ -6,7 +6,7 @@
 >
 	<property name="root.dir" value="." />
 	<include buildfile="${root.dir}/build-common/common.xml" />
-	<property name="lib.dir" value="${root.dir}../../lib/net/2.0/" />
+	<property name="lib.dir" value="${root.dir}/lib" />
 	<property name="doc.dir" value="${root.dir}/doc" /> 
 	<property name="example.dir" value="${root.dir}/examples" /> 
 	
