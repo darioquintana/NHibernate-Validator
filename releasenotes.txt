@@ -10,6 +10,7 @@ Release Notes - NHibernate.Validator - Version 1.0.0GA
     * [NHV-13] - ValidatorEngine Thread-Safe
     * [NHV-17] - Also use String in ValidatorClass("Company.Project.MyValidator, MyAssembly") attribute
     * [NHV-20] - Nant scripts
+	* [NHV-21] - Upgrade to NH 2.0.1 GA
 ** Patch
     * [NHV-19] - Mark Assemblies with Allow Partially Trusted Callers by Default
 
