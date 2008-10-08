@@ -3,6 +3,7 @@ Any feedback or issue can be sent to NHibernate user group(http://groups.google.
 
 Release Notes - NHibernate.Validator - Version 1.2.0
 ** BREAKING CHANGES
+    * Target framework .NET 3.5
     * Constraints moved in Constraints namespace.
 
 Release Notes - NHibernate.Validator - Version 1.0.0GA
