@@ -27,6 +27,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\NHibernate.Validator.Specific.xml</DocumentationFile>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -44,6 +47,10 @@
   <ItemGroup>
     <Compile Include="Ar\CUITAttribute.cs" />
     <Compile Include="Ar\CUITValidator.cs" />
+    <Compile Include="Br\CEPAttribute.cs" />
+    <Compile Include="Br\CEPValidator.cs" />
+    <Compile Include="Br\CPFAttribute.cs" />
+    <Compile Include="Br\CPFValidator.cs" />
     <Compile Include="It\CodiceFiscaleAttribute.cs" />
     <Compile Include="It\CodiceFiscaleValidator.cs" />
     <Compile Include="It\PartitaIvaAttribute.cs" />
