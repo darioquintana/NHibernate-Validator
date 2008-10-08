@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Reflection;
 using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Cfg.MappingSchema;
-using NHibernate.Validator.Constraints;
 using NHibernate.Validator.Mappings;
 using NUnit.Framework;
+using RangeAttribute = NHibernate.Validator.Constraints.RangeAttribute;
 
 namespace NHibernate.Validator.Tests.Mappings
 {

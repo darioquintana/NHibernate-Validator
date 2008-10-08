@@ -1,3 +1,4 @@
+using System;
 using System.Globalization;
 using System.Reflection;
 using System.Resources;
@@ -14,14 +15,14 @@ namespace NHibernate.Validator.Tests.Serialization
 		[Test]
 		public void IsSerializable()
 		{
-			NHVAssert.IsSerializable(typeof(ClassValidator));
+			Assert.That(typeof (ClassValidator), Has.Attribute<SerializableAttribute>());
 		}
 
 		[Test]
 		public void CanBeSerialized()
 		{
 			ClassValidator cv = new ClassValidator(typeof(Address));
-			NHVAssert.CanBeSerialized(cv);
+			Assert.That(cv, Is.BinarySerializable);
 		}
 
 		[Test]

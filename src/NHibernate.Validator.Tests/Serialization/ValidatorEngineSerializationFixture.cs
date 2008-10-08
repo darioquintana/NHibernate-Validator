@@ -1,8 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Resources;
-using System.Text;
 using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Engine;
 using NHibernate.Validator.Tests.Base;
@@ -17,14 +13,14 @@ namespace NHibernate.Validator.Tests.Serialization
 		[Test]
 		public void IsSerializable()
 		{
-			NHVAssert.IsSerializable(typeof(ValidatorEngine));
+			Assert.That(typeof(ValidatorEngine), Has.Attribute<SerializableAttribute>());
 		}
 
 		[Test]
 		public void CanBeSerialized()
 		{
 			ValidatorEngine ve = new ValidatorEngine();
-			NHVAssert.CanBeSerialized(ve);
+			Assert.That(ve, Is.BinarySerializable);
 		}
 
 		[Test]

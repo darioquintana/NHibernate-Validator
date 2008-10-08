@@ -7,6 +7,7 @@ using NHibernate.Validator.Constraints;
 using NHibernate.Validator.Exceptions;
 using NHibernate.Validator.Interpolator;
 using NUnit.Framework;
+using RangeAttribute = NHibernate.Validator.Constraints.RangeAttribute;
 
 namespace NHibernate.Validator.Tests.Interpolation
 {

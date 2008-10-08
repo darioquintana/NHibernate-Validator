@@ -12,24 +12,26 @@ namespace NHibernate.Validator.Tests.Serialization
 		[Test]
 		public void AllRuleArgsAreSerializable()
 		{
-			NHVAssert.InheritedAreSerializable(typeof(IRuleArgs));
+			var implementors = GetValidatorImplementors();
+			implementors.ForEach(x => Assert.That(x, Has.Attribute<SerializableAttribute>()));
 		}
 
 		[Test]
 		public void AllRuleArgsCanBeSerialized()
 		{
 			// Test that can be serialized after creation and test default constructor
-			foreach (System.Type implementor in GetValidatorImplementors())
+			var implementors = GetValidatorImplementors();
+			foreach (var implementor in implementors)
 			{
 				object validatorInstance = Activator.CreateInstance(implementor);
-				NHVAssert.CanBeSerialized(validatorInstance);
+				Assert.That(validatorInstance, Is.BinarySerializable);
 			}
 		}
 
-		private static IList<System.Type> GetValidatorImplementors()
+		private static List<System.Type> GetValidatorImplementors()
 		{
-			Assembly assembly = typeof(IValidator).Assembly;
-			IList<System.Type> result = new List<System.Type>();
+			Assembly assembly = typeof(IRuleArgs).Assembly;
+			var result = new List<System.Type>();
 			if (assembly != null)
 			{
 				System.Type[] types = assembly.GetTypes();

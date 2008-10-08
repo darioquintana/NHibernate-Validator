@@ -65,7 +65,7 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 			Assert.AreEqual(1, validator.GetInvalidValues(f).Length);
 
 			f.Future = DateTime.Now.AddMilliseconds(-1);
-			f.Past = DateTime.Now;
+			f.Past = DateTime.Now.AddMilliseconds(+1);
 			Assert.AreEqual(2, validator.GetInvalidValues(f).Length);
 		}
 

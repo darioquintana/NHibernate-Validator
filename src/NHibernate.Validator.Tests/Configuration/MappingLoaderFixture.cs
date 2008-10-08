@@ -165,11 +165,11 @@ namespace NHibernate.Validator.Tests.Configuration
 			ml.AddFile(tmpf);
 		}
 
-		[Test, ExpectedException(typeof(ValidatorConfigurationException), "Could not load file NoExistFile")]
+		[Test]
 		public void AddWrongFileName()
 		{
 			MappingLoader ml = new MappingLoader();
-			ml.AddFile("NoExistFile");
+			Assert.Throws<ValidatorConfigurationException>(() => ml.AddFile("NoExistFile"),"Could not load file NoExistFile");
 		}
 
 		[Test, ExpectedException(typeof(ValidatorConfigurationException))]

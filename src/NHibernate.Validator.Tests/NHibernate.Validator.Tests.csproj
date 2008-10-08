@@ -54,10 +54,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\NHibernate.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.core, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\nunit.core.dll</HintPath>
-    </Reference>
     <Reference Include="nunit.framework, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\nunit.framework.dll</HintPath>
@@ -71,9 +67,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assertions\IsSerializableAsserter.cs" />
-    <Compile Include="Assertions\InheritedAreSerializableAsserter.cs" />
-    <Compile Include="Assertions\CanBeSerializedAsserter.cs" />
     <Compile Include="Base\Address.cs" />
     <Compile Include="Base\Animal.cs" />
     <Compile Include="Base\AssertAnimalAttribute.cs" />
@@ -125,7 +118,6 @@
     <Compile Include="Mappings\MixSuricato.cs" />
     <Compile Include="Mappings\XmlClassMappingFixture.cs" />
     <Compile Include="LoggerSpy.cs" />
-    <Compile Include="NHVAssert.cs" />
     <Compile Include="SerializationHelper.cs" />
     <Compile Include="Serialization\ClassValidatorSerializationFixture.cs" />
     <Compile Include="Serialization\RuleArgsSerializationFixture.cs" />
