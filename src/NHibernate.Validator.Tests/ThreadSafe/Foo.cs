@@ -1,4 +1,6 @@
-﻿namespace NHibernate.Validator.Tests.ThreadSafe
+using NHibernate.Validator.Constraints;
+
+namespace NHibernate.Validator.Tests.ThreadSafe
 {
 	public class Foo
 	{

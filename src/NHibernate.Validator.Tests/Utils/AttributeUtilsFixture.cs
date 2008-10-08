@@ -1,3 +1,4 @@
+using NHibernate.Validator.Constraints;
 using NHibernate.Validator.Util;
 using NUnit.Framework;
 

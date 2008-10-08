@@ -1,3 +1,5 @@
+using NHibernate.Validator.Constraints;
+
 namespace NHibernate.Validator.Tests.Integration
 {
 	public class MartianPk

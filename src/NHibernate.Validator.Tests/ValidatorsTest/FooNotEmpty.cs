@@ -1,3 +1,5 @@
+using NHibernate.Validator.Constraints;
+
 namespace NHibernate.Validator.Tests.ValidatorsTest
 {
 	public class FooNotEmpty

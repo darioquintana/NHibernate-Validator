@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using NHibernate.Validator.Constraints;
 using NUnit.Framework;
 
 namespace NHibernate.Validator.Tests.ValidatorsTest

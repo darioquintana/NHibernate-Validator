@@ -11,6 +11,7 @@ using log4net;
 using NHibernate.Mapping;
 using NHibernate.Properties;
 using NHibernate.Util;
+using NHibernate.Validator.Constraints;
 using NHibernate.Validator.Exceptions;
 using NHibernate.Validator.Interpolator;
 using NHibernate.Validator.Mappings;

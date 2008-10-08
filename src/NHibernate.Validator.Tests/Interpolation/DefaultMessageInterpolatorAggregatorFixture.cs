@@ -3,6 +3,7 @@ using System.IO;
 using System.Reflection;
 using System.Resources;
 using System.Runtime.Serialization.Formatters.Binary;
+using NHibernate.Validator.Constraints;
 using NHibernate.Validator.Exceptions;
 using NHibernate.Validator.Interpolator;
 using NUnit.Framework;

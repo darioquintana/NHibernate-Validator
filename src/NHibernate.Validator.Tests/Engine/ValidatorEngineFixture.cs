@@ -2,6 +2,7 @@ using System.IO;
 using System.Xml;
 using log4net.Config;
 using NHibernate.Validator.Cfg;
+using NHibernate.Validator.Constraints;
 using NHibernate.Validator.Engine;
 using NHibernate.Validator.Exceptions;
 using NHibernate.Validator.Tests.Base;

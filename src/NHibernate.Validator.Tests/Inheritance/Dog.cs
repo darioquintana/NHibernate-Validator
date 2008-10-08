@@ -1,3 +1,5 @@
+using NHibernate.Validator.Constraints;
+
 namespace NHibernate.Validator.Tests.Inheritance
 {
     public class Dog : Animal, IBoneEater

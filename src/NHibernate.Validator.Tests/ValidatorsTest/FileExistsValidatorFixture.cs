@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NHibernate.Validator.Constraints;
 using NUnit.Framework;
 using System.IO;
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using NHibernate.Validator.Cfg.MappingSchema;
+using NHibernate.Validator.Constraints;
 using NHibernate.Validator.Exceptions;
 using NHibernate.Validator.Mappings;
 using NHibernate.Validator.Tests.Base;

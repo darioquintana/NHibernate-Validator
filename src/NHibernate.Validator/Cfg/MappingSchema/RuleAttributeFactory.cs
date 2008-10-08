@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using log4net;
 using NHibernate.Util;
 using System.Collections.Generic;
+using NHibernate.Validator.Constraints;
 using NHibernate.Validator.Exceptions;
 
 namespace NHibernate.Validator.Cfg.MappingSchema

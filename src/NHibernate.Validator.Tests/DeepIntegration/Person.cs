@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using NHibernate.Validator.Constraints;
 
 namespace NHibernate.Validator.Tests.DeepIntegration
 {

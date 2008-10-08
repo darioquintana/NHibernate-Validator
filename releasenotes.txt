@@ -1,6 +1,10 @@
 Documentation and examples are available at www.nhforge.org
 Any feedback or issue can be sent to NHibernate user group(http://groups.google.com/group/nhusers) and will be greatly anticipated. 
 
+Release Notes - NHibernate.Validator - Version 1.2.0
+** BREAKING CHANGES
+    * Constraints moved in Constraints namespace.
+
 Release Notes - NHibernate.Validator - Version 1.0.0GA
 
 ** Bug

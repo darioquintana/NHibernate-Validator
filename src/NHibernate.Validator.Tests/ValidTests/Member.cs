@@ -1,3 +1,4 @@
+using NHibernate.Validator.Constraints;
 using NHibernate.Validator.Tests.ValidTests;
 
 namespace NHibernate.Validator.Tests.ValidTests
