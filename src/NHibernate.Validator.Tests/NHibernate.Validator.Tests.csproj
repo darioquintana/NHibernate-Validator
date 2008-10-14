@@ -123,6 +123,9 @@
     <Compile Include="Serialization\RuleArgsSerializationFixture.cs" />
     <Compile Include="Serialization\ValidatorEngineSerializationFixture.cs" />
     <Compile Include="Serialization\ValidatorsSerializationFixture.cs" />
+    <Compile Include="Specifics\NHV-25\DictionaryValueKeyFixture.cs" />
+    <Compile Include="Specifics\NHV-25\Show.cs" />
+    <Compile Include="Specifics\NHV-25\Tv.cs" />
     <Compile Include="ThreadSafe\Foo.cs" />
     <Compile Include="ThreadSafe\ThreadSafeFixture.cs" />
     <Compile Include="Utils\AttributeUtilsFixture.cs" />

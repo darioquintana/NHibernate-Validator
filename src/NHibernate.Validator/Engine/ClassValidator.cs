@@ -120,7 +120,8 @@ namespace NHibernate.Validator.Engine
 
 		internal static bool ShouldNeedValidation(System.Type clazz)
 		{
-			return !clazz.FullName.StartsWith("System");
+			return (!clazz.FullName.StartsWith("System") &&
+			        !clazz.IsValueType);
 		}
 
 		/// <summary>
