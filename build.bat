@@ -1,2 +1,2 @@
-nant -t:net-2.0 test
+nant -t:net-3.5 test
 pause
