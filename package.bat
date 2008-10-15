@@ -1,2 +1,2 @@
-nant -t:net-2.0 -D:project.config=release cleanall package
+nant -t:net-3.5 -D:project.config=release cleanall package
 pause
