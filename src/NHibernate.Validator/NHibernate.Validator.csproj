@@ -159,7 +159,6 @@
     <Compile Include="Constraints\SizeAttribute.cs" />
     <Compile Include="Constraints\SizeValidator.cs" />
     <Compile Include="Util\AttributeUtils.cs" />
-    <Compile Include="Util\ThreadSafeDictionary.cs" />
     <Compile Include="Util\TypeUtils.cs" />
     <Compile Include="Engine\ValidatorClassAttribute.cs" />
     <Compile Include="Exceptions\ValidatorConfigurationException.cs" />

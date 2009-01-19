@@ -8,7 +8,6 @@ using NHibernate.Mapping;
 using NHibernate.Util;
 using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Exceptions;
-using NHibernate.Validator.Util;
 using Environment=NHibernate.Validator.Cfg.Environment;
 
 namespace NHibernate.Validator.Engine
