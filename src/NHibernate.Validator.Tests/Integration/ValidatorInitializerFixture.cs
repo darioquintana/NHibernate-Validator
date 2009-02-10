@@ -1,8 +1,10 @@
 using System.Reflection;
 using log4net.Config;
 using log4net.Core;
+using NHibernate.Event;
 using NHibernate.Validator.Cfg;
 using NUnit.Framework;
+using NHibernate.Validator.Event;
 
 namespace NHibernate.Validator.Tests.Integration
 {
@@ -63,6 +65,47 @@ namespace NHibernate.Validator.Tests.Integration
 						string.Format("Unable to apply constraints on DDL for [MappedClass={0}]", typeof (WrongClass1).FullName));
 				Assert.AreEqual(1, found);
 			}
+		}
+
+		[Test]
+		public void ShouldAppendToExistingListeners()
+		{
+			var cfg = new NHibernate.Cfg.Configuration();
+			if (TestConfigurationHelper.hibernateConfigFile != null)
+				cfg.Configure(TestConfigurationHelper.hibernateConfigFile);
+			cfg.SetListener(ListenerType.PreInsert, new ListenersStub());
+			cfg.SetListener(ListenerType.PreUpdate, new ListenersStub());
+			var nhvc = new NHVConfiguration();
+			nhvc.Properties[Environment.ApplyToDDL] = "true";
+			nhvc.Properties[Environment.AutoregisterListeners] = "true";
+			nhvc.Properties[Environment.ValidatorMode] = "UseAttribute";
+
+			ValidatorInitializer.Initialize(cfg);
+			Assert.That(cfg.EventListeners.PreInsertEventListeners.Length, Is.EqualTo(2));
+			Assert.That(cfg.EventListeners.PreInsertEventListeners[1], Is.TypeOf<ValidatePreInsertEventListener>());
+			Assert.That(cfg.EventListeners.PreUpdateEventListeners.Length, Is.EqualTo(2));
+			Assert.That(cfg.EventListeners.PreUpdateEventListeners[1], Is.TypeOf<ValidatePreUpdateEventListener>());
+		}
+
+		public class ListenersStub: IPreInsertEventListener, IPreUpdateEventListener
+		{
+			#region Implementation of IPreInsertEventListener
+
+			public bool OnPreInsert(PreInsertEvent @event)
+			{
+				return true;
+			}
+
+			#endregion
+
+			#region Implementation of IPreUpdateEventListener
+
+			public bool OnPreUpdate(PreUpdateEvent @event)
+			{
+				return true;
+			}
+
+			#endregion
 		}
 	}
 }

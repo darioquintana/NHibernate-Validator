@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using log4net;
 using NHibernate.Cfg;
 using NHibernate.Event;
@@ -43,8 +44,10 @@ namespace NHibernate.Validator.Cfg
 			//Autoregister Listeners
 			if (ve.AutoRegisterListeners)
 			{
-				cfg.SetListener(ListenerType.PreInsert, new ValidatePreInsertEventListener());
-				cfg.SetListener(ListenerType.PreUpdate, new ValidatePreUpdateEventListener());
+				cfg.SetListeners(ListenerType.PreInsert,
+				                 cfg.EventListeners.PreInsertEventListeners.Concat(new[] {new ValidatePreInsertEventListener()}).ToArray());
+				cfg.SetListeners(ListenerType.PreUpdate,
+												 cfg.EventListeners.PreUpdateEventListeners.Concat(new[] { new ValidatePreUpdateEventListener() }).ToArray());
 			}
 		}
 
