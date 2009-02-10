@@ -188,6 +188,9 @@
     <EmbeddedResource Include="Properties\DefaultValidatorMessages.lv.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\DefaultValidatorMessages.nl.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\DefaultValidatorMessages.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
