@@ -23,15 +23,15 @@ namespace NHibernate.Validator.Cfg
 
 			foreach (MappingConfiguration mc in mappings)
 			{
-				if (!string.IsNullOrEmpty(mc.Resource))
-				{
-					log.Debug("Resource " + mc.Resource + " in " + mc.Assembly);
-					AddResource(Assembly.Load(mc.Assembly), mc.Resource);
-				}
-				else if (!string.IsNullOrEmpty(mc.Assembly))
+				if (!string.IsNullOrEmpty(mc.Assembly) && string.IsNullOrEmpty(mc.Resource))
 				{
 					log.Debug("Assembly " + mc.Assembly);
 					AddAssembly(mc.Assembly);
+				}
+				else if (!string.IsNullOrEmpty(mc.Assembly) && !string.IsNullOrEmpty(mc.Resource))
+				{
+					log.Debug("Resource " + mc.Resource + " in " + mc.Assembly);
+					AddResource(Assembly.Load(mc.Assembly), mc.Resource);
 				}
 				else if (!string.IsNullOrEmpty(mc.File))
 				{
