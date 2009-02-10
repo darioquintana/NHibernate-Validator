@@ -169,9 +169,25 @@ namespace NHibernate.Validator.Engine
 		/// </summary>
 		/// <param name="config">The <see cref="INHVConfiguration"/> that is the configuration reader to configure NHibernate.Validator.</param>
 		/// <remarks>
-		/// Calling Configure(INHVConfiguration) will overwrite the values set in app.config or web.config
+		/// Calling Configure(INHVConfiguration) will overwrite the values set in app.config or web.config.
+		/// <para>
+		/// You can use this overload is you are working with Attributes or Xml-files.
+		/// </para>
 		/// </remarks>
 		public void Configure(INHVConfiguration config)
+		{
+			Configure(config, new MappingLoader());
+		}
+
+		/// <summary>
+		/// Configure NHibernate.Validator using the specified <see cref="INHVConfiguration"/>.
+		/// </summary>
+		/// <param name="config">The <see cref="INHVConfiguration"/> that is the configuration reader to configure NHibernate.Validator.</param>
+		/// <param name="ml">The <see cref="MappingLoader"/> instance.</param>
+		/// <remarks>
+		/// Calling Configure(INHVConfiguration) will overwrite the values set in app.config or web.config
+		/// </remarks>
+		public void Configure(INHVConfiguration config, MappingLoader ml)
 		{
 			if (config == null)
 			{
@@ -183,13 +199,15 @@ namespace NHibernate.Validator.Engine
 
 			applyToDDL = PropertiesHelper.GetBoolean(Environment.ApplyToDDL, config.Properties, true);
 			autoRegisterListeners = PropertiesHelper.GetBoolean(Environment.AutoregisterListeners, config.Properties, true);
-			defaultMode = CfgXmlHelper.ValidatorModeConvertFrom(PropertiesHelper.GetString(Environment.ValidatorMode, config.Properties, string.Empty));
-			interpolator = GetInterpolator(PropertiesHelper.GetString(Environment.MessageInterpolatorClass, config.Properties, string.Empty));
+			defaultMode =
+				CfgXmlHelper.ValidatorModeConvertFrom(PropertiesHelper.GetString(Environment.ValidatorMode, config.Properties,
+				                                                                 string.Empty));
+			interpolator =
+				GetInterpolator(PropertiesHelper.GetString(Environment.MessageInterpolatorClass, config.Properties, string.Empty));
 
 			factory = new StateFullClassValidatorFactory(null, null, interpolator, defaultMode);
 
 			// UpLoad Mappings
-			MappingLoader ml = new MappingLoader();
 			ml.LoadMappings(config.Mappings);
 			Initialize(ml);
 		}
