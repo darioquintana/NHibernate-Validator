@@ -114,12 +114,21 @@ namespace NHibernate.Validator.Cfg
 			IMappingDocumentParser parser = new MappingDocumentParser();
 			try
 			{
-				mappings.Add(parser.Parse(reader));
+				AddMapping(parser.Parse(reader));
 			}
 			catch(Exception e)
 			{
 				throw new ValidatorConfigurationException("Could not load file " + fileName, e);
 			}
+		}
+
+		public void AddMapping(NhvMapping mapping)
+		{
+			if (mapping == null)
+			{
+				throw new ArgumentNullException("mapping");
+			}
+			mappings.Add(mapping);
 		}
 
 		public void AddFile(string filePath)
