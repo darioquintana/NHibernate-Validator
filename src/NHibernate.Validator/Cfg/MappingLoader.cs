@@ -38,6 +38,11 @@ namespace NHibernate.Validator.Cfg
 					log.Debug("File " + mc.File);
 					AddFile(mc.File);
 				}
+				else
+				{
+					log.Warn(string.Format("Mapping configuration ignored: Assembly>{0}< Resource>{1}< File>{2}<", mc.Assembly,
+					                       mc.Resource, mc.File));
+				}
 			}
 		}
 
