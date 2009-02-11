@@ -80,5 +80,25 @@ namespace NHibernate.Validator.Tests.Mappings
 			Assert.That(ocm.GetMemberAttributes(lpi).Count(), Is.EqualTo(1));
 			Assert.That(ocm.GetMemberAttributes(fpi).Count(), Is.EqualTo(1));
 		}
+
+		[Test]
+		public void ShouldNotAddAttributeMutipleTimesIfNotAllowed()
+		{
+			var ocm = new OpenClassMapping<CleanAddress>();
+			PropertyInfo lpi = typeof(CleanAddress).GetProperty("Line1", membersBindingFlags);
+			ocm.AddConstraint(lpi, new NotNullAttribute());
+			ocm.AddConstraint(lpi, new NotNullAttribute());
+			Assert.That(ocm.GetMembers().Count(), Is.EqualTo(1));
+			Assert.That(ocm.GetMemberAttributes(lpi).Count(), Is.EqualTo(1));
+			Assert.That(ocm.GetMemberAttributes(lpi).First(), Is.InstanceOf<NotNullAttribute>());
+
+			ocm = new OpenClassMapping<CleanAddress>();
+			ocm.AddConstraint(lpi, new PatternAttribute("[0-9]+"));
+			ocm.AddConstraint(lpi, new PatternAttribute(@"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b"));
+			Assert.That(ocm.GetMembers().Count(), Is.EqualTo(1));
+			Assert.That(ocm.GetMemberAttributes(lpi).Count(), Is.EqualTo(2));
+			var first = ocm.GetMemberAttributes(lpi).OfType<PatternAttribute>().First();
+			Assert.That(first.Regex, Is.EqualTo("[0-9]+"));
+		}
 	}
 }

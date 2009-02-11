@@ -1,19 +1,22 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using NHibernate.Validator.Util;
 
 namespace NHibernate.Validator.Mappings
 {
-	public class OpenClassMapping<T> : IClassMapping where T:class
+	public class OpenClassMapping<T> : IClassMapping where T : class
 	{
-		protected List<Attribute> classAttributes= new List<Attribute>(5);
-		protected Dictionary<MemberInfo, List<Attribute>> membersAttributesDictionary = new Dictionary<MemberInfo, List<Attribute>>();
+		protected List<Attribute> classAttributes = new List<Attribute>(5);
+
+		protected Dictionary<MemberInfo, List<Attribute>> membersAttributesDictionary =
+			new Dictionary<MemberInfo, List<Attribute>>();
 
 		#region Implementation of IClassMapping
 
 		public System.Type EntityType
 		{
-			get { return typeof(T); }
+			get { return typeof (T); }
 		}
 
 		public IEnumerable<Attribute> GetClassAttributes()
@@ -31,9 +34,13 @@ namespace NHibernate.Validator.Mappings
 			List<Attribute> result;
 			membersAttributesDictionary.TryGetValue(member, out result);
 			if (result != null)
+			{
 				return result.AsReadOnly();
+			}
 			else
+			{
 				return new Attribute[0];
+			}
 		}
 
 		#endregion
@@ -58,7 +65,7 @@ namespace NHibernate.Validator.Mappings
 			{
 				throw new ArgumentNullException("attribute");
 			}
-			AddConstraint((MemberInfo)property, attribute);
+			AddMemberConstraint(property, attribute);
 		}
 
 		public void AddConstraint(FieldInfo field, Attribute attribute)
@@ -71,14 +78,23 @@ namespace NHibernate.Validator.Mappings
 			{
 				throw new ArgumentNullException("attribute");
 			}
-			AddConstraint((MemberInfo)field, attribute);
+			AddMemberConstraint(field, attribute);
 		}
 
-		private void AddConstraint(MemberInfo member, Attribute attribute)
+		public void AddMemberConstraint(MemberInfo member, Attribute attribute)
 		{
-			if (!membersAttributesDictionary.ContainsKey(member))
-				membersAttributesDictionary.Add(member, new List<Attribute>());
-			membersAttributesDictionary[member].Add(attribute);
+			List<Attribute> constraints;
+
+			if (!membersAttributesDictionary.TryGetValue(member, out constraints))
+			{
+				constraints = new List<Attribute>();
+				membersAttributesDictionary.Add(member, constraints);
+			}
+			Attribute found = constraints.Find(x => x.TypeId.Equals(attribute.TypeId));
+			if (found == null || AttributeUtils.AttributeAllowsMultiple(attribute))
+			{
+				membersAttributesDictionary[member].Add(attribute);
+			}
 		}
 	}
 }
