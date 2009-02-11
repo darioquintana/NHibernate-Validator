@@ -115,6 +115,8 @@
     <Compile Include="Interpolation\InterpolationFixture.cs" />
     <Compile Include="Mappings\A.cs" />
     <Compile Include="Mappings\AssertAnimalAttribute.cs" />
+    <Compile Include="Mappings\CleanAddress.cs" />
+    <Compile Include="Mappings\OpenClassMappingFixture.cs" />
     <Compile Include="Mappings\OtherValidator.cs" />
     <Compile Include="Mappings\MixAddress.cs" />
     <Compile Include="Mappings\MixedClassMappingFixture.cs" />

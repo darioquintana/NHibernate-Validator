@@ -69,6 +69,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cfg\Loquacious\IBooleanConstraints.cs" />
+    <Compile Include="Cfg\Loquacious\IDateTimeConstraints.cs" />
+    <Compile Include="Cfg\Loquacious\IValidationDefinition.cs" />
     <Compile Include="Constraints\AbstractLuhnValidator.cs" />
     <Compile Include="Constraints\AssertFalseAttribute.cs" />
     <Compile Include="Constraints\AssertFalseValidator.cs" />
@@ -122,6 +125,7 @@
     <Compile Include="Mappings\AttributeOverXmlClassMapping.cs" />
     <Compile Include="Mappings\IClassMapping.cs" />
     <Compile Include="Mappings\MixedClassMapping.cs" />
+    <Compile Include="Mappings\OpenClassMapping.cs" />
     <Compile Include="Mappings\ReflectionClassMapping.cs" />
     <Compile Include="Mappings\XmlClassMapping.cs" />
     <Compile Include="Mappings\XmlOverAttributeClassMapping.cs" />
