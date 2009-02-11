@@ -72,6 +72,7 @@
     <Compile Include="Cfg\Loquacious\IBooleanConstraints.cs" />
     <Compile Include="Cfg\Loquacious\IDateTimeConstraints.cs" />
     <Compile Include="Cfg\Loquacious\IValidationDefinition.cs" />
+    <Compile Include="Cfg\Loquacious\ValidationDef.cs" />
     <Compile Include="Constraints\AbstractLuhnValidator.cs" />
     <Compile Include="Constraints\AssertFalseAttribute.cs" />
     <Compile Include="Constraints\AssertFalseValidator.cs" />

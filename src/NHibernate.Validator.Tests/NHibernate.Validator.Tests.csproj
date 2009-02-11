@@ -92,6 +92,7 @@
     <Compile Include="Collections\XmlCollectionFixture.cs" />
     <Compile Include="Configuration\ACustomAttribute.cs" />
     <Compile Include="Configuration\ACustomValidator.cs" />
+    <Compile Include="Configuration\Loquacious\KnownRules.cs" />
     <Compile Include="Configuration\MappingLoaderFixture.cs" />
     <Compile Include="Configuration\RuleAttributeFactoryFixture.cs" />
     <Compile Include="Configuration\WellKnownRules.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="Integration\ValidatorInitializerFixture.cs" />
     <Compile Include="Interpolation\DefaultMessageInterpolatorAggregatorFixture.cs" />
     <Compile Include="Interpolation\InterpolationFixture.cs" />
+    <Compile Include="Configuration\Loquacious\ValidationDefFixture.cs" />
     <Compile Include="Mappings\A.cs" />
     <Compile Include="Mappings\AssertAnimalAttribute.cs" />
     <Compile Include="Mappings\CleanAddress.cs" />
