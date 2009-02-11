@@ -1,6 +1,5 @@
 using System;
 using System.Linq.Expressions;
-using NHibernate.Validator.Mappings;
 
 namespace NHibernate.Validator.Cfg.Loquacious
 {
@@ -11,7 +10,5 @@ namespace NHibernate.Validator.Cfg.Loquacious
 		
 		IBooleanConstraints Define(Expression<Func<T, bool>> property);
 		IBooleanConstraints Define(Expression<Func<T, bool?>> property);
-
-		IClassMapping GetMapping();
 	}
 }

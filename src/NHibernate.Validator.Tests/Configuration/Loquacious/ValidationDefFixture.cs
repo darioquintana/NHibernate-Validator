@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace NHibernate.Validator.Tests.Configuration.Loquacious
 {
-	[TestFixture, Ignore("Not supported yet")]
+	[TestFixture]
 	public class ValidationDefFixture
 	{
 		private const BindingFlags membersBindingFlags =
