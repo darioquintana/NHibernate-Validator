@@ -16,12 +16,12 @@ namespace NHibernate.Validator.Cfg
 		private static readonly ILog log = LogManager.GetLogger(typeof(MappingLoader));
 		private readonly List<NhvMapping> mappings= new List<NhvMapping>();
 
-		public void LoadMappings(IList<MappingConfiguration> mappings)
+		public void LoadMappings(IList<MappingConfiguration> configurationMappings)
 		{
-			if (mappings == null)
-				throw new ArgumentNullException("mappings");
+			if (configurationMappings == null)
+				throw new ArgumentNullException("configurationMappings");
 
-			foreach (MappingConfiguration mc in mappings)
+			foreach (MappingConfiguration mc in configurationMappings)
 			{
 				if (!string.IsNullOrEmpty(mc.Assembly) && string.IsNullOrEmpty(mc.Resource))
 				{
@@ -160,10 +160,10 @@ namespace NHibernate.Validator.Cfg
 		/// - The name o the resource must be the same name of the type and end with ".nhv.xml"
 		/// - The resource must stay in the same namespace of the type
 		/// </remarks>
-		public static NhvMapping GetMappingFor(System.Type type)
+		public static NhvMapping GetXmlMappingFor(System.Type type)
 		{
 			string resourceName = type.FullName + MappingFileDefaultExtension;
-			MappingLoader ml = new MappingLoader();
+			var ml = new MappingLoader();
 			try
 			{
 				ml.AddResource(type.Assembly, resourceName);

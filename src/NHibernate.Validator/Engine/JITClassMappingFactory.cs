@@ -56,7 +56,7 @@ namespace NHibernate.Validator.Engine
 
 		protected virtual NhvmClass GetXmlDefinitionFor(System.Type type)
 		{
-			NhvMapping mapp = MappingLoader.GetMappingFor(type);
+			NhvMapping mapp = MappingLoader.GetXmlMappingFor(type);
 			if (mapp != null && mapp.@class.Length > 0)
 			{
 				return mapp.@class[0];

@@ -47,7 +47,7 @@ namespace NHibernate.Validator.Tests.Configuration
 		[Test]
 		public void KnownRulesConvertAssing()
 		{
-			NhvMapping map = MappingLoader.GetMappingFor(typeof(WellKnownRules));
+			NhvMapping map = MappingLoader.GetXmlMappingFor(typeof(WellKnownRules));
 			NhvmClass cm = map.@class[0];
 			XmlClassMapping rm = new XmlClassMapping(cm);
 			MemberInfo mi;

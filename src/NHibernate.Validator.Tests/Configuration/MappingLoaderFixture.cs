@@ -230,10 +230,10 @@ namespace NHibernate.Validator.Tests.Configuration
 		[Test]
 		public void GetMappingForType()
 		{
-			NhvMapping mapping = MappingLoader.GetMappingFor(typeof(Base.Address));
+			NhvMapping mapping = MappingLoader.GetXmlMappingFor(typeof(Base.Address));
 			Assert.IsNotNull(mapping);
 			Assert.IsTrue(mapping == mapping.@class[0].rootMapping);
-			Assert.IsNull(MappingLoader.GetMappingFor(typeof(Base.Building)));
+			Assert.IsNull(MappingLoader.GetXmlMappingFor(typeof(Base.Building)));
 		}
 
 		[Test, ExpectedException(typeof(ArgumentNullException))]
