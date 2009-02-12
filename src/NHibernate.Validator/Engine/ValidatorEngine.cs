@@ -442,31 +442,35 @@ namespace NHibernate.Validator.Engine
 			return factory.GetRootValidator(entityType);
 		}
 
-		private IMessageInterpolator GetInterpolator(string interpolatorString)
+		private static IMessageInterpolator GetInterpolator(string interpolatorString)
 		{
-			if (!string.IsNullOrEmpty(interpolatorString))
+			return GetImplementation<IMessageInterpolator>(interpolatorString, "message interpolator");
+		}
+
+		private static T GetImplementation<T>(string classQualifiedName, string frendlyName) where T:class
+		{
+			if (!string.IsNullOrEmpty(classQualifiedName))
 			{
 				try
 				{
-					System.Type interpolatorType = ReflectHelper.ClassForName(interpolatorString);
-					interpolator = (IMessageInterpolator)Activator.CreateInstance(interpolatorType);
+					System.Type type = ReflectHelper.ClassForName(classQualifiedName);
+					return (T)Activator.CreateInstance(type);
 				}
 				catch (MissingMethodException ex)
 				{
-					throw new ValidatorConfigurationException("Public constructor was not found at message interpolator: " + interpolatorString, ex);
+					throw new ValidatorConfigurationException("Public constructor was not found at " + frendlyName + ": " + classQualifiedName, ex);
 				}
 				catch (InvalidCastException ex)
 				{
 					throw new ValidatorConfigurationException(
-						"Type does not implement the interface '" + typeof(IMessageInterpolator).FullName + "': " + interpolatorString,
-						ex);
+						"Type does not implement '" + typeof (T).FullName + "': " + classQualifiedName, ex);
 				}
 				catch (Exception ex)
 				{
-					throw new ValidatorConfigurationException("Unable to instanciate message interpolator: " + interpolatorString, ex);
+					throw new ValidatorConfigurationException("Unable to instanciate " + frendlyName + ": " + classQualifiedName, ex);
 				}
 			}
-			return interpolator;
+			return null;
 		}
 
 		private static string GetDefaultConfigurationFilePath()

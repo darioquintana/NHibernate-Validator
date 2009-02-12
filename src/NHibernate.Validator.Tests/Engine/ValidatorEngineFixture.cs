@@ -313,7 +313,7 @@ namespace NHibernate.Validator.Tests.Engine
 			catch (ValidatorConfigurationException e)
 			{
 				Assert.AreEqual(
-					"Type does not implement the interface '" + typeof(IMessageInterpolator).FullName + "': "
+					"Type does not implement '" + typeof(IMessageInterpolator).FullName + "': "
 					+ typeof(NoInterpolator).AssemblyQualifiedName, e.Message);
 			}
 
