@@ -9,14 +9,18 @@ namespace NHibernate.Validator.Cfg.Loquacious
 
 		#region Implementation of IBooleanConstraints
 
-		public void IsTrue()
+		public IRuleArgsOptions IsTrue()
 		{
-			AddRuleArg(new AssertTrueAttribute());
+			var args = new AssertTrueAttribute();
+			AddRuleArg(args);
+			return new FinalRuleArgsOptions(args);
 		}
 
-		public void IsFalse()
+		public IRuleArgsOptions IsFalse()
 		{
-			AddRuleArg(new AssertFalseAttribute());
+			var args = new AssertFalseAttribute();
+			AddRuleArg(args);
+			return new FinalRuleArgsOptions(args);
 		}
 
 		#endregion

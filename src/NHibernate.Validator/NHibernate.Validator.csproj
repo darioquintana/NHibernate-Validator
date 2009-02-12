@@ -72,9 +72,11 @@
     <Compile Include="Cfg\Loquacious\BaseConstraints.cs" />
     <Compile Include="Cfg\Loquacious\BooleanConstraints.cs" />
     <Compile Include="Cfg\Loquacious\DateTimeConstraints.cs" />
+    <Compile Include="Cfg\Loquacious\FinalRuleArgsOptions.cs" />
     <Compile Include="Cfg\Loquacious\IBooleanConstraints.cs" />
     <Compile Include="Cfg\Loquacious\IConstraintAggregator.cs" />
     <Compile Include="Cfg\Loquacious\IDateTimeConstraints.cs" />
+    <Compile Include="Cfg\Loquacious\IRuleArgsOptions.cs" />
     <Compile Include="Cfg\Loquacious\IStringConstraints.cs" />
     <Compile Include="Cfg\Loquacious\IValidationDefinition.cs" />
     <Compile Include="Cfg\Loquacious\ValidationDef.cs" />

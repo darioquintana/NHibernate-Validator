@@ -38,5 +38,22 @@ namespace NHibernate.Validator.Tests.Configuration.Loquacious
 				Define(x => x.DtProp).IsInThePast();
 			}
 		}
+
+		[Test]
+		public void ShouldAssignRuleArgsOptions()
+		{
+			PropertyInfo lpi = typeof(KnownRules).GetProperty("DtProp", membersBindingFlags);
+			var v = new ValidationDef<KnownRules>();
+			var expected = "{validator.past}";
+			v.Define(x => x.DtProp).IsInThePast();
+			var cm = v.GetMapping();
+			Assert.That(cm.GetMemberAttributes(lpi).OfType<PastAttribute>().First().Message, Is.EqualTo(expected));
+
+			v = new ValidationDef<KnownRules>();
+			expected = "The date is in the past.";
+			v.Define(x => x.DtProp).IsInThePast().WithMessage(expected);
+			cm = v.GetMapping();
+			Assert.That(cm.GetMemberAttributes(lpi).OfType<PastAttribute>().First().Message, Is.EqualTo(expected));
+		}
 	}
 }

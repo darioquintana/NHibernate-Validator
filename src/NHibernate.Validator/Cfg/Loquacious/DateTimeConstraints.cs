@@ -9,14 +9,18 @@ namespace NHibernate.Validator.Cfg.Loquacious
 
 		#region Implementation of IDateTimeConstraints
 
-		public void IsInThePast()
+		public IRuleArgsOptions IsInThePast()
 		{
-			AddRuleArg(new PastAttribute());
+			var args = new PastAttribute();
+			AddRuleArg(args);
+			return new FinalRuleArgsOptions(args);
 		}
 
-		public void IsInTheFuture()
+		public IRuleArgsOptions IsInTheFuture()
 		{
-			AddRuleArg(new FutureAttribute());
+			var args = new FutureAttribute();
+			AddRuleArg(args);
+			return new FinalRuleArgsOptions(args);
 		}
 
 		#endregion

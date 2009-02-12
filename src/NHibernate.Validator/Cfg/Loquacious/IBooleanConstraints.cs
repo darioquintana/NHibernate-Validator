@@ -2,7 +2,7 @@ namespace NHibernate.Validator.Cfg.Loquacious
 {
 	public interface IBooleanConstraints
 	{
-		void IsTrue();
-		void IsFalse();
+		IRuleArgsOptions IsTrue();
+		IRuleArgsOptions IsFalse();
 	}
 }
