@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Cfg.Loquacious
 {
@@ -17,6 +18,12 @@ namespace NHibernate.Validator.Cfg.Loquacious
 		public void AddRuleArg(Attribute ruleArgs)
 		{
 			Parent.Add(Member, ruleArgs);
+		}
+
+		public IRuleArgsOptions AddWithFinalRuleArgOptions<TRuleArg>(TRuleArg ruleArgs) where TRuleArg : Attribute, IRuleArgs
+		{
+			AddRuleArg(ruleArgs);
+			return new FinalRuleArgsOptions(ruleArgs);
 		}
 	}
 }

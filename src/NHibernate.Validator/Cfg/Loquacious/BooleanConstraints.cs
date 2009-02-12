@@ -11,16 +11,12 @@ namespace NHibernate.Validator.Cfg.Loquacious
 
 		public IRuleArgsOptions IsTrue()
 		{
-			var args = new AssertTrueAttribute();
-			AddRuleArg(args);
-			return new FinalRuleArgsOptions(args);
+			return AddWithFinalRuleArgOptions(new AssertTrueAttribute());
 		}
 
 		public IRuleArgsOptions IsFalse()
 		{
-			var args = new AssertFalseAttribute();
-			AddRuleArg(args);
-			return new FinalRuleArgsOptions(args);
+			return AddWithFinalRuleArgOptions(new AssertFalseAttribute());
 		}
 
 		#endregion

@@ -11,16 +11,12 @@ namespace NHibernate.Validator.Cfg.Loquacious
 
 		public IRuleArgsOptions IsInThePast()
 		{
-			var args = new PastAttribute();
-			AddRuleArg(args);
-			return new FinalRuleArgsOptions(args);
+			return AddWithFinalRuleArgOptions(new PastAttribute());
 		}
 
 		public IRuleArgsOptions IsInTheFuture()
 		{
-			var args = new FutureAttribute();
-			AddRuleArg(args);
-			return new FinalRuleArgsOptions(args);
+			return AddWithFinalRuleArgOptions(new FutureAttribute());
 		}
 
 		#endregion
