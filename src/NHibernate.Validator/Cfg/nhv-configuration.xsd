@@ -27,12 +27,14 @@
 									apply_to_ddl= true;
 									autoregister_listeners= true;
 									message_interpolator_class=null (example: YourNameSpace.YourInterpolator, YourAssembly);
+									external_mappings_loader_class=NHibernate.Validator.Cfg.XmlMappingLoader;
 									default_validator_mode= UseAttribute (see NHibernate.Validator.Engine.ValidatorMode for others values)
 								</xs:documentation>
 							</xs:annotation>
 							<xs:restriction base="xs:string">
 								<xs:enumeration value="apply_to_ddl" />
 								<xs:enumeration value="autoregister_listeners" />
+								<xs:enumeration value="external_mappings_loader_class" />
 								<xs:enumeration value="message_interpolator_class" />
 								<xs:enumeration value="default_validator_mode" />
 							</xs:restriction>

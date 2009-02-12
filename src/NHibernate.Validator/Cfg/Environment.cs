@@ -30,6 +30,11 @@ namespace NHibernate.Validator.Cfg
 		public const string MessageInterpolatorClass = "message_interpolator_class";
 
 		/// <summary>
+		/// Mapping loader implementor.
+		/// </summary>
+		public const string MappingLoaderClass = "external_mappings_loader_class";
+
+		/// <summary>
 		/// Define validation mode.
 		/// Default <see cref="Engine.ValidatorMode.UseAttribute"/>
 		/// </summary>

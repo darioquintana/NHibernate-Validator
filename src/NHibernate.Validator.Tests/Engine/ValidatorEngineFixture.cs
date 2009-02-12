@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using log4net.Config;
@@ -5,6 +6,7 @@ using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Constraints;
 using NHibernate.Validator.Engine;
 using NHibernate.Validator.Exceptions;
+using NHibernate.Validator.Mappings;
 using NHibernate.Validator.Tests.Base;
 using NHibernate.Validator.Tests.Integration;
 using NUnit.Framework;
@@ -273,7 +275,7 @@ namespace NHibernate.Validator.Tests.Engine
 				throw new NotImplementedException();
 			}
 		}
-		private class NoInterpolator{}
+		private class WhatEver{}
 		private class BadConstructorInterpolator : IMessageInterpolator
 		{
 			public BadConstructorInterpolator()
@@ -306,7 +308,7 @@ namespace NHibernate.Validator.Tests.Engine
 
 			try
 			{
-				nhvc.Properties[Environment.MessageInterpolatorClass] = typeof(NoInterpolator).AssemblyQualifiedName;
+				nhvc.Properties[Environment.MessageInterpolatorClass] = typeof(WhatEver).AssemblyQualifiedName;
 				ve.Configure(nhvc);
 				Assert.Fail("Expected exception for invalid interpolator");
 			}
@@ -314,7 +316,7 @@ namespace NHibernate.Validator.Tests.Engine
 			{
 				Assert.AreEqual(
 					"Type does not implement '" + typeof(IMessageInterpolator).FullName + "': "
-					+ typeof(NoInterpolator).AssemblyQualifiedName, e.Message);
+					+ typeof(WhatEver).AssemblyQualifiedName, e.Message);
 			}
 
 			try
@@ -329,7 +331,108 @@ namespace NHibernate.Validator.Tests.Engine
 					"Unable to instanciate message interpolator: "
 					+ typeof(BadConstructorInterpolator).AssemblyQualifiedName, e.Message);
 			}
+		}
 
+		private class NoDefConstructorLoader : IMappingLoader
+		{
+			private NoDefConstructorLoader() { }
+
+			public void LoadMappings(IList<MappingConfiguration> configurationMappings)
+			{
+				throw new NotImplementedException();
+			}
+
+			public void AddAssembly(string assemblyName)
+			{
+				throw new NotImplementedException();
+			}
+
+			public void AddAssembly(Assembly assembly)
+			{
+				throw new NotImplementedException();
+			}
+
+			public IEnumerable<IClassMapping> GetMappings()
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		private class BadConstructorLoader : IMappingLoader
+		{
+			public BadConstructorLoader()
+			{
+				throw new NotImplementedException();
+			}
+
+			public void LoadMappings(IList<MappingConfiguration> configurationMappings)
+			{
+				throw new NotImplementedException();
+			}
+
+			public void AddAssembly(string assemblyName)
+			{
+				throw new NotImplementedException();
+			}
+
+			public void AddAssembly(Assembly assembly)
+			{
+				throw new NotImplementedException();
+			}
+
+			public IEnumerable<IClassMapping> GetMappings()
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		[Test]
+		public void GetMappingLoader()
+		{
+			var ve = new ValidatorEngine();
+			var nhvc = new NHVConfiguration();
+			try
+			{
+				nhvc.Properties[Environment.MappingLoaderClass] = typeof(NoDefConstructorLoader).AssemblyQualifiedName;
+				ve.Configure(nhvc);
+				Assert.Fail("Expected exception for invalid loader");
+			}
+			catch (ValidatorConfigurationException e)
+			{
+				Assert.AreEqual(
+					"Public constructor was not found at mapping loader: "
+					+ typeof(NoDefConstructorLoader).AssemblyQualifiedName, e.Message);
+			}
+
+			try
+			{
+				nhvc.Properties[Environment.MappingLoaderClass] = typeof(WhatEver).AssemblyQualifiedName;
+				ve.Configure(nhvc);
+				Assert.Fail("Expected exception for invalid loader");
+			}
+			catch (ValidatorConfigurationException e)
+			{
+				Assert.AreEqual(
+					"Type does not implement '" + typeof(IMappingLoader).FullName + "': "
+					+ typeof(WhatEver).AssemblyQualifiedName, e.Message);
+			}
+
+			try
+			{
+				nhvc.Properties[Environment.MappingLoaderClass] = typeof(BadConstructorLoader).AssemblyQualifiedName;
+				ve.Configure(nhvc);
+				Assert.Fail("Expected exception for invalid loader");
+			}
+			catch (ValidatorConfigurationException e)
+			{
+				Assert.AreEqual(
+					"Unable to instanciate mapping loader: "
+					+ typeof(BadConstructorLoader).AssemblyQualifiedName, e.Message);
+			}
+
+			// should work
+			nhvc.Properties[Environment.MappingLoaderClass] = typeof(XmlMappingLoader).AssemblyQualifiedName;
+			ve.Configure(nhvc);
 		}
 	}
 }

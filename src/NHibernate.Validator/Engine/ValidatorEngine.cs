@@ -176,18 +176,18 @@ namespace NHibernate.Validator.Engine
 		/// </remarks>
 		public void Configure(INHVConfiguration config)
 		{
-			Configure(config, new XmlMappingLoader());
+			Configure(config, null);
 		}
 
 		/// <summary>
 		/// Configure NHibernate.Validator using the specified <see cref="INHVConfiguration"/>.
 		/// </summary>
 		/// <param name="config">The <see cref="INHVConfiguration"/> that is the configuration reader to configure NHibernate.Validator.</param>
-		/// <param name="ml">The <see cref="XmlMappingLoader"/> instance.</param>
+		/// <param name="mappingLoader">The <see cref="XmlMappingLoader"/> instance.</param>
 		/// <remarks>
 		/// Calling Configure(INHVConfiguration) will overwrite the values set in app.config or web.config
 		/// </remarks>
-		public void Configure(INHVConfiguration config, IMappingLoader ml)
+		public void Configure(INHVConfiguration config, IMappingLoader mappingLoader)
 		{
 			if (config == null)
 			{
@@ -203,13 +203,22 @@ namespace NHibernate.Validator.Engine
 				CfgXmlHelper.ValidatorModeConvertFrom(PropertiesHelper.GetString(Environment.ValidatorMode, config.Properties,
 				                                                                 string.Empty));
 			interpolator =
-				GetInterpolator(PropertiesHelper.GetString(Environment.MessageInterpolatorClass, config.Properties, string.Empty));
+				GetImplementation<IMessageInterpolator>(
+					PropertiesHelper.GetString(Environment.MessageInterpolatorClass, config.Properties, string.Empty),
+					"message interpolator");
 
 			factory = new StateFullClassValidatorFactory(null, null, interpolator, defaultMode);
 
 			// UpLoad Mappings
-			ml.LoadMappings(config.Mappings);
-			Initialize(ml);
+			if(mappingLoader == null)
+			{
+				// Configured or Default loader (XmlMappingLoader)
+				mappingLoader = GetImplementation<IMappingLoader>(
+				                	PropertiesHelper.GetString(Environment.MappingLoaderClass, config.Properties, string.Empty),
+				                	"mapping loader") ?? new XmlMappingLoader();
+			}
+			mappingLoader.LoadMappings(config.Mappings);
+			Initialize(mappingLoader);
 		}
 
 		private void Initialize(IMappingLoader loader)
@@ -440,11 +449,6 @@ namespace NHibernate.Validator.Engine
 				return null;
 
 			return factory.GetRootValidator(entityType);
-		}
-
-		private static IMessageInterpolator GetInterpolator(string interpolatorString)
-		{
-			return GetImplementation<IMessageInterpolator>(interpolatorString, "message interpolator");
 		}
 
 		private static T GetImplementation<T>(string classQualifiedName, string frendlyName) where T:class
