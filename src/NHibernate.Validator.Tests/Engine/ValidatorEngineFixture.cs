@@ -25,13 +25,13 @@ namespace NHibernate.Validator.Tests.Engine
 			NHVConfiguration nhvc = new NHVConfiguration();
 			nhvc.Properties[Environment.ApplyToDDL] = "false";
 			nhvc.Properties[Environment.AutoregisterListeners] = "false";
-			nhvc.Properties[Environment.ValidatorMode] = "UseXML";
+			nhvc.Properties[Environment.ValidatorMode] = "UseExternal";
 			nhvc.Properties[Environment.MessageInterpolatorClass] = typeof(PrefixMessageInterpolator).AssemblyQualifiedName;
 
 			ve.Configure(nhvc);
 			Assert.AreEqual(false, ve.ApplyToDDL);
 			Assert.AreEqual(false, ve.AutoRegisterListeners);
-			Assert.AreEqual(ValidatorMode.UseXml, ve.DefaultMode);
+			Assert.AreEqual(ValidatorMode.UseExternal, ve.DefaultMode);
 			Assert.IsNotNull(ve.Interpolator);
 			Assert.AreEqual(typeof(PrefixMessageInterpolator), ve.Interpolator.GetType());
 		}
@@ -61,7 +61,7 @@ namespace NHibernate.Validator.Tests.Engine
 				sw.WriteLine("<nhv-configuration xmlns='urn:nhv-configuration-1.0'>");
 				sw.WriteLine("<property name='apply_to_ddl'>false</property>");
 				sw.WriteLine("<property name='autoregister_listeners'>false</property>");
-				sw.WriteLine("<property name='default_validator_mode'>OverrideAttributeWithXml</property>");
+				sw.WriteLine("<property name='default_validator_mode'>OverrideAttributeWithExternal</property>");
 				sw.WriteLine("<property name='message_interpolator_class'>"
 										 + typeof(PrefixMessageInterpolator).AssemblyQualifiedName + "</property>");
 				sw.WriteLine("</nhv-configuration>");
@@ -73,7 +73,7 @@ namespace NHibernate.Validator.Tests.Engine
 			ve.Configure(tmpf);
 			Assert.AreEqual(false, ve.ApplyToDDL);
 			Assert.AreEqual(false, ve.AutoRegisterListeners);
-			Assert.AreEqual(ValidatorMode.OverrideAttributeWithXml, ve.DefaultMode);
+			Assert.AreEqual(ValidatorMode.OverrideAttributeWithExternal, ve.DefaultMode);
 			Assert.IsNotNull(ve.Interpolator);
 			Assert.AreEqual(typeof(PrefixMessageInterpolator), ve.Interpolator.GetType());
 		}
@@ -98,7 +98,7 @@ namespace NHibernate.Validator.Tests.Engine
 			NHVConfiguration nhvc = new NHVConfiguration();
 			nhvc.Properties[Environment.ApplyToDDL] = "false";
 			nhvc.Properties[Environment.AutoregisterListeners] = "false";
-			nhvc.Properties[Environment.ValidatorMode] = "overrideattributewithxml";
+			nhvc.Properties[Environment.ValidatorMode] = "overrideattributewithExternal";
 			nhvc.Properties[Environment.MessageInterpolatorClass] = typeof(PrefixMessageInterpolator).AssemblyQualifiedName;
 			string an = Assembly.GetExecutingAssembly().FullName;
 			nhvc.Mappings.Add(new MappingConfiguration(an, "NHibernate.Validator.Tests.Base.Address.nhv.xml"));
@@ -120,7 +120,7 @@ namespace NHibernate.Validator.Tests.Engine
 			NHVConfiguration nhvc = new NHVConfiguration();
 			nhvc.Properties[Environment.ApplyToDDL] = "false";
 			nhvc.Properties[Environment.AutoregisterListeners] = "false";
-			nhvc.Properties[Environment.ValidatorMode] = "usexml";
+			nhvc.Properties[Environment.ValidatorMode] = "useExternal";
 			string an = Assembly.GetExecutingAssembly().FullName;
 			nhvc.Mappings.Add(new MappingConfiguration(an, "NHibernate.Validator.Tests.Base.Address.nhv.xml"));
 			nhvc.Mappings.Add(new MappingConfiguration(an, "NHibernate.Validator.Tests.Engine.DuplicatedAddress.nhv.xml"));

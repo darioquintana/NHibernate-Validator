@@ -25,22 +25,22 @@ namespace NHibernate.Validator.Engine
 			{
 				case ValidatorMode.UseAttribute:
 					break;
-				case ValidatorMode.UseXml:
+				case ValidatorMode.UseExternal:
 					result = GetExternalDefinitionFor(clazz);
 					if (result == null)
 					{
-						log.Warn(string.Format("XML definition not foud for class {0} in ValidatorMode.UseXml mode.", clazz.FullName));
+						log.Warn(string.Format("External definition not foud for class {0} in ValidatorMode.UseExternal mode.", clazz.FullName));
 						return null; // <<<<<===
 					}
 					break;
-				case ValidatorMode.OverrideAttributeWithXml:
+				case ValidatorMode.OverrideAttributeWithExternal:
 					externalDefinition = GetExternalDefinitionFor(clazz);
 					if (externalDefinition != null)
 					{
 						result = new XmlOverAttributeClassMapping(externalDefinition);
 					}
 					break;
-				case ValidatorMode.OverrideXmlWithAttribute:
+				case ValidatorMode.OverrideExternalWithAttribute:
 					externalDefinition = GetExternalDefinitionFor(clazz);
 					if (externalDefinition != null)
 					{

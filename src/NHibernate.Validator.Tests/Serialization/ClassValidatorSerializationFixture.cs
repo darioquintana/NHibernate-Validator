@@ -39,7 +39,7 @@ namespace NHibernate.Validator.Tests.Serialization
 
 			cv = new ClassValidator(typeof(Address), new ResourceManager("NHibernate.Validator.Tests.Resource.Messages",
 													Assembly.GetExecutingAssembly()), pmi, new CultureInfo("en"),
-													ValidatorMode.UseXml);
+													ValidatorMode.UseExternal);
 			RunSerializationTest(cv);
 		}
 

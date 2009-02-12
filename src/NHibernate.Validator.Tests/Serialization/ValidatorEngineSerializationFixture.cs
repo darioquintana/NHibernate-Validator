@@ -36,7 +36,7 @@ namespace NHibernate.Validator.Tests.Serialization
 
 			ve = new ValidatorEngine();
 			nhvc = new NHVConfiguration();
-			nhvc.Properties[Cfg.Environment.ValidatorMode] = "UseXml";
+			nhvc.Properties[Cfg.Environment.ValidatorMode] = "UseExternal";
 			nhvc.Properties[Cfg.Environment.MessageInterpolatorClass] = typeof(PrefixMessageInterpolator).AssemblyQualifiedName;
 			ve.Configure(nhvc);
 

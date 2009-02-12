@@ -13,20 +13,20 @@ namespace NHibernate.Validator.Engine
 		/// <summary>
 		/// Validator are discovered only parsing the xml of the class
 		/// </summary>
-		UseXml, 
+		UseExternal, 
 
 		/// <summary>
 		/// Validators are discovered, by reflection, investigating the class attributes
-		/// and then using the xml, merging both.
+		/// and then using the xml(or any other exaternal source), merging both.
 		/// Conflicts are solved using xml-configuration over attribute-configuration.
 		/// </summary>
-		OverrideAttributeWithXml,
+		OverrideAttributeWithExternal,
 
 		/// <summary>
 		/// Validators are discovered, by reflection, investigating the class attributes
-		/// and then using the xml, merging both.
+		/// and then using the xml(or any other exaternal source), merging both.
 		/// Conflicts are solved using attribute-configuration over xml-configuration.
 		/// </summary>
-		OverrideXmlWithAttribute
+		OverrideExternalWithAttribute
 	}
 }

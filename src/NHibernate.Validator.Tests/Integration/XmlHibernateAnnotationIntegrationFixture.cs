@@ -18,7 +18,7 @@ namespace NHibernate.Validator.Tests.Integration
 			NHVConfiguration nhvc = new NHVConfiguration();
 			nhvc.Properties[Environment.ApplyToDDL] = "true";
 			nhvc.Properties[Environment.AutoregisterListeners] = "true";
-			nhvc.Properties[Environment.ValidatorMode] = "usexml";
+			nhvc.Properties[Environment.ValidatorMode] = "useExternal";
 			nhvc.Properties[Environment.MessageInterpolatorClass] = typeof(PrefixMessageInterpolator).AssemblyQualifiedName;
 			ve.Configure(nhvc);
 			ve.IsValid(new AnyClass());// add the element to engine for test

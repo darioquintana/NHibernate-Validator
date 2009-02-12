@@ -65,14 +65,14 @@ namespace NHibernate.Validator.Cfg
 				case "useattribute":
 					return ValidatorMode.UseAttribute;
 
-				case "usexml":
-					return ValidatorMode.UseXml;
+				case "useexternal":
+					return ValidatorMode.UseExternal;
 
-				case "overrideattributewithxml":
-					return ValidatorMode.OverrideAttributeWithXml;
+				case "overrideattributewithexternal":
+					return ValidatorMode.OverrideAttributeWithExternal;
 
-				case "overridexmlwithattribute":
-					return ValidatorMode.OverrideXmlWithAttribute;
+				case "overrideexternalwithattribute":
+					return ValidatorMode.OverrideExternalWithAttribute;
 
 				default:
 					throw new ValidatorConfigurationException("Unexpected ValidatorMode :" + validatorMode);
