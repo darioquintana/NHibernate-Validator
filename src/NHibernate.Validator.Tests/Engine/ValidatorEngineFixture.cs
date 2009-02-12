@@ -127,7 +127,9 @@ namespace NHibernate.Validator.Tests.Engine
 			using (LoggerSpy ls = new LoggerSpy(typeof(ValidatorEngine), Level.Warn))
 			{
 				ve.Configure(nhvc);
-				int found = ls.GetOccurenceContaining("Duplicated XML definition for class " + typeof(Address).AssemblyQualifiedName);
+				int found =
+					ls.GetOccurencesOfMessage(
+						x => x.StartsWith("Duplicated external definition for class " + typeof (Address).AssemblyQualifiedName));
 				Assert.AreEqual(1, found);
 			}
 		}

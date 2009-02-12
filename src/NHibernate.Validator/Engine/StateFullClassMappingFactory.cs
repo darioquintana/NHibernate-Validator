@@ -1,35 +1,39 @@
 using System;
 using System.Collections.Generic;
 using log4net;
-using NHibernate.Util;
-using NHibernate.Validator.Cfg.MappingSchema;
+using NHibernate.Validator.Mappings;
 
 namespace NHibernate.Validator.Engine
 {
 	internal class StateFullClassMappingFactory : JITClassMappingFactory
 	{
+		private const string duplicationWarnMessageTemplate =
+			@"Duplicated external definition for class {0}.
+Possible causes:
+- There are more than one definitions for the class.
+- You are more than one time the same mapping.
+Note: 'external' mean XML or any other mapping source than Attribute.";
+
 		private static readonly ILog log = LogManager.GetLogger(typeof(ValidatorEngine));
 
-		private readonly Dictionary<System.Type, NhvmClass> definitions= new Dictionary<System.Type, NhvmClass>();
+		private readonly Dictionary<System.Type, IClassMapping> definitions = new Dictionary<System.Type, IClassMapping>();
 
-		public void AddClassDefinition(NhvmClass definition)
+		public void AddClassExternalDefinition(IClassMapping definition)
 		{
-			System.Type type =
-				ReflectHelper.ClassForFullName(
-					TypeNameParser.Parse(definition.name, definition.rootMapping.@namespace, definition.rootMapping.assembly).ToString());
+			System.Type type = definition.EntityType;
 			try
 			{
 				definitions.Add(type, definition);
 			}
 			catch (ArgumentException)
 			{
-				log.Warn("Duplicated XML definition for class " + type.AssemblyQualifiedName);
+				log.Warn(string.Format(duplicationWarnMessageTemplate, type.AssemblyQualifiedName));
 			}
 		}
 
-		protected override NhvmClass GetXmlDefinitionFor(System.Type type)
+		protected override IClassMapping GetExternalDefinitionFor(System.Type type)
 		{
-			NhvmClass result;
+			IClassMapping result;
 			definitions.TryGetValue(type, out result);
 			return result;
 		}

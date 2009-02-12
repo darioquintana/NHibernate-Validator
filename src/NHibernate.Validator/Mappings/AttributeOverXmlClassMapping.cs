@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Iesi.Collections.Generic;
-using NHibernate.Validator.Cfg.MappingSchema;
 
 namespace NHibernate.Validator.Mappings
 {
@@ -11,9 +9,9 @@ namespace NHibernate.Validator.Mappings
 		private readonly IClassMapping xmlcm;
 		private readonly IClassMapping rcm;
 
-		public AttributeOverXmlClassMapping(NhvmClass meta) 
+		public AttributeOverXmlClassMapping(IClassMapping externalDef) 
 		{
-			xmlcm = new XmlClassMapping(meta);
+			xmlcm = externalDef;
 			rcm = new ReflectionClassMapping(xmlcm.EntityType);
 			clazz = xmlcm.EntityType;
 		}

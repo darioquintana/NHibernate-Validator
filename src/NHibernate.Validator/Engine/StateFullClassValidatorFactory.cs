@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Resources;
 using System.Runtime.Serialization;
 using NHibernate.Validator.Cfg;
-using NHibernate.Validator.Cfg.MappingSchema;
 
 namespace NHibernate.Validator.Engine
 {
@@ -19,18 +18,16 @@ namespace NHibernate.Validator.Engine
 		public StateFullClassValidatorFactory(ResourceManager resourceManager, CultureInfo culture, IMessageInterpolator userInterpolator, ValidatorMode validatorMode) 
 			: base(resourceManager, culture, userInterpolator, validatorMode) {}
 
-		public void Initialize(MappingLoader loader)
+		public void Initialize(IMappingLoader loader)
 		{
 			try
 			{
-				StateFullClassMappingFactory sfcmf = new StateFullClassMappingFactory();
+				var sfcmf = new StateFullClassMappingFactory();
 				classMappingFactory = sfcmf;
-				foreach (NhvMapping mapping in loader.Mappings)
+				var definitions = loader.GetMappings();
+				foreach (var classMapping in definitions)
 				{
-					foreach (NhvmClass nhvmClass in mapping.@class)
-					{
-						sfcmf.AddClassDefinition(nhvmClass);
-					}
+					sfcmf.AddClassExternalDefinition(classMapping);
 				}
 				foreach (System.Type type in sfcmf.GetLoadedDefinitions())
 				{

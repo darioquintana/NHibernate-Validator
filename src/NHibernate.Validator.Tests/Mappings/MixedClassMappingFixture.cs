@@ -5,7 +5,7 @@ using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Cfg.MappingSchema;
 using NHibernate.Validator.Mappings;
 using NUnit.Framework;
-using RangeAttribute = NHibernate.Validator.Constraints.RangeAttribute;
+using RangeAttribute=NHibernate.Validator.Constraints.RangeAttribute;
 
 namespace NHibernate.Validator.Tests.Mappings
 {
@@ -16,22 +16,30 @@ namespace NHibernate.Validator.Tests.Mappings
 		{
 			NhvMapping mapp = MappingLoader.GetXmlMappingFor(currentClass);
 			if (mapp != null && mapp.@class.Length > 0)
+			{
 				return mapp.@class[0];
+			}
 			return null;
+		}
+
+		private static IClassMapping GetXmlClassMapping(System.Type currentClass)
+		{
+			NhvmClass xmlDef = GetNhvClassFor(currentClass);
+			return new XmlClassMapping(xmlDef);
 		}
 
 		[Test]
 		public void ClassAttributes()
 		{
-			IClassMapping rm = new AttributeOverXmlClassMapping(GetNhvClassFor(typeof(MixAddress)));
-			List<Attribute> mi = new List<Attribute>(rm.GetClassAttributes());
+			IClassMapping rm = new AttributeOverXmlClassMapping(GetXmlClassMapping(typeof (MixAddress)));
+			var mi = new List<Attribute>(rm.GetClassAttributes());
 			Assert.AreEqual(0, mi.Count);
 
-			rm = new AttributeOverXmlClassMapping(GetNhvClassFor(typeof(MixSuricato)));
+			rm = new AttributeOverXmlClassMapping(GetXmlClassMapping(typeof (MixSuricato)));
 			mi = new List<Attribute>(rm.GetClassAttributes());
 			Assert.AreEqual(2, mi.Count);
 
-			rm = new XmlOverAttributeClassMapping(GetNhvClassFor(typeof(MixSuricato)));
+			rm = new XmlOverAttributeClassMapping(GetXmlClassMapping(typeof (MixSuricato)));
 			mi = new List<Attribute>(rm.GetClassAttributes());
 			Assert.AreEqual(2, mi.Count);
 		}
@@ -39,60 +47,64 @@ namespace NHibernate.Validator.Tests.Mappings
 		[Test]
 		public void GetEntityType()
 		{
-			IClassMapping rm = new XmlOverAttributeClassMapping(GetNhvClassFor(typeof(MixAddress)));
-			Assert.AreEqual(typeof(MixAddress), rm.EntityType);
+			IClassMapping rm = new XmlOverAttributeClassMapping(GetXmlClassMapping(typeof (MixAddress)));
+			Assert.AreEqual(typeof (MixAddress), rm.EntityType);
 		}
 
 		[Test]
 		public void MemberAttributes()
 		{
-			IClassMapping rm = new AttributeOverXmlClassMapping(GetNhvClassFor(typeof(MixAddress)));
-			MemberInfo mi = typeof(MixAddress).GetField("floor");
-			List<Attribute> mas = new List<Attribute>(rm.GetMemberAttributes(mi));
+			IClassMapping rm = new AttributeOverXmlClassMapping(GetXmlClassMapping(typeof (MixAddress)));
+			MemberInfo mi = typeof (MixAddress).GetField("floor");
+			var mas = new List<Attribute>(rm.GetMemberAttributes(mi));
 			Assert.AreEqual(1, mas.Count);
 
-			mi = typeof(MixAddress).GetProperty("Zip");
+			mi = typeof (MixAddress).GetProperty("Zip");
 			mas = new List<Attribute>(rm.GetMemberAttributes(mi));
 			Assert.AreEqual(3, mas.Count);
 
-			mi = typeof(MixAddress).GetProperty("Id");
+			mi = typeof (MixAddress).GetProperty("Id");
 			mas = new List<Attribute>(rm.GetMemberAttributes(mi));
 			Assert.AreEqual(2, mas.Count);
-			foreach (Attribute ma in mas)
+			foreach (var ma in mas)
 			{
-				RangeAttribute ra = ma as RangeAttribute;
+				var ra = ma as RangeAttribute;
 				if (ra != null)
+				{
 					Assert.AreEqual(2000, ra.Max);
+				}
 			}
 
-			rm = new XmlOverAttributeClassMapping(GetNhvClassFor(typeof(MixAddress)));
-			mi = typeof(MixAddress).GetField("floor");
+			rm = new XmlOverAttributeClassMapping(GetXmlClassMapping(typeof (MixAddress)));
+			mi = typeof (MixAddress).GetField("floor");
 			mas = new List<Attribute>(rm.GetMemberAttributes(mi));
 			Assert.AreEqual(1, mas.Count);
 
-			mi = typeof(MixAddress).GetProperty("Zip");
+			mi = typeof (MixAddress).GetProperty("Zip");
 			mas = new List<Attribute>(rm.GetMemberAttributes(mi));
 			Assert.AreEqual(3, mas.Count);
 
-			mi = typeof(MixAddress).GetProperty("Id");
+			mi = typeof (MixAddress).GetProperty("Id");
 			mas = new List<Attribute>(rm.GetMemberAttributes(mi));
 			Assert.AreEqual(2, mas.Count);
-			foreach (Attribute ma in mas)
+			foreach (var ma in mas)
 			{
-				RangeAttribute ra = ma as RangeAttribute;
+				var ra = ma as RangeAttribute;
 				if (ra != null)
+				{
 					Assert.AreEqual(9999, ra.Max);
+				}
 			}
 		}
 
 		[Test]
 		public void Members()
 		{
-			IClassMapping rm = new AttributeOverXmlClassMapping(GetNhvClassFor(typeof(MixAddress)));
-			List<MemberInfo> mi = new List<MemberInfo>(rm.GetMembers());
+			IClassMapping rm = new AttributeOverXmlClassMapping(GetXmlClassMapping(typeof (MixAddress)));
+			var mi = new List<MemberInfo>(rm.GetMembers());
 			Assert.AreEqual(16, mi.Count); // the members of the class by reflection
 
-			rm = new XmlOverAttributeClassMapping(GetNhvClassFor(typeof(MixAddress)));
+			rm = new XmlOverAttributeClassMapping(GetXmlClassMapping(typeof (MixAddress)));
 			mi = new List<MemberInfo>(rm.GetMembers());
 			Assert.AreEqual(16, mi.Count);
 		}

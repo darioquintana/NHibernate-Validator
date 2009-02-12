@@ -58,5 +58,16 @@ namespace NHibernate.Validator.Tests
 			}
 			return result;
 		}
+
+		public int GetOccurencesOfMessage(Predicate<string> predicate)
+		{
+			int result = 0;
+			foreach (LoggingEvent loggingEvent in Appender.GetEvents())
+			{
+				if (predicate(loggingEvent.RenderedMessage))
+					result++;
+			}
+			return result;
+		}
 	}
 }

@@ -19,33 +19,32 @@ namespace NHibernate.Validator.Engine
 
 		public IClassMapping GetClassMapping(System.Type clazz, ValidatorMode mode)
 		{
-			NhvmClass nhvm;
+			IClassMapping externalDefinition;
 			IClassMapping result = null;
 			switch (mode)
 			{
 				case ValidatorMode.UseAttribute:
 					break;
 				case ValidatorMode.UseXml:
-					nhvm = GetXmlDefinitionFor(clazz);
-					if (nhvm == null)
+					result = GetExternalDefinitionFor(clazz);
+					if (result == null)
 					{
 						log.Warn(string.Format("XML definition not foud for class {0} in ValidatorMode.UseXml mode.", clazz.FullName));
 						return null; // <<<<<===
 					}
-					result = new XmlClassMapping(nhvm);
 					break;
 				case ValidatorMode.OverrideAttributeWithXml:
-					nhvm = GetXmlDefinitionFor(clazz);
-					if (nhvm != null)
+					externalDefinition = GetExternalDefinitionFor(clazz);
+					if (externalDefinition != null)
 					{
-						result = new XmlOverAttributeClassMapping(nhvm);
+						result = new XmlOverAttributeClassMapping(externalDefinition);
 					}
 					break;
 				case ValidatorMode.OverrideXmlWithAttribute:
-					nhvm = GetXmlDefinitionFor(clazz);
-					if (nhvm != null)
+					externalDefinition = GetExternalDefinitionFor(clazz);
+					if (externalDefinition != null)
 					{
-						result = new AttributeOverXmlClassMapping(nhvm);
+						result = new AttributeOverXmlClassMapping(externalDefinition);
 					}
 					break;
 			}
@@ -54,12 +53,12 @@ namespace NHibernate.Validator.Engine
 
 		#endregion
 
-		protected virtual NhvmClass GetXmlDefinitionFor(System.Type type)
+		protected virtual IClassMapping GetExternalDefinitionFor(System.Type type)
 		{
 			NhvMapping mapp = MappingLoader.GetXmlMappingFor(type);
 			if (mapp != null && mapp.@class.Length > 0)
 			{
-				return mapp.@class[0];
+				return new XmlClassMapping(mapp.@class[0]);
 			}
 
 			return null;

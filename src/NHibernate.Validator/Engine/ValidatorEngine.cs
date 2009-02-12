@@ -187,7 +187,7 @@ namespace NHibernate.Validator.Engine
 		/// <remarks>
 		/// Calling Configure(INHVConfiguration) will overwrite the values set in app.config or web.config
 		/// </remarks>
-		public void Configure(INHVConfiguration config, MappingLoader ml)
+		public void Configure(INHVConfiguration config, IMappingLoader ml)
 		{
 			if (config == null)
 			{
@@ -212,7 +212,7 @@ namespace NHibernate.Validator.Engine
 			Initialize(ml);
 		}
 
-		private void Initialize(MappingLoader loader)
+		private void Initialize(IMappingLoader loader)
 		{
 			factory.Initialize(loader);
 			foreach (KeyValuePair<System.Type, IClassValidator> validator in factory.Validators)
