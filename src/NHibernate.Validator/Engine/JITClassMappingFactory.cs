@@ -55,7 +55,7 @@ namespace NHibernate.Validator.Engine
 
 		protected virtual IClassMapping GetExternalDefinitionFor(System.Type type)
 		{
-			NhvMapping mapp = MappingLoader.GetXmlMappingFor(type);
+			NhvMapping mapp = XmlMappingLoader.GetXmlMappingFor(type);
 			if (mapp != null && mapp.@class.Length > 0)
 			{
 				return new XmlClassMapping(mapp.@class[0]);

@@ -11,12 +11,12 @@ using NUnit.Framework;
 namespace NHibernate.Validator.Tests.Configuration
 {
 	[TestFixture]
-	public class MappingLoaderFixture
+	public class XmlMappingLoaderFixture
 	{
 		[Test, ExpectedException(typeof(ArgumentNullException))]
 		public void LoadMappingsNull()
 		{
-			MappingLoader ml = new MappingLoader();
+			XmlMappingLoader ml = new XmlMappingLoader();
 			ml.LoadMappings(null);
 		}
 
@@ -32,7 +32,7 @@ namespace NHibernate.Validator.Tests.Configuration
 			cfgXml.LoadXml(xml);
 			XmlTextReader xtr = new XmlTextReader(xml, XmlNodeType.Document, null);
 			NHVConfiguration cfg = new NHVConfiguration(xtr);
-			MappingLoader ml = new MappingLoader();
+			XmlMappingLoader ml = new XmlMappingLoader();
 			ml.LoadMappings(cfg.Mappings);
 			Assert.AreEqual(2, ml.Mappings.Length);
 
@@ -44,7 +44,7 @@ namespace NHibernate.Validator.Tests.Configuration
 			cfgXml.LoadXml(xml);
 			xtr = new XmlTextReader(xml, XmlNodeType.Document, null);
 			cfg = new NHVConfiguration(xtr);
-			ml = new MappingLoader();
+			ml = new XmlMappingLoader();
 			ml.LoadMappings(cfg.Mappings);
 			Assert.Less(1, ml.Mappings.Length); // the mappings of tests are more than 1 ;)
 
@@ -67,7 +67,7 @@ namespace NHibernate.Validator.Tests.Configuration
 			cfgXml.LoadXml(xml);
 			xtr = new XmlTextReader(xml, XmlNodeType.Document, null);
 			cfg = new NHVConfiguration(xtr);
-			ml = new MappingLoader();
+			ml = new XmlMappingLoader();
 			ml.LoadMappings(cfg.Mappings);
 			Assert.AreEqual(1, ml.Mappings.Length);
 		}
@@ -83,7 +83,7 @@ namespace NHibernate.Validator.Tests.Configuration
 			cfgXml.LoadXml(xml);
 			XmlTextReader xtr = new XmlTextReader(xml, XmlNodeType.Document, null);
 			NHVConfiguration cfg = new NHVConfiguration(xtr);
-			MappingLoader ml = new MappingLoader();
+			XmlMappingLoader ml = new XmlMappingLoader();
 			ml.LoadMappings(cfg.Mappings);
 		}
 
@@ -102,7 +102,7 @@ namespace NHibernate.Validator.Tests.Configuration
 				sw.Flush();
 			}
 
-			MappingLoader ml = new MappingLoader();
+			XmlMappingLoader ml = new XmlMappingLoader();
 			using (StreamReader sr = new StreamReader(tmpf))
 			{
 				ml.AddInputStream(sr.BaseStream, tmpf);
@@ -123,7 +123,7 @@ namespace NHibernate.Validator.Tests.Configuration
 				sw.Flush();
 			}
 
-			MappingLoader ml = new MappingLoader();
+			XmlMappingLoader ml = new XmlMappingLoader();
 			using (StreamReader sr = new StreamReader(tmpf))
 			{
 				ml.AddInputStream(sr.BaseStream, tmpf);
@@ -145,7 +145,7 @@ namespace NHibernate.Validator.Tests.Configuration
 				sw.WriteLine("</nhv-mapping>");
 				sw.Flush();
 			}
-			MappingLoader ml = new MappingLoader();
+			XmlMappingLoader ml = new XmlMappingLoader();
 			ml.AddFile(tmpf);
 			Assert.AreEqual(1, ml.Mappings.Length);
 		}
@@ -162,21 +162,21 @@ namespace NHibernate.Validator.Tests.Configuration
 				sw.WriteLine("</nhv-mapping>");
 				sw.Flush();
 			}
-			MappingLoader ml = new MappingLoader();
+			XmlMappingLoader ml = new XmlMappingLoader();
 			ml.AddFile(tmpf);
 		}
 
 		[Test]
 		public void AddWrongFileName()
 		{
-			MappingLoader ml = new MappingLoader();
+			XmlMappingLoader ml = new XmlMappingLoader();
 			Assert.Throws<ValidatorConfigurationException>(() => ml.AddFile("NoExistFile"),"Could not load file NoExistFile");
 		}
 
 		[Test, ExpectedException(typeof(ValidatorConfigurationException))]
 		public void AddWrongAssembly()
 		{
-			MappingLoader ml = new MappingLoader();
+			XmlMappingLoader ml = new XmlMappingLoader();
 			ml.AddAssembly("NoExistAssemblyName");
 		}
 
@@ -184,7 +184,7 @@ namespace NHibernate.Validator.Tests.Configuration
 		public void AddAssembly()
 		{
 			// in this test we only try to load an entirely assembly without check what was load
-			MappingLoader ml = new MappingLoader();
+			XmlMappingLoader ml = new XmlMappingLoader();
 			ml.AddAssembly(Assembly.GetExecutingAssembly());
 			Assert.Less(0, ml.Mappings.Length);
 		}
@@ -193,7 +193,7 @@ namespace NHibernate.Validator.Tests.Configuration
 		public void AddAssemblyByName()
 		{
 			// in this test we only try to load an entirely assembly without check what was load
-			MappingLoader ml = new MappingLoader();
+			XmlMappingLoader ml = new XmlMappingLoader();
 			ml.AddAssembly(Assembly.GetExecutingAssembly().FullName);
 			Assert.Less(0, ml.Mappings.Length);
 		}
@@ -209,7 +209,7 @@ namespace NHibernate.Validator.Tests.Configuration
 			cfgXml.LoadXml(xml);
 			XmlTextReader xtr = new XmlTextReader(xml, XmlNodeType.Document, null);
 			NHVConfiguration cfg = new NHVConfiguration(xtr);
-			MappingLoader ml = new MappingLoader();
+			XmlMappingLoader ml = new XmlMappingLoader();
 
 			ml.LoadMappings(cfg.Mappings);
 
@@ -231,10 +231,10 @@ namespace NHibernate.Validator.Tests.Configuration
 		[Test]
 		public void GetMappingForType()
 		{
-			NhvMapping mapping = MappingLoader.GetXmlMappingFor(typeof(Base.Address));
+			NhvMapping mapping = XmlMappingLoader.GetXmlMappingFor(typeof(Base.Address));
 			Assert.IsNotNull(mapping);
 			Assert.IsTrue(mapping == mapping.@class[0].rootMapping);
-			Assert.IsNull(MappingLoader.GetXmlMappingFor(typeof(Base.Building)));
+			Assert.IsNull(XmlMappingLoader.GetXmlMappingFor(typeof(Base.Building)));
 		}
 
 		[Test]
@@ -247,7 +247,7 @@ namespace NHibernate.Validator.Tests.Configuration
 			cfgXml.LoadXml(xml);
 			var xtr = new XmlTextReader(xml, XmlNodeType.Document, null);
 			var cfg = new NHVConfiguration(xtr);
-			var ml = new MappingLoader();
+			var ml = new XmlMappingLoader();
 
 			ml.LoadMappings(cfg.Mappings);
 			var cm = ml.GetMappings();

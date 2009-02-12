@@ -15,7 +15,7 @@ namespace NHibernate.Validator.Tests.Mappings
 	{
 		private static NhvmClass GetNhvClassFor(System.Type currentClass)
 		{
-			NhvMapping mapp = MappingLoader.GetXmlMappingFor(currentClass);
+			NhvMapping mapp = XmlMappingLoader.GetXmlMappingFor(currentClass);
 			if (mapp != null && mapp.@class.Length > 0)
 				return mapp.@class[0];
 			return null;

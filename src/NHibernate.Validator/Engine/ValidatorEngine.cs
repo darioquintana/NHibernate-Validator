@@ -176,14 +176,14 @@ namespace NHibernate.Validator.Engine
 		/// </remarks>
 		public void Configure(INHVConfiguration config)
 		{
-			Configure(config, new MappingLoader());
+			Configure(config, new XmlMappingLoader());
 		}
 
 		/// <summary>
 		/// Configure NHibernate.Validator using the specified <see cref="INHVConfiguration"/>.
 		/// </summary>
 		/// <param name="config">The <see cref="INHVConfiguration"/> that is the configuration reader to configure NHibernate.Validator.</param>
-		/// <param name="ml">The <see cref="MappingLoader"/> instance.</param>
+		/// <param name="ml">The <see cref="XmlMappingLoader"/> instance.</param>
 		/// <remarks>
 		/// Calling Configure(INHVConfiguration) will overwrite the values set in app.config or web.config
 		/// </remarks>

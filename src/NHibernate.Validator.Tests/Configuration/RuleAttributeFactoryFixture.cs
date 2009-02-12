@@ -47,7 +47,7 @@ namespace NHibernate.Validator.Tests.Configuration
 		[Test]
 		public void KnownRulesConvertAssing()
 		{
-			NhvMapping map = MappingLoader.GetXmlMappingFor(typeof(WellKnownRules));
+			NhvMapping map = XmlMappingLoader.GetXmlMappingFor(typeof(WellKnownRules));
 			NhvmClass cm = map.@class[0];
 			XmlClassMapping rm = new XmlClassMapping(cm);
 			MemberInfo mi;
@@ -167,7 +167,7 @@ namespace NHibernate.Validator.Tests.Configuration
 				sw.Flush();
 			}
 
-			MappingLoader ml = new MappingLoader();
+			XmlMappingLoader ml = new XmlMappingLoader();
 			using (StreamReader sr = new StreamReader(tmpf))
 			{
 				ml.AddInputStream(sr.BaseStream, tmpf);

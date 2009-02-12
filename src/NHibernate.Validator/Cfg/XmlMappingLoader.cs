@@ -10,11 +10,11 @@ using NHibernate.Validator.Mappings;
 
 namespace NHibernate.Validator.Cfg
 {
-	public class MappingLoader : IMappingLoader
+	public class XmlMappingLoader : IMappingLoader
 	{
 		public const string MappingFileDefaultExtension = ".nhv.xml";
 
-		private static readonly ILog log = LogManager.GetLogger(typeof(MappingLoader));
+		private static readonly ILog log = LogManager.GetLogger(typeof(XmlMappingLoader));
 		private readonly List<NhvMapping> mappings= new List<NhvMapping>();
 
 		public void LoadMappings(IList<MappingConfiguration> configurationMappings)
@@ -177,7 +177,7 @@ namespace NHibernate.Validator.Cfg
 		public static NhvMapping GetXmlMappingFor(System.Type type)
 		{
 			string resourceName = type.FullName + MappingFileDefaultExtension;
-			var ml = new MappingLoader();
+			var ml = new XmlMappingLoader();
 			try
 			{
 				ml.AddResource(type.Assembly, resourceName);

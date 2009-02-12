@@ -93,7 +93,7 @@
     <Compile Include="Configuration\ACustomAttribute.cs" />
     <Compile Include="Configuration\ACustomValidator.cs" />
     <Compile Include="Configuration\Loquacious\KnownRules.cs" />
-    <Compile Include="Configuration\MappingLoaderFixture.cs" />
+    <Compile Include="Configuration\XmlMappingLoaderFixture.cs" />
     <Compile Include="Configuration\RuleAttributeFactoryFixture.cs" />
     <Compile Include="Configuration\WellKnownRules.cs" />
     <Compile Include="CustomValidator\ValidatorClassFixture.cs" />

@@ -111,7 +111,7 @@
     <Compile Include="Engine\IInitializableValidator.cs" />
     <Compile Include="Engine\ISharedEngineProvider.cs" />
     <Compile Include="Engine\IValidatableSubElementsInspector.cs" />
-    <Compile Include="Cfg\MappingLoader.cs" />
+    <Compile Include="Cfg\XmlMappingLoader.cs" />
     <Compile Include="Engine\JITClassMappingFactory.cs" />
     <Compile Include="Engine\StateFullClassMappingFactory.cs" />
     <Compile Include="Engine\StateFullClassValidatorFactory.cs" />
