@@ -120,7 +120,7 @@ namespace NHibernate.Validator.Engine
 		/// </remarks>
 		public void Configure()
 		{
-			INHVConfiguration nhvhc = ConfigurationManager.GetSection(CfgXmlHelper.CfgSectionName) as INHVConfiguration;
+			var nhvhc = ConfigurationManager.GetSection(CfgXmlHelper.CfgSectionName) as INHVConfiguration;
 			if (nhvhc != null)
 			{
 				Configure(nhvhc);
@@ -139,7 +139,7 @@ namespace NHibernate.Validator.Engine
 		/// </remarks>
 		public void Configure(string configFilePath)
 		{
-			using (XmlTextReader reader = new XmlTextReader(configFilePath))
+			using (var reader = new XmlTextReader(configFilePath))
 			{
 				Configure(reader);
 			}
@@ -247,7 +247,7 @@ namespace NHibernate.Validator.Engine
 
 			ValidatableElement element = GetElementOrNew(entityType);
 
-			List<InvalidValue> result = new List<InvalidValue>();
+			var result = new List<InvalidValue>();
 			ValidateSubElements(element, entity, result);
 			result.AddRange(element.Validator.GetInvalidValues(entity));
 			return result.ToArray();
@@ -378,7 +378,7 @@ namespace NHibernate.Validator.Engine
 		internal void AddValidator(System.Type entityType, IValidatableSubElementsInspector inspector)
 		{
 			IClassValidator cv = GetClassValidator(entityType);
-			ValidatableElement element = new ValidatableElement(entityType, cv);
+			var element = new ValidatableElement(entityType, cv);
 			if (inspector != null)
 				inspector.Inspect(element);
 			AddValidatableElement(element);
