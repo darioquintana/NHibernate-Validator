@@ -57,6 +57,7 @@
     <Compile Include="Br\CPFValidator.cs" />
     <Compile Include="It\CodiceFiscaleAttribute.cs" />
     <Compile Include="It\CodiceFiscaleValidator.cs" />
+    <Compile Include="It\Extensions.cs" />
     <Compile Include="It\PartitaIvaAttribute.cs" />
     <Compile Include="It\PartitaIvaValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

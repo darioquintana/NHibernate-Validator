@@ -4,7 +4,7 @@ using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Cfg.Loquacious
 {
-	public class BaseConstraints
+	public class BaseConstraints : IConstraints
 	{
 		public BaseConstraints(IConstraintAggregator parent, MemberInfo member)
 		{

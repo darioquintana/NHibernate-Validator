@@ -75,6 +75,7 @@
     <Compile Include="Cfg\Loquacious\FinalRuleArgsOptions.cs" />
     <Compile Include="Cfg\Loquacious\IBooleanConstraints.cs" />
     <Compile Include="Cfg\Loquacious\IConstraintAggregator.cs" />
+    <Compile Include="Cfg\Loquacious\IConstraints.cs" />
     <Compile Include="Cfg\Loquacious\IDateTimeConstraints.cs" />
     <Compile Include="Cfg\Loquacious\IRuleArgsOptions.cs" />
     <Compile Include="Cfg\Loquacious\IStringConstraints.cs" />
