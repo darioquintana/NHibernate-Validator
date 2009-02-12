@@ -6,10 +6,11 @@ using System.Xml;
 using log4net;
 using NHibernate.Validator.Cfg.MappingSchema;
 using NHibernate.Validator.Exceptions;
+using NHibernate.Validator.Mappings;
 
 namespace NHibernate.Validator.Cfg
 {
-	public class MappingLoader
+	public class MappingLoader : IMappingLoader
 	{
 		public const string MappingFileDefaultExtension = ".nhv.xml";
 
@@ -75,6 +76,19 @@ namespace NHibernate.Validator.Cfg
 				if (resource.EndsWith(MappingFileDefaultExtension))
 					AddResource(assembly, resource);
 			}
+		}
+
+		public IEnumerable<IClassMapping> GetMappings()
+		{
+			var classMappings = new List<IClassMapping>();
+			foreach (var nhvMapping in mappings)
+			{
+				foreach (var nhvmClass in nhvMapping.@class)
+				{
+					classMappings.Add(new XmlClassMapping(nhvmClass));
+				}
+			}
+			return classMappings;
 		}
 
 		public void AddResource(Assembly assembly, string resource)

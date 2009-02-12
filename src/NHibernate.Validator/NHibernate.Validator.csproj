@@ -69,6 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cfg\IMappingLoader.cs" />
     <Compile Include="Cfg\Loquacious\BaseConstraints.cs" />
     <Compile Include="Cfg\Loquacious\BooleanConstraints.cs" />
     <Compile Include="Cfg\Loquacious\DateTimeConstraints.cs" />
