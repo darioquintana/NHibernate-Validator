@@ -8,20 +8,29 @@ namespace NHibernate.Validator.Mappings
 {
 	public class XmlOverAttributeClassMapping : MixedClassMapping
 	{
+		private readonly IClassMapping xmlcm;
+		private readonly IClassMapping rcm;
 
-		public XmlOverAttributeClassMapping(NhvmClass meta) : base(meta) { }
-
-		protected override void InitializeMembers(HashedSet<MemberInfo> lmembers, XmlClassMapping xmlcm, ReflectionClassMapping rcm)
+		public XmlOverAttributeClassMapping(NhvmClass meta)
 		{
-			MixMembersWith(lmembers, rcm);
-			MixMembersWith(lmembers, xmlcm);
+			xmlcm = new XmlClassMapping(meta);
+			rcm = new ReflectionClassMapping(xmlcm.EntityType);
+			clazz = xmlcm.EntityType;
 		}
 
-		protected override void InitializeClassAttributes(XmlClassMapping xmlcm, ReflectionClassMapping rcm)
+		#region Overrides of AbstractClassMapping
+
+		protected override void Initialize()
 		{
-			classAttributes = new List<Attribute>();
-			CombineAttribute(rcm.GetClassAttributes(), classAttributes);
-			CombineAttribute(xmlcm.GetClassAttributes(), classAttributes);
+
+			InitializeClassAttributes(rcm, xmlcm);
+
+			var lmembers = new HashedSet<MemberInfo>();
+			InitializeMembers(lmembers, rcm, xmlcm);
+
+			members = new List<MemberInfo>(lmembers).ToArray();
 		}
+
+		#endregion
 	}
 }

@@ -65,10 +65,11 @@ namespace NHibernate.Validator.Tests.Mappings
 			Assert.AreEqual(8, mi.Count);
 		}
 
-		[Test, ExpectedException(typeof(InvalidPropertyNameException))]
+		[Test]
 		public void InvalidPropertyName()
 		{
-			new XmlClassMapping(GetNhvClassFor(typeof(A)));
+			var map = new XmlClassMapping(GetNhvClassFor(typeof(A)));
+			Assert.Throws<InvalidPropertyNameException>(() => map.GetMembers());
 		}
 	}
 }

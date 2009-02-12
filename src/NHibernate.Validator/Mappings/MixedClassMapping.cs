@@ -2,29 +2,24 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Iesi.Collections.Generic;
-using NHibernate.Validator.Cfg.MappingSchema;
 using NHibernate.Validator.Util;
 
 namespace NHibernate.Validator.Mappings
 {
 	public abstract class MixedClassMapping : AbstractClassMapping
 	{
-		public MixedClassMapping(NhvmClass meta)
+		protected virtual void InitializeMembers(HashedSet<MemberInfo> lmembers, IClassMapping baseMap, IClassMapping alternativeMap)
 		{
-			XmlClassMapping xmlcm = new XmlClassMapping(meta);
-			ReflectionClassMapping rcm = new ReflectionClassMapping(xmlcm.EntityType);
-			clazz = xmlcm.EntityType;
-
-			InitializeClassAttributes(xmlcm, rcm);
-
-			HashedSet<MemberInfo> lmembers = new HashedSet<MemberInfo>();
-			InitializeMembers(lmembers, xmlcm, rcm);
-
-			members = new List<MemberInfo>(lmembers).ToArray();
+			MixMembersWith(lmembers, baseMap);
+			MixMembersWith(lmembers, alternativeMap);
 		}
 
-		protected abstract void InitializeClassAttributes(XmlClassMapping xmlcm, ReflectionClassMapping rcm);
-		protected abstract void InitializeMembers(HashedSet<MemberInfo> lmembers, XmlClassMapping xmlcm, ReflectionClassMapping rcm);
+		protected virtual void InitializeClassAttributes(IClassMapping baseMap, IClassMapping alternativeMap)
+		{
+			classAttributes = new List<Attribute>();
+			CombineAttribute(baseMap.GetClassAttributes(), classAttributes);
+			CombineAttribute(alternativeMap.GetClassAttributes(), classAttributes);
+		}
 
 		protected void MixMembersWith(ISet<MemberInfo> lmembers, IClassMapping mapping)
 		{
@@ -52,8 +47,7 @@ namespace NHibernate.Validator.Mappings
 		{
 			foreach (Attribute ma in origin)
 			{
-				Attribute found = dest.Find(delegate(Attribute attribute)
-				                            	{ return ma.TypeId.Equals(attribute.TypeId); });
+				Attribute found = dest.Find(attribute => ma.TypeId.Equals(attribute.TypeId));
 
 				if (found != null && !AttributeUtils.AttributeAllowsMultiple(ma))
 					dest.Remove(found);
