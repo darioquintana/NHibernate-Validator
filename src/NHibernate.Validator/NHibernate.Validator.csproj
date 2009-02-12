@@ -79,6 +79,7 @@
     <Compile Include="Cfg\Loquacious\IRuleArgsOptions.cs" />
     <Compile Include="Cfg\Loquacious\IStringConstraints.cs" />
     <Compile Include="Cfg\Loquacious\IValidationDefinition.cs" />
+    <Compile Include="Cfg\Loquacious\StringConstraints.cs" />
     <Compile Include="Cfg\Loquacious\ValidationDef.cs" />
     <Compile Include="Constraints\AbstractLuhnValidator.cs" />
     <Compile Include="Constraints\AssertFalseAttribute.cs" />

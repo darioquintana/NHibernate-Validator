@@ -4,19 +4,25 @@ namespace NHibernate.Validator.Cfg.Loquacious
 {
 	public interface IStringConstraints
 	{
-		IStringConstraints NotNullable();
-		IStringConstraints NotEmpty();
-		IStringConstraints MaxLength(int maxLength);
-		IStringConstraints NotNullableAndNotEmpty();
-		IStringConstraints LengthBetween(int minLength, int maxLength);
-		IStringConstraints MatchWith(string regex);
-		IStringConstraints MatchWith(string regex, RegexOptions flags);
-		void IsEmail();
-		void IsIP();
-		void IsEAN();
-		void IsIBAN();
-		void IsCreditCardNumber();
-		void Digits(int integerDigits);
-		void Digits(int integerDigits, int fractionalDigits);
+		IStringConstraintsChain NotNullable();
+		IStringConstraintsChain NotEmpty();
+		IStringConstraintsChain MaxLength(int maxLength);
+		IStringConstraintsChain NotNullableAndNotEmpty();
+		IStringConstraintsChain LengthBetween(int minLength, int maxLength);
+		IStringConstraintsChain MatchWith(string regex);
+		IStringConstraintsChain MatchWith(string regex, RegexOptions flags);
+		IRuleArgsOptions IsEmail();
+		IRuleArgsOptions IsIP();
+		IRuleArgsOptions IsEAN();
+		IRuleArgsOptions IsIBAN();
+		IRuleArgsOptions IsCreditCardNumber();
+		IRuleArgsOptions Digits(int integerDigits);
+		IRuleArgsOptions Digits(int integerDigits, int fractionalDigits);
+	}
+
+	public interface IStringConstraintsChain
+	{
+		IStringConstraints And { get; }
+		IStringConstraintsChain WithMessage(string message);
 	}
 }

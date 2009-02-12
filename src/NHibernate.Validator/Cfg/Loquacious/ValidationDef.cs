@@ -37,6 +37,11 @@ namespace NHibernate.Validator.Cfg.Loquacious
 			return new BooleanConstraints(this, DecodeMemberAccessExpression(property));
 		}
 
+		public IStringConstraints Define(Expression<Func<T, string>> property)
+		{
+			return new StringConstraints(this, DecodeMemberAccessExpression(property));
+		}
+
 		public void Add(MemberInfo member, Attribute ruleArgs)
 		{
 			classMap.AddMemberConstraint(member, ruleArgs);

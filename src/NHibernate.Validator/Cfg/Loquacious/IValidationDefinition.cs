@@ -10,5 +10,7 @@ namespace NHibernate.Validator.Cfg.Loquacious
 		
 		IBooleanConstraints Define(Expression<Func<T, bool>> property);
 		IBooleanConstraints Define(Expression<Func<T, bool?>> property);
+
+		IStringConstraints Define(Expression<Func<T, string>> property);
 	}
 }
