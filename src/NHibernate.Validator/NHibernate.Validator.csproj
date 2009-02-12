@@ -218,15 +218,9 @@
       <SubType>
       </SubType>
     </EmbeddedResource>
-    <None Include="Cfg\nhv-configuration.xsx">
-      <DependentUpon>nhv-configuration.xsd</DependentUpon>
-    </None>
     <None Include="Cfg\nhv-mapping.xsd">
       <SubType>
       </SubType>
-    </None>
-    <None Include="Cfg\nhv-mapping.xsx">
-      <DependentUpon>nhv-mapping.xsd</DependentUpon>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
