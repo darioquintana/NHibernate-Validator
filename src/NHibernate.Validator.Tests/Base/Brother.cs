@@ -1,4 +1,5 @@
 using System;
+using NHibernate.Validator.Cfg.Loquacious;
 using NHibernate.Validator.Constraints;
 
 namespace NHibernate.Validator.Tests.Base
@@ -46,6 +47,17 @@ namespace NHibernate.Validator.Tests.Base
 		public override int GetHashCode()
 		{
 			return 5;
+		}
+	}
+
+	public class BrotherDef: ValidationDef<Brother>
+	{
+		public BrotherDef()
+		{
+			Define(x => x.Address).NotNullable().And.IsValid();
+			Define(x => x.Name).NotNullable();
+			Define(x => x.Elder).IsValid();
+			Define(x => x.YoungerBrother).IsValid();
 		}
 	}
 }

@@ -55,11 +55,17 @@ namespace NHibernate.Validator.Tests.Base
 			validationMessages = classValidator.GetInvalidValues(a);
 			Assert.AreEqual(1, validationMessages.Length);
 			string expectedMessage = string.Format("Floor cannot {0} be lower that -2 and greater than 50 {1}", ESCAPING_EL, ESCAPING_EL);
-			Assert.AreEqual(expectedMessage, validationMessages[0].Message);
+			if (TestMessages)
+			{
+				Assert.AreEqual(expectedMessage, validationMessages[0].Message);
+			}
 			Assert.AreEqual(typeof (Address), validationMessages[0].BeanClass);
 			Assert.IsTrue(ReferenceEquals(a, validationMessages[0].Bean));
 			Assert.AreEqual(4000, validationMessages[0].Value);
-			Assert.AreEqual("floor" + "[" + expectedMessage + "]", validationMessages[0].ToString());
+			if (TestMessages)
+			{
+				Assert.AreEqual("floor" + "[" + expectedMessage + "]", validationMessages[0].ToString());
+			}
 		}
 
 		[Test]
@@ -101,7 +107,7 @@ namespace NHibernate.Validator.Tests.Base
 			address.floor = -100;
 			christophe.Address = address;
 			invalidValues = classValidator.GetInvalidValues(emmanuel);
-			Assert.AreEqual(1, invalidValues.Length, "Floor cannot be less than 2");
+			Assert.AreEqual(1, invalidValues.Length, "Floor cannot be less than -2");
 		}
 
 		[Test]
@@ -169,6 +175,11 @@ namespace NHibernate.Validator.Tests.Base
 		}
 
 		protected virtual bool AllowStaticFields
+		{
+			get { return true; }
+		}
+
+		protected virtual bool TestMessages
 		{
 			get { return true; }
 		}

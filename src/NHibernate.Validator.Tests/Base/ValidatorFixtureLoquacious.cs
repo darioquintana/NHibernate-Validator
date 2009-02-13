@@ -34,5 +34,10 @@ namespace NHibernate.Validator.Tests.Base
 		{
 			get { return false; }
 		}
+
+		protected override bool TestMessages
+		{
+			get { return false; }
+		}
 	}
 }
