@@ -7,7 +7,7 @@ namespace NHibernate.Validator.Tests.EmailTests
 	[TestFixture]
 	public class EmailFixture : BaseValidatorFixture
 	{
-		private ClassValidator userValidator;
+		private IClassValidator userValidator;
 
 		[Test]
 		public void testEmail()

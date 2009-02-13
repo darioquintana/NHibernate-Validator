@@ -14,7 +14,7 @@ namespace NHibernate.Validator.Tests.IPFixture
 		{
 			Computer computer = new Computer();
 			computer.IpAddress = "aaa.bbb.ccc";
-			ClassValidator classValidator = GetClassValidator(typeof(Computer));
+			IClassValidator classValidator = GetClassValidator(typeof(Computer));
 			InvalidValue[] ivs = classValidator.GetInvalidValues(computer);
 			Assert.AreEqual(1, ivs.Length, "aaa.bbb.ccc is not a valid IP");
 
@@ -32,7 +32,7 @@ namespace NHibernate.Validator.Tests.IPFixture
 		{
 			Computer computer = new Computer();
 			computer.IpAddress = "192.168.0.1";
-			ClassValidator classValidator = GetClassValidator(typeof(Computer));
+			IClassValidator classValidator = GetClassValidator(typeof(Computer));
 			InvalidValue[] ivs = classValidator.GetInvalidValues(computer);
 			Assert.AreEqual(0, ivs.Length);
 

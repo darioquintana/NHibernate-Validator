@@ -4,9 +4,9 @@ namespace NHibernate.Validator.Tests.Base
 {
 	public class DigitsFixtureXml : DigitsFixture
 	{
-		public override ClassValidator GetClassValidator(System.Type type)
+		public override IClassValidator GetClassValidator(System.Type type)
 		{
-			return UtilValidatorFactory.GetValidatorForUseXmlTest(type);
+			return UtilValidatorFactory.GetValidatorForUseExternalTest(type);
 		}
 	}
 }

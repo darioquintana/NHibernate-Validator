@@ -22,7 +22,7 @@ namespace NHibernate.Validator.Tests.Base
 			a.State = "Vic";
 			a.Line1 = "Karbarook Ave";
 			a.Id = 3;
-			ClassValidator classValidator = GetClassValidator(typeof(Address), new ResourceManager("NHibernate.Validator.Tests.Resource.Messages", Assembly.GetExecutingAssembly()), new CultureInfo("en"));
+			IClassValidator classValidator = GetClassValidator(typeof(Address), new ResourceManager("NHibernate.Validator.Tests.Resource.Messages", Assembly.GetExecutingAssembly()), new CultureInfo("en"));
 			InvalidValue[] validationMessages = classValidator.GetInvalidValues(a);
 			Assert.AreEqual(2, validationMessages.Length); //static field is tested also
 			Address.blacklistedZipCode = "323232";
@@ -75,7 +75,7 @@ namespace NHibernate.Validator.Tests.Base
 			christophe.Address = address;
 			emmanuel.YoungerBrother = christophe;
 			christophe.Elder = emmanuel;
-			ClassValidator classValidator = GetClassValidator(typeof(Brother));
+			IClassValidator classValidator = GetClassValidator(typeof(Brother));
 			InvalidValue[] invalidValues = classValidator.GetInvalidValues(emmanuel);
 			Assert.AreEqual(0, invalidValues.Length);
 			christophe.Name = null;
@@ -101,7 +101,7 @@ namespace NHibernate.Validator.Tests.Base
 		public void BeanValidator()
 		{
 			Suricato s = new Suricato();
-			ClassValidator vtor = GetClassValidator(typeof(Suricato));
+			IClassValidator vtor = GetClassValidator(typeof(Suricato));
 
 			Assert.IsTrue(vtor.HasValidationRules);
 			Assert.AreEqual(1, vtor.GetInvalidValues(s).Length);
@@ -125,7 +125,7 @@ namespace NHibernate.Validator.Tests.Base
 			CarEngine eng = new CarEngine();
 			eng.HorsePower = 23;
 			eng.SerialNumber = "23-43###4";
-			ClassValidator classValidator = GetClassValidator(typeof(CarEngine));
+			IClassValidator classValidator = GetClassValidator(typeof(CarEngine));
 			InvalidValue[] invalidValues = classValidator.GetInvalidValues(eng);
 			Assert.AreEqual(2, invalidValues.Length);
 
@@ -151,7 +151,7 @@ namespace NHibernate.Validator.Tests.Base
 			Boo boo = new Boo();
 			boo.field = null;
 
-			ClassValidator validator = GetClassValidator(typeof(Boo));
+			IClassValidator validator = GetClassValidator(typeof(Boo));
 			InvalidValue[] invalids = validator.GetInvalidValues(boo);
 			Assert.AreEqual(1, invalids.Length, "null value cannot be valid");
 

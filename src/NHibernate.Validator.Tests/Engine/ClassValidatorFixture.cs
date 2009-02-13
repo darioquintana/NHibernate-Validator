@@ -13,7 +13,7 @@ namespace NHibernate.Validator.Tests.Engine
 		[Test]
 		public void GetInvalidValuesOfBean()
 		{
-			ClassValidator cv = GetClassValidator(typeof(Address));
+			IClassValidator cv = GetClassValidator(typeof(Address));
 			Assert.AreEqual(0, cv.GetInvalidValues(null).Length);
 
 			try
@@ -30,7 +30,7 @@ namespace NHibernate.Validator.Tests.Engine
 		[Test]
 		public void GetInvalidValuesOfProperty()
 		{
-			ClassValidator cv = GetClassValidator(typeof(Address));
+			IClassValidator cv = GetClassValidator(typeof(Address));
 			Assert.AreEqual(0, cv.GetInvalidValues(null, "blacklistedZipCode").Length);
 
 			try

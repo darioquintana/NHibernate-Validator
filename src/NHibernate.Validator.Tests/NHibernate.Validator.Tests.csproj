@@ -83,6 +83,7 @@
     <Compile Include="Base\CarEngine.cs" />
     <Compile Include="Base\CompositionFixture.cs" />
     <Compile Include="Base\CreditCard.cs" />
+    <Compile Include="Base\ValidatorFixtureLoquacious.cs" />
     <Compile Include="Base\LuhnTest.cs" />
     <Compile Include="Base\LuhnTestXml.cs" />
     <Compile Include="Base\WebImage.cs" />

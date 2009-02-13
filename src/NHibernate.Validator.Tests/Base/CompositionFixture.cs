@@ -9,7 +9,7 @@ namespace NHibernate.Validator.Tests.Base
 		[Test]
 		public void CompositionHasValidationRules()
 		{
-			ClassValidator vtor = GetClassValidator(typeof(Composition));
+			IClassValidator vtor = GetClassValidator(typeof(Composition));
 
 			Assert.IsTrue(vtor.HasValidationRules);
 		}

@@ -12,9 +12,9 @@ namespace NHibernate.Validator.Tests.XmlAndAttributesMix
 	{
 		private static ILog log = LogManager.GetLogger(typeof(OverrideAttributeWithXmlFixture));
 
-		public override ClassValidator GetClassValidator(System.Type type)
+		public override IClassValidator GetClassValidator(System.Type type)
 		{
-			return UtilValidatorFactory.GetValidatorForOverrideAttributeWithXml(type);
+			return UtilValidatorFactory.GetValidatorForOverrideAttributeWithExternal(type);
 		}
 
 		[Test]
@@ -26,7 +26,7 @@ namespace NHibernate.Validator.Tests.XmlAndAttributesMix
 			person.Address = "aaa";
 			person.friends = 2;
 
-			ClassValidator validator = GetClassValidator(typeof(Person));
+			IClassValidator validator = GetClassValidator(typeof(Person));
 			InvalidValue[] invalids = validator.GetInvalidValues(person);
 			Assert.AreEqual(0, invalids.Length, "Address has not minimum");
 		}
@@ -40,7 +40,7 @@ namespace NHibernate.Validator.Tests.XmlAndAttributesMix
 			person.Address = "Address";
 			person.friends = 21;
 
-			ClassValidator validator = GetClassValidator(typeof(Person));
+			IClassValidator validator = GetClassValidator(typeof(Person));
 			InvalidValue[] invalids = validator.GetInvalidValues(person);
 			Assert.AreEqual(1, invalids.Length, "Person cannot have more than 20 friends by Xml");
 
@@ -58,7 +58,7 @@ namespace NHibernate.Validator.Tests.XmlAndAttributesMix
 			person.Address = "Address";
 			person.friends = 2;
 
-			ClassValidator validator = GetClassValidator(typeof(Person));
+			IClassValidator validator = GetClassValidator(typeof(Person));
 			InvalidValue[] invalids = validator.GetInvalidValues(person);
 			Assert.AreEqual(1, invalids.Length, "Name cannot be empty by attribute");
 		}

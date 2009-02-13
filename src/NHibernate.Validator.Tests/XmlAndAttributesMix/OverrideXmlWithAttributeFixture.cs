@@ -9,9 +9,9 @@ namespace NHibernate.Validator.Tests.XmlAndAttributesMix
 	[TestFixture]
 	public class OverrideXmlWithAttributeFixture : BaseValidatorFixture
 	{
-		public override ClassValidator GetClassValidator(System.Type type)
+		public override IClassValidator GetClassValidator(System.Type type)
 		{
-			return UtilValidatorFactory.GetValidatorForOverrideXmlWithAttribute(type);
+			return UtilValidatorFactory.GetValidatorForOverrideExternalWithAttribute(type);
 		}
 
 		[Test]
@@ -23,7 +23,7 @@ namespace NHibernate.Validator.Tests.XmlAndAttributesMix
 			person.Address = "aaa";
 			person.friends = 2;
 
-			ClassValidator validator = GetClassValidator(typeof(Person));
+			IClassValidator validator = GetClassValidator(typeof(Person));
 
 			InvalidValue[] invalids = validator.GetInvalidValues(person);
 

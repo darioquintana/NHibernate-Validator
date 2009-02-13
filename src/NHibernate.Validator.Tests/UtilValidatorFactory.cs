@@ -7,7 +7,7 @@ namespace NHibernate.Validator.Tests
 {
 	public class UtilValidatorFactory
 	{
-		public static ClassValidator GetValidatorForUseXmlTest(System.Type type)
+		public static ClassValidator GetValidatorForUseExternalTest(System.Type type)
 		{
 			return CreateValidator(type, ValidatorMode.UseExternal);
 		}
@@ -26,12 +26,12 @@ namespace NHibernate.Validator.Tests
 			return CreateValidator(type, ValidatorMode.UseAttribute);
 		}
 
-		internal static ClassValidator GetValidatorForOverrideXmlWithAttribute(System.Type type)
+		internal static ClassValidator GetValidatorForOverrideExternalWithAttribute(System.Type type)
 		{
 			return CreateValidator(type, ValidatorMode.OverrideExternalWithAttribute);
 		}
 
-		internal static ClassValidator GetValidatorForOverrideAttributeWithXml(System.Type type)
+		internal static ClassValidator GetValidatorForOverrideAttributeWithExternal(System.Type type)
 		{
 			return CreateValidator(type, ValidatorMode.OverrideAttributeWithExternal);
 		}

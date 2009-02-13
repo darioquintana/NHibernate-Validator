@@ -4,9 +4,9 @@ namespace NHibernate.Validator.Tests.Collections
 {
 	public class XmlCollectionFixture : CollectionFixture
 	{
-		public override ClassValidator GetClassValidator(System.Type type)
+		public override IClassValidator GetClassValidator(System.Type type)
 		{
-			return UtilValidatorFactory.GetValidatorForUseXmlTest(type);
+			return UtilValidatorFactory.GetValidatorForUseExternalTest(type);
 		}
 	}
 }

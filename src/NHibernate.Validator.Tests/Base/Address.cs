@@ -1,3 +1,4 @@
+using NHibernate.Validator.Cfg.Loquacious;
 using NHibernate.Validator.Constraints;
 
 namespace NHibernate.Validator.Tests.Base
@@ -67,6 +68,31 @@ namespace NHibernate.Validator.Tests.Base
 		{
 			get { return internalValid; }
 			set { internalValid = value; }
+		}
+	}
+
+	public class AddressDef: ValidationDef<Address>
+	{
+		public AddressDef()
+		{
+			Define(x => x.Country)
+				.MaxLength(20).And
+				.NotNullable();
+			Define(x => x.floor)
+				.IncludedBetween(-2, 50).WithMessage("{floor.out.of.range} (escaping #{el})");
+			Define(x => x.Id)
+				.IncludedBetween(1, 2000);
+			Define(x => x.Line1)
+				.NotNullable();
+			Define(x => x.State)
+				.NotNullable().And
+				.MaxLength(3);
+			Define(x => x.Zip)
+				.NotNullable().And
+				.MaxLength(5).WithMessage("{long}").And
+				.MatchWith("[0-9]+");
+			Define(x => x.InternalValid)
+				.IsTrue();
 		}
 	}
 }

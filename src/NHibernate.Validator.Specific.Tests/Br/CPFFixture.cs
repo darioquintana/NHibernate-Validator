@@ -40,7 +40,7 @@ namespace NHibernate.Validator.Specific.Tests.Br
 		[Test]
 		public void ValidatorAttribute()
 		{
-			ClassValidator userValidator = GetClassValidator(typeof (Usuario));
+			IClassValidator userValidator = GetClassValidator(typeof (Usuario));
 			var u = new Usuario();
 			Assert.AreEqual(0, userValidator.GetInvalidValues(u).Length);
 			u.Cpf = "111cx1111";

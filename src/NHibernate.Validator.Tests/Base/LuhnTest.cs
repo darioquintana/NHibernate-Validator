@@ -11,7 +11,7 @@ namespace NHibernate.Validator.Tests.Base
 		{
 			CreditCard card = new CreditCard();
 			card.number = "1234567890123456";
-			ClassValidator classValidator = GetClassValidator(typeof(CreditCard));
+			IClassValidator classValidator = GetClassValidator(typeof(CreditCard));
 			InvalidValue[] invalidValues = classValidator.GetInvalidValues(card);
 			Assert.AreEqual(1, invalidValues.Length);
 			card.number = "541234567890125"; //right CC (luhn compliant)

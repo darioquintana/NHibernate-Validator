@@ -10,7 +10,7 @@ namespace NHibernate.Validator.Tests.Inheritance
         [Test]
         public void TestInh()
         {
-            ClassValidator classValidator = GetClassValidator(typeof(Dog));
+            IClassValidator classValidator = GetClassValidator(typeof(Dog));
             Dog dog = new Dog();
             InvalidValue[] invalidValues = classValidator.GetInvalidValues(dog);
             Assert.AreEqual(3, invalidValues.Length);

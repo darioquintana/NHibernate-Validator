@@ -14,7 +14,7 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		public void LengthTest()
 		{
 			FooLength f1 = new FooLength(1, "hola");
-			ClassValidator validator = GetClassValidator(typeof(FooLength));
+			IClassValidator validator = GetClassValidator(typeof(FooLength));
 
 			InvalidValue[] res = validator.GetInvalidValues(f1);
 			Assert.AreEqual(0, res.Length);
@@ -32,7 +32,7 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		[Test]
 		public void NotEmptyTest()
 		{
-			ClassValidator validator = GetClassValidator(typeof(FooNotEmpty));
+			IClassValidator validator = GetClassValidator(typeof(FooNotEmpty));
 
 			FooNotEmpty f1 = new FooNotEmpty("hola");
 			FooNotEmpty f2 = new FooNotEmpty(string.Empty);
@@ -46,7 +46,7 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		[Test]
 		public void PastAndFuture()
 		{
-			ClassValidator validator = GetClassValidator(typeof(FooDate));
+			IClassValidator validator = GetClassValidator(typeof(FooDate));
 			FooDate f = new FooDate();
 
 			f.Past = DateTime.MinValue;

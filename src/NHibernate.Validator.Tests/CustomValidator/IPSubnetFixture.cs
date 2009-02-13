@@ -6,9 +6,9 @@ namespace NHibernate.Validator.Tests.CustomValidator
 	[TestFixture]
 	public class SubnetIPFixture : BaseValidatorFixture
 	{
-		public override ClassValidator GetClassValidator(System.Type type)
+		public override IClassValidator GetClassValidator(System.Type type)
 		{
-			return UtilValidatorFactory.GetValidatorForUseXmlTest(type);
+			return UtilValidatorFactory.GetValidatorForUseExternalTest(type);
 		}
 
 		[Test]
@@ -17,7 +17,7 @@ namespace NHibernate.Validator.Tests.CustomValidator
 			Controller controller = new Controller();
 			controller.Name = null;
 			controller.IP = "192.168.1.1";
-			ClassValidator validator = GetClassValidator(typeof(Controller));
+			IClassValidator validator = GetClassValidator(typeof(Controller));
 
 			InvalidValue[] res = validator.GetInvalidValues(controller);
 			Assert.AreEqual(2, res.Length);

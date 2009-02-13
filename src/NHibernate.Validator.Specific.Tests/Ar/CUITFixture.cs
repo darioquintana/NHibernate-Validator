@@ -31,7 +31,7 @@ namespace NHibernate.Validator.Specific.Tests.Ar
 		[Test]
 		public void ValidatorAttribute()
 		{
-			ClassValidator userValidator = GetClassValidator(typeof(Cliente));
+			IClassValidator userValidator = GetClassValidator(typeof(Cliente));
 			Cliente c = new Cliente();
 			Assert.AreEqual(0, userValidator.GetInvalidValues(c).Length);
 			c.Cuit = "AA";

@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Tests.IPFixture
 {
 	public class XmlIPAddressFixture : IPAddressFixture
 	{
-		public override NHibernate.Validator.Engine.ClassValidator GetClassValidator(System.Type type)
+		public override IClassValidator GetClassValidator(System.Type type)
 		{
-			return UtilValidatorFactory.GetValidatorForUseXmlTest(type);
+			return UtilValidatorFactory.GetValidatorForUseExternalTest(type);
 		}
 	}
 }

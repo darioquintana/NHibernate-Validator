@@ -31,7 +31,7 @@ namespace NHibernate.Validator.Specific.Tests.Uy
 		[Test]
 		public void ValidatorAttribute()
 		{
-			ClassValidator userValidator = GetClassValidator(typeof(Persona));
+			IClassValidator userValidator = GetClassValidator(typeof(Persona));
 			Persona p = new Persona();
 			Assert.AreEqual(0, userValidator.GetInvalidValues(p).Length);
 			p.Cedula = "44443333";

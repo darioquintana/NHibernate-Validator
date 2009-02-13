@@ -17,7 +17,7 @@ namespace NHibernate.Validator.Tests.Base
 			webImage.position = 1;
 			webImage.filename = "testunknown";
 
-			ClassValidator validator = GetClassValidator(typeof(WebImage));
+			IClassValidator validator = GetClassValidator(typeof(WebImage));
 			InvalidValue[] invalids = validator.GetInvalidValues(webImage);
 			Assert.AreEqual(1, invalids.Length);
 

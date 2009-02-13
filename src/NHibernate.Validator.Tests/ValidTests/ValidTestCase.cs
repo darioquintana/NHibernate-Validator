@@ -10,7 +10,7 @@ namespace NHibernate.Validator.Tests.ValidTests
 		[Test]
 		public void TestDeepValid()
 		{
-			ClassValidator formValidator = GetClassValidator(typeof(Form));
+			IClassValidator formValidator = GetClassValidator(typeof(Form));
 
 			Address a = new Address();
 			Member m = new Member();
@@ -28,7 +28,7 @@ namespace NHibernate.Validator.Tests.ValidTests
 		[Test]
 		public void OneToOneValid()
 		{
-			ClassValidator vtor = GetClassValidator(typeof(Blog));
+			IClassValidator vtor = GetClassValidator(typeof(Blog));
 			Blog b = new Blog();
 			b.Author = new Author();
 			InvalidValue[] values = vtor.GetInvalidValues(b);

@@ -15,7 +15,7 @@ namespace NHibernate.Validator.Tests.Base
 			car.insurances = new String[] { "random" };
 			car.length = (decimal)10.2;
 			car.gallons = 100.3;
-			ClassValidator classValidator = GetClassValidator(typeof(Car));
+			IClassValidator classValidator = GetClassValidator(typeof(Car));
 			InvalidValue[] invalidValues = classValidator.GetInvalidValues(car);
 			Assert.AreEqual(2, invalidValues.Length);
 			car.length = (decimal)1.223; //more than 2
