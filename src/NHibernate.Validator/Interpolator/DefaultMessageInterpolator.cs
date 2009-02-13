@@ -66,7 +66,7 @@ namespace NHibernate.Validator.Interpolator
 
 			if (ruleArgs == null)
 			{
-				throw new ArgumentException("Attribute " + clazz + " doesn't implements IRuleArgs interface.");
+				throw new ArgumentException("Attribute " + clazz + " doesn't implement IRuleArgs interface.");
 			}
 			else
 			{
