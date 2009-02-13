@@ -41,12 +41,21 @@ namespace NHibernate.Validator.Specific.Tests.It
 			PartitaIvaAttribute pa = cm.GetMemberAttributes(pi).OfType<PartitaIvaAttribute>().FirstOrDefault();
 			Assert.That(pa, Is.Not.Null);
 			Assert.That(pa.Message, Is.EqualTo(expectedMessage));
+
+			pi = typeof(Cliente).GetProperty("NumPiva", membersBindingFlags);
+			v = new ValidationDef<Cliente>();
+			v.Define(x => x.NumPiva).IsPartitaIva().WithMessage(expectedMessage);
+			cm = ((IMappingSource)v).GetMapping();
+			Assert.That(cm.GetMemberAttributes(pi).Count(), Is.EqualTo(1));
+			pa = cm.GetMemberAttributes(pi).OfType<PartitaIvaAttribute>().FirstOrDefault();
+			Assert.That(pa, Is.Not.Null);
 		}
 
 		public class Cliente
 		{
 			public string CodiceFiscale { get; set; }
 			public string Piva { get; set; }
+			public uint NumPiva { get; set; }
 		}
 	}
 }

@@ -19,6 +19,11 @@ namespace NHibernate.Validator.Cfg.Loquacious
 			return AddWithConstraintsChain(new NotEmptyAttribute());
 		}
 
+		public IChainableConstraint<ICollectionConstraints> NotNullableAndNotEmpty()
+		{
+			return AddWithConstraintsChain(new NotNullNotEmptyAttribute());
+		}
+
 		public IRuleArgsOptions MaxSize(int maxSize)
 		{
 			return AddWithFinalRuleArgOptions(new SizeAttribute { Max = maxSize});
@@ -32,6 +37,13 @@ namespace NHibernate.Validator.Cfg.Loquacious
 		public IRuleArgsOptions SizeBetween(int minSize, int maxSize)
 		{
 			return AddWithFinalRuleArgOptions(new SizeAttribute { Min = minSize, Max = minSize });
+		}
+
+		public IBasicChainableConstraint<ICollectionConstraints> HasValidElements()
+		{
+			AddRuleArg(new ValidAttribute());
+
+			return new ChainableConstraintBase<ICollectionConstraints>(this);
 		}
 
 		#endregion

@@ -18,5 +18,6 @@ namespace NHibernate.Validator.Cfg.Loquacious
 		IRuleArgsOptions IsCreditCardNumber();
 		IRuleArgsOptions Digits(int integerDigits);
 		IRuleArgsOptions Digits(int integerDigits, int fractionalDigits);
+		IRuleArgsOptions FilePathExists();
 	}
 }

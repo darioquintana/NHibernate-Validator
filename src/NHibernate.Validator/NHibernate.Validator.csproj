@@ -79,6 +79,7 @@
     <Compile Include="Cfg\Loquacious\CollectionConstraints.cs" />
     <Compile Include="Cfg\Loquacious\DateTimeConstraints.cs" />
     <Compile Include="Cfg\Loquacious\FinalRuleArgsOptions.cs" />
+    <Compile Include="Cfg\Loquacious\FloatConstraints.cs" />
     <Compile Include="Cfg\Loquacious\FluentMappingLoader.cs" />
     <Compile Include="Cfg\Loquacious\IBooleanConstraints.cs" />
     <Compile Include="Cfg\Loquacious\IChainableConstraint.cs" />
@@ -86,9 +87,14 @@
     <Compile Include="Cfg\Loquacious\IConstraintAggregator.cs" />
     <Compile Include="Cfg\Loquacious\IConstraints.cs" />
     <Compile Include="Cfg\Loquacious\IDateTimeConstraints.cs" />
+    <Compile Include="Cfg\Loquacious\IFloatConstraints.cs" />
+    <Compile Include="Cfg\Loquacious\IIntegerConstraints.cs" />
+    <Compile Include="Cfg\Loquacious\IntegerConstraints.cs" />
+    <Compile Include="Cfg\Loquacious\IReletionshipConstraints.cs" />
     <Compile Include="Cfg\Loquacious\IRuleArgsOptions.cs" />
     <Compile Include="Cfg\Loquacious\IStringConstraints.cs" />
     <Compile Include="Cfg\Loquacious\IValidationDefinition.cs" />
+    <Compile Include="Cfg\Loquacious\ReletionshipConstraints.cs" />
     <Compile Include="Cfg\Loquacious\StringConstraints.cs" />
     <Compile Include="Cfg\Loquacious\ValidationDef.cs" />
     <Compile Include="Constraints\AbstractLuhnValidator.cs" />

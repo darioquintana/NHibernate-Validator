@@ -13,6 +13,96 @@ namespace NHibernate.Validator.Cfg.Loquacious
 
 		#region Implementation of IValidationDefinition<T>
 
+		public IIntegerConstraints Define(Expression<Func<T, short>> property)
+		{
+			return new IntegerConstraints(this, DecodeMemberAccessExpression(property));
+		}
+
+		public IIntegerConstraints Define(Expression<Func<T, short?>> property)
+		{
+			return new IntegerConstraints(this, DecodeMemberAccessExpression(property));
+		}
+
+		public IIntegerConstraints Define(Expression<Func<T, int>> property)
+		{
+			return new IntegerConstraints(this, DecodeMemberAccessExpression(property));
+		}
+
+		public IIntegerConstraints Define(Expression<Func<T, int?>> property)
+		{
+			return new IntegerConstraints(this, DecodeMemberAccessExpression(property));
+		}
+
+		public IIntegerConstraints Define(Expression<Func<T, long>> property)
+		{
+			return new IntegerConstraints(this, DecodeMemberAccessExpression(property));
+		}
+
+		public IIntegerConstraints Define(Expression<Func<T, long?>> property)
+		{
+			return new IntegerConstraints(this, DecodeMemberAccessExpression(property));
+		}
+
+		public IIntegerConstraints Define(Expression<Func<T, ushort>> property)
+		{
+			return new IntegerConstraints(this, DecodeMemberAccessExpression(property));
+		}
+
+		public IIntegerConstraints Define(Expression<Func<T, ushort?>> property)
+		{
+			return new IntegerConstraints(this, DecodeMemberAccessExpression(property));
+		}
+
+		public IIntegerConstraints Define(Expression<Func<T, uint>> property)
+		{
+			return new IntegerConstraints(this, DecodeMemberAccessExpression(property));
+		}
+
+		public IIntegerConstraints Define(Expression<Func<T, uint?>> property)
+		{
+			return new IntegerConstraints(this, DecodeMemberAccessExpression(property));
+		}
+
+		public IIntegerConstraints Define(Expression<Func<T, ulong>> property)
+		{
+			return new IntegerConstraints(this, DecodeMemberAccessExpression(property));
+		}
+
+		public IIntegerConstraints Define(Expression<Func<T, ulong?>> property)
+		{
+			return new IntegerConstraints(this, DecodeMemberAccessExpression(property));
+		}
+
+		public IFloatConstraints Define(Expression<Func<T, float>> property)
+		{
+			return new FloatConstraints(this, DecodeMemberAccessExpression(property));
+		}
+
+		public IFloatConstraints Define(Expression<Func<T, float?>> property)
+		{
+			return new FloatConstraints(this, DecodeMemberAccessExpression(property));
+		}
+
+		public IFloatConstraints Define(Expression<Func<T, double>> property)
+		{
+			return new FloatConstraints(this, DecodeMemberAccessExpression(property));
+		}
+
+		public IFloatConstraints Define(Expression<Func<T, double?>> property)
+		{
+			return new FloatConstraints(this, DecodeMemberAccessExpression(property));
+		}
+
+		public IFloatConstraints Define(Expression<Func<T, decimal>> property)
+		{
+			return new FloatConstraints(this, DecodeMemberAccessExpression(property));
+		}
+
+		public IFloatConstraints Define(Expression<Func<T, decimal?>> property)
+		{
+			return new FloatConstraints(this, DecodeMemberAccessExpression(property));
+		}
+
 		public IDateTimeConstraints Define(Expression<Func<T, DateTime>> property)
 		{
 			return new DateTimeConstraints(this, DecodeMemberAccessExpression(property));
@@ -41,6 +131,11 @@ namespace NHibernate.Validator.Cfg.Loquacious
 		public ICollectionConstraints Define(Expression<Func<T, ICollection>> property)
 		{
 			return new CollectionConstraints(this, DecodeMemberAccessExpression(property));
+		}
+
+		public IReletionshipConstraints Define(Expression<Func<T, object>> property)
+		{
+			return new ReletionshipConstraints(this, DecodeMemberAccessExpression(property));
 		}
 
 		public void Add(MemberInfo member, Attribute ruleArgs)

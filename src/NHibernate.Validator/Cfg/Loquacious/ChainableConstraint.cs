@@ -3,27 +3,36 @@ using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Cfg.Loquacious
 {
-	public class ChainableConstraint<TConstraints> : IChainableConstraint<TConstraints> where TConstraints : class
+	public class ChainableConstraintBase<TConstraints> : IBasicChainableConstraint<TConstraints> where TConstraints : class
 	{
-		public ChainableConstraint(TConstraints parent, IRuleArgs constraintAttribute)
+		public ChainableConstraintBase(TConstraints parent)
 		{
 			if (parent == null)
 			{
 				throw new ArgumentNullException("parent");
 			}
 			Parent = parent;
-			ConstraintAttribute = constraintAttribute;
 		}
 
 		protected TConstraints Parent { get; private set; }
-		protected IRuleArgs ConstraintAttribute { get; private set; }
-
-		#region IChainableConstraint<TConstraints> Members
 
 		public TConstraints And
 		{
 			get { return Parent; }
 		}
+	}
+
+	public class ChainableConstraint<TConstraints> : ChainableConstraintBase<TConstraints>,
+	                                                 IChainableConstraint<TConstraints> where TConstraints : class
+	{
+		public ChainableConstraint(TConstraints parent, IRuleArgs constraintAttribute) : base(parent)
+		{
+			ConstraintAttribute = constraintAttribute;
+		}
+
+		protected IRuleArgs ConstraintAttribute { get; private set; }
+
+		#region IChainableConstraint<TConstraints> Members
 
 		public IChainableConstraint<TConstraints> WithMessage(string message)
 		{

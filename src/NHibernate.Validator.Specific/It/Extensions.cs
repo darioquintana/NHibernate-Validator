@@ -13,5 +13,10 @@ namespace NHibernate.Validator.Specific.It
 		{
 			return ((IConstraints)definition).AddWithFinalRuleArgOptions(new PartitaIvaAttribute());
 		}
+
+		public static IRuleArgsOptions IsPartitaIva(this IIntegerConstraints definition)
+		{
+			return ((IConstraints)definition).AddWithFinalRuleArgOptions(new PartitaIvaAttribute());
+		}
 	}
 }

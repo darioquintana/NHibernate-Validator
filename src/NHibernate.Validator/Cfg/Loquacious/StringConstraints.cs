@@ -80,6 +80,11 @@ namespace NHibernate.Validator.Cfg.Loquacious
 			return AddWithFinalRuleArgOptions(new DigitsAttribute(integerDigits, fractionalDigits));
 		}
 
+		public IRuleArgsOptions FilePathExists()
+		{
+			return AddWithFinalRuleArgOptions(new FileExistsAttribute());
+		}
+
 		#endregion
 	}
 }
