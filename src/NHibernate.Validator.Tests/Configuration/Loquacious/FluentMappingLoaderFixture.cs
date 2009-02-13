@@ -117,5 +117,13 @@ namespace NHibernate.Validator.Tests.Configuration.Loquacious
 			ml.AddClassDefinition<AddressValidationDef, Address>();
 			Assert.That(ml.GetMappings().Count(), Is.EqualTo(1));
 		}
+
+		[Test]
+		public void AddNameSpace()
+		{
+			var ml = new FluentMappingLoader();
+			ml.AddNameSpace(Assembly.GetExecutingAssembly(), "NHibernate.Validator.Tests.Configuration.Loquacious");
+			Assert.That(ml.GetMappings().Count(), Is.GreaterThan(2));
+		}
 	}
 }
