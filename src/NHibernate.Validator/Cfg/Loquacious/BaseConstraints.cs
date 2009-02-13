@@ -15,6 +15,8 @@ namespace NHibernate.Validator.Cfg.Loquacious
 		protected MemberInfo Member { get; private set; }
 		protected IConstraintAggregator Parent { get; private set; }
 
+		#region IConstraints Members
+
 		public void AddRuleArg(Attribute ruleArgs)
 		{
 			Parent.Add(Member, ruleArgs);
@@ -24,6 +26,20 @@ namespace NHibernate.Validator.Cfg.Loquacious
 		{
 			AddRuleArg(ruleArgs);
 			return new FinalRuleArgsOptions(ruleArgs);
+		}
+
+		#endregion
+	}
+
+	public class BaseConstraints<T> : BaseConstraints where T : class
+	{
+		public BaseConstraints(IConstraintAggregator parent, MemberInfo member) : base(parent, member) {}
+
+		public IChainableConstraint<T> AddWithConstraintsChain<TRuleArg>(TRuleArg ruleArgs)
+			where TRuleArg : Attribute, IRuleArgs
+		{
+			AddRuleArg(ruleArgs);
+			return new ChainableConstraint<T>(this as T, ruleArgs);
 		}
 	}
 }

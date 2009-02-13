@@ -1,50 +1,48 @@
-using System;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using NHibernate.Validator.Constraints;
-using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Cfg.Loquacious
 {
-	public class StringConstraints : BaseConstraints, IStringConstraints
+	public class StringConstraints : BaseConstraints<IStringConstraints>, IStringConstraints
 	{
 		public StringConstraints(IConstraintAggregator parent, MemberInfo member) : base(parent, member) {}
 
 		#region Implementation of IStringConstraints
 
-		public IStringConstraintsChain NotNullable()
+		public IChainableConstraint<IStringConstraints> NotNullable()
 		{
-			return AddWithStringConstraintsChain(new NotNullAttribute());
+			return AddWithConstraintsChain(new NotNullAttribute());
 		}
 
-		public IStringConstraintsChain NotEmpty()
+		public IChainableConstraint<IStringConstraints> NotEmpty()
 		{
-			return AddWithStringConstraintsChain(new NotEmptyAttribute());
+			return AddWithConstraintsChain(new NotEmptyAttribute());
 		}
 
-		public IStringConstraintsChain MaxLength(int maxLength)
+		public IChainableConstraint<IStringConstraints> MaxLength(int maxLength)
 		{
-			return AddWithStringConstraintsChain(new LengthAttribute(maxLength));
+			return AddWithConstraintsChain(new LengthAttribute(maxLength));
 		}
 
-		public IStringConstraintsChain NotNullableAndNotEmpty()
+		public IChainableConstraint<IStringConstraints> NotNullableAndNotEmpty()
 		{
-			return AddWithStringConstraintsChain(new NotNullNotEmptyAttribute());
+			return AddWithConstraintsChain(new NotNullNotEmptyAttribute());
 		}
 
-		public IStringConstraintsChain LengthBetween(int minLength, int maxLength)
+		public IChainableConstraint<IStringConstraints> LengthBetween(int minLength, int maxLength)
 		{
-			return AddWithStringConstraintsChain(new LengthAttribute(minLength, maxLength));
+			return AddWithConstraintsChain(new LengthAttribute(minLength, maxLength));
 		}
 
-		public IStringConstraintsChain MatchWith(string regex)
+		public IChainableConstraint<IStringConstraints> MatchWith(string regex)
 		{
-			return AddWithStringConstraintsChain(new PatternAttribute(regex));
+			return AddWithConstraintsChain(new PatternAttribute(regex));
 		}
 
-		public IStringConstraintsChain MatchWith(string regex, RegexOptions flags)
+		public IChainableConstraint<IStringConstraints> MatchWith(string regex, RegexOptions flags)
 		{
-			return AddWithStringConstraintsChain(new PatternAttribute(regex, flags));
+			return AddWithConstraintsChain(new PatternAttribute(regex, flags));
 		}
 
 		public IRuleArgsOptions IsEmail()
@@ -80,48 +78,6 @@ namespace NHibernate.Validator.Cfg.Loquacious
 		public IRuleArgsOptions Digits(int integerDigits, int fractionalDigits)
 		{
 			return AddWithFinalRuleArgOptions(new DigitsAttribute(integerDigits, fractionalDigits));
-		}
-
-		#endregion
-
-		public IStringConstraintsChain AddWithStringConstraintsChain<TRuleArg>(TRuleArg ruleArgs)
-			where TRuleArg : Attribute, IRuleArgs
-		{
-			AddRuleArg(ruleArgs);
-			return new StringConstraintsChain(this, ruleArgs);
-		}
-	}
-
-	public class StringConstraintsChain : IStringConstraintsChain
-	{
-		private readonly IStringConstraints parent;
-		private readonly IRuleArgs constraintAttribute;
-
-		public StringConstraintsChain(IStringConstraints parent, IRuleArgs constraintAttribute)
-		{
-			if (parent == null)
-			{
-				throw new ArgumentNullException("parent");
-			}
-			this.parent = parent;
-			this.constraintAttribute = constraintAttribute;
-		}
-
-		#region Implementation of IStringConstraintsChaining
-
-		public IStringConstraints And
-		{
-			get { return parent; }
-		}
-
-		public IStringConstraintsChain WithMessage(string message)
-		{
-			if (message == null)
-			{
-				throw new ArgumentNullException("message");
-			}
-			constraintAttribute.Message = message;
-			return this;
 		}
 
 		#endregion

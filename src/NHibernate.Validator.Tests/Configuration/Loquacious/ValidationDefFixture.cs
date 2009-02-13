@@ -75,5 +75,22 @@ namespace NHibernate.Validator.Tests.Configuration.Loquacious
 			Assert.That(mAttrs.OfType<EmailAttribute>().FirstOrDefault(), Is.Not.Null);
 			Assert.That(mAttrs.OfType<NotNullAttribute>().FirstOrDefault(), Is.Not.Null);
 		}
+
+		[Test]
+		public void ShouldWorkWithCollectionConstraints()
+		{
+			PropertyInfo lpi = typeof(KnownRules).GetProperty("ArrProp", membersBindingFlags);
+			var v = new ValidationDef<KnownRules>();
+			v.Define(x => x.ArrProp).SizeBetween(1, 9);
+			IClassMapping cm = ((IMappingSource)v).GetMapping();
+			var mAttrs = cm.GetMemberAttributes(lpi);
+			Assert.That(mAttrs.Count(), Is.EqualTo(1));
+
+			v = new ValidationDef<KnownRules>();
+			v.Define(x => x.ArrProp).NotNullable().And.SizeBetween(1, 9);
+			cm = ((IMappingSource)v).GetMapping();
+			mAttrs = cm.GetMemberAttributes(lpi);
+			Assert.That(mAttrs.Count(), Is.EqualTo(2));
+		}
 	}
 }

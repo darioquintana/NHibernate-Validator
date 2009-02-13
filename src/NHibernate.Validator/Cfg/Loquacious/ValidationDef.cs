@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Linq.Expressions;
 using System.Reflection;
 using NHibernate.Validator.Exceptions;
@@ -35,6 +36,11 @@ namespace NHibernate.Validator.Cfg.Loquacious
 		public IStringConstraints Define(Expression<Func<T, string>> property)
 		{
 			return new StringConstraints(this, DecodeMemberAccessExpression(property));
+		}
+
+		public ICollectionConstraints Define(Expression<Func<T, ICollection>> property)
+		{
+			return new CollectionConstraints(this, DecodeMemberAccessExpression(property));
 		}
 
 		public void Add(MemberInfo member, Attribute ruleArgs)
