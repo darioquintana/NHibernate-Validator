@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
 using log4net;
-using NHibernate.Util;
 using NHibernate.Validator.Exceptions;
 using NHibernate.Validator.Mappings;
 
@@ -60,7 +59,8 @@ namespace NHibernate.Validator.Cfg.Loquacious
 
 		public void AddAssembly(Assembly assembly)
 		{
-			var types = assembly.GetTypes().Where(x => typeof (IMappingSource).IsAssignableFrom(x));
+			var assemblyTypes = assembly.GetTypes();
+			var types = assemblyTypes.Where(x => typeof (IMappingSource).IsAssignableFrom(x));
 			foreach (System.Type type in types)
 			{
 				AddClassDefinition(type);

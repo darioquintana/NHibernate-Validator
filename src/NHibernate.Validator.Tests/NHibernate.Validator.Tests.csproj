@@ -94,6 +94,7 @@
     <Compile Include="Configuration\ACustomValidator.cs" />
     <Compile Include="Configuration\Loquacious\FluentMappingLoaderFixture.cs" />
     <Compile Include="Configuration\Loquacious\FueltMappings.cs" />
+    <Compile Include="Configuration\Loquacious\IntegrationFixture.cs" />
     <Compile Include="Configuration\Loquacious\KnownRules.cs" />
     <Compile Include="Configuration\Loquacious\KnownRulesSimpleValidationDef.cs" />
     <Compile Include="Configuration\XmlMappingLoaderFixture.cs" />

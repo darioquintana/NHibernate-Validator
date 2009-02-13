@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using System.Reflection;
-using NHibernate.Validator.Mappings;
 
 namespace NHibernate.Validator.Cfg
 {
-	public interface IMappingLoader
+	public interface IMappingLoader : IMappingsProvider
 	{
 		/// <summary>
 		/// Load all mappings configured in the nhv-configuration configuration section.
@@ -24,11 +23,5 @@ namespace NHibernate.Validator.Cfg
 		/// </summary>
 		/// <param name="assembly">The assembly.</param>
 		void AddAssembly(Assembly assembly);
-
-		/// <summary>
-		/// Get all mapped classes.
-		/// </summary>
-		/// <returns>All mapped classes for the current loader.</returns>
-		IEnumerable<IClassMapping> GetMappings();
 	}
 }
