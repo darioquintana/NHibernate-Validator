@@ -37,6 +37,7 @@ namespace NHibernate.Validator.Engine
 					externalDefinition = GetExternalDefinitionFor(clazz);
 					if (externalDefinition != null)
 					{
+						log.Debug("XmlOverAttribute applied for " + clazz.FullName);
 						result = new XmlOverAttributeClassMapping(externalDefinition);
 					}
 					break;
@@ -44,17 +45,27 @@ namespace NHibernate.Validator.Engine
 					externalDefinition = GetExternalDefinitionFor(clazz);
 					if (externalDefinition != null)
 					{
+						log.Debug("AttributeOverXml applied for " + clazz.FullName);
 						result = new AttributeOverXmlClassMapping(externalDefinition);
 					}
 					break;
 			}
-			return result ?? new ReflectionClassMapping(clazz);
+			if(result != null)
+			{
+				return result;
+			}
+			else
+			{
+				log.Debug("Reflection applied for " + clazz.FullName);
+				return new ReflectionClassMapping(clazz);
+			}
 		}
 
 		#endregion
 
 		protected virtual IClassMapping GetExternalDefinitionFor(System.Type type)
 		{
+			log.Debug("XML convention applied for " + type.FullName);
 			NhvMapping mapp = XmlMappingLoader.GetXmlMappingFor(type);
 			if (mapp != null && mapp.@class.Length > 0)
 			{
