@@ -13,7 +13,7 @@ namespace NHibernate.Validator.Engine
 	/// </remarks>
 	internal class JITClassMappingFactory : IClassMappingFactory
 	{
-		private static readonly ILog log = LogManager.GetLogger(typeof(ClassValidator));
+		private static readonly ILog log = LogManager.GetLogger(typeof(JITClassMappingFactory));
 
 		#region IClassMappingFactory Members
 

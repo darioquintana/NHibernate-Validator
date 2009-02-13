@@ -24,5 +24,15 @@ namespace NHibernate.Validator.Tests.Base
 		{
 			return ve.GetClassValidator(type);
 		}
+
+		public override IClassValidator GetClassValidator(System.Type type, System.Resources.ResourceManager resource, System.Globalization.CultureInfo culture)
+		{
+			return ve.GetClassValidator(type);
+		}
+
+		protected override bool AllowStaticFields
+		{
+			get { return false; }
+		}
 	}
 }

@@ -14,7 +14,7 @@ Possible causes:
 - You are more than one time the same mapping.
 Note: 'external' mean XML or any other mapping source than Attribute.";
 
-		private static readonly ILog log = LogManager.GetLogger(typeof(ValidatorEngine));
+		private static readonly ILog log = LogManager.GetLogger(typeof(StateFullClassMappingFactory));
 
 		private readonly Dictionary<System.Type, IClassMapping> definitions = new Dictionary<System.Type, IClassMapping>();
 

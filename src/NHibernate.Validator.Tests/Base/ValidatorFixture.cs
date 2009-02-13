@@ -24,7 +24,14 @@ namespace NHibernate.Validator.Tests.Base
 			a.Id = 3;
 			IClassValidator classValidator = GetClassValidator(typeof(Address), new ResourceManager("NHibernate.Validator.Tests.Resource.Messages", Assembly.GetExecutingAssembly()), new CultureInfo("en"));
 			InvalidValue[] validationMessages = classValidator.GetInvalidValues(a);
-			Assert.AreEqual(2, validationMessages.Length); //static field is tested also
+			if (AllowStaticFields)
+			{
+				Assert.AreEqual(2, validationMessages.Length); //static field is tested also				
+			}
+			else
+			{
+				Assert.AreEqual(1, validationMessages.Length);
+			}
 			Address.blacklistedZipCode = "323232";
 			a.Zip = null;
 			a.State = "Victoria";
@@ -159,6 +166,11 @@ namespace NHibernate.Validator.Tests.Base
 			invalids = validator.GetInvalidValues(boo);
 
 			Assert.AreEqual(1, invalids.Length, "empty value cannot be valid");
+		}
+
+		protected virtual bool AllowStaticFields
+		{
+			get { return true; }
 		}
 	}
 }
