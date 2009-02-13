@@ -6,14 +6,9 @@ using NHibernate.Validator.Mappings;
 
 namespace NHibernate.Validator.Cfg.Loquacious
 {
-	public class ValidationDef<T> : IValidationDefinition<T>, IConstraintAggregator where T : class
+	public class ValidationDef<T> : IValidationDefinition<T>, IConstraintAggregator, IMappingSource where T : class
 	{
 		private readonly OpenClassMapping<T> classMap = new OpenClassMapping<T>();
-
-		public IClassMapping GetMapping()
-		{
-			return classMap;
-		}
 
 		#region Implementation of IValidationDefinition<T>
 
@@ -58,5 +53,14 @@ namespace NHibernate.Validator.Cfg.Loquacious
 			}
 			return ((MemberExpression)expression.Body).Member;
 		}
+
+		#region IMappingSource Members
+
+		IClassMapping IMappingSource.GetMapping()
+		{
+			return classMap;
+		}
+
+		#endregion
 	}
 }

@@ -70,10 +70,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cfg\IMappingLoader.cs" />
+    <Compile Include="Cfg\IMappingSource.cs" />
     <Compile Include="Cfg\Loquacious\BaseConstraints.cs" />
     <Compile Include="Cfg\Loquacious\BooleanConstraints.cs" />
     <Compile Include="Cfg\Loquacious\DateTimeConstraints.cs" />
     <Compile Include="Cfg\Loquacious\FinalRuleArgsOptions.cs" />
+    <Compile Include="Cfg\Loquacious\FluentMappingLoader.cs" />
     <Compile Include="Cfg\Loquacious\IBooleanConstraints.cs" />
     <Compile Include="Cfg\Loquacious\IConstraintAggregator.cs" />
     <Compile Include="Cfg\Loquacious\IConstraints.cs" />

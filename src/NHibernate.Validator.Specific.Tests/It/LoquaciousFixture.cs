@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Reflection;
+using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Cfg.Loquacious;
 using NHibernate.Validator.Mappings;
 using NHibernate.Validator.Specific.It;
@@ -20,7 +21,7 @@ namespace NHibernate.Validator.Specific.Tests.It
 			var v = new ValidationDef<Cliente>();
 			const string expectedMessage = "Codice fiscale non valido";
 			v.Define(x => x.CodiceFiscale).IsCodiceFiscale().WithMessage(expectedMessage);
-			IClassMapping cm = v.GetMapping();
+			IClassMapping cm = ((IMappingSource)v).GetMapping();
 			PropertyInfo pi = typeof (Cliente).GetProperty("CodiceFiscale", membersBindingFlags);
 			Assert.That(cm.GetMemberAttributes(pi).Count(), Is.EqualTo(1));
 			CodiceFiscaleAttribute first = cm.GetMemberAttributes(pi).OfType<CodiceFiscaleAttribute>().FirstOrDefault();
@@ -35,7 +36,7 @@ namespace NHibernate.Validator.Specific.Tests.It
 			var v = new ValidationDef<Cliente>();
 			v.Define(x => x.Piva).NotNullable().And.IsPartitaIva().WithMessage(expectedMessage);
 			PropertyInfo pi = typeof (Cliente).GetProperty("Piva", membersBindingFlags);
-			IClassMapping cm = v.GetMapping();
+			IClassMapping cm = ((IMappingSource)v).GetMapping();
 			Assert.That(cm.GetMemberAttributes(pi).Count(), Is.EqualTo(2));
 			PartitaIvaAttribute pa = cm.GetMemberAttributes(pi).OfType<PartitaIvaAttribute>().FirstOrDefault();
 			Assert.That(pa, Is.Not.Null);
