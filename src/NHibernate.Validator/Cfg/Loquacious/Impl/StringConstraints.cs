@@ -2,7 +2,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using NHibernate.Validator.Constraints;
 
-namespace NHibernate.Validator.Cfg.Loquacious
+namespace NHibernate.Validator.Cfg.Loquacious.Impl
 {
 	public class StringConstraints : BaseConstraints<IStringConstraints>, IStringConstraints
 	{

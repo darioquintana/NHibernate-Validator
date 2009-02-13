@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Linq.Expressions;
 using System.Reflection;
+using NHibernate.Validator.Cfg.Loquacious.Impl;
 using NHibernate.Validator.Exceptions;
 using NHibernate.Validator.Mappings;
 
@@ -133,9 +134,9 @@ namespace NHibernate.Validator.Cfg.Loquacious
 			return new CollectionConstraints(this, DecodeMemberAccessExpression(property));
 		}
 
-		public IReletionshipConstraints Define(Expression<Func<T, object>> property)
+		public IRelationshipConstraints Define(Expression<Func<T, object>> property)
 		{
-			return new ReletionshipConstraints(this, DecodeMemberAccessExpression(property));
+			return new RelationshipConstraints(this, DecodeMemberAccessExpression(property));
 		}
 
 		public void Add(MemberInfo member, Attribute ruleArgs)

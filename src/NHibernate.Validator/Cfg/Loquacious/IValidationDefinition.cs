@@ -52,6 +52,6 @@ namespace NHibernate.Validator.Cfg.Loquacious
 
 		ICollectionConstraints Define(Expression<Func<T, ICollection>> property);
 
-		IReletionshipConstraints Define(Expression<Func<T, object>> property);
+		IRelationshipConstraints Define(Expression<Func<T, object>> property);
 	}
 }

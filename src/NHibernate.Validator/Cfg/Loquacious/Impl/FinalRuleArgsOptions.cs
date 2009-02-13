@@ -1,7 +1,7 @@
 using System;
 using NHibernate.Validator.Engine;
 
-namespace NHibernate.Validator.Cfg.Loquacious
+namespace NHibernate.Validator.Cfg.Loquacious.Impl
 {
 	public class FinalRuleArgsOptions: IRuleArgsOptions
 	{

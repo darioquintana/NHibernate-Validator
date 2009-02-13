@@ -1,7 +1,7 @@
 using System.Reflection;
 using NHibernate.Validator.Constraints;
 
-namespace NHibernate.Validator.Cfg.Loquacious
+namespace NHibernate.Validator.Cfg.Loquacious.Impl
 {
 	public class BooleanConstraints : BaseConstraints, IBooleanConstraints
 	{
