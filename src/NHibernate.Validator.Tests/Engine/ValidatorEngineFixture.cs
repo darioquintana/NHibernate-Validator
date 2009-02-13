@@ -126,7 +126,7 @@ namespace NHibernate.Validator.Tests.Engine
 			string an = Assembly.GetExecutingAssembly().FullName;
 			nhvc.Mappings.Add(new MappingConfiguration(an, "NHibernate.Validator.Tests.Base.Address.nhv.xml"));
 			nhvc.Mappings.Add(new MappingConfiguration(an, "NHibernate.Validator.Tests.Engine.DuplicatedAddress.nhv.xml"));
-			using (LoggerSpy ls = new LoggerSpy(typeof(ValidatorEngine), Level.Warn))
+			using (LoggerSpy ls = new LoggerSpy("NHibernate.Validator.Engine.StateFullClassMappingFactory", Level.Warn))
 			{
 				ve.Configure(nhvc);
 				int found =
