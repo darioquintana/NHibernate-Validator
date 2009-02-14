@@ -1,5 +1,5 @@
+using System.Linq;
 using System.Reflection;
-using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Cfg.Loquacious;
 using NHibernate.Validator.Engine;
 using NUnit.Framework;
@@ -12,12 +12,16 @@ namespace NHibernate.Validator.Tests.Collections
 		private readonly ValidatorEngine ve;
 		public CollectionFixtureLoquacious()
 		{
+			var configure = new FluentConfiguration();
+			configure.Register(
+				Assembly.GetExecutingAssembly().GetTypes()
+				.ValidationDefinitions()
+				.Where(t => t.Namespace.Equals("NHibernate.Validator.Tests.Collections"))
+				)
+			.SetDefaultValidatorMode(ValidatorMode.UseExternal);
+
 			ve = new ValidatorEngine();
-			var fml = new FluentMappingLoader();
-			fml.AddNameSpace(Assembly.GetExecutingAssembly(), "NHibernate.Validator.Tests.Collections");
-			var config = new XmlConfiguration();
-			config.Properties[Environment.ValidatorMode] = "UseExternal";
-			ve.Configure(config, fml);
+			ve.Configure(configure);
 		}
 
 		public override IClassValidator GetClassValidator(System.Type type)
