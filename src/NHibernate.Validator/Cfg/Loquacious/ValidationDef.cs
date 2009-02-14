@@ -14,6 +14,11 @@ namespace NHibernate.Validator.Cfg.Loquacious
 
 		#region Implementation of IValidationDefinition<T>
 
+		public IInstanceConstraints ValidateInstance
+		{
+			get { return new InstanceConstraints(this); }
+		}
+
 		public IIntegerConstraints Define(Expression<Func<T, short>> property)
 		{
 			return new IntegerConstraints(this, DecodeMemberAccessExpression(property));
@@ -142,6 +147,11 @@ namespace NHibernate.Validator.Cfg.Loquacious
 		public void Add(MemberInfo member, Attribute ruleArgs)
 		{
 			classMap.AddMemberConstraint(member, ruleArgs);
+		}
+
+		public void AddClassConstraint(Attribute ruleArgs)
+		{
+			classMap.AddBeanValidator(ruleArgs);
 		}
 
 		#endregion

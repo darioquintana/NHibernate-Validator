@@ -6,6 +6,8 @@ namespace NHibernate.Validator.Cfg.Loquacious
 {
 	public interface IValidationDefinition<T> where T : class
 	{
+		IInstanceConstraints ValidateInstance { get; }
+
 		#region Integer Constraints
 
 		IIntegerConstraints Define(Expression<Func<T, short>> property);
