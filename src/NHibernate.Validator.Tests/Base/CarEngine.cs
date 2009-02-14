@@ -1,3 +1,4 @@
+using NHibernate.Validator.Cfg.Loquacious;
 using NHibernate.Validator.Constraints;
 
 namespace NHibernate.Validator.Tests.Base
@@ -20,6 +21,15 @@ namespace NHibernate.Validator.Tests.Base
 		{
 			get { return horsePower; }
 			set { horsePower = value; }
+		}
+	}
+
+	public class CarEngineDef: ValidationDef<CarEngine>
+	{
+		public CarEngineDef()
+		{
+			Define(x => x.SerialNumber).MatchWith("^[A-Z0-9-]+$").WithMessage("must contain alphabetical characters only").And.
+				MatchWith("^....-....-....$").WithMessage("must match ....-....-....");
 		}
 	}
 }
