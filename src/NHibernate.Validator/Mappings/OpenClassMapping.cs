@@ -95,6 +95,8 @@ namespace NHibernate.Validator.Mappings
 			Attribute found = constraints.Find(x => x.TypeId.Equals(attribute.TypeId));
 			if (found == null || AttributeUtils.AttributeAllowsMultiple(attribute))
 			{
+				log.Debug(string.Format("For class {0} Adding member {1} to dictionary with attribute {2}", EntityType.FullName,
+																member.Name, attribute));
 				membersAttributesDictionary[member].Add(attribute);
 			}
 			else

@@ -3,10 +3,11 @@ using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Cfg.Loquacious;
 using NHibernate.Validator.Engine;
 using NUnit.Framework;
+using Environment=NHibernate.Validator.Cfg.Environment;
 
 namespace NHibernate.Validator.Tests.Base
 {
-	[TestFixture, Ignore("Not fully checked")]
+	[TestFixture]
 	public class ValidatorFixtureLoquacious : ValidatorFixture
 	{
 		private readonly ValidatorEngine ve;

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -180,10 +181,11 @@ namespace NHibernate.Validator.Engine
 
 				foreach (MemberInfo member in map.GetMembers())
 				{
-					CreateMemberAttributes(member);
-					CreateChildValidator(member);
+					var memberAttributes = map.GetMemberAttributes(member);
+					CreateMemberAttributes(member, memberAttributes);
+					CreateChildValidator(member, memberAttributes);
 
-					foreach (Attribute memberAttribute in map.GetMemberAttributes(member))
+					foreach (Attribute memberAttribute in memberAttributes)
 					{
 						IValidator propertyValidator = CreateValidator(memberAttribute);
 
@@ -525,10 +527,8 @@ namespace NHibernate.Validator.Engine
 			}
 		}
 
-		private void CreateMemberAttributes(MemberInfo member)
+		private void CreateMemberAttributes(MemberInfo member, IEnumerable<Attribute> memberAttributes)
 		{
-			object[] memberAttributes = member.GetCustomAttributes(false);
-
 			foreach (Attribute memberAttribute in memberAttributes)
 			{
 				AddAttributeToMember(member, memberAttribute);
@@ -539,10 +539,9 @@ namespace NHibernate.Validator.Engine
 		/// Create the validator for the children, who got the <see cref="ValidAttribute"/>
 		/// on the fields or properties
 		/// </summary>
-		/// <param name="member"></param>
-		private void CreateChildValidator(MemberInfo member)
+		private void CreateChildValidator(MemberInfo member, IEnumerable<Attribute> memberAttributes)
 		{
-			if (!member.IsDefined(typeof(ValidAttribute), false)) return;
+			if (memberAttributes.OfType<ValidAttribute>().FirstOrDefault() == null) return;
 
 			KeyValuePair<System.Type, System.Type> clazzDictionary;
 			System.Type clazz;

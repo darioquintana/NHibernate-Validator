@@ -24,7 +24,8 @@ namespace NHibernate.Validator.Mappings
 
 			foreach (Attribute memberAttribute in memberAttributes)
 			{
-				log.Info(string.Format("Adding member {0} to dictionary with attribute {1}", member.Name, memberAttribute));
+				log.Debug(string.Format("For class {0} Adding member {1} to dictionary with attribute {2}", clazz.FullName,
+				                        member.Name, memberAttribute));
 				if (!membersAttributesDictionary.ContainsKey(member))
 				{
 					membersAttributesDictionary.Add(member, new List<Attribute>());

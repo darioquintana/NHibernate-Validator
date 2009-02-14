@@ -3,7 +3,7 @@
 			 namespace="NHibernate.Validator.Tests.Base"
 			 assembly="NHibernate.Validator.Tests">
 	<class name="Brother">
-		<property name="address"  >
+		<property name="Address"  >
 			<not-null/>
 			<valid/>
 		</property>
