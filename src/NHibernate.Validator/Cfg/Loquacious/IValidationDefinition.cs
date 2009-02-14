@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Linq.Expressions;
+using System.Collections.Generic;
 
 namespace NHibernate.Validator.Cfg.Loquacious
 {
@@ -50,9 +51,9 @@ namespace NHibernate.Validator.Cfg.Loquacious
 
 		#endregion
 
+		ICollectionConstraints Define<Te>(Expression<Func<T, ICollection<Te>>> property);
+		
 		IStringConstraints Define(Expression<Func<T, string>> property);
-
-		ICollectionConstraints Define(Expression<Func<T, ICollection>> property);
 
 		IRelationshipConstraints Define(Expression<Func<T, object>> property);
 	}

@@ -89,6 +89,7 @@
     <Compile Include="Base\WebImage.cs" />
     <Compile Include="Base\WebImageFixture.cs" />
     <Compile Include="Base\WebImageFixtureXml.cs" />
+    <Compile Include="Collections\CollectionFixtureLoquacious.cs" />
     <Compile Include="Collections\Simple.cs" />
     <Compile Include="Collections\XmlCollectionFixture.cs" />
     <Compile Include="Configuration\ACustomAttribute.cs" />

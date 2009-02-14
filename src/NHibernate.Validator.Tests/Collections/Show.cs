@@ -1,3 +1,4 @@
+using NHibernate.Validator.Cfg.Loquacious;
 using NHibernate.Validator.Constraints;
 
 namespace NHibernate.Validator.Tests.Collections
@@ -6,7 +7,8 @@ namespace NHibernate.Validator.Tests.Collections
 
 	public class Show
 	{
-		[NotNull] public String name;
+		[NotNull]
+		public String name;
 
 		public Show()
 		{
@@ -20,6 +22,14 @@ namespace NHibernate.Validator.Tests.Collections
 		public override string ToString()
 		{
 			return name ?? "null";
+		}
+	}
+
+	public class ShowDef : ValidationDef<Show>
+	{
+		public ShowDef()
+		{
+			Define(x => x.name).NotNullable();
 		}
 	}
 }

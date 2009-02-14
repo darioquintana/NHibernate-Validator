@@ -1,3 +1,4 @@
+using NHibernate.Validator.Cfg.Loquacious;
 using NHibernate.Validator.Constraints;
 
 namespace NHibernate.Validator.Tests.Collections
@@ -18,6 +19,14 @@ namespace NHibernate.Validator.Tests.Collections
 		public override string ToString()
 		{
 			return name ?? "null";
+		}
+	}
+
+	public class SimpleDef : ValidationDef<Simple>
+	{
+		public SimpleDef()
+		{
+			Define(x => x.name).NotNullable();
 		}
 	}
 }

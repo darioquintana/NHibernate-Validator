@@ -5,6 +5,7 @@ using System.Reflection;
 using NHibernate.Validator.Cfg.Loquacious.Impl;
 using NHibernate.Validator.Exceptions;
 using NHibernate.Validator.Mappings;
+using System.Collections.Generic;
 
 namespace NHibernate.Validator.Cfg.Loquacious
 {
@@ -134,7 +135,7 @@ namespace NHibernate.Validator.Cfg.Loquacious
 			return new StringConstraints(this, DecodeMemberAccessExpression(property));
 		}
 
-		public ICollectionConstraints Define(Expression<Func<T, ICollection>> property)
+		public ICollectionConstraints Define<Te>(Expression<Func<T, ICollection<Te>>> property)
 		{
 			return new CollectionConstraints(this, DecodeMemberAccessExpression(property));
 		}

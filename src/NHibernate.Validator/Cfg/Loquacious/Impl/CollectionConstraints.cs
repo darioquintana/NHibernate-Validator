@@ -36,7 +36,7 @@ namespace NHibernate.Validator.Cfg.Loquacious.Impl
 
 		public IRuleArgsOptions SizeBetween(int minSize, int maxSize)
 		{
-			return AddWithFinalRuleArgOptions(new SizeAttribute { Min = minSize, Max = minSize });
+			return AddWithFinalRuleArgOptions(new SizeAttribute { Min = minSize, Max = maxSize });
 		}
 
 		public IBasicChainableConstraint<ICollectionConstraints> HasValidElements()
