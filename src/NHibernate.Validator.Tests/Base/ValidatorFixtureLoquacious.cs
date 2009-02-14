@@ -16,7 +16,7 @@ namespace NHibernate.Validator.Tests.Base
 			ve = new ValidatorEngine();
 			var fml = new FluentMappingLoader();
 			fml.AddNameSpace(Assembly.GetExecutingAssembly(), "NHibernate.Validator.Tests.Base");
-			var config = new NHVConfiguration();
+			var config = new XmlConfiguration();
 			config.Properties[Environment.ValidatorMode] = "UseExternal";
 			ve.Configure(config, fml);
 		}

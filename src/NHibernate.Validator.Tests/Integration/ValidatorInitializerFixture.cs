@@ -31,7 +31,7 @@ namespace NHibernate.Validator.Tests.Integration
 				cfg.AddResource("NHibernate.Validator.Tests" + "." + file, Assembly.GetExecutingAssembly());
 			}
 			Environment.SharedEngineProvider = null;
-			NHVConfiguration nhvc = new NHVConfiguration();
+			XmlConfiguration nhvc = new XmlConfiguration();
 			nhvc.Properties[Environment.ApplyToDDL] = "true";
 			nhvc.Properties[Environment.AutoregisterListeners] = "true";
 			nhvc.Properties[Environment.ValidatorMode] = "UseAttribute";
@@ -48,7 +48,7 @@ namespace NHibernate.Validator.Tests.Integration
 				cfg.Configure(TestConfigurationHelper.hibernateConfigFile);
 			cfg.AddResource("NHibernate.Validator.Tests.Integration.WrongClass.whbm.xml", Assembly.GetExecutingAssembly());
 			Environment.SharedEngineProvider = null;
-			NHVConfiguration nhvc = new NHVConfiguration();
+			XmlConfiguration nhvc = new XmlConfiguration();
 			nhvc.Properties[Environment.ApplyToDDL] = "true";
 			nhvc.Properties[Environment.AutoregisterListeners] = "true";
 			nhvc.Properties[Environment.ValidatorMode] = "UseAttribute";
@@ -75,7 +75,7 @@ namespace NHibernate.Validator.Tests.Integration
 				cfg.Configure(TestConfigurationHelper.hibernateConfigFile);
 			cfg.SetListener(ListenerType.PreInsert, new ListenersStub());
 			cfg.SetListener(ListenerType.PreUpdate, new ListenersStub());
-			var nhvc = new NHVConfiguration();
+			var nhvc = new XmlConfiguration();
 			nhvc.Properties[Environment.ApplyToDDL] = "true";
 			nhvc.Properties[Environment.AutoregisterListeners] = "true";
 			nhvc.Properties[Environment.ValidatorMode] = "UseAttribute";

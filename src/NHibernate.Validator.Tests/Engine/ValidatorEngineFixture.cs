@@ -24,7 +24,7 @@ namespace NHibernate.Validator.Tests.Engine
 		public void ConfigureNHVConfiguration()
 		{
 			ValidatorEngine ve = new ValidatorEngine();
-			NHVConfiguration nhvc = new NHVConfiguration();
+			XmlConfiguration nhvc = new XmlConfiguration();
 			nhvc.Properties[Environment.ApplyToDDL] = "false";
 			nhvc.Properties[Environment.AutoregisterListeners] = "false";
 			nhvc.Properties[Environment.ValidatorMode] = "UseExternal";
@@ -97,7 +97,7 @@ namespace NHibernate.Validator.Tests.Engine
 		public void InitializeValidators()
 		{
 			ValidatorEngine ve = new ValidatorEngine();
-			NHVConfiguration nhvc = new NHVConfiguration();
+			XmlConfiguration nhvc = new XmlConfiguration();
 			nhvc.Properties[Environment.ApplyToDDL] = "false";
 			nhvc.Properties[Environment.AutoregisterListeners] = "false";
 			nhvc.Properties[Environment.ValidatorMode] = "overrideattributewithExternal";
@@ -119,7 +119,7 @@ namespace NHibernate.Validator.Tests.Engine
 		{
 			XmlConfigurator.Configure();
 			ValidatorEngine ve = new ValidatorEngine();
-			NHVConfiguration nhvc = new NHVConfiguration();
+			XmlConfiguration nhvc = new XmlConfiguration();
 			nhvc.Properties[Environment.ApplyToDDL] = "false";
 			nhvc.Properties[Environment.AutoregisterListeners] = "false";
 			nhvc.Properties[Environment.ValidatorMode] = "useExternal";
@@ -292,7 +292,7 @@ namespace NHibernate.Validator.Tests.Engine
 		public void GetInterpolator()
 		{
 			ValidatorEngine ve = new ValidatorEngine();
-			NHVConfiguration nhvc = new NHVConfiguration();
+			XmlConfiguration nhvc = new XmlConfiguration();
 			try
 			{
 				nhvc.Properties[Environment.MessageInterpolatorClass] = typeof (NoDefConstructorInterpolator).AssemblyQualifiedName;
@@ -390,7 +390,7 @@ namespace NHibernate.Validator.Tests.Engine
 		public void GetMappingLoader()
 		{
 			var ve = new ValidatorEngine();
-			var nhvc = new NHVConfiguration();
+			var nhvc = new XmlConfiguration();
 			try
 			{
 				nhvc.Properties[Environment.MappingLoaderClass] = typeof(NoDefConstructorLoader).AssemblyQualifiedName;

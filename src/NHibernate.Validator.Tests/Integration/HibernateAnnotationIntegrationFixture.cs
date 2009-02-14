@@ -45,7 +45,7 @@ namespace NHibernate.Validator.Tests.Integration
 			Cfg.Environment.SharedEngineProvider = fortest;
 			ValidatorEngine ve = Cfg.Environment.SharedEngineProvider.GetEngine();
 			ve.Clear();
-			NHVConfiguration nhvc = new NHVConfiguration();
+			XmlConfiguration nhvc = new XmlConfiguration();
 			nhvc.Properties[Cfg.Environment.ApplyToDDL] = "true";
 			nhvc.Properties[Cfg.Environment.AutoregisterListeners] = "true";
 			nhvc.Properties[Cfg.Environment.ValidatorMode] = "UseAttribute";

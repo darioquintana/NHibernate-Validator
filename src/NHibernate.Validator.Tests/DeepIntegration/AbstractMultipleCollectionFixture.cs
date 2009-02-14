@@ -50,7 +50,7 @@ namespace NHibernate.Validator.Tests.DeepIntegration
 			Environment.SharedEngineProvider = new NHibernateSharedEngineProvider();
 			vengine = Environment.SharedEngineProvider.GetEngine();
 			vengine.Clear();
-			NHVConfiguration nhvc = new NHVConfiguration();
+			XmlConfiguration nhvc = new XmlConfiguration();
 			nhvc.Properties[Environment.ApplyToDDL] = "false";
 			nhvc.Properties[Environment.AutoregisterListeners] = "true";
 			nhvc.Properties[Environment.ValidatorMode] = "UseAttribute";

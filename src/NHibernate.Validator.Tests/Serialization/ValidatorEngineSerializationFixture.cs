@@ -27,7 +27,7 @@ namespace NHibernate.Validator.Tests.Serialization
 		public void WorkAfterDeserialization()
 		{
 			ValidatorEngine ve = new ValidatorEngine();
-			NHVConfiguration nhvc = new NHVConfiguration();
+			XmlConfiguration nhvc = new XmlConfiguration();
 			nhvc.Properties[Cfg.Environment.ValidatorMode] = "UseAttribute";
 			nhvc.Properties[Cfg.Environment.MessageInterpolatorClass] = typeof(PrefixMessageInterpolator).AssemblyQualifiedName;
 			ve.Configure(nhvc);
@@ -35,7 +35,7 @@ namespace NHibernate.Validator.Tests.Serialization
 			RunSerializationTest(ve);
 
 			ve = new ValidatorEngine();
-			nhvc = new NHVConfiguration();
+			nhvc = new XmlConfiguration();
 			nhvc.Properties[Cfg.Environment.ValidatorMode] = "UseExternal";
 			nhvc.Properties[Cfg.Environment.MessageInterpolatorClass] = typeof(PrefixMessageInterpolator).AssemblyQualifiedName;
 			ve.Configure(nhvc);

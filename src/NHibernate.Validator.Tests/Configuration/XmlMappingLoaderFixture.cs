@@ -31,7 +31,7 @@ namespace NHibernate.Validator.Tests.Configuration
 			XmlDocument cfgXml = new XmlDocument();
 			cfgXml.LoadXml(xml);
 			XmlTextReader xtr = new XmlTextReader(xml, XmlNodeType.Document, null);
-			NHVConfiguration cfg = new NHVConfiguration(xtr);
+			XmlConfiguration cfg = new XmlConfiguration(xtr);
 			XmlMappingLoader ml = new XmlMappingLoader();
 			ml.LoadMappings(cfg.Mappings);
 			Assert.AreEqual(2, ml.Mappings.Length);
@@ -43,7 +43,7 @@ namespace NHibernate.Validator.Tests.Configuration
 			cfgXml = new XmlDocument();
 			cfgXml.LoadXml(xml);
 			xtr = new XmlTextReader(xml, XmlNodeType.Document, null);
-			cfg = new NHVConfiguration(xtr);
+			cfg = new XmlConfiguration(xtr);
 			ml = new XmlMappingLoader();
 			ml.LoadMappings(cfg.Mappings);
 			Assert.Less(1, ml.Mappings.Length); // the mappings of tests are more than 1 ;)
@@ -66,7 +66,7 @@ namespace NHibernate.Validator.Tests.Configuration
 			cfgXml = new XmlDocument();
 			cfgXml.LoadXml(xml);
 			xtr = new XmlTextReader(xml, XmlNodeType.Document, null);
-			cfg = new NHVConfiguration(xtr);
+			cfg = new XmlConfiguration(xtr);
 			ml = new XmlMappingLoader();
 			ml.LoadMappings(cfg.Mappings);
 			Assert.AreEqual(1, ml.Mappings.Length);
@@ -82,7 +82,7 @@ namespace NHibernate.Validator.Tests.Configuration
 			XmlDocument cfgXml = new XmlDocument();
 			cfgXml.LoadXml(xml);
 			XmlTextReader xtr = new XmlTextReader(xml, XmlNodeType.Document, null);
-			NHVConfiguration cfg = new NHVConfiguration(xtr);
+			XmlConfiguration cfg = new XmlConfiguration(xtr);
 			XmlMappingLoader ml = new XmlMappingLoader();
 			ml.LoadMappings(cfg.Mappings);
 		}
@@ -208,7 +208,7 @@ namespace NHibernate.Validator.Tests.Configuration
 			XmlDocument cfgXml = new XmlDocument();
 			cfgXml.LoadXml(xml);
 			XmlTextReader xtr = new XmlTextReader(xml, XmlNodeType.Document, null);
-			NHVConfiguration cfg = new NHVConfiguration(xtr);
+			XmlConfiguration cfg = new XmlConfiguration(xtr);
 			XmlMappingLoader ml = new XmlMappingLoader();
 
 			ml.LoadMappings(cfg.Mappings);
@@ -246,7 +246,7 @@ namespace NHibernate.Validator.Tests.Configuration
 			var cfgXml = new XmlDocument();
 			cfgXml.LoadXml(xml);
 			var xtr = new XmlTextReader(xml, XmlNodeType.Document, null);
-			var cfg = new NHVConfiguration(xtr);
+			var cfg = new XmlConfiguration(xtr);
 			var ml = new XmlMappingLoader();
 
 			ml.LoadMappings(cfg.Mappings);

@@ -31,7 +31,7 @@ namespace NHibernate.Validator.Tests.Configuration.Loquacious
 			var cfgXml = new XmlDocument();
 			cfgXml.LoadXml(xmlConf);
 			var xtr = new XmlTextReader(xmlConf, XmlNodeType.Document, null);
-			var cfg = new NHVConfiguration(xtr);
+			var cfg = new XmlConfiguration(xtr);
 			var ml = new FluentMappingLoader();
 			ml.LoadMappings(cfg.Mappings);
 
@@ -48,7 +48,7 @@ namespace NHibernate.Validator.Tests.Configuration.Loquacious
 			var cfgXml = new XmlDocument();
 			cfgXml.LoadXml(xmlConf);
 			var xtr = new XmlTextReader(xmlConf, XmlNodeType.Document, null);
-			var cfg = new NHVConfiguration(xtr);
+			var cfg = new XmlConfiguration(xtr);
 			var ml = new FluentMappingLoader();
 			ml.LoadMappings(cfg.Mappings);
 
@@ -64,7 +64,7 @@ namespace NHibernate.Validator.Tests.Configuration.Loquacious
 			var cfgXml = new XmlDocument();
 			cfgXml.LoadXml(xml);
 			var xtr = new XmlTextReader(xml, XmlNodeType.Document, null);
-			var cfg = new NHVConfiguration(xtr);
+			var cfg = new XmlConfiguration(xtr);
 			var ml = new FluentMappingLoader();
 			Assert.Throws<ValidatorConfigurationException>(() => ml.LoadMappings(cfg.Mappings));
 		}

@@ -10,7 +10,7 @@ using log4net.Core;
 namespace NHibernate.Validator.Tests.Configuration
 {
 	[TestFixture]
-	public class ConfigurationFixture
+	public class XmlConfigurationFixture
 	{
 		[Test]
 		public void MappingEquatable()
@@ -53,10 +53,10 @@ namespace NHibernate.Validator.Tests.Configuration
 			XmlDocument cfgXml = new XmlDocument();
 			cfgXml.LoadXml(xml);
 			XmlTextReader xtr = new XmlTextReader(xml, XmlNodeType.Document, null);
-			NHVConfiguration cfg;
-			using (LoggerSpy ls = new LoggerSpy(typeof(NHVConfiguration), Level.Warn))
+			XmlConfiguration cfg;
+			using (LoggerSpy ls = new LoggerSpy(typeof(XmlConfiguration), Level.Warn))
 			{
-				cfg = new NHVConfiguration(xtr);
+				cfg = new XmlConfiguration(xtr);
 				int found = ls.GetOccurenceContaining(NHibernate.Validator.Cfg.Environment.SharedEngineClass + " propety is ignored out of application configuration file.");
 				Assert.AreEqual(1, found);
 			}
@@ -83,13 +83,13 @@ namespace NHibernate.Validator.Tests.Configuration
 			XmlDocument cfgXml = new XmlDocument();
 			cfgXml.LoadXml(xml);
 			XmlTextReader xtr = new XmlTextReader(xml, XmlNodeType.Document, null);
-			new NHVConfiguration(xtr);
+			new XmlConfiguration(xtr);
 		}
 
 		[Test, ExpectedException(typeof(ValidatorConfigurationException))]
 		public void NullReader()
 		{
-			new NHVConfiguration(null);
+			new XmlConfiguration(null);
 		}
 
 		[Test, ExpectedException(typeof(ValidatorConfigurationException))]
@@ -102,7 +102,7 @@ namespace NHibernate.Validator.Tests.Configuration
 			XmlDocument cfgXml = new XmlDocument();
 			cfgXml.LoadXml(xml);
 			XmlTextReader xtr = new XmlTextReader(xml, XmlNodeType.Document, null);
-			new NHVConfiguration(xtr);
+			new XmlConfiguration(xtr);
 		}
 
 		[Test]
@@ -120,7 +120,7 @@ namespace NHibernate.Validator.Tests.Configuration
 			XmlDocument cfgXml = new XmlDocument();
 			cfgXml.LoadXml(xml);
 			XmlTextReader xtr = new XmlTextReader(xml, XmlNodeType.Document, null);
-			NHVConfiguration cfg = new NHVConfiguration(xtr);
+			XmlConfiguration cfg = new XmlConfiguration(xtr);
 			Assert.AreEqual(2, cfg.Properties.Count);
 			Assert.AreEqual(1, cfg.Mappings.Count);
 			Assert.AreEqual("true", cfg.Properties["apply_to_ddl"]);
@@ -148,7 +148,7 @@ namespace NHibernate.Validator.Tests.Configuration
 			XmlDocument cfgXml = new XmlDocument();
 			cfgXml.LoadXml(xml);
 			XmlTextReader xtr = new XmlTextReader(xml, XmlNodeType.Document, null);
-			NHVConfiguration cfg = new NHVConfiguration(xtr);
+			XmlConfiguration cfg = new XmlConfiguration(xtr);
 			Assert.AreEqual(0, cfg.Properties.Count);
 			Assert.AreEqual(0, cfg.Mappings.Count);
 		}
@@ -162,7 +162,7 @@ namespace NHibernate.Validator.Tests.Configuration
 			XmlDocument cfgXml = new XmlDocument();
 			cfgXml.LoadXml(xml);
 			XmlTextReader xtr = new XmlTextReader(xml, XmlNodeType.Document, null);
-			NHVConfiguration cfg = new NHVConfiguration(xtr);
+			XmlConfiguration cfg = new XmlConfiguration(xtr);
 			Assert.AreEqual(0, cfg.Properties.Count);
 			Assert.AreEqual(0, cfg.Mappings.Count);
 		}

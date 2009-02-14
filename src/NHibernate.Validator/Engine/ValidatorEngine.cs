@@ -160,7 +160,7 @@ namespace NHibernate.Validator.Engine
 				                                          new ArgumentNullException("configReader"));
 			}
 
-			INHVConfiguration nhvc = new NHVConfiguration(configReader);
+			INHVConfiguration nhvc = new XmlConfiguration(configReader);
 			Configure(nhvc);
 		}
 

@@ -99,6 +99,7 @@
     <Compile Include="Cfg\Loquacious\Impl\RelationshipConstraints.cs" />
     <Compile Include="Cfg\Loquacious\Impl\StringConstraints.cs" />
     <Compile Include="Cfg\Loquacious\ValidationDef.cs" />
+    <Compile Include="Cfg\NHVConfigurationBase.cs" />
     <Compile Include="Constraints\AbstractLuhnValidator.cs" />
     <Compile Include="Constraints\AssertFalseAttribute.cs" />
     <Compile Include="Constraints\AssertFalseValidator.cs" />
@@ -109,7 +110,7 @@
     <Compile Include="Cfg\INHVConfiguration.cs" />
     <Compile Include="Cfg\MappingConfiguration.cs" />
     <Compile Include="Cfg\MappingSchema\NhvmClass.cs" />
-    <Compile Include="Cfg\NHVConfiguration.cs" />
+    <Compile Include="Cfg\XmlConfiguration.cs" />
     <Compile Include="Cfg\ValidatorInitializer.cs" />
     <Compile Include="Constraints\CreditCardNumberAttribute.cs" />
     <Compile Include="Constraints\CreditCardNumberValidator.cs" />

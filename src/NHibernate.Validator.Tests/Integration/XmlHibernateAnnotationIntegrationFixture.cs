@@ -15,7 +15,7 @@ namespace NHibernate.Validator.Tests.Integration
 			Environment.SharedEngineProvider = fortest;
 			ValidatorEngine ve = Environment.SharedEngineProvider.GetEngine();
 			ve.Clear();
-			NHVConfiguration nhvc = new NHVConfiguration();
+			XmlConfiguration nhvc = new XmlConfiguration();
 			nhvc.Properties[Environment.ApplyToDDL] = "true";
 			nhvc.Properties[Environment.AutoregisterListeners] = "true";
 			nhvc.Properties[Environment.ValidatorMode] = "useExternal";

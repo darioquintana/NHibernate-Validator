@@ -11,7 +11,7 @@ namespace NHibernate.Validator.Tests.Configuration.Loquacious
 		[Test]
 		public void LoadMappingsSpecific()
 		{
-			var nhvc = new NHVConfiguration();
+			var nhvc = new XmlConfiguration();
 			nhvc.Properties[Environment.ValidatorMode] = "useExternal";
 			nhvc.Properties[Environment.MappingLoaderClass] = "NHibernate.Validator.Cfg.Loquacious.FluentMappingLoader, NHibernate.Validator";
 			nhvc.Mappings.Add(new MappingConfiguration("NHibernate.Validator.Tests",

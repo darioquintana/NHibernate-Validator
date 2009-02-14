@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Xml;
@@ -13,34 +12,30 @@ namespace NHibernate.Validator.Cfg
 	/// <summary>
 	/// Configuration parsed values for nhv-configuration section.
 	/// </summary>
-	public class NHVConfiguration : INHVConfiguration
+	public class XmlConfiguration : NHVConfigurationBase
 	{
-		private static readonly ILog log = LogManager.GetLogger(typeof(NHVConfiguration));
+		private static readonly ILog log = LogManager.GetLogger(typeof (XmlConfiguration));
 
 		private const string CfgSchemaResource = "NHibernate.Validator.Cfg.nhv-configuration.xsd";
 		private readonly XmlSchema config = ReadXmlSchemaFromEmbeddedResource(CfgSchemaResource);
-		private string sharedEngineProviderClass;
-		private readonly IList<MappingConfiguration> mappings = new List<MappingConfiguration>();
-		private readonly IDictionary<string, string> properties = new Dictionary<string, string>();
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="NHVConfiguration"/> class.
+		/// Initializes a new instance of the <see cref="XmlConfiguration"/> class.
 		/// </summary>
 		/// <remarks>An empty configuration.</remarks>
-		public NHVConfiguration() { }
+		public XmlConfiguration() {}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="NHVConfiguration"/> class.
+		/// Initializes a new instance of the <see cref="XmlConfiguration"/> class.
 		/// </summary>
 		/// <param name="configurationReader">The XML reader to parse.</param>
 		/// <remarks>
 		/// The nhv-configuration.xsd is applied to the XML.
 		/// </remarks>
 		/// <exception cref="ValidatorConfigurationException">When nhibernate-configuration.xsd can't be applied.</exception>
-		public NHVConfiguration(XmlReader configurationReader)
-			: this(configurationReader, false) { }
+		public XmlConfiguration(XmlReader configurationReader) : this(configurationReader, false) {}
 
-		internal NHVConfiguration(XmlReader configurationReader, bool fromAppSetting)
+		internal XmlConfiguration(XmlReader configurationReader, bool fromAppSetting)
 		{
 			XPathNavigator nav;
 			try
@@ -59,31 +54,6 @@ namespace NHibernate.Validator.Cfg
 			Parse(nav, fromAppSetting);
 		}
 
-		#region INHVConfiguration Members
-
-		public string SharedEngineProviderClass
-		{
-			get { return sharedEngineProviderClass; }
-		}
-
-		/// <summary>
-		/// Configured properties
-		/// </summary>
-		public IDictionary<string, string> Properties
-		{
-			get { return properties; }
-		}
-
-		/// <summary>
-		/// Configured Mappings
-		/// </summary>
-		public IList<MappingConfiguration> Mappings
-		{
-			get { return mappings; }
-		}
-
-		#endregion
-
 		private XmlReaderSettings GetSettings()
 		{
 			XmlReaderSettings xmlrs = CreateConfigReaderSettings();
@@ -100,8 +70,7 @@ namespace NHibernate.Validator.Cfg
 
 		private static XmlReaderSettings CreateXmlReaderSettings(XmlSchema xmlSchema)
 		{
-			XmlReaderSettings settings = new XmlReaderSettings();
-			settings.ValidationType = ValidationType.Schema;
+			var settings = new XmlReaderSettings {ValidationType = ValidationType.Schema};
 			settings.Schemas.Add(xmlSchema);
 			return settings;
 		}
@@ -112,6 +81,11 @@ namespace NHibernate.Validator.Cfg
 
 			using (Stream resourceStream = executingAssembly.GetManifestResourceStream(resourceName))
 			{
+				if (resourceStream == null)
+				{
+					throw new ArgumentException("No resources were specified during compilation, or if the resource is not visible.",
+					                            "resourceName");
+				}
 				return XmlSchema.Read(resourceStream, null);
 			}
 		}
@@ -138,8 +112,8 @@ namespace NHibernate.Validator.Cfg
 
 				if (!fromAppConfig && !string.IsNullOrEmpty(sharedEngineProviderClass))
 				{
-					log.Warn(
-						string.Format("{0} propety is ignored out of application configuration file.", Environment.SharedEngineClass));
+					log.Warn(string.Format("{0} propety is ignored out of application configuration file.",
+					                       Environment.SharedEngineClass));
 				}
 			}
 		}
@@ -149,11 +123,10 @@ namespace NHibernate.Validator.Cfg
 			XPathNodeIterator xpni = navigator.Select(CfgXmlHelper.PropertiesExpression);
 			while (xpni.MoveNext())
 			{
-				string propName;
 				string propValue = xpni.Current.Value;
 				XPathNavigator pNav = xpni.Current.Clone();
 				pNav.MoveToFirstAttribute();
-				propName = pNav.Value;
+				string propName = pNav.Value;
 				if (!string.IsNullOrEmpty(propName) && !string.IsNullOrEmpty(propValue))
 				{
 					properties[propName] = propValue;
@@ -166,11 +139,13 @@ namespace NHibernate.Validator.Cfg
 			XPathNodeIterator xpni = navigator.Select(CfgXmlHelper.MappingsExpression);
 			while (xpni.MoveNext())
 			{
-				MappingConfiguration mc = new MappingConfiguration(xpni.Current);
+				var mc = new MappingConfiguration(xpni.Current);
 				if (!mc.IsEmpty())
 				{
 					if (!mappings.Contains(mc))
+					{
 						mappings.Add(mc);
+					}
 				}
 			}
 		}
