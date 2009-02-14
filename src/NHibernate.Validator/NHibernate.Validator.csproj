@@ -72,6 +72,9 @@
     <Compile Include="Cfg\IMappingLoader.cs" />
     <Compile Include="Cfg\IMappingSource.cs" />
     <Compile Include="Cfg\IMappingsProvider.cs" />
+    <Compile Include="Cfg\Loquacious\AllDefinitions.cs" />
+    <Compile Include="Cfg\Loquacious\FluentConfiguration.cs" />
+    <Compile Include="Cfg\Loquacious\IFluentConfiguration.cs" />
     <Compile Include="Cfg\Loquacious\IInstanceConstraints.cs" />
     <Compile Include="Cfg\Loquacious\Impl\ChainableConstraint.cs" />
     <Compile Include="Cfg\Loquacious\Impl\BaseConstraints.cs" />
@@ -92,6 +95,8 @@
     <Compile Include="Cfg\Loquacious\IIntegerConstraints.cs" />
     <Compile Include="Cfg\Loquacious\Impl\InstanceConstraints.cs" />
     <Compile Include="Cfg\Loquacious\Impl\IntegerConstraints.cs" />
+    <Compile Include="Cfg\Loquacious\Impl\NhIntegration.cs" />
+    <Compile Include="Cfg\Loquacious\INhIntegration.cs" />
     <Compile Include="Cfg\Loquacious\IRelationshipConstraints.cs" />
     <Compile Include="Cfg\Loquacious\IRuleArgsOptions.cs" />
     <Compile Include="Cfg\Loquacious\IStringConstraints.cs" />

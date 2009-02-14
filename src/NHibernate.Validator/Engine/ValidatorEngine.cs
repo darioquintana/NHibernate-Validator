@@ -176,7 +176,7 @@ namespace NHibernate.Validator.Engine
 		/// </remarks>
 		public void Configure(INHVConfiguration config)
 		{
-			Configure(config, null);
+			Configure(config, config as IMappingLoader);
 		}
 
 		/// <summary>

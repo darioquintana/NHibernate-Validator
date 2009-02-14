@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Linq.Expressions;
 using System.Reflection;
 using NHibernate.Validator.Cfg.Loquacious.Impl;

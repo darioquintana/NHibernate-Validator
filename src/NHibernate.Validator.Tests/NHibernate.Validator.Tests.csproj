@@ -94,6 +94,7 @@
     <Compile Include="Collections\XmlCollectionFixture.cs" />
     <Compile Include="Configuration\ACustomAttribute.cs" />
     <Compile Include="Configuration\ACustomValidator.cs" />
+    <Compile Include="Configuration\Loquacious\FluentConfigurationFixture.cs" />
     <Compile Include="Configuration\Loquacious\FluentMappingLoaderFixture.cs" />
     <Compile Include="Configuration\Loquacious\FueltMappings.cs" />
     <Compile Include="Configuration\Loquacious\IntegrationFixture.cs" />

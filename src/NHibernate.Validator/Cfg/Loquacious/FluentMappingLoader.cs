@@ -70,7 +70,12 @@ namespace NHibernate.Validator.Cfg.Loquacious
 		public void AddNameSpace(Assembly assembly, string nameSpace)
 		{
 			var assemblyTypes = assembly.GetTypes();
-			var types = assemblyTypes.Where(x => x.Namespace.StartsWith(nameSpace) && typeof(IMappingSource).IsAssignableFrom(x));
+			AddClassDefinitions(assemblyTypes.Where(x => x.Namespace.StartsWith(nameSpace)));
+		}
+
+		public void AddClassDefinitions(IEnumerable<System.Type> definitions)
+		{
+			var types = definitions.Where(x => typeof(IMappingSource).IsAssignableFrom(x));
 			foreach (System.Type type in types)
 			{
 				AddClassDefinition(type);

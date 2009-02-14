@@ -1,9 +1,8 @@
 using System.Reflection;
-using NHibernate.Validator.Cfg;
+using System.Linq;
 using NHibernate.Validator.Cfg.Loquacious;
 using NHibernate.Validator.Engine;
 using NUnit.Framework;
-using Environment=NHibernate.Validator.Cfg.Environment;
 
 namespace NHibernate.Validator.Tests.Base
 {
@@ -13,12 +12,15 @@ namespace NHibernate.Validator.Tests.Base
 		private readonly ValidatorEngine ve;
 		public ValidatorFixtureLoquacious()
 		{
+			var configure = new FluentConfiguration();
+			configure.Register(
+				Assembly.GetExecutingAssembly().GetTypes()
+				.Where(t => t.Namespace.Equals("NHibernate.Validator.Tests.Base"))
+				.ValidationDefinitions())
+			.SetDefaultValidatorMode(ValidatorMode.UseExternal);
 			ve = new ValidatorEngine();
-			var fml = new FluentMappingLoader();
-			fml.AddNameSpace(Assembly.GetExecutingAssembly(), "NHibernate.Validator.Tests.Base");
-			var config = new XmlConfiguration();
-			config.Properties[Environment.ValidatorMode] = "UseExternal";
-			ve.Configure(config, fml);
+
+			ve.Configure(configure);
 		}
 
 		public override IClassValidator GetClassValidator(System.Type type)
