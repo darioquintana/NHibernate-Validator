@@ -7,6 +7,7 @@ namespace NHibernate.Validator.Cfg.Loquacious
 		IChainableConstraint<IStringConstraints> NotNullable();
 		IChainableConstraint<IStringConstraints> NotEmpty();
 		IChainableConstraint<IStringConstraints> MaxLength(int maxLength);
+		IChainableConstraint<IStringConstraints> MinLength(int minLength);
 		IChainableConstraint<IStringConstraints> NotNullableAndNotEmpty();
 		IChainableConstraint<IStringConstraints> LengthBetween(int minLength, int maxLength);
 		IChainableConstraint<IStringConstraints> MatchWith(string regex);

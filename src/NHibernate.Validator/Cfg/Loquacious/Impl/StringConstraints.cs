@@ -25,6 +25,11 @@ namespace NHibernate.Validator.Cfg.Loquacious.Impl
 			return AddWithConstraintsChain(new LengthAttribute(maxLength));
 		}
 
+		public IChainableConstraint<IStringConstraints> MinLength(int minLength)
+		{
+			return AddWithConstraintsChain(new LengthAttribute { Min = minLength });
+		}
+
 		public IChainableConstraint<IStringConstraints> NotNullableAndNotEmpty()
 		{
 			return AddWithConstraintsChain(new NotNullNotEmptyAttribute());

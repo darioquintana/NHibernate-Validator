@@ -1,3 +1,4 @@
+using NHibernate.Validator.Cfg.Loquacious;
 using NHibernate.Validator.Constraints;
 
 namespace NHibernate.Validator.Tests.Inheritance
@@ -9,4 +10,12 @@ namespace NHibernate.Validator.Tests.Inheritance
         [NotNull]
         String FavoriteBone { get; set; }
     }
+
+	public class IBoneEaterDef: ValidationDef<IBoneEater>
+	{
+		public IBoneEaterDef()
+		{
+			Define(x => x.FavoriteBone).NotNullable();
+		}
+	}
 }

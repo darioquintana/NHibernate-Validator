@@ -1,3 +1,4 @@
+using NHibernate.Validator.Cfg.Loquacious;
 using NHibernate.Validator.Constraints;
 
 namespace NHibernate.Validator.Tests.Inheritance
@@ -7,4 +8,12 @@ namespace NHibernate.Validator.Tests.Inheritance
         [Min(2)]
         int Frequency { get; set; }
     }
+
+	public class IEaterDef : ValidationDef<IEater>
+	{
+		public IEaterDef()
+		{
+			Define(x => x.Frequency).GreaterThanOrEqualTo(2);
+		}
+	}
 }

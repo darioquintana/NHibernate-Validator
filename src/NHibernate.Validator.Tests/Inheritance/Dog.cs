@@ -1,3 +1,4 @@
+using NHibernate.Validator.Cfg.Loquacious;
 using NHibernate.Validator.Constraints;
 
 namespace NHibernate.Validator.Tests.Inheritance
@@ -20,4 +21,12 @@ namespace NHibernate.Validator.Tests.Inheritance
             set { frequency = value; }
         }
     }
+
+	public class DogDef: ValidationDef<Dog>
+	{
+		public DogDef()
+		{
+			Define(x => x.FavoriteBone).MinLength(3);
+		}
+	}
 }
