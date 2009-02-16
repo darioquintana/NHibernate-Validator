@@ -5,6 +5,7 @@ using NHibernate.Validator.Cfg.Loquacious.Impl;
 using NHibernate.Validator.Exceptions;
 using NHibernate.Validator.Mappings;
 using System.Collections.Generic;
+using NHibernate.Validator.Util;
 
 namespace NHibernate.Validator.Cfg.Loquacious
 {
@@ -158,12 +159,7 @@ namespace NHibernate.Validator.Cfg.Loquacious
 
 		private static MemberInfo DecodeMemberAccessExpression<TResult>(Expression<Func<T, TResult>> expression)
 		{
-			if (expression.Body.NodeType != ExpressionType.MemberAccess)
-			{
-				throw new HibernateValidatorException(
-					string.Format("Invalid expression type: Expected ExpressionType.MemberAccess, Found {0}", expression.Body.NodeType));
-			}
-			return ((MemberExpression)expression.Body).Member;
+			return TypeUtils.DecodeMemberAccessExpression(expression);
 		}
 
 		#region IMappingSource Members

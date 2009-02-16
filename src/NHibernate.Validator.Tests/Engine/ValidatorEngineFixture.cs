@@ -204,13 +204,20 @@ namespace NHibernate.Validator.Tests.Engine
 		[Test]
 		public void ValidatePropertyValue()
 		{
-			ValidatorEngine ve = new ValidatorEngine();
+			var ve = new ValidatorEngine();
 			Assert.AreEqual(1, ve.ValidatePropertyValue<BaseClass>("A", null).Length);
 			Assert.AreEqual(1, ve.ValidatePropertyValue<DerivatedClass>("A", null).Length);
 			Assert.AreEqual(1, ve.ValidatePropertyValue<BaseClass>("A", "1234").Length);
 			Assert.AreEqual(1, ve.ValidatePropertyValue<DerivatedClass>("A", "1234").Length);
 			Assert.AreEqual(1, ve.ValidatePropertyValue<DerivatedClass>("B", "123456").Length);
 			Assert.AreEqual(0, ve.ValidatePropertyValue<DerivatedClass>("B", null).Length);
+
+			Assert.AreEqual(1, ve.ValidatePropertyValue<BaseClass, string>(x => x.A, null).Length);
+			Assert.AreEqual(1, ve.ValidatePropertyValue<DerivatedClass, string>(x => x.A, null).Length);
+			Assert.AreEqual(1, ve.ValidatePropertyValue<BaseClass, string>(x => x.A, "1234").Length);
+			Assert.AreEqual(1, ve.ValidatePropertyValue<DerivatedClass, string>(x => x.A, "1234").Length);
+			Assert.AreEqual(1, ve.ValidatePropertyValue<DerivatedClass, string>(x => x.B, "123456").Length);
+			Assert.AreEqual(0, ve.ValidatePropertyValue<DerivatedClass, string>(x => x.B, null).Length);
 
 			try
 			{

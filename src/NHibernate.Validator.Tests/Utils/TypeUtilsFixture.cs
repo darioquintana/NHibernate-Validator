@@ -40,6 +40,10 @@ namespace NHibernate.Validator.Tests.Utils
 	[TestFixture]
 	public class TypeUtilsFixture
 	{
+		private const BindingFlags membersBindingFlags =
+	BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
+	| BindingFlags.Static;
+
 		[Test]
 		public void GetGenericTypesOfDictionary()
 		{
@@ -135,6 +139,16 @@ namespace NHibernate.Validator.Tests.Utils
 			Assert.IsNotNull(TypeUtils.GetPropertyOrField(typeof(TestingClass), "bSimpleStr"));
 			Assert.IsNotNull(TypeUtils.GetPropertyOrField(typeof(TestingClass), "BaseIntProp"));
 			Assert.IsNull(TypeUtils.GetPropertyOrField(typeof(TestingClass), "WrongName"));
+		}
+
+		[Test]
+		public void DecodeMemberAccessExpression()
+		{
+			Assert.That(TypeUtils.DecodeMemberAccessExpression<TestingClass, string>(x => x.simpleStr),
+			            Is.EqualTo(TypeUtils.GetPropertyOrField(typeof (TestingClass), "simpleStr")));
+
+			Assert.That(TypeUtils.DecodeMemberAccessExpression<TestingClass, int>(x => x.IntProp),
+									Is.EqualTo(TypeUtils.GetPropertyOrField(typeof(TestingClass), "IntProp")));
 		}
 	}
 }

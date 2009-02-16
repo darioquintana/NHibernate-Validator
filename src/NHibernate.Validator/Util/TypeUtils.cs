@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Reflection;
 using NHibernate.Validator.Exceptions;
 
@@ -120,6 +121,16 @@ namespace NHibernate.Validator.Util
 			}
 
 			return memberInfo;
+		}
+
+		public static MemberInfo DecodeMemberAccessExpression<TEntity, TResult>(Expression<Func<TEntity, TResult>> expression)
+		{
+			if (expression.Body.NodeType != ExpressionType.MemberAccess)
+			{
+				throw new HibernateValidatorException(
+					string.Format("Invalid expression type: Expected ExpressionType.MemberAccess, Found {0}", expression.Body.NodeType));
+			}
+			return ((MemberExpression)expression.Body).Member;
 		}
 	}
 }

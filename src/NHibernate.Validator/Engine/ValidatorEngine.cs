@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Linq.Expressions;
 using System.Xml;
 using log4net;
 using NHibernate.Mapping;
 using NHibernate.Util;
 using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Exceptions;
+using NHibernate.Validator.Util;
 using Environment=NHibernate.Validator.Cfg.Environment;
 
 namespace NHibernate.Validator.Engine
@@ -322,6 +324,23 @@ namespace NHibernate.Validator.Engine
 		public InvalidValue[] ValidatePropertyValue<T>(string propertyName, object value)
 		{
 			return ValidatePropertyValue(typeof(T), propertyName, value);
+		}
+
+		/// <summary>
+		/// Use the <see cref="ClassValidator.GetPotentialInvalidValues(string, object)"/> for a given <see cref="System.Type"/>.
+		/// </summary>
+		/// <typeparam name="TEntity">The entity type</typeparam>
+		/// <typeparam name="TProperty">The property type.</typeparam>
+		/// <param name="expression">The lamda expression of the property getter.</param>
+		/// <param name="value">The potencial value of the property.</param>
+		/// <remarks>
+		/// If the <typeparamref name="TEntity"/> was never inspected, or
+		/// it was not configured, the <see cref="IClassValidator"/> will be automatic added to the engine.
+		/// </remarks>
+		public InvalidValue[] ValidatePropertyValue<TEntity, TProperty>(Expression<Func<TEntity, TProperty>> expression, object value)
+		{
+			var propertyName = TypeUtils.DecodeMemberAccessExpression(expression).Name;
+			return ValidatePropertyValue(typeof(TEntity), propertyName, value);
 		}
 
 		/// <summary>
