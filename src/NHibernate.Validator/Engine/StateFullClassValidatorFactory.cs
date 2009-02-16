@@ -10,6 +10,7 @@ namespace NHibernate.Validator.Engine
 	[Serializable]
 	internal class StateFullClassValidatorFactory : AbstractClassValidatorFactory
 	{
+		private static object syncRoot = new object();
 		private static readonly IClassMappingFactory defaultClassMappingFactory = new JITClassMappingFactory();
 
 		[NonSerialized] private IClassMappingFactory classMappingFactory = defaultClassMappingFactory;
@@ -52,9 +53,9 @@ namespace NHibernate.Validator.Engine
 		/// <returns>Validator encountered or created-and-added.</returns>
 		public override IClassValidator GetRootValidator(System.Type type)
 		{
-			lock (this)
+			lock (syncRoot)
 			{
-                IClassValidator result;
+				IClassValidator result;
 				if (!validators.TryGetValue(type, out result))
 				{
 					result = new ClassValidator(type, new Dictionary<System.Type, IClassValidator>(), this);
