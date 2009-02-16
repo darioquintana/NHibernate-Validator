@@ -233,21 +233,28 @@ namespace NHibernate.Validator.Tests.Engine
 		[Test]
 		public void ValidatePropertyValueOfInstance()
 		{
-			BaseClass b = new BaseClass();
-			DerivatedClass d = new DerivatedClass();
+			var b = new BaseClass();
+			var d = new DerivatedClass();
 
-			ValidatorEngine ve = new ValidatorEngine();
+			var ve = new ValidatorEngine();
 			Assert.AreEqual(1, ve.ValidatePropertyValue(b, "A").Length);
 			Assert.AreEqual(1, ve.ValidatePropertyValue(d, "A").Length);
+			Assert.AreEqual(1, ve.ValidatePropertyValue(b, e => e.A).Length);
+			Assert.AreEqual(1, ve.ValidatePropertyValue(d, e => e.A).Length);
+
 
 			b.A = "1234";
 			Assert.AreEqual(1, ve.ValidatePropertyValue(b, "A").Length);
+			Assert.AreEqual(1, ve.ValidatePropertyValue(b, e => e.A).Length);
 			d.A = "1234";
 			Assert.AreEqual(1, ve.ValidatePropertyValue(d, "A").Length);
+			Assert.AreEqual(1, ve.ValidatePropertyValue(d, e => e.A).Length);
 			d.B = "123456";
 			Assert.AreEqual(1, ve.ValidatePropertyValue(d, "B").Length);
+			Assert.AreEqual(1, ve.ValidatePropertyValue(d, e => e.B).Length);
 			d.B = null;
 			Assert.AreEqual(0, ve.ValidatePropertyValue(d, "B").Length);
+			Assert.AreEqual(0, ve.ValidatePropertyValue(d, e => e.B).Length);
 
 			try
 			{

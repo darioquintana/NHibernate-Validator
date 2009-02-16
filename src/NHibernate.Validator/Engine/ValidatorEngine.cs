@@ -337,10 +337,10 @@ namespace NHibernate.Validator.Engine
 		/// If the <typeparamref name="TEntity"/> was never inspected, or
 		/// it was not configured, the <see cref="IClassValidator"/> will be automatic added to the engine.
 		/// </remarks>
-		public InvalidValue[] ValidatePropertyValue<TEntity, TProperty>(Expression<Func<TEntity, TProperty>> expression, object value)
+		public InvalidValue[] ValidatePropertyValue<TEntity, TProperty>(Expression<Func<TEntity, TProperty>> expression, TProperty value) where TEntity : class
 		{
 			var propertyName = TypeUtils.DecodeMemberAccessExpression(expression).Name;
-			return ValidatePropertyValue(typeof(TEntity), propertyName, value);
+			return ValidatePropertyValue(typeof (TEntity), propertyName, value);
 		}
 
 		/// <summary>
@@ -353,6 +353,7 @@ namespace NHibernate.Validator.Engine
 		/// If the <see cref="System.Type"/> of the <paramref name="entity"/> was never inspected, or
 		/// it was not configured, the <see cref="IClassValidator"/> will be automatic added to the engine.
 		/// </remarks>
+		[Obsolete("Use ValidatePropertyValue<TEntity, TProperty>(TEntity, Expression<Func<TEntity, TProperty>>) instead.")]
 		public InvalidValue[] ValidatePropertyValue(object entity, string propertyName)
 		{
 			if (entity == null)
@@ -365,6 +366,22 @@ namespace NHibernate.Validator.Engine
 
 			ValidatableElement element = GetElementOrNew(entityType);
 
+			return element.Validator.GetInvalidValues(entity, propertyName);
+		}
+
+		public InvalidValue[] ValidatePropertyValue<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> expression) where TEntity : class
+		{
+			if (entity == null)
+				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
+
+			System.Type entityType = entity.GetType();
+
+			if (!ClassValidator.ShouldNeedValidation(entityType))
+				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
+
+			ValidatableElement element = GetElementOrNew(entityType);
+
+			var propertyName = TypeUtils.DecodeMemberAccessExpression(expression).Name;
 			return element.Validator.GetInvalidValues(entity, propertyName);
 		}
 
