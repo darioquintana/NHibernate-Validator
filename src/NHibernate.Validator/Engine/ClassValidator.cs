@@ -62,7 +62,8 @@ namespace NHibernate.Validator.Engine
 
 		private List<MemberInfo> childGetters;
 
-		public static readonly InvalidValue[] EMPTY_INVALID_VALUE_ARRAY = new InvalidValue[] { };
+		public static readonly InvalidValue[] EMPTY_INVALID_VALUE_ARRAY = new InvalidValue[0];
+		public static readonly IEnumerable<Attribute> EmptyConstraints = new Attribute[0];
 
 		private readonly CultureInfo culture;
 
@@ -672,6 +673,18 @@ namespace NHibernate.Validator.Engine
 			}
 		}
 
+		public IEnumerable<Attribute> GetMemberConstraints(string propertyName)
+		{
+			foreach (var member in membersAttributesDictionary)
+			{
+				if (member.Key.Name.Equals(propertyName))
+				{
+					return member.Value.AsReadOnly();
+				}
+			}
+			return EmptyConstraints;
+		}
+
 		private static Property FindPropertyByName(PersistentClass associatedClass, string propertyName)
 		{
 			Property property;
@@ -821,6 +834,5 @@ namespace NHibernate.Validator.Engine
 			defaultInterpolator.Initialize(messageBundle,defaultMessageBundle,culture);
 
 		}
-
 	}
 }

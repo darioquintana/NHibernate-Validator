@@ -1,6 +1,6 @@
+using System;
+using System.Collections.Generic;
 using NHibernate.Mapping;
-using NHibernate.Validator.Engine;
-using NHibernate.Validator.Exceptions;
 
 namespace NHibernate.Validator.Engine
 {
@@ -29,7 +29,7 @@ namespace NHibernate.Validator.Engine
 		InvalidValue[] GetInvalidValues(object bean, string propertyName);
 
 		/// <summary>
-		/// Assert a valid Object. A <see cref="InvalidStateException"/> 
+		/// Assert a valid Object. A <see cref="NHibernate.Validator.Exceptions.InvalidStateException"/> 
 		/// will be throw in a Invalid state.
 		/// </summary>
 		/// <param name="bean">Object to be asserted</param>
@@ -49,5 +49,12 @@ namespace NHibernate.Validator.Engine
 		/// </summary>
 		/// <param name="persistentClass">hibernate metadata</param>
 		void Apply(PersistentClass persistentClass);
+
+		/// <summary>
+		/// Get the list of constrints declared for a give member of the beanValidator
+		/// </summary>
+		/// <param name="propertyName">The name of the property.</param>
+		/// <returns>The list of attribute of the given property.</returns>
+		IEnumerable<Attribute> GetMemberConstraints(string propertyName);
 	}
 }

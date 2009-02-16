@@ -68,6 +68,11 @@ namespace NHibernate.Validator.Engine
 			public void Apply(PersistentClass persistentClass)
 			{
 			}
+
+			public IEnumerable<Attribute> GetMemberConstraints(string propertyName)
+			{
+				return ClassValidator.EmptyConstraints;
+			}
 		}
 
 		public ValidatorEngine()
