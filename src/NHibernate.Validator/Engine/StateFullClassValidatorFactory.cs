@@ -10,7 +10,7 @@ namespace NHibernate.Validator.Engine
 	[Serializable]
 	internal class StateFullClassValidatorFactory : AbstractClassValidatorFactory
 	{
-		private static object syncRoot = new object();
+		private static readonly object syncRoot = new object();
 		private static readonly IClassMappingFactory defaultClassMappingFactory = new JITClassMappingFactory();
 
 		[NonSerialized] private IClassMappingFactory classMappingFactory = defaultClassMappingFactory;
