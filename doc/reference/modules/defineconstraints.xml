@@ -56,14 +56,14 @@
           <row>
             <entry>NotEmpty</entry>
             <entry>property</entry>
-            <entry>checks if the string is not empty. </entry>
+            <entry>Checks if the string is not empty (a string filled with spaces is empty). </entry>
             <entry>Column(s) are not null (for String)</entry>
           </row>
           <row>
             <entry>NotEmptyOrNull</entry>
             <entry>property</entry>
-            <entry>Checks if the string is not null or not empty.</entry>
-            <entry>TODO</entry>
+            <entry>Check for a real emptiness concept (a string filled with spaces is not empty).</entry>
+            <entry>Column(s) are not null</entry>
           </row>
           <row>
             <entry>Past</entry>
