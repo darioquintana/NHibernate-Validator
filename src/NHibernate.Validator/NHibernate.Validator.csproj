@@ -125,6 +125,8 @@
     <Compile Include="Constraints\EANValidator.cs" />
     <Compile Include="Constraints\EmailAttribute.cs" />
     <Compile Include="Constraints\EmailValidator.cs" />
+    <Compile Include="Constraints\IsNumericAttribute.cs" />
+    <Compile Include="Constraints\IsNumericValidator.cs" />
     <Compile Include="Engine\AbstractClassValidatorFactory.cs" />
     <Compile Include="Cfg\Environment.cs" />
     <Compile Include="Engine\IClassMappingFactory.cs" />

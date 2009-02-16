@@ -50,6 +50,11 @@ namespace NHibernate.Validator.Cfg.Loquacious.Impl
 			return AddWithConstraintsChain(new PatternAttribute(regex, flags));
 		}
 
+		public IRuleArgsOptions IsNumeric()
+		{
+			return AddWithFinalRuleArgOptions(new IsNumericAttribute());
+		}
+
 		public IRuleArgsOptions IsEmail()
 		{
 			return AddWithFinalRuleArgOptions(new EmailAttribute());

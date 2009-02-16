@@ -12,6 +12,7 @@ namespace NHibernate.Validator.Cfg.Loquacious
 		IChainableConstraint<IStringConstraints> LengthBetween(int minLength, int maxLength);
 		IChainableConstraint<IStringConstraints> MatchWith(string regex);
 		IChainableConstraint<IStringConstraints> MatchWith(string regex, RegexOptions flags);
+		IRuleArgsOptions IsNumeric();
 		IRuleArgsOptions IsEmail();
 		IRuleArgsOptions IsIP();
 		IRuleArgsOptions IsEAN();

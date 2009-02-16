@@ -156,6 +156,9 @@
   <data name="validator.notNull" xml:space="preserve">
     <value>kann nicht leer sein</value>
   </data>
+  <data name="validator.numeric" xml:space="preserve">
+    <value>muss sein numerischen  </value>
+  </data>
   <data name="validator.past" xml:space="preserve">
     <value>muss in der Vergangenheit liegen</value>
   </data>

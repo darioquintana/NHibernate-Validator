@@ -156,6 +156,9 @@
   <data name="validator.notNull" xml:space="preserve">
     <value>debe ser no nulo</value>
   </data>
+  <data name="validator.numeric" xml:space="preserve">
+    <value>debe ser numérico</value>
+  </data>
   <data name="validator.past" xml:space="preserve">
     <value>debe ser una fecha pasada</value>
   </data>
