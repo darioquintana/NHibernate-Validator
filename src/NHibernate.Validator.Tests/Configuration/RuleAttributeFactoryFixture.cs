@@ -19,11 +19,14 @@ namespace NHibernate.Validator.Tests.Configuration
 		[Test]
 		public void CreateAttributeFromClass()
 		{
-			Attribute found = RuleAttributeFactory.CreateAttributeFromClass(typeof(Suricato), "AssertAnimal");
+			NhvmClassAttributename attributename = new NhvmClassAttributename();
+			attributename.Text = new string[] { "AssertAnimal" };
+			Attribute found = RuleAttributeFactory.CreateAttributeFromClass(typeof(Suricato), attributename);
 			Assert.IsNotNull(found);
 			Assert.AreEqual(typeof(AssertAnimalAttribute), found.GetType());
 
-			found = RuleAttributeFactory.CreateAttributeFromClass(typeof(Suricato), "AssertAnimalAttribute");
+			attributename.Text = new string[] { "AssertAnimalAttribute" };
+			found = RuleAttributeFactory.CreateAttributeFromClass(typeof(Suricato), attributename);
 			Assert.IsNotNull(found);
 			Assert.AreEqual(typeof(AssertAnimalAttribute), found.GetType());
 		}
@@ -31,7 +34,9 @@ namespace NHibernate.Validator.Tests.Configuration
 		[Test, ExpectedException(typeof(InvalidAttributeNameException))]
 		public void CreateAttributeFromClassWrongName()
 		{
-			RuleAttributeFactory.CreateAttributeFromClass(typeof(Suricato), "assertanimal");
+			NhvmClassAttributename attributename = new NhvmClassAttributename();
+			attributename.Text = new string[] { "assertanimal" };
+			RuleAttributeFactory.CreateAttributeFromClass(typeof(Suricato), attributename);
 		}
 
 		[Test, ExpectedException(typeof(ValidatorConfigurationException))]

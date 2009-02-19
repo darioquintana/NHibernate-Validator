@@ -2,7 +2,7 @@ using NHibernate.Validator.Cfg.Loquacious;
 
 namespace NHibernate.Validator.Tests.Base
 {
-	[AssertAnimal]
+	[AssertAnimal(Message = "is not an animal")]
 	public class Suricato
 	{
 	}
@@ -11,7 +11,9 @@ namespace NHibernate.Validator.Tests.Base
 	{
 		public SuricatoDef()
 		{
-			ValidateInstance.Using(new AssertAnimalAttribute());
+			var attribute = new AssertAnimalAttribute();
+			attribute.Message = "is not an animal";
+			ValidateInstance.Using(attribute);
 		}
 	}
 }

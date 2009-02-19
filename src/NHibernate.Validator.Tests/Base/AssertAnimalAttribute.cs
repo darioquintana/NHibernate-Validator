@@ -1,6 +1,5 @@
 using System;
 using NHibernate.Validator.Engine;
-using NHibernate.Validator.Tests.Base;
 
 namespace NHibernate.Validator.Tests.Base
 {

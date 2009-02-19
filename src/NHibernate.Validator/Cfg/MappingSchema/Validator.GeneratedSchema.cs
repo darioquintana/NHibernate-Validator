@@ -483,7 +483,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("attributename")]
-        public string[] attributename;
+        public NhvmClassAttributename[] attributename;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("property")]
@@ -492,5 +492,22 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string name;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-1.0")]
+    public partial class NhvmClassAttributename {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string message;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlTextAttribute()]
+        public string[] Text;
     }
 }

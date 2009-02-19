@@ -117,7 +117,9 @@ namespace NHibernate.Validator.Tests.Base
 			IClassValidator vtor = GetClassValidator(typeof(Suricato));
 
 			Assert.IsTrue(vtor.HasValidationRules);
-			Assert.AreEqual(1, vtor.GetInvalidValues(s).Length);
+			var invalidValues = vtor.GetInvalidValues(s);
+			Assert.AreEqual(1, invalidValues.Length);
+			Assert.AreEqual("is not an animal", invalidValues[0].Message);
 		}
 
 		/// <summary>

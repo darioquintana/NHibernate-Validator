@@ -37,10 +37,10 @@ namespace NHibernate.Validator.Mappings
 			if (meta.attributename != null)
 			{
 				log.Debug("Looking for class attributes");
-				foreach (string attributeName in meta.attributename)
+				foreach (NhvmClassAttributename attributename in meta.attributename)
 				{
-					log.Info("Attribute to look for = " + attributeName);
-					Attribute classAttribute = RuleAttributeFactory.CreateAttributeFromClass(clazz, attributeName);
+					log.Info("Attribute to look for = " + GetText(attributename));
+					Attribute classAttribute = RuleAttributeFactory.CreateAttributeFromClass(clazz, attributename);
 					classAttributes.Add(classAttribute);
 				}
 			}
@@ -79,6 +79,18 @@ namespace NHibernate.Validator.Mappings
 				}
 			}
 			members = lmembers.ToArray();
+		}
+
+		private static string GetText(NhvmClassAttributename attributename)
+		{
+			string[] text = attributename.Text;
+			if (text != null)
+			{
+				string result = string.Join(System.Environment.NewLine, text).Trim();
+				return result.Length == 0 ? null : result;
+			}
+			else
+				return null;
 		}
 
 		#endregion

@@ -5,6 +5,7 @@ using log4net;
 using NHibernate.Util;
 using System.Collections.Generic;
 using NHibernate.Validator.Constraints;
+using NHibernate.Validator.Engine;
 using NHibernate.Validator.Exceptions;
 
 namespace NHibernate.Validator.Cfg.MappingSchema
@@ -63,23 +64,40 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 		/// - The attribute must be defined in the same namespace of the <paramref name="beanClass"/>.
 		/// - The attribute class may have the postfix "Attribute" without need to use it in the mapping.
 		/// </remarks>
-		public static Attribute CreateAttributeFromClass(System.Type beanClass, string attributename)
+		public static Attribute CreateAttributeFromClass(System.Type beanClass, NhvmClassAttributename attributename)
 		{
 			// public Only for test scope
 			Assembly assembly = beanClass.Assembly;
-			System.Type type = assembly.GetType(beanClass.Namespace + "." + attributename + "Attribute");
+			System.Type type = assembly.GetType(beanClass.Namespace + "." + GetText(attributename) + "Attribute");
 
 			if (type == null)
 			{
-				type = assembly.GetType(beanClass.Namespace + "." + attributename);
+				type = assembly.GetType(beanClass.Namespace + "." + GetText(attributename));
 			}
 
 			if (type == null)
 			{
-				throw new InvalidAttributeNameException(attributename, beanClass);
+				throw new InvalidAttributeNameException(GetText(attributename), beanClass);
 			}
 
-			return (Attribute)Activator.CreateInstance(type);
+			Attribute attribute = (Attribute)Activator.CreateInstance(type);
+			if (attribute is IRuleArgs)
+			{
+				((IRuleArgs) attribute).Message = attributename.message;
+			}
+			return attribute;
+		}
+
+		private static string GetText(NhvmClassAttributename attributename)
+		{
+			string[] text = attributename.Text;
+			if (text != null)
+			{
+				string result = string.Join(System.Environment.NewLine, text).Trim();
+				return result.Length == 0 ? null : result;
+			}
+			else
+				return null;
 		}
 
 		private static Attribute ConvertToDigits(XmlNhvmRuleConverterArgs rule)
