@@ -132,7 +132,11 @@
 	<xs:element name="class">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="attributename" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element name="attributename" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType mixed="true">
+						<xs:attribute name="message" type="xs:string" />
+					</xs:complexType>
+				</xs:element>
 				<xs:sequence maxOccurs="unbounded" minOccurs="0">
 					<xs:element ref="property" minOccurs="0" maxOccurs="unbounded" />
 				</xs:sequence>
