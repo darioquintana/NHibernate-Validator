@@ -21,6 +21,7 @@ Note: 'external' mean XML or any other mapping source than Attribute.";
 		public void AddClassExternalDefinition(IClassMapping definition)
 		{
 			System.Type type = definition.EntityType;
+			log.Debug("Adding external definition for " + type.FullName);
 			try
 			{
 				definitions.Add(type, definition);
