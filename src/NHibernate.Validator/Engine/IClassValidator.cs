@@ -51,7 +51,7 @@ namespace NHibernate.Validator.Engine
 		void Apply(PersistentClass persistentClass);
 
 		/// <summary>
-		/// Get the list of constrints declared for a give member of the beanValidator
+		/// Get the list of constraints declared for a give member of the beanValidator
 		/// </summary>
 		/// <param name="propertyName">The name of the property.</param>
 		/// <returns>The list of attribute of the given property.</returns>
