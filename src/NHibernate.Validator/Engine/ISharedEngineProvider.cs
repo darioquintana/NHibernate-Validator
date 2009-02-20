@@ -1,7 +1,7 @@
 namespace NHibernate.Validator.Engine
 {
 	/// <summary>
-	/// Contract for Shared EngineP rovider
+	/// Contract for Shared Engine Provider
 	/// </summary>
 	public interface ISharedEngineProvider
 	{
