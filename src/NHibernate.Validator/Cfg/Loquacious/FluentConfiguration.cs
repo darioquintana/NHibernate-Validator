@@ -50,6 +50,18 @@ namespace NHibernate.Validator.Cfg.Loquacious
 			return this;
 		}
 
+		public IFluentConfiguration UseDefaultMappingLoader()
+		{
+			SetExternalMappingsLoader<XmlMappingLoader>();
+			return this;
+		}
+
+		public IFluentConfiguration UseFluentMappingLoader()
+		{
+			SetExternalMappingsLoader<FluentMappingLoader>();
+			return this;
+		}
+
 		#endregion
 
 		#region IMappingLoader Members
