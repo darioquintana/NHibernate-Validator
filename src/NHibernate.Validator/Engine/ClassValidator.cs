@@ -359,7 +359,7 @@ namespace NHibernate.Validator.Engine
 			}
 			else
 			{
-				//Simple Value, Not a Collection
+				//Simple Value, Non-Collection
 				InvalidValue[] invalidValues = GetClassValidator(value.GetType()).GetInvalidValues(value, circularityState);
 
 				foreach (InvalidValue invalidValue in invalidValues)
