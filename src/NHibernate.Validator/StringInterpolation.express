@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<RegexProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Regex>\u0024\u007b(?&lt;member&gt;[a-z]+)\u007d |
+\u0023\u007b(?&lt;parameter&gt;[a-z]+)\u007d</Regex>
+  <Input>The value #{min of foo is ${Number} or ${Letter} $5.3434 #{max}</Input>
+  <Options>IgnoreCase Multiline IgnorePatternWhitespace</Options>
+  <FileName>D:\src\nh.contrib\trunk\src\NHibernate.Validator\src\NHibernate.Validator\StringInterpolation.express</FileName>
+  <ReplaceString />
+  <InputFilename />
+  <UpdateEventsEnabled>true</UpdateEventsEnabled>
+</RegexProject>
