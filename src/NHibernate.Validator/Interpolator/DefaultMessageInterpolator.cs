@@ -29,7 +29,7 @@ namespace NHibernate.Validator.Interpolator
 
 		#region IMessageInterpolator Members
 
-		public string Interpolate(string message, IValidator validator, IMessageInterpolator defaultInterpolator)
+		public string Interpolate(string message, object bean, IValidator validator, IMessageInterpolator defaultInterpolator)
 		{
 			bool same = attributeMessage.Equals(message);
 			if (same && interpolateMessage != null)
@@ -38,7 +38,7 @@ namespace NHibernate.Validator.Interpolator
 			}
 
 			string result;
-			result = Replace(message);
+			result = Replace(message,bean);
 			if (same)
 			{
 				interpolateMessage = result; //short cut in next iteration
@@ -55,7 +55,7 @@ namespace NHibernate.Validator.Interpolator
 			this.defaultMessageBundle = defaultMessageBundle;
 		}
 
-		public void Initialize(Attribute attribute, IMessageInterpolator defaultInterpolator)
+		public void Initialize(Attribute attribute)
 		{
 			//Get all parametters of the Attribute: the name and their values.
 			//For example:
@@ -88,12 +88,12 @@ namespace NHibernate.Validator.Interpolator
 			}
 		}
 
-		private string Replace(string message)
+		private string Replace(string message, object bean)
 		{
-			StringTokenizer tokens = new StringTokenizer(message, "#{}", true);
-			StringBuilder buf = new StringBuilder(100);
-			bool escaped = false;
-			bool el = false;
+			var tokens = new StringTokenizer(message, "#${}", true);
+			var buf = new StringBuilder(100);
+			var escaped = false;
+			var el = false;
 
 			IEnumerator ie = tokens.GetEnumerator();
 
@@ -151,7 +151,7 @@ namespace NHibernate.Validator.Interpolator
 						}
 						else
 						{
-							buf.Append(Replace(_string));
+							buf.Append(Replace(_string,bean));
 						}
 					}
 				}

@@ -76,10 +76,10 @@ namespace NHibernate.Validator.Tests.Interpolation
 			RangeValidator va = new RangeValidator();
 			RangeAttribute a = new RangeAttribute(2, 10);
 
-			Assert.AreEqual(a.Message, mia.Interpolate(a.Message, va, dmi));
+			Assert.AreEqual(a.Message, mia.Interpolate(a.Message, new object(), va, dmi));
 
 			mia.AddInterpolator(a, va);
-			Assert.AreNotEqual(a.Message, mia.Interpolate(a.Message, va, dmi));
+			Assert.AreNotEqual(a.Message, mia.Interpolate(a.Message, new object(), va, dmi));
 		}
 
 		[Test]
@@ -107,6 +107,25 @@ namespace NHibernate.Validator.Tests.Interpolation
 			va.Initialize(a);
 			mia.AddInterpolator(a, va);
 			Assert.IsFalse(string.IsNullOrEmpty(mia.GetAttributeMessage(va)));
+		}
+
+		[Test,Ignore("Not supported yet")]
+		public void InterpolatingValues()
+		{
+			var defrm = new ResourceManager(Cfg.Environment.BaseNameOfMessageResource,typeof(DefaultMessageInterpolatorAggregator).Assembly);
+			var custrm = new ResourceManager("NHibernate.Validator.Tests.Resource.Messages", Assembly.GetExecutingAssembly());
+			var culture = new CultureInfo("en");
+
+			var interpolator = new DefaultMessageInterpolator();
+			interpolator.Initialize(defrm,defrm,culture);
+			interpolator.Initialize(new RangeAttribute(2, 10));
+			var result = interpolator.Interpolate("The value of foo is ${Number}", new Foo { Number = 82 }, new RangeValidator(), null);
+			Assert.AreEqual("The value of foo is 82",result);
+		}
+
+		public class Foo
+		{
+			public int Number { get; set; }
 		}
 	}
 }

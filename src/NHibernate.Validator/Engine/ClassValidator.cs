@@ -276,7 +276,7 @@ namespace NHibernate.Validator.Engine
 			{
 				if (!validator.IsValid(bean))
 				{
-					results.Add(new InvalidValue(Interpolate(validator), beanClass, null, bean, bean));
+					results.Add(new InvalidValue(Interpolate(bean,validator), beanClass, null, bean, bean));
 				}
 			}
 
@@ -326,7 +326,7 @@ namespace NHibernate.Validator.Engine
 
 							if (!validator.IsValid(value))
 							{
-								results.Add(new InvalidValue(Interpolate(validator), beanClass, member.Name, value, bean));
+								results.Add(new InvalidValue(Interpolate(bean,validator), beanClass, member.Name, value, bean));
 							}
 						}
 					}
@@ -458,17 +458,17 @@ namespace NHibernate.Validator.Engine
 		/// </summary>
 		/// <param name="validator"></param>
 		/// <returns></returns>
-		private string Interpolate(IValidator validator)
+		private string Interpolate(object bean, IValidator validator)
 		{
 			string message = defaultInterpolator.GetAttributeMessage(validator);
 
 			if (userInterpolator != null)
 			{
-				return userInterpolator.Interpolate(message, validator, defaultInterpolator);
+				return userInterpolator.Interpolate(message, bean, validator, defaultInterpolator);
 			}
 			else
 			{
-				return defaultInterpolator.Interpolate(message, validator, null);
+				return defaultInterpolator.Interpolate(message, bean, validator, null);
 			}
 		}
 				
@@ -631,7 +631,7 @@ namespace NHibernate.Validator.Engine
 					getterFound++;
 					IValidator validator = memberValidators[i];
 					if (!validator.IsValid(value))
-						results.Add(new InvalidValue(Interpolate(validator), beanClass, propertyName, value, null));
+						results.Add(new InvalidValue(Interpolate(value,validator), beanClass, propertyName, value, null));
 				}
 			}
 
