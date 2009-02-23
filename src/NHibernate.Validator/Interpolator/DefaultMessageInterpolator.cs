@@ -27,6 +27,16 @@ namespace NHibernate.Validator.Interpolator
 			get { return attributeMessage; }
 		}
 
+		public DefaultMessageInterpolator()
+		{
+		}
+
+		public DefaultMessageInterpolator (SerializationInfo info, StreamingContext context)
+		{
+			attributeParameters = (Dictionary<string, object>) info.GetValue("attributeParameters",typeof(Dictionary<string, object>) );
+			attributeMessage = (string) info.GetValue("message",typeof(string));
+		}
+
 		#region IMessageInterpolator Members
 
 		public string Interpolate(string message, object bean, IValidator validator, IMessageInterpolator defaultInterpolator)
@@ -157,16 +167,6 @@ namespace NHibernate.Validator.Interpolator
 				}
 			}
 			return buf.ToString();
-		}
-
-		public DefaultMessageInterpolator()
-		{
-		}
-
-		public DefaultMessageInterpolator (SerializationInfo info, StreamingContext context)
-		{
-			attributeParameters = (Dictionary<string, object>) info.GetValue("attributeParameters",typeof(Dictionary<string, object>) );
-			attributeMessage = (string) info.GetValue("message",typeof(string));
 		}
 
 		public void GetObjectData(SerializationInfo info, StreamingContext context)
