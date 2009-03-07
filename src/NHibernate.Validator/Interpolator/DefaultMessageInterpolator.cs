@@ -179,14 +179,26 @@ namespace NHibernate.Validator.Interpolator
 				}
 				else
 				{
-					var property = bean.GetType().GetProperty(token);
-                    if (property == null) throw new InvalidPropertyNameException(token, bean.GetType());
-					
-					var value = property.GetValue(bean, null);
-					buf.Append(value);
+					ReplaceValue(buf, bean, token);
 				}
 			}
 			return buf.ToString();
+		}
+
+		/// <summary>
+		/// Override this method to obtain flexibility.
+		/// The default interpolator can replace the message with public property values.
+		/// </summary>
+		/// <param name="buffer">Current buffer where the final string message is written.</param>
+		/// <param name="bean">Entity or value</param>
+		/// <param name="propertyName">Property name to be used.</param>
+		protected void ReplaceValue(StringBuilder buffer, object bean, string propertyName)
+		{
+			var property = bean.GetType().GetProperty(propertyName);
+			if (property == null) throw new InvalidPropertyNameException(propertyName, bean.GetType());
+					
+			var value = property.GetValue(bean, null);
+			buffer.Append(value);
 		}
 
 		public void GetObjectData(SerializationInfo info, StreamingContext context)
