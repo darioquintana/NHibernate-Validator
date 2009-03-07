@@ -194,11 +194,27 @@ namespace NHibernate.Validator.Interpolator
 		/// <param name="propertyName">Property name to be used.</param>
 		protected void ReplaceValue(StringBuilder buffer, object bean, string propertyName)
 		{
-			var property = bean.GetType().GetProperty(propertyName);
-			if (property == null) throw new InvalidPropertyNameException(propertyName, bean.GetType());
-					
-			var value = property.GetValue(bean, null);
-			buffer.Append(value);
+			if (!propertyName.Contains("."))
+			{
+				var property = bean.GetType().GetProperty(propertyName);
+				if (property == null) throw new InvalidPropertyNameException(propertyName, bean.GetType());
+
+				var value = property.GetValue(bean, null);
+				buffer.Append(value);
+			}
+			else
+			{
+				var membersChain = propertyName.Split('.');
+				object value = bean;
+				foreach (var memberName in membersChain)
+				{
+					var property = value.GetType().GetProperty(memberName);
+					if (property == null) throw new InvalidPropertyNameException(memberName, bean.GetType());
+					value = property.GetValue(value, null);
+				}
+				if(value != null)
+					buffer.Append(value);
+			}
 		}
 
 		public void GetObjectData(SerializationInfo info, StreamingContext context)
