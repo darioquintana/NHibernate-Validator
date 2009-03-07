@@ -8,6 +8,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using NHibernate.Util;
 using NHibernate.Validator.Engine;
+using NHibernate.Validator.Exceptions;
 
 namespace NHibernate.Validator.Interpolator
 {
@@ -178,7 +179,10 @@ namespace NHibernate.Validator.Interpolator
 				}
 				else
 				{
-					var value = bean.GetType().GetProperty(token).GetValue(bean, null);
+					var property = bean.GetType().GetProperty(token);
+                    if (property == null) throw new InvalidPropertyNameException(token, bean.GetType());
+					
+					var value = property.GetValue(bean, null);
 					buf.Append(value);
 				}
 			}
