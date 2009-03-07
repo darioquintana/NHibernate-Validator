@@ -126,6 +126,9 @@
   <data name="long" xml:space="preserve">
     <value>is too damn long</value>
   </data>
+  <data name="Number" xml:space="preserve">
+    <value>12</value>
+  </data>
   <data name="out.of.range" xml:space="preserve">
     <value>lower that {Min} and greater than {Max}</value>
   </data>

@@ -104,6 +104,7 @@ namespace NHibernate.Validator.Interpolator
 			var buf = new StringBuilder(100);
 			var escaped = false;
 			var el = false;
+			var isMember = false;
 
 			IEnumerator ie = tokens.GetEnumerator();
 
@@ -114,6 +115,15 @@ namespace NHibernate.Validator.Interpolator
 				if (!escaped && "#".Equals(token))
 				{
 					el = true;
+				}
+
+				if(!el && ("$".Equals(token)))
+				{
+					isMember = true;
+				}
+				else if("}".Equals(token) && isMember)
+				{
+					isMember = false;
 				}
 				if (!el && "{".Equals(token))
 				{
@@ -129,9 +139,10 @@ namespace NHibernate.Validator.Interpolator
 					{
 						el = false;
 					}
-					buf.Append(token);
+
+					if(!"$".Equals(token)) buf.Append(token);
 				}
-				else
+				else if(!isMember)
 				{
 					object variable;
 					if (attributeParameters.TryGetValue(token.ToLowerInvariant(), out variable))
@@ -164,6 +175,11 @@ namespace NHibernate.Validator.Interpolator
 							buf.Append(Replace(_string,bean));
 						}
 					}
+				}
+				else
+				{
+					var value = bean.GetType().GetProperty(token).GetValue(bean, null);
+					buf.Append(value);
 				}
 			}
 			return buf.ToString();

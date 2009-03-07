@@ -109,18 +109,17 @@ namespace NHibernate.Validator.Tests.Interpolation
 			Assert.IsFalse(string.IsNullOrEmpty(mia.GetAttributeMessage(va)));
 		}
 
-		[Test,Ignore("Not supported yet")]
+		[Test]
 		public void InterpolatingValues()
 		{
-			var defrm = new ResourceManager(Cfg.Environment.BaseNameOfMessageResource,typeof(DefaultMessageInterpolatorAggregator).Assembly);
-			var custrm = new ResourceManager("NHibernate.Validator.Tests.Resource.Messages", Assembly.GetExecutingAssembly());
+			var rm = new ResourceManager("NHibernate.Validator.Tests.Resource.Messages", Assembly.GetExecutingAssembly());
 			var culture = new CultureInfo("en");
 
 			var interpolator = new DefaultMessageInterpolator();
-			interpolator.Initialize(defrm,defrm,culture);
+			interpolator.Initialize(rm, rm, culture);
 			interpolator.Initialize(new RangeAttribute(2, 10));
-			var result = interpolator.Interpolate("The value of foo is ${Number}", new Foo { Number = 82 }, new RangeValidator(), null);
-			Assert.AreEqual("The value of foo is 82",result);
+			var result = interpolator.Interpolate("The value of foo is ${Number} + {Number}", new Foo { Number = 82 }, new RangeValidator(), null);
+			Assert.AreEqual("The value of foo is 82 + 12",result);
 		}
 
 		public class Foo
