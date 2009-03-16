@@ -44,7 +44,10 @@
 		<!-- Copy framework-neutral libraries -->
 		<copy todir="${bin.dir}" >
 			<fileset basedir="${lib.dir}">
-				<!--include name="*.dll" /--> 				
+				<!--include name="*.dll" /-->
+				<include name="NHibernate.ByteCode.LinFu.dll"  />
+				<include name="NHibernate.ByteCode.Castle.dll"  />
+				<include name="LinFu.DynamicProxy.dll" />
 				<include name="Castle.Core.dll"  />
 				<include name="Castle.DynamicProxy2.dll"  />
 				<include name="nunit.*.dll"  />
