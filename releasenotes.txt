@@ -7,6 +7,31 @@ Release Notes - NHibernate.Validator - Version 1.2.0
     * Constraints moved in Constraints namespace.
     * ValidatorMode values was changed (see NHibernate.Validator.Engine.ValidatorMode for reference)
     * The class NHibernate.Validator.Cfg.NHVConfiguration was renamed to XmlConfiguration
+	* The interface NHibernate.Validator.Engine.IMessageInterpolator and implementations had changed the signature. See [NHV-40]
+
+Release Notes - NHibernate.Validator - Version 1.2.0Alpha1
+
+** Sub-task
+    * [NHV-31] - Documentation of NotNullNotEmpty
+
+** Bug
+    * [NHV-25] - Exception throw validating generic dictionary with key of Enum type
+    * [NHV-34] - Child validation don't work in XML
+
+** Improvement
+    * [NHV-26] - Latvian (lv) language resources for default validation messages
+    * [NHV-27] - Register listeners without deleting others previously registered in the same configuration.
+    * [NHV-30] - Dutch (nl) language resources for default validation messages
+    * [NHV-35] - Strongly typed ValidatePropertyValue (on engine)
+    * [NHV-40] - MessageInterpolator allow to use values
+
+** New Feature
+    * [NHV-15] - Numeric Validator
+    * [NHV-23] - zip-code from Brazil (CEP)
+    * [NHV-24] - Fiscal Code for Brazil (CPF)
+    * [NHV-32] - Allow external "mapping-source"
+    * [NHV-33] - Validators fluent-configuration
+    * [NHV-36] - MemberValidator available from IClassValidator
 
 Release Notes - NHibernate.Validator - Version 1.0.0GA
 
