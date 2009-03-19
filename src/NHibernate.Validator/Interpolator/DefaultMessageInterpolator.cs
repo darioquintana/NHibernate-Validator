@@ -43,7 +43,7 @@ namespace NHibernate.Validator.Interpolator
 		public string Interpolate(string message, object bean, IValidator validator, IMessageInterpolator defaultInterpolator)
 		{
 			bool same = attributeMessage.Equals(message);
-			if (same && interpolateMessage != null)
+            if (same && interpolateMessage != null && !message.Contains("${"))
 			{
 				return interpolateMessage; //short cut
 			}

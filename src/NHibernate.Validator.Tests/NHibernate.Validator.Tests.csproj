@@ -140,6 +140,8 @@
     <Compile Include="Serialization\RuleArgsSerializationFixture.cs" />
     <Compile Include="Serialization\ValidatorEngineSerializationFixture.cs" />
     <Compile Include="Serialization\ValidatorsSerializationFixture.cs" />
+    <Compile Include="Specifics\NHV41\Model.cs" />
+    <Compile Include="Specifics\NHV41\FixtureNHV40.cs" />
     <Compile Include="ThreadSafe\Foo.cs" />
     <Compile Include="ThreadSafe\ThreadSafeFixture.cs" />
     <Compile Include="Utils\AttributeUtilsFixture.cs" />
