@@ -9,6 +9,12 @@ Release Notes - NHibernate.Validator - Version 1.2.0
     * The class NHibernate.Validator.Cfg.NHVConfiguration was renamed to XmlConfiguration
 	* The interface NHibernate.Validator.Engine.IMessageInterpolator and implementations had changed the signature. See [NHV-40]
 
+
+Release Notes - NHibernate.Validator - Version 1.2.0Alpha2
+
+** Bug
+    * [NHV-41] - Bad message caching when Interpolate Values
+
 Release Notes - NHibernate.Validator - Version 1.2.0Alpha1
 
 ** Sub-task
