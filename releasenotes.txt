@@ -9,6 +9,8 @@ Release Notes - NHibernate.Validator - Version 1.2.0
     * The class NHibernate.Validator.Cfg.NHVConfiguration was renamed to XmlConfiguration
 	* The interface NHibernate.Validator.Engine.IMessageInterpolator and implementations had changed the signature. See [NHV-40]
 
+Release Notes - NHibernate.Validator - Version 1.2.0Alpha3
+	* Updated to NHibernate 2.1Alpha2
 
 Release Notes - NHibernate.Validator - Version 1.2.0Alpha2
 
