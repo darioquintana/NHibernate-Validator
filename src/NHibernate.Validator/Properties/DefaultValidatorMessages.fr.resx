@@ -151,10 +151,16 @@
     <value>doit être supérieur ou égal à {Value}</value>
   </data>
   <data name="validator.notEmpty" xml:space="preserve">
-    <value>ne peut pas être nul ou vide</value>
+    <value>ne peut pas être vide</value>
   </data>
   <data name="validator.notNull" xml:space="preserve">
     <value>ne peut pas être nul</value>
+  </data>
+  <data name="validator.notNullNotEmpty" xml:space="preserve">
+    <value>ne peut pas être nul ou vide</value>
+  </data>
+  <data name="validator.numeric" xml:space="preserve">
+    <value>doit être une valeur numérique</value>
   </data>
   <data name="validator.past" xml:space="preserve">
     <value>doit être dans le passé</value>

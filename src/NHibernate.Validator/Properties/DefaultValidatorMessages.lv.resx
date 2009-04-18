@@ -151,13 +151,16 @@
     <value>Vērtība nedrīkst būt mazāka par {Value}</value>
   </data>
   <data name="validator.notEmpty" xml:space="preserve">
-    <value>Jānorāda vērtība</value>
+    <value>nedrīkst būt tukšs</value>
   </data>
   <data name="validator.notNull" xml:space="preserve">
-    <value>Jānorāda vērtība</value>
+    <value>nedrīkst null</value>
   </data>
   <data name="validator.notNullNotEmpty" xml:space="preserve">
-    <value>Jānorāda vērtība</value>
+    <value>nedrīkst būt nulle vai tukšs</value>
+  </data>
+  <data name="validator.numeric" xml:space="preserve">
+    <value>jābūt skaitlisku vērtību</value>
   </data>
   <data name="validator.past" xml:space="preserve">
     <value>Jānorāda datums pagātnē</value>

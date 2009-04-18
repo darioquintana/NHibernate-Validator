@@ -151,10 +151,13 @@
     <value>muss mehr oder gleich {value} sein</value>
   </data>
   <data name="validator.notEmpty" xml:space="preserve">
-    <value>kann nicht null oder leer sein</value>
+    <value>kann nicht leer sein</value>
   </data>
   <data name="validator.notNull" xml:space="preserve">
-    <value>kann nicht leer sein</value>
+    <value>kann nicht leer null</value>
+  </data>
+  <data name="validator.notNullNotEmpty" xml:space="preserve">
+    <value>kann nicht null oder leer sein</value>
   </data>
   <data name="validator.numeric" xml:space="preserve">
     <value>muss sein numerischen  </value>

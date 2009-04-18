@@ -151,13 +151,13 @@
     <value>Waarde dient groter of gelijk aan {Value} te zijn</value>
   </data>
   <data name="validator.notEmpty" xml:space="preserve">
-    <value>Waarde is verplicht</value>
+    <value>mogen niet leeg zijn</value>
   </data>
   <data name="validator.notNull" xml:space="preserve">
-    <value>Waarde is verplicht</value>
+    <value>kan niet worden nietig</value>
   </data>
   <data name="validator.notNullNotEmpty" xml:space="preserve">
-    <value>Waarde is verplicht</value>
+    <value>kan niet worden nietig of lege</value>
   </data>
   <data name="validator.past" xml:space="preserve">
     <value>Datum dient in het verleden te liggen</value>
