@@ -32,6 +32,11 @@ namespace NHibernate.Validator.Demo.Winforms
 
 		private void btnSend_Click(object sender, EventArgs e)
 		{
+			//NOTE...IMPORTANT!:
+			//This is an example of how-to-change-the-configuration.
+			//You should maintain in your code just 1 (one) ValidatorEngine, 
+			//see SharedEngine: http://nhforge.org/blogs/nhibernate/archive/2009/02/26/diving-in-nhibernate-validator.aspx
+			
 			ValidatorEngine ve = vvtor.ValidatorEngine;
 			ve.Clear();
 
