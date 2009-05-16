@@ -18,7 +18,7 @@ namespace NHibernate.Validator.Demo.NHI
 
 			SavingAValidEntity();
 
-			Console.WriteLine("Done.");
+			Console.WriteLine("Done. Everything worked as expected.");
 			Console.ReadLine();
 		}
 
