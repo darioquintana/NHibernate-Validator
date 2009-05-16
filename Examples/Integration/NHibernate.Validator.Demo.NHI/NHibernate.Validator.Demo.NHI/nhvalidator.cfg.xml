@@ -3,6 +3,6 @@
 <nhv-configuration xmlns='urn:nhv-configuration-1.0'>
   <property name='apply_to_ddl'>true</property>
   <property name='autoregister_listeners'>true</property>
-  <property name='default_validator_mode'>UseXml</property>
+  <property name='default_validator_mode'>UseExternal</property>
   <mapping assembly='NHibernate.Validator.Demo.Model'/>
 </nhv-configuration>
