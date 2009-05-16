@@ -5,7 +5,7 @@ to use a different color start by replacing all instances of
 ----------------------------------------------------------*/
 body
 {
-    background-color: #5c87b2;
+    background-color: #808040;
     font-size: .75em;
     font-family: Verdana, Helvetica, Sans-Serif;
     margin: 0;
@@ -15,7 +15,7 @@ body
 
 a:link
 {
-    color: #034af3;
+    color: #804000;
     text-decoration: underline;
 }
 a:visited
@@ -43,7 +43,7 @@ p, ul
 h1, h2, h3, h4, h5, h6
 {
     font-size: 1.5em;
-    color: #000;
+    color: #808040;
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -160,12 +160,12 @@ ul#menu li a
     text-decoration: none;
     line-height: 2.8em;
     background-color: #e8eef4;
-    color: #034af3;
+    color: #804000;
 }
 
 ul#menu li a:hover
 {
-    background-color: #fff;
+    background-color: #EF9F3A;
     text-decoration: none;
 }
 
