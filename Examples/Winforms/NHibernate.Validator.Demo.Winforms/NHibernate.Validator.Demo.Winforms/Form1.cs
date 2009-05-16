@@ -36,7 +36,7 @@ namespace NHibernate.Validator.Demo.Winforms
 			ve.Clear();
 
 			//Configuration of NHV. You can also configure this stuff using xml, outside of the code
-			NHVConfiguration nhvc = new NHVConfiguration();
+			XmlConfiguration nhvc = new XmlConfiguration();
 			nhvc.Properties[Environment.ApplyToDDL] = "false";
 			nhvc.Properties[Environment.AutoregisterListeners] = "false";
 			nhvc.Properties[Environment.ValidatorMode] = GetMode();
@@ -63,7 +63,7 @@ namespace NHibernate.Validator.Demo.Winforms
 				return "UseAttribute";
 
 			if (UseXml.Checked)
-				return "UseXml";
+				return "UseExternal";
 
 			throw new InvalidOperationException();
 		}
