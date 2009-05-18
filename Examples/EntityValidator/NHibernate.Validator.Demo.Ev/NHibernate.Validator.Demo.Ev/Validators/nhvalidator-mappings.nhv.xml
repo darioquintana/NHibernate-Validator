@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<nhv-mapping xmlns="urn:nhibernate-validator-1.0"
+				assembly ="NHibernate.Validator.Demo.Ev"
+				namespace ="NHibernate.Validator.Demo.Ev.Model">
+
+	<class name="Meeting">
+		
+		<attributename message="Invalid range, the end date should be major than the start date">
+			ValidRange
+		</attributename>
+		
+		<property name="Name">
+			<not-empty />
+			<not-null />
+		</property>
+		
+		<property name="Description">
+			<not-empty />
+			<not-null />
+		</property>		
+		
+	</class>
+</nhv-mapping>
