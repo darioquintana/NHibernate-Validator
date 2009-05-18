@@ -8,16 +8,21 @@ namespace NHibernate.Validator.Demo.Ev
 	{
 		private static void Main(string[] args)
 		{
+			//Note: you have to choose one way to configure NHibernate.Validator. Comment/un-comment according what you prefer.
+			// 1) Attributes
+			// 2) Xml
+			// 3) Fluent
+
 			//Using Attributes
-			//var vtor = new ValidatorEngine(); //NHibernate Validator is prepared to configure with Attributes by default.
+			var vtor = new ValidatorEngine(); //NHibernate Validator is prepared to configure with Attributes by default.
+
+			//Using Xml
+			//var vtor = Helper.Get_Engine_Configured_for_Xml();
 
 			//Using Fluent
 			//var vtor = Helper.Get_Engine_Configured_for_Fluent();
-
-			//Using Xml
-			var vtor = Helper.Get_Engine_Configured_for_Xml();
-
 			
+            //Running the example using the configuration chosen
 			Run_Example_With_Valid_Entity(vtor);
 			Run_Example_With_Invalid_Entity(vtor);
 
