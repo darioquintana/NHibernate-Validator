@@ -9,7 +9,7 @@ namespace NHibernate.Validator.Constraints
 	{
 		#region Implementation of IValidator
 
-		public bool IsValid(object value)
+		public bool IsValid(object value, IConstraintValidatorContext validatorContext)
 		{
 			return value == null || (value is string && IsNumeric(value));
 		}

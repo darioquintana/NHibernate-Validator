@@ -9,19 +9,32 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		[Test]
 		public void IsValid()
 		{
-			CreditCardNumberValidator v = new CreditCardNumberValidator();
-			Assert.IsTrue(v.IsValid("541234567890125"));
-			Assert.IsTrue(v.IsValid("4408041234567893"));
-			Assert.IsTrue(v.IsValid("4417123456789113"));
-			Assert.IsTrue(v.IsValid(null));
+			AssertValid("541234567890125");
+			AssertValid("4408041234567893");
+			AssertValid("4417123456789113");
+			AssertValid(null);
+			
+			AssertInvalid("");
+			AssertInvalid("0");
+			AssertInvalid("000000000000000");
+			AssertInvalid("1234567890123456");
+			AssertInvalid("4417123456789112");
+			AssertInvalid("4408041234567890");
+			AssertInvalid(5); // check any values different of string
+		}
 
-			Assert.IsFalse(v.IsValid(""));
-			Assert.IsFalse(v.IsValid("0"));
-			Assert.IsFalse(v.IsValid("000000000000000"));
-			Assert.IsFalse(v.IsValid("1234567890123456"));
-			Assert.IsFalse(v.IsValid("4417123456789112"));
-			Assert.IsFalse(v.IsValid("4408041234567890"));
-			Assert.IsFalse(v.IsValid(5)); // check any values different of string
+		public void AssertValid(object value)
+		{
+			var context = new ConstraintContextMock();
+			CreditCardNumberValidator v = new CreditCardNumberValidator();
+			Assert.IsTrue(v.IsValid(value,context));
+		}
+
+		public void AssertInvalid(object value)
+		{
+			var context = new ConstraintContextMock();
+			CreditCardNumberValidator v = new CreditCardNumberValidator();
+			Assert.IsFalse(v.IsValid(value, context));
 		}
 	}
 }

@@ -9,7 +9,7 @@ namespace NHibernate.Validator.Specific.It
 	{
 		#region IValidator Members
 
-		public bool IsValid(object value)
+		public bool IsValid(object value, IConstraintValidatorContext constraintContext)
 		{
 			if (value == null || value.ToString() == string.Empty)
 			{

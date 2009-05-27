@@ -22,18 +22,18 @@ namespace NHibernate.Validator.Specific.Tests.Br
 			var v = new CEPValidator();
 
 			//Syntax incorrect
-			Assert.IsFalse(v.IsValid("102602001"));
-			Assert.IsFalse(v.IsValid("102 60 200"));
-			Assert.IsFalse(v.IsValid("31.564973"));
-			Assert.IsFalse(v.IsValid("31564-973"));
+			Assert.IsFalse(v.IsValid("102602001", null));
+			Assert.IsFalse(v.IsValid("102 60 200", null));
+			Assert.IsFalse(v.IsValid("31.564973", null));
+			Assert.IsFalse(v.IsValid("31564-973", null));
 
 			//True value tests:
-			Assert.IsTrue(v.IsValid("40280902"));
-			Assert.IsTrue(v.IsValid("40.280-902"));
-			Assert.IsTrue(v.IsValid("40750100"));
-			Assert.IsTrue(v.IsValid("40.750-100"));
-			Assert.IsTrue(v.IsValid(null));
-			Assert.IsTrue(v.IsValid(string.Empty));
+			Assert.IsTrue(v.IsValid("40280902", null));
+			Assert.IsTrue(v.IsValid("40.280-902", null));
+			Assert.IsTrue(v.IsValid("40750100", null));
+			Assert.IsTrue(v.IsValid("40.750-100", null));
+			Assert.IsTrue(v.IsValid(null, null));
+			Assert.IsTrue(v.IsValid(string.Empty, null));
 		}
 
 		[Test]

@@ -16,29 +16,29 @@ namespace NHibernate.Validator.Specific.Tests.It
 		public void IsValid()
 		{
 			PartitaIvaValidator v = new PartitaIvaValidator();
-			Assert.IsTrue(v.IsValid("01636120634"));
-			Assert.IsTrue(v.IsValid("01463240745"));
-			Assert.IsTrue(v.IsValid("00548830678"));
-			Assert.IsTrue(v.IsValid("02599560758"));
-			Assert.IsTrue(v.IsValid("00738730654"));
-			Assert.IsTrue(v.IsValid("00523580520"));
-			Assert.IsTrue(v.IsValid("00711710764"));
-			Assert.IsTrue(v.IsValid(711710764));
-			Assert.IsTrue(v.IsValid(null));
-			Assert.IsTrue(v.IsValid(string.Empty));
+			Assert.IsTrue(v.IsValid("01636120634", null));
+			Assert.IsTrue(v.IsValid("01463240745", null));
+			Assert.IsTrue(v.IsValid("00548830678", null));
+			Assert.IsTrue(v.IsValid("02599560758", null));
+			Assert.IsTrue(v.IsValid("00738730654", null));
+			Assert.IsTrue(v.IsValid("00523580520", null));
+			Assert.IsTrue(v.IsValid("00711710764", null));
+			Assert.IsTrue(v.IsValid(711710764, null));
+			Assert.IsTrue(v.IsValid(null, null));
+			Assert.IsTrue(v.IsValid(string.Empty, null));
 
-			Assert.IsFalse(v.IsValid("1234567890123"));
-			Assert.IsFalse(v.IsValid("A0007016322"));
-			Assert.IsFalse(v.IsValid("000A7016322"));
+			Assert.IsFalse(v.IsValid("1234567890123", null));
+			Assert.IsFalse(v.IsValid("A0007016322", null));
+			Assert.IsFalse(v.IsValid("000A7016322", null));
 
-			Assert.IsFalse(v.IsValid("00007016322"));
-			Assert.IsFalse(v.IsValid(7016322));
-			Assert.IsFalse(v.IsValid("00015206543"));
-			Assert.IsFalse(v.IsValid("00224546291"));
-			Assert.IsFalse(v.IsValid("00322088352"));
-			Assert.IsFalse(v.IsValid("38388669632"));
-			Assert.IsFalse(v.IsValid("62394317077"));
-			Assert.IsFalse(v.IsValid("95317556041"));
+			Assert.IsFalse(v.IsValid("00007016322", null));
+			Assert.IsFalse(v.IsValid(7016322, null));
+			Assert.IsFalse(v.IsValid("00015206543", null));
+			Assert.IsFalse(v.IsValid("00224546291", null));
+			Assert.IsFalse(v.IsValid("00322088352", null));
+			Assert.IsFalse(v.IsValid("38388669632", null));
+			Assert.IsFalse(v.IsValid("62394317077", null));
+			Assert.IsFalse(v.IsValid("95317556041", null));
 		}
 
 		[Test]

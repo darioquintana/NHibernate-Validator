@@ -15,7 +15,7 @@ namespace NHibernate.Validator.Tests.CustomValidator
 
 	public class BadValidator : IValidator
 	{
-		public bool IsValid(object value)
+		public bool IsValid(object value, IConstraintValidatorContext constraintContext)
 		{
 			//Always no valid, then the message can be used, and then an exception must be thorwn.
 			return false;

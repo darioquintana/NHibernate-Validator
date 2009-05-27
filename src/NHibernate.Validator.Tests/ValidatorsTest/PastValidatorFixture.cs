@@ -11,15 +11,15 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		public void IsValid()
 		{
 			PastValidator v = new PastValidator();
-			Assert.IsTrue(v.IsValid(DateTime.Now.AddMilliseconds(-1)));
-			Assert.IsTrue(v.IsValid(new DateTime?()));
-			Assert.IsTrue(v.IsValid(new DateTime?(DateTime.Now.AddDays(-1))));
-			Assert.IsTrue(v.IsValid(null));
-			Assert.IsTrue(v.IsValid(new DateTime()));
-			Assert.IsFalse(v.IsValid(DateTime.Now));
-			Assert.IsFalse(v.IsValid(DateTime.Now.AddMilliseconds(+1)));
-			Assert.IsFalse(v.IsValid(DateTime.Now.ToString()));
-			Assert.IsFalse(v.IsValid(123456));
+			Assert.IsTrue(v.IsValid(DateTime.Now.AddMilliseconds(-1), null));
+			Assert.IsTrue(v.IsValid(new DateTime?(), null));
+			Assert.IsTrue(v.IsValid(new DateTime?(DateTime.Now.AddDays(-1)), null));
+			Assert.IsTrue(v.IsValid(null, null));
+			Assert.IsTrue(v.IsValid(new DateTime(), null));
+			Assert.IsFalse(v.IsValid(DateTime.Now, null));
+			Assert.IsFalse(v.IsValid(DateTime.Now.AddMilliseconds(+1), null));
+			Assert.IsFalse(v.IsValid(DateTime.Now.ToString(), null));
+			Assert.IsFalse(v.IsValid(123456, null));
 		}
 	}
 }

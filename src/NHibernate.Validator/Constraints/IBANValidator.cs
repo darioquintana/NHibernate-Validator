@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using NHibernate.Validator.Engine;
 
 /*
  * 2008-07-06
@@ -15,7 +16,7 @@ using System.Text.RegularExpressions;
 namespace NHibernate.Validator.Constraints
 {
 	[Serializable]
-	public class IBANValidator
+	public class IBANValidator : IValidator
 	{
 		private const int WorldMaxLength = 34;
 
@@ -77,7 +78,7 @@ namespace NHibernate.Validator.Constraints
 			defs[countryCode] = new Regex(pattern, RegexOptions.Compiled);
 		}
 
-		public bool IsValid(object value)
+		public bool IsValid(object value, IConstraintValidatorContext constraintContext)
 		{
 			if (value == null)
 			{

@@ -16,16 +16,16 @@ namespace NHibernate.Validator.Specific.Tests.Uy
 		public void IsValid()
 		{
 			CedulaIdentidadValidator v = new CedulaIdentidadValidator();
-			Assert.IsTrue(v.IsValid("27526962"));
-			Assert.IsTrue(v.IsValid("27529390"));
-			Assert.IsTrue(v.IsValid(11748364));
-			Assert.IsTrue(v.IsValid("10092166"));
-			Assert.IsTrue(v.IsValid(null));
-			Assert.IsTrue(v.IsValid(string.Empty));
+			Assert.IsTrue(v.IsValid("27526962", null));
+			Assert.IsTrue(v.IsValid("27529390", null));
+			Assert.IsTrue(v.IsValid(11748364, null));
+			Assert.IsTrue(v.IsValid("10092166", null));
+			Assert.IsTrue(v.IsValid(null, null));
+			Assert.IsTrue(v.IsValid(string.Empty, null));
 
-			Assert.IsFalse(v.IsValid("1234567890123"));
-			Assert.IsFalse(v.IsValid(701632));
-			Assert.IsFalse(v.IsValid(12345678));
+			Assert.IsFalse(v.IsValid("1234567890123", null));
+			Assert.IsFalse(v.IsValid(701632, null));
+			Assert.IsFalse(v.IsValid(12345678, null));
 		}
 
 		[Test]

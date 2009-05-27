@@ -17,7 +17,7 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 			string value)
 		{
 			var v = new IsNumericValidator();
-			Assert.That(v.IsValid(value));
+			Assert.That(v.IsValid(value, null));
 		}
 
 		[Test]
@@ -25,7 +25,7 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 			string value)
 		{
 			var v = new IsNumericValidator();
-			Assert.That(!v.IsValid(value));
+			Assert.That(!v.IsValid(value, null));
 		}
 
 		[Test]

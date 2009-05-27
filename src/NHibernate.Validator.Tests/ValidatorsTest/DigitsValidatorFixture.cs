@@ -11,39 +11,39 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		{
 			DigitsValidator v = new DigitsValidator();
 			v.Initialize(new DigitsAttribute(3));
-			Assert.IsTrue(v.IsValid(0));
-			Assert.IsTrue(v.IsValid(9));
-			Assert.IsTrue(v.IsValid(99));
-			Assert.IsTrue(v.IsValid(99.0));
-			Assert.IsTrue(v.IsValid(null));
-			Assert.IsTrue(v.IsValid("22"));
-			Assert.IsTrue(v.IsValid(103));
-			Assert.IsTrue(v.IsValid(01));
+			Assert.IsTrue(v.IsValid(0, null));
+			Assert.IsTrue(v.IsValid(9, null));
+			Assert.IsTrue(v.IsValid(99, null));
+			Assert.IsTrue(v.IsValid(99.0, null));
+			Assert.IsTrue(v.IsValid(null, null));
+			Assert.IsTrue(v.IsValid("22", null));
+			Assert.IsTrue(v.IsValid(103, null));
+			Assert.IsTrue(v.IsValid(01, null));
 
-			Assert.IsFalse(v.IsValid(1000));
-			Assert.IsFalse(v.IsValid(10.1));
-			Assert.IsFalse(v.IsValid(new object()));
-			Assert.IsFalse(v.IsValid("aa.bb"));
+			Assert.IsFalse(v.IsValid(1000, null));
+			Assert.IsFalse(v.IsValid(10.1, null));
+			Assert.IsFalse(v.IsValid(new object(), null));
+			Assert.IsFalse(v.IsValid("aa.bb", null));
 
 			v.Initialize(new DigitsAttribute(3, 2));
-			Assert.IsTrue(v.IsValid(0));
-			Assert.IsTrue(v.IsValid(1));
-			Assert.IsTrue(v.IsValid(100.100));
-			Assert.IsTrue(v.IsValid(99.99));
+			Assert.IsTrue(v.IsValid(0, null));
+			Assert.IsTrue(v.IsValid(1, null));
+			Assert.IsTrue(v.IsValid(100.100, null));
+			Assert.IsTrue(v.IsValid(99.99, null));
 
-			Assert.IsFalse(v.IsValid(1000.0));
-			Assert.IsFalse(v.IsValid(9.233));
-			Assert.IsFalse(v.IsValid("1233"));
+			Assert.IsFalse(v.IsValid(1000.0, null));
+			Assert.IsFalse(v.IsValid(9.233, null));
+			Assert.IsFalse(v.IsValid("1233", null));
 			
 
 			v.Initialize(new DigitsAttribute(0, 2));
-			Assert.IsTrue(v.IsValid(0));
-			Assert.IsTrue(v.IsValid(0.12));
-			Assert.IsTrue(v.IsValid(0.1));
-			Assert.IsTrue(v.IsValid(0.00000000000));
+			Assert.IsTrue(v.IsValid(0, null));
+			Assert.IsTrue(v.IsValid(0.12, null));
+			Assert.IsTrue(v.IsValid(0.1, null));
+			Assert.IsTrue(v.IsValid(0.00000000000, null));
 
-			Assert.IsFalse(v.IsValid(1.12));
-			Assert.IsFalse(v.IsValid(0.123));
+			Assert.IsFalse(v.IsValid(1.12, null));
+			Assert.IsFalse(v.IsValid(0.123, null));
 			
 			
 		}

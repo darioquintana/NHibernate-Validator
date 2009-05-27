@@ -19,7 +19,7 @@ namespace NHibernate.Validator.Constraints
 			min = parameters.Min;
 		}
 
-		public bool IsValid(object value)
+		public bool IsValid(object value, IConstraintValidatorContext validatorContext)
 		{
 			if (value == null)
 			{

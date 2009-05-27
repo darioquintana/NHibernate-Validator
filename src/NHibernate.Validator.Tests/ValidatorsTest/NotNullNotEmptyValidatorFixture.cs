@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using NHibernate.Validator.Constraints;
+using NHibernate.Validator.Engine;
 using NUnit.Framework;
 
 namespace NHibernate.Validator.Tests.ValidatorsTest
@@ -11,15 +12,16 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		public void IsValid()
 		{
 			NotNullNotEmptyValidator v = new NotNullNotEmptyValidator();
-			Assert.IsTrue(v.IsValid("abc"));
-			Assert.IsTrue(v.IsValid(new int[] {1}));
-			Assert.IsTrue(v.IsValid(new List<int>(new int[] { 1 })));
+			var context = new ConstraintContextMock();
+			Assert.IsTrue(v.IsValid("abc", context));
+			Assert.IsTrue(v.IsValid(new int[] { 1 }, context));
+			Assert.IsTrue(v.IsValid(new List<int>(new int[] { 1 }), context));
 
-			Assert.IsFalse(v.IsValid(null));
-			Assert.IsFalse(v.IsValid(""));
-			Assert.IsFalse(v.IsValid(123));
-			Assert.IsFalse(v.IsValid(new int[0]));
-			Assert.IsFalse(v.IsValid(new List<int>()));
+			Assert.IsFalse(v.IsValid(null, context));
+			Assert.IsFalse(v.IsValid("", context));
+			Assert.IsFalse(v.IsValid(123, context));
+			Assert.IsFalse(v.IsValid(new int[0], context));
+			Assert.IsFalse(v.IsValid(new List<int>(), context));
 		}
 	}
 }

@@ -11,7 +11,7 @@ namespace NHibernate.Validator.Constraints
 
 		#region IInitializableValidator<PatternAttribute> Members
 
-		public virtual bool IsValid(object value)
+		public virtual bool IsValid(object value, IConstraintValidatorContext validatorContext)
 		{
 			if (value == null)
 			{

@@ -18,7 +18,7 @@ namespace NHibernate.Validator.Tests.Mappings
 
 	public class AssertAnimalValidator : IInitializableValidator<AssertAnimalAttribute>
 	{
-		public bool IsValid(object value)
+		public bool IsValid(object value, IConstraintValidatorContext constraintContext)
 		{
 			return value is MixSuricato;
 		}

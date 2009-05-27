@@ -17,7 +17,7 @@ namespace NHibernate.Validator.Constraints
 		/// </summary>
 		/// <param name="value">Object to be validated</param>
 		/// <returns>if the instance is valid</returns>
-		public bool IsValid(object value)
+		public bool IsValid(object value, IConstraintValidatorContext constraintContext)
 		{
 			if (value == null)
 			{

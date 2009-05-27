@@ -15,10 +15,10 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		{
 			FileExistsValidator v = new FileExistsValidator();
 
-			Assert.IsTrue(v.IsValid(Path.GetTempFileName()));
-			Assert.IsTrue(v.IsValid(null));
-			Assert.IsFalse(v.IsValid("nonexistingfile.fil"));
-			Assert.IsFalse(v.IsValid(1));
+			Assert.IsTrue(v.IsValid(Path.GetTempFileName(), null));
+			Assert.IsTrue(v.IsValid(null, null));
+			Assert.IsFalse(v.IsValid("nonexistingfile.fil", null));
+			Assert.IsFalse(v.IsValid(1, null));
 		}
 	}
 }

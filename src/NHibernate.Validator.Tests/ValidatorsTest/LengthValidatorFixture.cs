@@ -14,17 +14,17 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		{
 			LengthValidator v = new LengthValidator();
 			v.Initialize(new LengthAttribute(5));
-			Assert.IsTrue(v.IsValid("12"));
-			Assert.IsTrue(v.IsValid(null));
-			Assert.IsTrue(v.IsValid("12345"));
-			Assert.IsFalse(v.IsValid("123456"));
-			Assert.IsFalse(v.IsValid(11));
+			Assert.IsTrue(v.IsValid("12", null));
+			Assert.IsTrue(v.IsValid(null, null));
+			Assert.IsTrue(v.IsValid("12345", null));
+			Assert.IsFalse(v.IsValid("123456", null));
+			Assert.IsFalse(v.IsValid(11, null));
 
 			v.Initialize(new LengthAttribute(3, 6));
-			Assert.IsTrue(v.IsValid("123"));
-			Assert.IsTrue(v.IsValid("123456"));
-			Assert.IsFalse(v.IsValid("12"));
-			Assert.IsFalse(v.IsValid("1234567"));
+			Assert.IsTrue(v.IsValid("123", null));
+			Assert.IsTrue(v.IsValid("123456", null));
+			Assert.IsFalse(v.IsValid("12", null));
+			Assert.IsFalse(v.IsValid("1234567", null));
 		}
 	}
 }

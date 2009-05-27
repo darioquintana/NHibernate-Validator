@@ -107,6 +107,7 @@
     <Compile Include="Configuration\XmlMappingLoaderFixture.cs" />
     <Compile Include="Configuration\RuleAttributeFactoryFixture.cs" />
     <Compile Include="Configuration\WellKnownRules.cs" />
+    <Compile Include="ConstraintContextMock.cs" />
     <Compile Include="CustomValidator\ValidatorClassFixture.cs" />
     <Compile Include="CustomValidator\IsOneValidator.cs" />
     <Compile Include="DeepIntegration\AbstractMultipleCollectionFixture.cs" />

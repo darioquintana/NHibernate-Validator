@@ -8,7 +8,7 @@ namespace NHibernate.Validator.Tests.Configuration
 
 		public void Initialize(ACustomAttribute parameters) {}
 
-		public bool IsValid(object value)
+		public bool IsValid(object value, IConstraintValidatorContext constraintContext)
 		{
 			return true;
 		}

@@ -10,7 +10,7 @@ namespace NHibernate.Validator.Specific.Br
 
 		#region IValidator Members
 
-		public bool IsValid(object value)
+		public bool IsValid(object value, IConstraintValidatorContext constraintContext)
 		{
 			return ValidaCPF(value);
 		}

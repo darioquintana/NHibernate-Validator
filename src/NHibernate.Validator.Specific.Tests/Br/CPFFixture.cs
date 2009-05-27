@@ -22,19 +22,19 @@ namespace NHibernate.Validator.Specific.Tests.Br
 			var v = new CPFValidator();
 
 			//Syntax incorrect
-			Assert.IsFalse(v.IsValid("123.456.789-12"));
-			Assert.IsFalse(v.IsValid("12345678912"));
-			Assert.IsFalse(v.IsValid("12 4567 912"));
-			Assert.IsFalse(v.IsValid("31.564973"));
-			Assert.IsFalse(v.IsValid("3154-973"));
+			Assert.IsFalse(v.IsValid("123.456.789-12", null));
+			Assert.IsFalse(v.IsValid("12345678912", null));
+			Assert.IsFalse(v.IsValid("12 4567 912", null));
+			Assert.IsFalse(v.IsValid("31.564973", null));
+			Assert.IsFalse(v.IsValid("3154-973", null));
 
 			//True value tests:
-			Assert.IsTrue(v.IsValid("111.111.111-11"));
-			Assert.IsTrue(v.IsValid("222.222.222-22"));
-			Assert.IsTrue(v.IsValid("11111111111"));
-			Assert.IsTrue(v.IsValid("22222222222"));
-			Assert.IsTrue(v.IsValid(null));
-			Assert.IsTrue(v.IsValid(string.Empty));
+			Assert.IsTrue(v.IsValid("111.111.111-11", null));
+			Assert.IsTrue(v.IsValid("222.222.222-22", null));
+			Assert.IsTrue(v.IsValid("11111111111", null));
+			Assert.IsTrue(v.IsValid("22222222222", null));
+			Assert.IsTrue(v.IsValid(null, null));
+			Assert.IsTrue(v.IsValid(string.Empty, null));
 		}
 
 		[Test]

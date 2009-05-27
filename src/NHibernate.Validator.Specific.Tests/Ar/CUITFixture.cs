@@ -14,18 +14,18 @@ namespace NHibernate.Validator.Specific.Tests.Ar
 			CUITValidator v = new CUITValidator();
 
 			//True value tests:
-			Assert.IsTrue(v.IsValid(null));
-			Assert.IsTrue(v.IsValid(string.Empty));
-			Assert.IsTrue(v.IsValid("20017391322"));
-			Assert.IsTrue(v.IsValid("20-01739132-2"));
-			Assert.IsTrue(v.IsValid("20 01739132 2"));
+			Assert.IsTrue(v.IsValid(null, null));
+			Assert.IsTrue(v.IsValid(string.Empty, null));
+			Assert.IsTrue(v.IsValid("20017391322", null));
+			Assert.IsTrue(v.IsValid("20-01739132-2", null));
+			Assert.IsTrue(v.IsValid("20 01739132 2", null));
 
 			//False value tests (on true value)
-			Assert.IsFalse(v.IsValid("20 01739132/2"));
-			Assert.IsFalse(v.IsValid("20-017391322"));
-			Assert.IsFalse(v.IsValid("20017391323"));
-			Assert.IsFalse(v.IsValid("A0017391322"));
-			Assert.IsFalse(v.IsValid("2001739132"));
+			Assert.IsFalse(v.IsValid("20 01739132/2", null));
+			Assert.IsFalse(v.IsValid("20-017391322", null));
+			Assert.IsFalse(v.IsValid("20017391323", null));
+			Assert.IsFalse(v.IsValid("A0017391322", null));
+			Assert.IsFalse(v.IsValid("2001739132", null));
 		}
 
 		[Test]

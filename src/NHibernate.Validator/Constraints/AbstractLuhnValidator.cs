@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Constraints
 {
@@ -11,7 +12,7 @@ namespace NHibernate.Validator.Constraints
 		private static readonly Regex regex = new Regex(pattern, RegexOptions.Compiled);
 		public abstract int Multiplicator { get; }
 
-		public bool IsValid(object value)
+		public bool IsValid(object value, IConstraintValidatorContext validatorContext)
 		{
 			if (value == null)
 			{

@@ -20,7 +20,7 @@ namespace NHibernate.Validator.Tests.CustomValidator
 
 	public class IsOneValidator : IValidator
 	{
-		public bool IsValid(object value)
+		public bool IsValid(object value, IConstraintValidatorContext constraintContext)
 		{
 			return (int) value == 1;
 		}

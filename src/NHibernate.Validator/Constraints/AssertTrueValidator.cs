@@ -8,7 +8,7 @@ namespace NHibernate.Validator.Constraints
 	{
 		#region IValidator Members
 
-		public bool IsValid(Object value)
+		public bool IsValid(Object value, IConstraintValidatorContext constraintContext)
 		{
 			return (bool) value;
 		}

@@ -12,7 +12,7 @@ namespace NHibernate.Validator.Tests.Mappings
 
 	public class OtherValidator : IValidator
 	{
-		public bool IsValid(object value)
+		public bool IsValid(object value, IConstraintValidatorContext constraintContext)
 		{
 			return false;
 		}

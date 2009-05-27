@@ -6,7 +6,7 @@ namespace NHibernate.Validator.Specific.It
 	public class CodiceFiscaleValidator : IValidator
 	{
 
-		public bool IsValid(object value)
+		public bool IsValid(object value,IConstraintValidatorContext constraintContext)
 		{
 			if (value == null) return true;
 			String codiceFiscale = value.ToString();

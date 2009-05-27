@@ -7,7 +7,7 @@ namespace NHibernate.Validator.Tests.CustomValidator
 	{
 		private string subnetPrefix;
 
-		public bool IsValid(object value)
+		public bool IsValid(object value, IConstraintValidatorContext constraintContext)
 		{
 			if (value == null)
 			{

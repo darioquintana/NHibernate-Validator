@@ -12,7 +12,7 @@ namespace NHibernate.Validator.Constraints
 
 		#region IInitializableValidator<MinAttribute> Members
 
-		public bool IsValid(object value)
+		public bool IsValid(object value, IConstraintValidatorContext validatorContext)
 		{
 			if (value == null)
 			{

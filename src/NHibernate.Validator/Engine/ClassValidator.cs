@@ -274,7 +274,7 @@ namespace NHibernate.Validator.Engine
 			//Bean Validation
 			foreach (IValidator validator in beanValidators)
 			{
-				if (!validator.IsValid(bean))
+				if (!validator.IsValid(bean, null))
 				{
 					results.Add(new InvalidValue(Interpolate(bean,validator), beanClass, null, bean, bean));
 				}
@@ -323,8 +323,8 @@ namespace NHibernate.Validator.Engine
 						if (NHibernateUtil.IsInitialized(value))
 						{
 							IValidator validator = memberValidators[i];
-
-							if (!validator.IsValid(value))
+							
+							if (!validator.IsValid(value, null))
 							{
 								results.Add(new InvalidValue(Interpolate(bean,validator), beanClass, member.Name, value, bean));
 							}
@@ -630,7 +630,8 @@ namespace NHibernate.Validator.Engine
 				{
 					getterFound++;
 					IValidator validator = memberValidators[i];
-					if (!validator.IsValid(value))
+					
+					if (!validator.IsValid(value, null))
 						results.Add(new InvalidValue(Interpolate(value,validator), beanClass, propertyName, value, null));
 				}
 			}

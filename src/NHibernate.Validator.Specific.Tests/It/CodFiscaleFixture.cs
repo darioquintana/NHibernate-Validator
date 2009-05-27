@@ -20,25 +20,25 @@ namespace NHibernate.Validator.Specific.Tests.It
 			 */
 
 			//Syntax incorrect
-			Assert.IsFalse(v.IsValid("BRTLSS4506L840X"));
-			Assert.IsFalse(v.IsValid("BRT LSS 450 6L84 0"));
-			Assert.IsFalse(v.IsValid("BRLSS4506L840"));
+			Assert.IsFalse(v.IsValid("BRTLSS4506L840X", null));
+			Assert.IsFalse(v.IsValid("BRT LSS 450 6L84 0", null));
+			Assert.IsFalse(v.IsValid("BRLSS4506L840", null));
 
 			//True value tests:
-			Assert.IsTrue(v.IsValid("BRTLSS45H06L840X"));
-			Assert.IsTrue(v.IsValid("BVLMNN85T51G693U"));
-			Assert.IsTrue(v.IsValid("DVLPLS13L44H703Q"));
-			Assert.IsTrue(v.IsValid("RGNGPL67C04A944U"));
-			Assert.IsTrue(v.IsValid("CTNNCN67C04F839D"));
-			Assert.IsTrue(v.IsValid(null));
-			Assert.IsTrue(v.IsValid(string.Empty));
+			Assert.IsTrue(v.IsValid("BRTLSS45H06L840X", null));
+			Assert.IsTrue(v.IsValid("BVLMNN85T51G693U", null));
+			Assert.IsTrue(v.IsValid("DVLPLS13L44H703Q", null));
+			Assert.IsTrue(v.IsValid("RGNGPL67C04A944U", null));
+			Assert.IsTrue(v.IsValid("CTNNCN67C04F839D", null));
+			Assert.IsTrue(v.IsValid(null, null));
+			Assert.IsTrue(v.IsValid(string.Empty, null));
 			
 			//False value tests (on true value)
-			Assert.IsFalse(v.IsValid("BRTLSS45H06L840Y"));
-			Assert.IsFalse(v.IsValid("BVLMNN85T51G693M"));
-			Assert.IsFalse(v.IsValid("DVLPLS13L44H704Q"));
-			Assert.IsFalse(v.IsValid("RGNGOL67C04A944U"));
-			Assert.IsFalse(v.IsValid("CTNNCN77C04F839D"));
+			Assert.IsFalse(v.IsValid("BRTLSS45H06L840Y", null));
+			Assert.IsFalse(v.IsValid("BVLMNN85T51G693M", null));
+			Assert.IsFalse(v.IsValid("DVLPLS13L44H704Q", null));
+			Assert.IsFalse(v.IsValid("RGNGOL67C04A944U", null));
+			Assert.IsFalse(v.IsValid("CTNNCN77C04F839D", null));
 			
 		}
 

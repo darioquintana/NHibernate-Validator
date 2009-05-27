@@ -25,7 +25,7 @@ namespace NHibernate.Validator.Constraints
 
 		#region IValidator Members
 
-		public virtual bool IsValid(object value)
+		public virtual bool IsValid(object value, IConstraintValidatorContext validatorContext)
 		{
 			return value != null;
 		}

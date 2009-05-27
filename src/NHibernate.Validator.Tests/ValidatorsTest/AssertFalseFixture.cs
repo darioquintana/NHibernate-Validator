@@ -13,10 +13,10 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		public void IsValid()
 		{
 			AssertFalseValidator v = new AssertFalseValidator();
-			Assert.IsTrue(v.IsValid(false));
-			Assert.IsFalse(v.IsValid(null));
-			Assert.IsFalse(v.IsValid(true));
-			Assert.IsFalse(v.IsValid(new object()));
+			Assert.IsTrue(v.IsValid(false, null));
+			Assert.IsFalse(v.IsValid(null, null));
+			Assert.IsFalse(v.IsValid(true, null));
+			Assert.IsFalse(v.IsValid(new object(), null));
 		}
 	}
 }

@@ -8,7 +8,7 @@ namespace NHibernate.Validator.Specific.Ar
 		private static readonly Regex check = new Regex(@"^(\d{11})|(\d{2}([ ]|[-])\d{8}([ ]|[-])\d)$", RegexOptions.Compiled);
 		private static readonly Regex separetors = new Regex(@"(\s+)|[-]", RegexOptions.Compiled);
 
-		public bool IsValid(object value)
+		public bool IsValid(object value, IConstraintValidatorContext constraintContext)
 		{
 			if (value == null)
 			{

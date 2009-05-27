@@ -16,7 +16,7 @@ namespace NHibernate.Validator.Tests.Integration
 
 	public class WrongConstraint : IValidator, IPersistentClassConstraint, IPropertyConstraint
 	{
-		public bool IsValid(object value)
+		public bool IsValid(object value, IConstraintValidatorContext constraintContext)
 		{
 			//Always no valid, then the message can be used, and then an exception must be thorwn.
 			return false;

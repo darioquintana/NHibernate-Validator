@@ -11,16 +11,16 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		public void IsValid()
 		{
 			EANValidator v = new EANValidator();
-			Assert.IsTrue(v.IsValid("9782266156066"));
-			Assert.IsTrue(v.IsValid(9782266156066));
-			Assert.IsTrue(v.IsValid(9782266156066U));
-			Assert.IsTrue(v.IsValid(9782266156066D));
-			Assert.IsTrue(v.IsValid(null));
-			Assert.IsTrue(v.IsValid(new Ean13("97","822661","5606")));
-			Assert.IsFalse(v.IsValid(""));
-			Assert.IsFalse(v.IsValid("9782266156067"));
-			Assert.IsFalse(v.IsValid("12345678901234"));
-			Assert.IsFalse(v.IsValid(9782266156067));
+			Assert.IsTrue(v.IsValid("9782266156066" , null));
+			Assert.IsTrue(v.IsValid(9782266156066, null));
+			Assert.IsTrue(v.IsValid(9782266156066U, null));
+			Assert.IsTrue(v.IsValid(9782266156066D, null));
+			Assert.IsTrue(v.IsValid(null, null));
+			Assert.IsTrue(v.IsValid(new Ean13("97","822661","5606"), null));
+			Assert.IsFalse(v.IsValid("", null));
+			Assert.IsFalse(v.IsValid("9782266156067", null));
+			Assert.IsFalse(v.IsValid("12345678901234", null));
+			Assert.IsFalse(v.IsValid(9782266156067, null));
 		}
 
 		// Is is a dirty implementation only for test scope
