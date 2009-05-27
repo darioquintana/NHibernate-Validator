@@ -45,6 +45,7 @@
 		<copy todir="${bin.dir}" >
 			<fileset basedir="${lib.dir}">
 				<!--include name="*.dll" /-->
+				<include name="Antlr3.Runtime.dll" />
 				<include name="NHibernate.ByteCode.LinFu.dll"  />
 				<include name="NHibernate.ByteCode.Castle.dll"  />
 				<include name="LinFu.DynamicProxy.dll" />

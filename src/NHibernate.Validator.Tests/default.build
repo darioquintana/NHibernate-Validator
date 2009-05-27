@@ -16,6 +16,7 @@
 			<include name="System.XML.dll" />
 			<include name="NHibernate.Validator.dll" />			
 			<include name="NHibernate.dll" />
+			<include name="Antlr3.Runtime.dll" />
 			<include name="nunit.framework.dll" />
 			<include name="log4net.dll" />
 			<include name="Iesi.Collections.dll" />		
