@@ -26,6 +26,7 @@ namespace NHibernate.Validator.Demo.Ev
 			Run_Example_With_Valid_Entity(vtor);
 			Run_Example_With_Invalid_Entity(vtor);
 
+			Console.WriteLine("Done.");
 			Console.ReadKey(true);
 		}
 
