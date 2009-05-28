@@ -275,7 +275,7 @@ namespace NHibernate.Validator.Engine
 			foreach (IValidator validator in beanValidators)
 			{
 				var constraintContext = new ConstraintValidatorContext(null,defaultInterpolator.GetAttributeMessage(validator));
-				if (!validator.IsValid(bean, null))
+				if (!validator.IsValid(bean, constraintContext))
 				{
 					new InvalidMessageTransformer(constraintContext, results, beanClass, null, bean, bean, validator, defaultInterpolator, userInterpolator).Transform();
 				}
