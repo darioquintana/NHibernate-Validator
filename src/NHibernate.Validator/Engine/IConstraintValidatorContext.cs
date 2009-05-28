@@ -7,7 +7,7 @@ namespace NHibernate.Validator.Engine
 	{
 		void DisableDefaultError();
 
-		string GetDefaultErrorMessage();
+		string DefaultErrorMessage { get; }
 
 		void AddInvalid(string message);
 

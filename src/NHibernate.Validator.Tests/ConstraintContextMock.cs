@@ -13,9 +13,9 @@ namespace NHibernate.Validator.Tests
 			throw new NotImplementedException();
 		}
 
-		public string GetDefaultErrorMessage()
+		public string DefaultErrorMessage
 		{
-			throw new NotImplementedException();
+			get { throw new NotImplementedException(); }
 		}
 
 		public void AddInvalid(string message)

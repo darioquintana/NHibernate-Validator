@@ -274,9 +274,10 @@ namespace NHibernate.Validator.Engine
 			//Bean Validation
 			foreach (IValidator validator in beanValidators)
 			{
+				var constraintContext = new ConstraintValidatorContext(null,defaultInterpolator.GetAttributeMessage(validator));
 				if (!validator.IsValid(bean, null))
 				{
-					results.Add(new InvalidValue(Interpolate(bean,validator), beanClass, null, bean, bean));
+					new InvalidMessageTransformer(constraintContext, results, beanClass, null, bean, bean, validator, defaultInterpolator, userInterpolator).Transform();
 				}
 			}
 
@@ -323,10 +324,10 @@ namespace NHibernate.Validator.Engine
 						if (NHibernateUtil.IsInitialized(value))
 						{
 							IValidator validator = memberValidators[i];
-							
-							if (!validator.IsValid(value, null))
+							var constraintContext = new ConstraintValidatorContext(member.Name, defaultInterpolator.GetAttributeMessage(validator));
+							if (!validator.IsValid(value, constraintContext))
 							{
-								results.Add(new InvalidValue(Interpolate(bean,validator), beanClass, member.Name, value, bean));
+								new InvalidMessageTransformer(constraintContext, results, beanClass, member.Name, value, bean, validator, defaultInterpolator,userInterpolator).Transform();
 							}
 						}
 					}
@@ -452,26 +453,6 @@ namespace NHibernate.Validator.Engine
 				return (result as IClassValidatorImplementor);
 		}
 
-		/// <summary>
-		/// Get the message of the <see cref="IValidator"/> and 
-		/// interpolate it.
-		/// </summary>
-		/// <param name="validator"></param>
-		/// <returns></returns>
-		private string Interpolate(object bean, IValidator validator)
-		{
-			string message = defaultInterpolator.GetAttributeMessage(validator);
-
-			if (userInterpolator != null)
-			{
-				return userInterpolator.Interpolate(message, bean, validator, defaultInterpolator);
-			}
-			else
-			{
-				return defaultInterpolator.Interpolate(message, bean, validator, null);
-			}
-		}
-				
 		/// <summary>
 		/// Create a <see cref="IValidator"/> from a <see cref="ValidatorClassAttribute"/> attribute.
 		/// If the attribute is not a <see cref="ValidatorClassAttribute"/> type return null.
@@ -631,8 +612,11 @@ namespace NHibernate.Validator.Engine
 					getterFound++;
 					IValidator validator = memberValidators[i];
 					
+					var constraintContext = new ConstraintValidatorContext(propertyName, defaultInterpolator.GetAttributeMessage(validator));
+					
 					if (!validator.IsValid(value, null))
-						results.Add(new InvalidValue(Interpolate(value,validator), beanClass, propertyName, value, null));
+						new InvalidMessageTransformer(constraintContext, results, beanClass, propertyName, value, null, validator, defaultInterpolator, userInterpolator).Transform();
+
 				}
 			}
 
