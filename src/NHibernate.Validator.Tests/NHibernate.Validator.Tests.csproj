@@ -110,8 +110,13 @@
     <Compile Include="ConstraintContextMock.cs" />
     <Compile Include="ConstraintContext\ConstraintValidatorContextFixture.cs" />
     <Compile Include="ConstraintContext\ConstraintContextIntegrationFixture.cs" />
-    <Compile Include="ConstraintContext\PasswordAttribute.cs" />
-    <Compile Include="ConstraintContext\PasswordValidator.cs" />
+    <Compile Include="ConstraintContext\MemberValidation\MembershipInfo.cs" />
+    <Compile Include="ConstraintContext\EntityValidation\MembershipInfo2.cs" />
+    <Compile Include="ConstraintContext\EntityValidation\Password2Attribute.cs" />
+    <Compile Include="ConstraintContext\MemberValidation\PasswordAttribute.cs" />
+    <Compile Include="ConstraintContext\MemberValidation\PasswordValidator.cs" />
+    <Compile Include="ConstraintContext\EntityValidation\PasswordValidator2.cs" />
+    <Compile Include="ConstraintContext\Messages.cs" />
     <Compile Include="CustomValidator\ValidatorClassFixture.cs" />
     <Compile Include="CustomValidator\IsOneValidator.cs" />
     <Compile Include="DeepIntegration\AbstractMultipleCollectionFixture.cs" />

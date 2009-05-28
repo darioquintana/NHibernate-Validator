@@ -1,7 +1,7 @@
 using System;
 using NHibernate.Validator.Engine;
 
-namespace NHibernate.Validator.Tests.ConstraintContext
+namespace NHibernate.Validator.Tests.ConstraintContext.MemberValidation
 {
 	[ValidatorClass(typeof(PasswordValidator))]
 	[AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = true)]
