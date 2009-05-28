@@ -109,7 +109,9 @@
     <Compile Include="Configuration\WellKnownRules.cs" />
     <Compile Include="ConstraintContextMock.cs" />
     <Compile Include="ConstraintContext\ConstraintValidatorContextFixture.cs" />
-    <Compile Include="ConstraintContext\ConstraintContextFixture.cs" />
+    <Compile Include="ConstraintContext\ConstraintContextIntegrationFixture.cs" />
+    <Compile Include="ConstraintContext\PasswordAttribute.cs" />
+    <Compile Include="ConstraintContext\PasswordValidator.cs" />
     <Compile Include="CustomValidator\ValidatorClassFixture.cs" />
     <Compile Include="CustomValidator\IsOneValidator.cs" />
     <Compile Include="DeepIntegration\AbstractMultipleCollectionFixture.cs" />

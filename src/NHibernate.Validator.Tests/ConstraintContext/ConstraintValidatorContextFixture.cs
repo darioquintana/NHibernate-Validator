@@ -25,6 +25,14 @@ namespace NHibernate.Validator.Tests.ConstraintContext
 		}
 
 		[Test]
+		public void ShouldDisableDefault()
+		{
+			c.DisableDefaultError();
+
+			Assert.IsTrue(c.IsDefaultValidatorEnabled);
+		}
+
+		[Test]
 		public void ShouldAddMessage()
 		{
 			c.AddInvalid("Message 1");
