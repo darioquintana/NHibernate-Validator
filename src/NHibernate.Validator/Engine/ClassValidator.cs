@@ -42,12 +42,12 @@ namespace NHibernate.Validator.Engine
 		private readonly ResourceManager defaultMessageBundle;
 
 		[NonSerialized]
-		private IMessageInterpolator userInterpolator;
+		private readonly IMessageInterpolator userInterpolator;
 
 		/// <summary>
 		/// Used to create an instance when deserialize
 		/// </summary>
-		private System.Type userInterpolatorType; 
+		private readonly System.Type userInterpolatorType; 
 
 		[NonSerialized]
 		private readonly IClassValidatorFactory factory;
