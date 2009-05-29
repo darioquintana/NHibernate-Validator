@@ -7,7 +7,7 @@ namespace NHibernate.Validator.Demo.Winforms.Model
 	{
 		private Regex regex;
 
-		public bool IsValid(object value)
+		public bool IsValid(object value, IConstraintValidatorContext constraintContext)
 		{
 			if (value == null) return true;
 			return regex.IsMatch(value.ToString());
