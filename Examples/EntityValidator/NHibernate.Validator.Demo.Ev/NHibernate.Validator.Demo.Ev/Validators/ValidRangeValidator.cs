@@ -6,7 +6,7 @@ namespace NHibernate.Validator.Demo.Ev.Validators
 {
 	public class ValidRangeValidator : IValidator
 	{
-		public bool IsValid(object value)
+		public bool IsValid(object value, IConstraintValidatorContext constraintContext)
 		{
 			var entity = (IDateRangeable) value;
 
