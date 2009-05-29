@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<nhv-mapping xmlns="urn:nhibernate-validator-1.0"
+			 namespace="NHibernate.Validator.Tests.Specifics.NHV25"
+			 assembly="NHibernate.Validator.Tests">
+	<class name="Tv">
+		<property name="name">
+			<not-null/>
+		</property>
+		
+		<property name="shows">
+			<valid/>
+		</property>
+
+		<property name="showse">
+			<valid/>
+		</property>
+		
+	</class>
+</nhv-mapping>

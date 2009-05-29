@@ -154,6 +154,10 @@
     <Compile Include="Serialization\RuleArgsSerializationFixture.cs" />
     <Compile Include="Serialization\ValidatorEngineSerializationFixture.cs" />
     <Compile Include="Serialization\ValidatorsSerializationFixture.cs" />
+    <Compile Include="Specifics\NHV25\XmlDictionaryValueKeyFixture.cs" />
+    <Compile Include="Specifics\NHV25\DictionaryValueKeyFixture.cs" />
+    <Compile Include="Specifics\NHV25\Show.cs" />
+    <Compile Include="Specifics\NHV25\Tv.cs" />
     <Compile Include="Specifics\NHV41\Model.cs" />
     <Compile Include="Specifics\NHV41\FixtureNHV40.cs" />
     <Compile Include="ThreadSafe\Foo.cs" />
@@ -365,6 +369,8 @@
     <Content Include="nhvalidator.cfg.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Specifics\NHV25\Show.nhv.xml" />
+    <EmbeddedResource Include="Specifics\NHV25\Tv.nhv.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NHibernate.Validator\NHibernate.Validator.csproj">
@@ -374,7 +380,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
-    <Folder Include="Specifics\NHV-25\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
