@@ -30,6 +30,25 @@ namespace NHibernate.Validator.Tests.ConstraintContext
 		/// Member validation
 		/// </summary>
 		[Test]
+		public void ShouldAddAnothersMessagesUsingValidationProperties()
+		{
+			var vtor = new ValidatorEngine();
+			var mi = new MembershipInfo
+			{
+				Username = null,
+				Password = "123X"
+			};
+
+			InvalidValue[] invalidValues = vtor.ValidatePropertyValue(mi, x => x.Password);
+			Assert.AreEqual(2, invalidValues.Length);
+			Assert.AreEqual(Messages.PasswordLength, invalidValues.ElementAt(0).Message);
+			Assert.AreEqual(Messages.PasswordContent, invalidValues.ElementAt(1).Message);
+		}
+
+		/// <summary>
+		/// Member validation
+		/// </summary>
+		[Test]
 		public void ShouldAddAnothersMessagesUsingEntityValidation()
 		{
 			var vtor = new ValidatorEngine();
