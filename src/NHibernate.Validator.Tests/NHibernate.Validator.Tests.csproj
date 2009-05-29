@@ -128,6 +128,11 @@
     <Compile Include="DeepIntegration\Person.cs" />
     <Compile Include="Engine\ClassValidatorFixture.cs" />
     <Compile Include="Engine\ValidatableElementFixture.cs" />
+    <Compile Include="GraphNavigation\Fixture.cs" />
+    <Compile Include="GraphNavigation\OrderLine.cs" />
+    <Compile Include="GraphNavigation\Order.cs" />
+    <Compile Include="GraphNavigation\User.cs" />
+    <Compile Include="GraphNavigation\Address.cs" />
     <Compile Include="Inheritance\LoquaciousInheritanceFixture.cs" />
     <Compile Include="Integration\IntegrationOwnEngineFixture.cs" />
     <Compile Include="Integration\ValidateEventsFixture.cs" />
