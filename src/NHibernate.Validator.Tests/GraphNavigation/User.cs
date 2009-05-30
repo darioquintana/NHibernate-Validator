@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NHibernate.Validator.Constraints;
 
 namespace NHibernate.Validator.Tests.GraphNavigation
 {
 	public class User
 	{
-		[NotNull] private String firstName;
+		[NotNullNotEmpty] public string FirstName { get; set; }
 
-		[NotNull] //(groups = Default.class)
-			private String lastName;
+		[NotNullNotEmpty] //(groups = Default.class)
+		public string LastName { get; set; }
 
 		[Valid] private List<Address> addresses = new List<Address>();
 
@@ -19,50 +18,30 @@ namespace NHibernate.Validator.Tests.GraphNavigation
 		{
 		}
 
-		public User(String firstName, String lastName)
+		public User(string firstName, string lastName)
 		{
-			this.firstName = firstName;
-			this.lastName = lastName;
+			FirstName = firstName;
+			LastName = lastName;
 		}
 
-		public List<Address> getAddresses()
+		public List<Address> Addresses()
 		{
 			return addresses;
 		}
 
-		public void addAddress(Address address)
+		public void AddAddress(Address address)
 		{
 			addresses.Add(address);
 		}
 
-		public void knows(User user)
+		public void Knows(User user)
 		{
 			knowsUser.Add(user);
 		}
 
-		public List<User> getKnowsUser()
+		public List<User> KnowsUsers
 		{
-			return knowsUser;
-		}
-
-		public String getFirstName()
-		{
-			return firstName;
-		}
-
-		public void setFirstName(String firstName)
-		{
-			this.firstName = firstName;
-		}
-
-		public String getLastName()
-		{
-			return lastName;
-		}
-
-		public void setLastName(String lastName)
-		{
-			this.lastName = lastName;
+			get{ return knowsUser; }
 		}
 	}
 }

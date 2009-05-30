@@ -5,11 +5,13 @@ namespace NHibernate.Validator.Tests.GraphNavigation
 {
 	public class Address
 	{
-		[NotNull] [Length(Max = 30)] private String addressline1;
+		[NotNullNotEmpty]
+		[Length(Max = 30)]
+		private string addressline1;
 
-		private String zipCode;
+		private string zipCode;
 
-		[Length(Max = 30)] [NotNull] private String city;
+		[Length(Max = 30)] [NotNullNotEmpty] private String city;
 
 		[Valid] private User inhabitant;
 
@@ -17,7 +19,7 @@ namespace NHibernate.Validator.Tests.GraphNavigation
 		{
 		}
 
-		public Address(String addressline1, String zipCode, String city)
+		public Address(string addressline1, string zipCode, string city)
 		{
 			this.addressline1 = addressline1;
 			this.zipCode = zipCode;
@@ -59,7 +61,7 @@ namespace NHibernate.Validator.Tests.GraphNavigation
 			return inhabitant;
 		}
 
-		public void setInhabitant(User inhabitant)
+		public void SetInhabitant(User inhabitant)
 		{
 			this.inhabitant = inhabitant;
 		}

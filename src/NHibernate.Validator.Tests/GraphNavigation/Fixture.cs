@@ -5,38 +5,39 @@ using NUnit.Framework;
 
 namespace NHibernate.Validator.Tests.GraphNavigation
 {
-	[TestFixture,Ignore("Implementing...")]
+	[TestFixture]
 	public class Fixture
 	{
-		[Test]
-		public void testGraphNavigationDeterminism()
+		[Test,Ignore("Implementing...")]
+		//[Test]
+		public void GraphNavigationDeterminism()
 		{
 			// build the test object graph
 			var user = new User("John", "Doe");
 
 			var address1 = new Address(null, "11122", "Stockholm");
-			address1.setInhabitant(user);
+			address1.SetInhabitant(user);
 
 			var address2 = new Address("Kungsgatan 5", "11122", "Stockholm");
-			address2.setInhabitant(user);
+			address2.SetInhabitant(user);
 
-			user.addAddress(address1);
-			user.addAddress(address2);
+			user.AddAddress(address1);
+			user.AddAddress(address2);
 
 			var order = new Order(1);
-			order.setShippingAddress(address1);
-			order.setBillingAddress(address2);
-			order.setCustomer(user);
+			order.ShippingAddress = address1;
+			order.BillingAddress = address2;
+			order.Customer = user;
 
 			var line1 = new OrderLine(order, 42);
 			var line2 = new OrderLine(order, 101);
-			order.addOrderLine(line1);
-			order.addOrderLine(line2);
+			order.AddOrderLine(line1);
+			order.AddOrderLine(line2);
 
 			var vtor = new ValidatorEngine();
 
 			InvalidValue[] constraintViolations = vtor.Validate(order);
-			Assert.AreEqual(constraintViolations.Length, 3, "Wrong number of constraints");
+			Assert.AreEqual(3, constraintViolations.Length, "Wrong number of constraints");
 
 			var expectedErrorMessages = new List<string>();
 			expectedErrorMessages.Add("shippingAddress.addressline1");
@@ -54,11 +55,11 @@ namespace NHibernate.Validator.Tests.GraphNavigation
 			Assert.IsTrue(expectedErrorMessages.Count == 0, "All error messages should have occured once");
 		}
 
-		[Test]
+		[Test, Ignore("Implementing...")]
 		public void testNoEndlessLoop()
 		{
 			var john = new User("John", null);
-			john.knows(john);
+			john.Knows(john);
 
 			var validator = new ValidatorEngine();
 
@@ -69,8 +70,8 @@ namespace NHibernate.Validator.Tests.GraphNavigation
 
 
 			var jane = new User("Jane", "Doe");
-			jane.knows(john);
-			john.knows(jane);
+			jane.Knows(john);
+			john.Knows(jane);
 
 			constraintViolations = validator.Validate(john);
 			Assert.AreEqual(constraintViolations.Length, 1, "Wrong number of constraints");

@@ -4,24 +4,16 @@ namespace NHibernate.Validator.Tests.GraphNavigation
 {
 	public class OrderLine
 	{
-		[NotNull] private int articleNumber;
-
-		[Valid] private Order order;
-
 		public OrderLine(Order order, int articleNumber)
 		{
-			this.articleNumber = articleNumber;
-			this.order = order;
+			ArticleNumber = articleNumber;
+			Order = order;
 		}
 
-		public int getArticleNumber()
-		{
-			return articleNumber;
-		}
+		[Valid]
+		public Order Order { get; set; }
 
-		public void setArticleNumber(int articleNumber)
-		{
-			this.articleNumber = articleNumber;
-		}
+		[NotNull]
+		public int? ArticleNumber { get; set; }
 	}
 }
