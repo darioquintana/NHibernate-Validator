@@ -8,8 +8,7 @@ namespace NHibernate.Validator.Tests.GraphNavigation
 	[TestFixture]
 	public class Fixture
 	{
-		[Test,Ignore("Implementing...")]
-		//[Test]
+		[Test, Ignore("Not implemented yet.")]
 		public void GraphNavigationDeterminism()
 		{
 			// build the test object graph
@@ -55,8 +54,8 @@ namespace NHibernate.Validator.Tests.GraphNavigation
 			Assert.IsTrue(expectedErrorMessages.Count == 0, "All error messages should have occured once");
 		}
 
-		[Test, Ignore("Implementing...")]
-		public void testNoEndlessLoop()
+		[Test]
+		public void NoEndlessLoop()
 		{
 			var john = new User("John", null);
 			john.Knows(john);
@@ -65,9 +64,7 @@ namespace NHibernate.Validator.Tests.GraphNavigation
 
 			InvalidValue[] constraintViolations = validator.Validate(john);
 			Assert.AreEqual(constraintViolations.Length, 1, "Wrong number of constraints");
-			Assert.AreEqual("lastname", constraintViolations.ElementAt(0).PropertyName);
-			//TestUtil.assertConstraintViolation(constraintViolations.iterator().next(), "may not be null", User.class, null, "lastName" );
-
+			Assert.AreEqual("LastName", constraintViolations.ElementAt(0).PropertyName);
 
 			var jane = new User("Jane", "Doe");
 			jane.Knows(john);
@@ -75,17 +72,15 @@ namespace NHibernate.Validator.Tests.GraphNavigation
 
 			constraintViolations = validator.Validate(john);
 			Assert.AreEqual(constraintViolations.Length, 1, "Wrong number of constraints");
-			Assert.AreEqual("lastname", constraintViolations.ElementAt(0).PropertyName);
+			Assert.AreEqual("LastName", constraintViolations.ElementAt(0).PropertyName);
 
-			//constraintViolations = validator.validate( jane );
-			//assertEquals( constraintViolations.size(), 1, "Wrong number of constraints" );
-			//TestUtil.assertConstraintViolation(
-			//        constraintViolations.iterator().next(), "may not be null", User.class, null, "knowsUser[0].lastName"
-			//);
+			constraintViolations = validator.Validate(jane);
+			Assert.AreEqual(1, constraintViolations.Length, "Wrong number of constraints");
+			Assert.AreEqual(constraintViolations.ElementAt(0).PropertyPath, "knowsUser[0].LastName");
 
-			//john.setLastName( "Doe" );
-			//constraintViolations = validator.validate( john );
-			//assertEquals( constraintViolations.size(), 0, "Wrong number of constraints" );
+			john.LastName = "Doe";
+			constraintViolations = validator.Validate(john);
+			Assert.AreEqual(0, constraintViolations.Length, "Wrong number of constraints");
 		}
 	}
 }
