@@ -361,7 +361,7 @@ namespace NHibernate.Validator.Engine
 
 				foreach (InvalidValue invalidValue in invalidValues)
 				{
-					invalidValue.AddParentBean(entity, member.Name);
+					invalidValue.AddParentEntity(entity, member.Name);
 					results.Add(invalidValue);
 				}
 			}
@@ -387,7 +387,7 @@ namespace NHibernate.Validator.Engine
 
 						foreach (InvalidValue invalidValue in invalidValuesKey)
 						{
-							invalidValue.AddParentBean(bean, indexedPropName);
+							invalidValue.AddParentEntity(bean, indexedPropName);
 							results.Add(invalidValue);
 						}
 					}
@@ -398,7 +398,7 @@ namespace NHibernate.Validator.Engine
 							GetClassValidator(KeyProperty.ReturnType).GetInvalidValues(keyValue, circularityState);
 						foreach (InvalidValue invalidValue in invalidValuesValue)
 						{
-							invalidValue.AddParentBean(bean, indexedPropName);
+							invalidValue.AddParentEntity(bean, indexedPropName);
 							results.Add(invalidValue);
 						}
 					}
@@ -424,7 +424,7 @@ namespace NHibernate.Validator.Engine
 
 						foreach (InvalidValue invalidValue in invalidValues)
 						{
-							invalidValue.AddParentBean(bean, indexedPropName);
+							invalidValue.AddParentEntity(bean, indexedPropName);
 							results.Add(invalidValue);
 						}
 					}

@@ -30,7 +30,7 @@ namespace NHibernate.Validator.Engine
 			propertyPath = propertyName;
 		}
 
-		public void AddParentBean(object parentBean, string propertyName) 
+		public void AddParentEntity(object parentBean, string propertyName) 
 		{
 			rootEntity = parentBean;
 			propertyPath = propertyName + "." + propertyPath;
