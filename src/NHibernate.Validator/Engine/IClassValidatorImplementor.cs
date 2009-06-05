@@ -5,7 +5,7 @@ namespace NHibernate.Validator.Engine
 {
 	internal interface IClassValidatorImplementor
 	{
-		InvalidValue[] GetInvalidValues(object bean, ISet circularityState);
+		InvalidValue[] GetInvalidValues(object entity, ISet circularityState);
 		IDictionary<System.Type, IClassValidator> ChildClassValidators { get;}
 	}
 }

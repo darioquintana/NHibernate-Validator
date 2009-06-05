@@ -56,7 +56,7 @@ namespace NHibernate.Validator.Engine
 				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
 			}
 
-			public void AssertValid(object bean)
+			public void AssertValid(object entity)
 			{
 			}
 

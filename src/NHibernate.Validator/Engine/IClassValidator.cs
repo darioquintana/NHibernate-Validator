@@ -12,7 +12,7 @@ namespace NHibernate.Validator.Engine
 		bool HasValidationRules { get; }
 
 		/// <summary>
-		/// apply constraints on a bean instance and return all the failures.
+		/// Apply constraints on a entity instance and return all the failures.
 		/// if <paramref name="entity"/> is null, an empty array is returned 
 		/// </summary>
 		/// <param name="entity">object to apply the constraints</param>
@@ -20,7 +20,7 @@ namespace NHibernate.Validator.Engine
 		InvalidValue[] GetInvalidValues(object entity);
 
 		/// <summary>
-		/// Apply constraints on a bean instance and return all the failures for the given property.
+		/// Apply constraints on a entity instance and return all the failures for the given property.
 		/// if <paramref name="entity"/> is null, an empty array is returned. 
 		/// </summary>
 		/// <param name="entity">Object to apply the constraints</param>
@@ -32,11 +32,11 @@ namespace NHibernate.Validator.Engine
 		/// Assert a valid Object. A <see cref="NHibernate.Validator.Exceptions.InvalidStateException"/> 
 		/// will be throw in a Invalid state.
 		/// </summary>
-		/// <param name="bean">Object to be asserted</param>
-		void AssertValid(object bean);
+		/// <param name="entity">Object to be asserted</param>
+		void AssertValid(object entity);
 
 		/// <summary>
-		/// Apply constraints of a particular property value of a bean type and return all the failures.
+		/// Apply constraints of a particular property value of a entity type and return all the failures.
 		/// The InvalidValue objects returns return null for <see cref="InvalidValue.Entity"/> and <see cref="InvalidValue.RootEntity"/>.
 		/// </summary>
 		/// <param name="propertyName"></param>
@@ -51,7 +51,7 @@ namespace NHibernate.Validator.Engine
 		void Apply(PersistentClass persistentClass);
 
 		/// <summary>
-		/// Get the list of constraints declared for a give member of the beanValidator
+		/// Get the list of constraints declared for a give member of the entityValidator
 		/// </summary>
 		/// <param name="propertyName">The name of the property.</param>
 		/// <returns>The list of attribute of the given property.</returns>

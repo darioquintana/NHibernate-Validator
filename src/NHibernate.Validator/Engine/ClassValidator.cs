@@ -89,7 +89,7 @@ namespace NHibernate.Validator.Engine
 			: this(entityType, new Dictionary<System.Type, IClassValidator>(), new JITClassValidatorFactory(resourceManager, culture, null, validatorMode)) {}
 
 		/// <summary>
-		/// Create the validator engine for a particular bean class, using a resource bundle
+		/// Create the validator engine for a particular entity class, using a resource bundle
 		/// for message rendering on violation
 		/// </summary>
 		/// <param name="entityType">entity type</param>
@@ -271,7 +271,7 @@ namespace NHibernate.Validator.Engine
 
 			List<InvalidValue> results = new List<InvalidValue>();
 
-			//Bean Validation
+			//Entity Validation
 			foreach (IValidator validator in entityValidators)
 			{
 				var constraintContext = new ConstraintValidatorContext(null,defaultInterpolator.GetAttributeMessage(validator));
@@ -367,7 +367,7 @@ namespace NHibernate.Validator.Engine
 			}
 		}
 
-		private void MakeCollectionValidation(IEnumerable value, object bean, MemberInfo member, ISet circularityState, ICollection<InvalidValue> results)
+		private void MakeCollectionValidation(IEnumerable value, object entity, MemberInfo member, ISet circularityState, ICollection<InvalidValue> results)
 		{
 			if (TypeUtils.IsGenericDictionary(value.GetType())) //Generic Dictionary
 			{
@@ -387,7 +387,7 @@ namespace NHibernate.Validator.Engine
 
 						foreach (InvalidValue invalidValue in invalidValuesKey)
 						{
-							invalidValue.AddParentEntity(bean, indexedPropName);
+							invalidValue.AddParentEntity(entity, indexedPropName);
 							results.Add(invalidValue);
 						}
 					}
@@ -398,7 +398,7 @@ namespace NHibernate.Validator.Engine
 							GetClassValidator(KeyProperty.ReturnType).GetInvalidValues(keyValue, circularityState);
 						foreach (InvalidValue invalidValue in invalidValuesValue)
 						{
-							invalidValue.AddParentEntity(bean, indexedPropName);
+							invalidValue.AddParentEntity(entity, indexedPropName);
 							results.Add(invalidValue);
 						}
 					}
@@ -424,7 +424,7 @@ namespace NHibernate.Validator.Engine
 
 						foreach (InvalidValue invalidValue in invalidValues)
 						{
-							invalidValue.AddParentEntity(bean, indexedPropName);
+							invalidValue.AddParentEntity(entity, indexedPropName);
 							results.Add(invalidValue);
 						}
 					}
@@ -434,17 +434,17 @@ namespace NHibernate.Validator.Engine
 		}
 
 		/// <summary>
-		/// Get the ClassValidator for the <paramref name="beanType"/>
+		/// Get the ClassValidator for the <paramref name="entityType"/>
 		/// parametter  from <see cref="childClassValidators"/>. If doesn't exist, a 
 		/// new <see cref="ClassValidator"/> is returned.
 		/// </summary>
-		/// <param name="beanType">type</param>
+		/// <param name="entityType">type</param>
 		/// <returns></returns>
-		private IClassValidatorImplementor GetClassValidator(System.Type beanType)
+		private IClassValidatorImplementor GetClassValidator(System.Type entityType)
 		{
 			IClassValidator result;
-			if (!childClassValidators.TryGetValue(beanType, out result))
-				return (factory.GetRootValidator(beanType) as IClassValidatorImplementor);
+			if (!childClassValidators.TryGetValue(entityType, out result))
+				return (factory.GetRootValidator(entityType) as IClassValidatorImplementor);
 			else
 				return (result as IClassValidatorImplementor);
 		}
@@ -472,12 +472,12 @@ namespace NHibernate.Validator.Engine
 					return null;
 				}
 
-				IValidator beanValidator = (IValidator)Activator.CreateInstance(validatorClass.Value);
+				IValidator entityValidator = (IValidator)Activator.CreateInstance(validatorClass.Value);
 
-				InitializeValidator(attribute, validatorClass.Value, beanValidator);
+				InitializeValidator(attribute, validatorClass.Value, entityValidator);
 
-				defaultInterpolator.AddInterpolator(attribute, beanValidator);
-				return beanValidator;
+				defaultInterpolator.AddInterpolator(attribute, entityValidator);
+				return entityValidator;
 			}
 			catch (Exception ex)
 			{
@@ -486,7 +486,7 @@ namespace NHibernate.Validator.Engine
 		}
 
 		private static readonly System.Type baseInitializableType = typeof(IInitializableValidator<>);
-		private static void InitializeValidator(Attribute attribute, System.Type validatorClass, IValidator beanValidator)
+		private static void InitializeValidator(Attribute attribute, System.Type validatorClass, IValidator entityValidator)
 		{
 			/* This method was added to supply major difference between JAVA and NET generics.
 			 * So far in JAVA the generic type is something optional, in NET mean "strongly typed".
@@ -501,7 +501,7 @@ namespace NHibernate.Validator.Engine
 			if (concreteIvc.IsAssignableFrom(validatorClass))
 			{
 				MethodInfo initMethod = concreteIvc.GetMethod("Initialize");
-				initMethod.Invoke(beanValidator, new object[] {attribute});
+				initMethod.Invoke(entityValidator, new object[] {attribute});
 			}
 		}
 
@@ -577,10 +577,10 @@ namespace NHibernate.Validator.Engine
 		/// Assert a valid Object. A <see cref="InvalidStateException"/> 
 		/// will be throw in a Invalid state.
 		/// </summary>
-		/// <param name="bean">Object to be asserted</param>
-		public void AssertValid(object bean)
+		/// <param name="entity">Object to be asserted</param>
+		public void AssertValid(object entity)
 		{
-			InvalidValue[] values = GetInvalidValues(bean);
+			InvalidValue[] values = GetInvalidValues(entity);
 			if (values.Length > 0)
 			{
 				throw new InvalidStateException(values);
@@ -588,8 +588,8 @@ namespace NHibernate.Validator.Engine
 		}
 
 		/// <summary>
-		/// Apply constraints of a particular property value of a bean type and return all the failures.
-		/// The InvalidValue objects returns return null for InvalidValue#getBean() and InvalidValue#getRootBean()
+		/// Apply constraints of a particular property value of a entity type and return all the failures.
+		/// The InvalidValue objects returns return null for InvalidValue#Entity and InvalidValue#RootEntity.
 		/// Note: this is not recursive.
 		/// </summary>
 		/// <param name="propertyName">Name of the property or field to validate</param>
@@ -721,9 +721,9 @@ namespace NHibernate.Validator.Engine
 
 		#region IClassValidatorImplementor Members
 
-		InvalidValue[] IClassValidatorImplementor.GetInvalidValues(object bean, ISet circularityState)
+		InvalidValue[] IClassValidatorImplementor.GetInvalidValues(object entity, ISet circularityState)
 		{
-			return GetInvalidValues(bean, circularityState);
+			return GetInvalidValues(entity, circularityState);
 		}
 
 		IDictionary<System.Type, IClassValidator> IClassValidatorImplementor.ChildClassValidators
@@ -784,8 +784,8 @@ namespace NHibernate.Validator.Engine
 		public void GetObjectData(SerializationInfo info, StreamingContext context)
 		{
 			info.AddValue("interpolator", userInterpolatorType);
-			info.AddValue("beanClass", entityType);
-			info.AddValue("beanValidators", entityValidators);
+			info.AddValue("entityType", entityType);
+			info.AddValue("entityValidators", entityValidators);
 			info.AddValue("memberValidators", memberValidators);
 			info.AddValue("childClassValidators", childClassValidators);
 			info.AddValue("memberGetters", memberGetters);
@@ -798,8 +798,8 @@ namespace NHibernate.Validator.Engine
 		{
 			System.Type interpolatorType = (System.Type)info.GetValue("interpolator", typeof(System.Type));
 			if(interpolatorType != null) userInterpolator = (IMessageInterpolator)Activator.CreateInstance(interpolatorType);
-			this.entityType = (System.Type)info.GetValue("beanClass", typeof(System.Type));
-			this.entityValidators = (IList<IValidator>)info.GetValue("beanValidators", typeof(IList<IValidator>));
+			this.entityType = (System.Type)info.GetValue("entityType", typeof(System.Type));
+			this.entityValidators = (IList<IValidator>)info.GetValue("entityValidators", typeof(IList<IValidator>));
 			this.memberValidators = (IList<IValidator>)info.GetValue("memberValidators", typeof(IList<IValidator>));
 			this.childClassValidators = (IDictionary<System.Type, IClassValidator>)info.GetValue("childClassValidators", typeof(IDictionary<System.Type, IClassValidator>));
 			this.memberGetters = (List<MemberInfo>)info.GetValue("memberGetters", typeof(List<MemberInfo>));
