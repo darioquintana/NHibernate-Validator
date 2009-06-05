@@ -9,9 +9,9 @@ namespace NHibernate.Validator.Tests.Integration
 	[Serializable]
 	public class PrefixMessageInterpolator : IMessageInterpolator
 	{
-		public string Interpolate(string message, object bean, IValidator validator, IMessageInterpolator defaultInterpolator)
+		public string Interpolate(string message, object entity, IValidator validator, IMessageInterpolator defaultInterpolator)
 		{
-			return "prefix_" + defaultInterpolator.Interpolate(message, bean, validator, defaultInterpolator);
+			return "prefix_" + defaultInterpolator.Interpolate(message, entity, validator, defaultInterpolator);
 		}
 	}
 }

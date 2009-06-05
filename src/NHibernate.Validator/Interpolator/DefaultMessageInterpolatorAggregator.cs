@@ -22,7 +22,7 @@ namespace NHibernate.Validator.Interpolator
 
 		#region IMessageInterpolator Members
 
-		public string Interpolate(string message, object bean, IValidator validator, IMessageInterpolator defaultInterpolator)
+		public string Interpolate(string message, object entity, IValidator validator, IMessageInterpolator defaultInterpolator)
 		{
 			CheckInitialized();
 
@@ -33,7 +33,7 @@ namespace NHibernate.Validator.Interpolator
 				return message;
 			}
 
-			return defaultMessageInterpolator.Interpolate(message, bean, validator, defaultInterpolator);
+			return defaultMessageInterpolator.Interpolate(message, entity, validator, defaultInterpolator);
 		}
 
 		private void CheckInitialized()

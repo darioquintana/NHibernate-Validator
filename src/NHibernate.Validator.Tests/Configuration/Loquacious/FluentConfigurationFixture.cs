@@ -74,7 +74,7 @@ namespace NHibernate.Validator.Tests.Configuration.Loquacious
 
 		public class MessageInterpolatorStub : IMessageInterpolator
 		{
-			public string Interpolate(string message, object bean, IValidator validator, IMessageInterpolator defaultInterpolator)
+			public string Interpolate(string message, object entity, IValidator validator, IMessageInterpolator defaultInterpolator)
 			{
 				return message;
 			}

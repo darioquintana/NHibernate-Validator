@@ -9,6 +9,6 @@ namespace NHibernate.Validator.Engine
 	/// </summary>
 	public interface IMessageInterpolator
 	{
-		string Interpolate(String message, object bean, IValidator validator, IMessageInterpolator defaultInterpolator);
+		string Interpolate(String message, object entity, IValidator validator, IMessageInterpolator defaultInterpolator);
 	}
 }

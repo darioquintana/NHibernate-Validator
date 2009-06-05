@@ -40,7 +40,7 @@ namespace NHibernate.Validator.Interpolator
 
 		#region IMessageInterpolator Members
 
-		public string Interpolate(string message, object bean, IValidator validator, IMessageInterpolator defaultInterpolator)
+		public string Interpolate(string message, object entity, IValidator validator, IMessageInterpolator defaultInterpolator)
 		{
 			bool same = attributeMessage.Equals(message);
             if (same && interpolateMessage != null && !message.Contains("${"))
@@ -49,7 +49,7 @@ namespace NHibernate.Validator.Interpolator
 			}
 
 			string result;
-			result = Replace(message,bean);
+			result = Replace(message,entity);
 			if (same)
 			{
 				interpolateMessage = result; //short cut in next iteration
