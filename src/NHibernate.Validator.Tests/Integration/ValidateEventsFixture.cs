@@ -91,7 +91,7 @@ namespace NHibernate.Validator.Tests.Integration
 					saved.State = "TOOLONG";
 					s.Update(saved);
 					t.Commit();
-					Assert.Fail("bean should have been validated");
+					Assert.Fail("entity should have been validated");
 				}
 			}
 			catch (InvalidStateException e)

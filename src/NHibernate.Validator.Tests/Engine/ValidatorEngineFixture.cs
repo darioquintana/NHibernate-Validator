@@ -181,7 +181,7 @@ namespace NHibernate.Validator.Tests.Engine
 			{
 				Boo b = new Boo();
 				ve.AssertValid(b);
-				Assert.Fail("An invalid bean not throw exception.");
+				Assert.Fail("An invalid entity not throw exception.");
 			}
 			catch (InvalidStateException)
 			{

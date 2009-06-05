@@ -156,7 +156,7 @@ namespace NHibernate.Validator.Tests.Integration
 			try
 			{
 				tx.Commit();
-				Assert.Fail("bean should have been validated");
+				Assert.Fail("entity should have been validated");
 			}
 			catch(InvalidStateException e)
 			{
@@ -184,7 +184,7 @@ namespace NHibernate.Validator.Tests.Integration
 			try 
 			{
 				s.Flush();
-				Assert.Fail("bean should have been validated");
+				Assert.Fail("entity should have been validated");
 			} 
 			catch (InvalidStateException e) 
 			{
@@ -229,7 +229,7 @@ namespace NHibernate.Validator.Tests.Integration
 					saved.State = "TOOLONG";
 					s.Update(saved);
 					t.Commit();
-					Assert.Fail("bean should have been validated");
+					Assert.Fail("entity should have been validated");
 				}
 			}
 			catch (InvalidStateException e)

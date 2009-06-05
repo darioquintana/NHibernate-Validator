@@ -16,7 +16,7 @@ namespace NHibernate.Validator.Tests.Engine
 		// this Fixture is to test some special case
 
 		[Test]
-		public void GetInvalidValuesOfBean()
+		public void GetInvalidValuesOfEntity()
 		{
 			IClassValidator cv = GetClassValidator(typeof(Address));
 			Assert.AreEqual(0, cv.GetInvalidValues(null).Length);

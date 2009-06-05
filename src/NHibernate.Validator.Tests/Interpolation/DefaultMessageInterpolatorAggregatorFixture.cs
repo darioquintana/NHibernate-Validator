@@ -50,9 +50,9 @@ namespace NHibernate.Validator.Tests.Interpolation
 				 * So far it work using the validator instance but after a deserialization the instance change 
 				 * so is imposible to find it again (change the reference).
 				 * Consideration to create "Validator ID" are:
-				 * - Each Validator is linked to a bean member
-				 * - Each bean member have an instance of an attribute initialized with values.
-				 * - A bean can have the same validator more than one time but with different attribute instance
+				 * - Each Validator is linked to a entity member
+				 * - Each entity member have an instance of an attribute initialized with values.
+				 * - A entity can have the same validator more than one time but with different attribute instance
 				 *	(different values of Message for example).
 				 * 
 				 * Note: if each Validator overrides Equals this test would pass, but it's too much invasive
