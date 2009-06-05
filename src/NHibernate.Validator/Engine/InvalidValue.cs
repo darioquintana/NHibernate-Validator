@@ -13,32 +13,32 @@ namespace NHibernate.Validator.Engine
 	{
 		private readonly string message;
 		private readonly object value;
-		private readonly System.Type beanClass;
+		private readonly System.Type entityType;
 		private readonly string propertyName;
-		private readonly object bean;
-		private object rootBean;
+		private readonly object entity;
+		private object rootEntity;
 		private string propertyPath;
 
-		public InvalidValue(string message, System.Type beanClass, string propertyName, object value, object bean)
+		public InvalidValue(string message, System.Type entityType, string propertyName, object value, object entity)
 		{
 			this.message = message;
 			this.value = value;
-			this.beanClass = beanClass;
+			this.entityType = entityType;
 			this.propertyName = propertyName;
-			this.bean = bean;
-			rootBean = bean;
+			this.entity = entity;
+			rootEntity = entity;
 			propertyPath = propertyName;
 		}
 
 		public void AddParentBean(object parentBean, string propertyName) 
 		{
-			rootBean = parentBean;
+			rootEntity = parentBean;
 			propertyPath = propertyName + "." + propertyPath;
 		}
 
-		public object RootBean
+		public object RootEntity
 		{
-			get { return rootBean; }
+			get { return rootEntity; }
 		}
 
 		public string PropertyPath
@@ -46,9 +46,9 @@ namespace NHibernate.Validator.Engine
 			get { return propertyPath; }
 		}
 
-		public System.Type BeanClass
+		public System.Type EntityType
 		{
-			get { return beanClass; }
+			get { return entityType; }
 		}
 
 		public string Message
@@ -66,9 +66,9 @@ namespace NHibernate.Validator.Engine
 			get { return value; }
 		}
 
-		public object Bean
+		public object Entity
 		{
-			get { return bean; }
+			get { return entity; }
 		}
 
 		public override string ToString()

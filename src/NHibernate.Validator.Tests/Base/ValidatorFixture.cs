@@ -59,8 +59,8 @@ namespace NHibernate.Validator.Tests.Base
 			{
 				Assert.AreEqual(expectedMessage, validationMessages[0].Message);
 			}
-			Assert.AreEqual(typeof (Address), validationMessages[0].BeanClass);
-			Assert.IsTrue(ReferenceEquals(a, validationMessages[0].Bean));
+			Assert.AreEqual(typeof (Address), validationMessages[0].EntityType);
+			Assert.IsTrue(ReferenceEquals(a, validationMessages[0].Entity));
 			Assert.AreEqual(4000, validationMessages[0].Value);
 			if (TestMessages)
 			{
@@ -94,7 +94,7 @@ namespace NHibernate.Validator.Tests.Base
 			christophe.Name = null;
 			invalidValues = classValidator.GetInvalidValues(emmanuel);
 			Assert.AreEqual(1, invalidValues.Length, "Name cannot be null");
-			Assert.AreEqual(emmanuel, invalidValues[0].RootBean);
+			Assert.AreEqual(emmanuel, invalidValues[0].RootEntity);
 			Assert.AreEqual("YoungerBrother.Name", invalidValues[0].PropertyPath);
 			christophe.Name = "Christophe";
 			address = new Address();

@@ -37,7 +37,7 @@ namespace NHibernate.Validator.Engine
 
 		/// <summary>
 		/// Apply constraints of a particular property value of a bean type and return all the failures.
-		/// The InvalidValue objects returns return null for <see cref="InvalidValue.Bean"/> and <see cref="InvalidValue.RootBean"/>.
+		/// The InvalidValue objects returns return null for <see cref="InvalidValue.Entity"/> and <see cref="InvalidValue.RootEntity"/>.
 		/// </summary>
 		/// <param name="propertyName"></param>
 		/// <param name="value"></param>
