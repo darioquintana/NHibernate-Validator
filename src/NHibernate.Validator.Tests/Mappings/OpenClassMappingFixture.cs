@@ -25,9 +25,9 @@ namespace NHibernate.Validator.Tests.Mappings
 		{
 			var ocm = new OpenClassMapping<CleanAddress>();
 			Assert.That(ocm.GetClassAttributes().Count(), Is.EqualTo(0));
-			ocm.AddBeanValidator(new AssertAnimalAttribute());
+			ocm.AddEntityValidator(new AssertAnimalAttribute());
 			Assert.That(ocm.GetClassAttributes().Count(), Is.EqualTo(1));
-			ocm.AddBeanValidator(new OtherValidatorAttribute());
+			ocm.AddEntityValidator(new OtherValidatorAttribute());
 			Assert.That(ocm.GetClassAttributes().Count(), Is.EqualTo(2));
 		}
 

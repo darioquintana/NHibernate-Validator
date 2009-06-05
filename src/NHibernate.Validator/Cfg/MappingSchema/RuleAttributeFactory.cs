@@ -54,30 +54,30 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 		}
 
 		/// <summary>
-		/// Create the attribute of a bean validator from XML definitions.
+		/// Create the attribute of a entity-validator from XML definitions.
 		/// </summary>
-		/// <param name="beanClass">The entity class where associate the attribute.</param>
+		/// <param name="entityType">The entity class where associate the attribute.</param>
 		/// <param name="attributename">The attribute name in the mapping.</param>
 		/// <returns>The <see cref="Attribute"/> instance.</returns>
 		/// <remarks>
 		/// We are using the conventions:
-		/// - The attribute must be defined in the same namespace of the <paramref name="beanClass"/>.
+		/// - The attribute must be defined in the same namespace of the <paramref name="entityType"/>.
 		/// - The attribute class may have the postfix "Attribute" without need to use it in the mapping.
 		/// </remarks>
-		public static Attribute CreateAttributeFromClass(System.Type beanClass, NhvmClassAttributename attributename)
+		public static Attribute CreateAttributeFromClass(System.Type entityType, NhvmClassAttributename attributename)
 		{
 			// public Only for test scope
-			Assembly assembly = beanClass.Assembly;
-			System.Type type = assembly.GetType(beanClass.Namespace + "." + GetText(attributename) + "Attribute");
+			Assembly assembly = entityType.Assembly;
+			System.Type type = assembly.GetType(entityType.Namespace + "." + GetText(attributename) + "Attribute");
 
 			if (type == null)
 			{
-				type = assembly.GetType(beanClass.Namespace + "." + GetText(attributename));
+				type = assembly.GetType(entityType.Namespace + "." + GetText(attributename));
 			}
 
 			if (type == null)
 			{
-				throw new InvalidAttributeNameException(GetText(attributename), beanClass);
+				throw new InvalidAttributeNameException(GetText(attributename), entityType);
 			}
 
 			Attribute attribute = (Attribute)Activator.CreateInstance(type);

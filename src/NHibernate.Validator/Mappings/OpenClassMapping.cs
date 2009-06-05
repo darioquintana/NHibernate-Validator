@@ -47,13 +47,13 @@ namespace NHibernate.Validator.Mappings
 
 		#endregion
 
-		public void AddBeanValidator(Attribute attribute)
+		public void AddEntityValidator(Attribute attribute)
 		{
 			if (attribute == null)
 			{
 				throw new ArgumentNullException("attribute");
 			}
-			// TODO : check attribute in order to validate that it is a valid Bean-Validator attribute
+			// TODO : check attribute in order to validate that it is a valid Entity-Validator attribute
 			classAttributes.Add(attribute);
 		}
 

@@ -28,7 +28,7 @@ namespace NHibernate.Validator.Engine
 	public class ClassValidator : IClassValidator, IClassValidatorImplementor, ISerializable 
 	{
 		private static readonly ILog log = LogManager.GetLogger(typeof(ClassValidator));
-		private readonly System.Type beanClass;
+		private readonly System.Type entityType;
 
 		private readonly Dictionary<MemberInfo, List<Attribute>> membersAttributesDictionary =
 			new Dictionary<MemberInfo, List<Attribute>>();
@@ -54,7 +54,7 @@ namespace NHibernate.Validator.Engine
 
 		private readonly IDictionary<System.Type, IClassValidator> childClassValidators;
 
-		private IList<IValidator> beanValidators;
+		private IList<IValidator> entityValidators;
 
 		private IList<IValidator> memberValidators;
 
@@ -71,22 +71,22 @@ namespace NHibernate.Validator.Engine
 
 
 		/// <summary>
-		/// Create the validator engine for this bean type
+		/// Create the validator engine for this entity type
 		/// </summary>
-		/// <param name="beanClass"></param>
-		public ClassValidator(System.Type beanClass)
-			: this(beanClass, null, null, ValidatorMode.UseAttribute) {}
+		/// <param name="entityType"></param>
+		public ClassValidator(System.Type entityType)
+			: this(entityType, null, null, ValidatorMode.UseAttribute) {}
 
 		/// <summary>
-		/// Create the validator engine for a particular bean class, using a resource bundle
+		/// Create the validator engine for a particular entity class, using a resource bundle
 		/// for message rendering on violation
 		/// </summary>
-		/// <param name="beanClass">bean type</param>
+		/// <param name="entityType">bean type</param>
 		/// <param name="resourceManager"></param>
-		/// <param name="culture">The CultureInfo for the <paramref name="beanClass"/>.</param>
+		/// <param name="culture">The CultureInfo for the <paramref name="entityType"/>.</param>
 		/// <param name="validatorMode">Validator definition mode</param>
-		public ClassValidator(System.Type beanClass, ResourceManager resourceManager, CultureInfo culture, ValidatorMode validatorMode)
-			: this(beanClass, new Dictionary<System.Type, IClassValidator>(), new JITClassValidatorFactory(resourceManager, culture, null, validatorMode)) {}
+		public ClassValidator(System.Type entityType, ResourceManager resourceManager, CultureInfo culture, ValidatorMode validatorMode)
+			: this(entityType, new Dictionary<System.Type, IClassValidator>(), new JITClassValidatorFactory(resourceManager, culture, null, validatorMode)) {}
 
 		/// <summary>
 		/// Create the validator engine for a particular bean class, using a resource bundle
@@ -106,7 +106,7 @@ namespace NHibernate.Validator.Engine
 			if (!ShouldNeedValidation(clazz))
 				throw new ArgumentOutOfRangeException("clazz", "Create a validator for a System class.");
 
-			beanClass = clazz;
+			entityType = clazz;
 			this.factory = factory;
 			messageBundle = factory.ResourceManager ?? GetDefaultResourceManager();
 			defaultMessageBundle = GetDefaultResourceManager();
@@ -117,7 +117,7 @@ namespace NHibernate.Validator.Engine
 			validatorMode = factory.ValidatorMode;
 			
 			//Initialize the ClassValidator
-			InitValidator(beanClass, childClassValidators);
+			InitValidator(entityType, childClassValidators);
 		}
 
 		internal static bool ShouldNeedValidation(System.Type clazz)
@@ -133,7 +133,7 @@ namespace NHibernate.Validator.Engine
 		{
 			get
 			{
-				return memberValidators.Count != 0 || beanValidators.Count != 0 || childClassValidators.Count > 1;
+				return memberValidators.Count != 0 || entityValidators.Count != 0 || childClassValidators.Count > 1;
 			}
 		}
 
@@ -149,7 +149,7 @@ namespace NHibernate.Validator.Engine
 		/// <param name="childClassValidators"></param>
 		private void InitValidator(System.Type clazz, IDictionary<System.Type, IClassValidator> childClassValidators)
 		{
-			beanValidators = new List<IValidator>();
+			entityValidators = new List<IValidator>();
 			memberValidators = new List<IValidator>();
 			memberGetters = new List<MemberInfo>();
 			childGetters = new List<MemberInfo>();
@@ -217,7 +217,7 @@ namespace NHibernate.Validator.Engine
 
 			if (validator != null)
 			{
-				beanValidators.Add(validator);
+				entityValidators.Add(validator);
 			}
 
 			//Note: No need to handle Aggregate annotations, c# use Multiple Attribute declaration.
@@ -245,7 +245,7 @@ namespace NHibernate.Validator.Engine
 			{
 				throw new ArgumentNullException("propertyName");
 			}
-			if (!beanClass.IsInstanceOfType(bean))
+			if (!entityType.IsInstanceOfType(bean))
 			{
 				throw new ArgumentException("not an instance of: " + bean.GetType());
 			}
@@ -264,7 +264,7 @@ namespace NHibernate.Validator.Engine
 				circularityState.Add(bean);
 			}
 
-			if (!beanClass.IsInstanceOfType(bean))
+			if (!entityType.IsInstanceOfType(bean))
 			{
 				throw new ArgumentException("not an instance of: " + bean.GetType());
 			}
@@ -272,12 +272,12 @@ namespace NHibernate.Validator.Engine
 			List<InvalidValue> results = new List<InvalidValue>();
 
 			//Bean Validation
-			foreach (IValidator validator in beanValidators)
+			foreach (IValidator validator in entityValidators)
 			{
 				var constraintContext = new ConstraintValidatorContext(null,defaultInterpolator.GetAttributeMessage(validator));
 				if (!validator.IsValid(bean, constraintContext))
 				{
-					new InvalidMessageTransformer(constraintContext, results, beanClass, null, bean, bean, validator, defaultInterpolator, userInterpolator).Transform();
+					new InvalidMessageTransformer(constraintContext, results, entityType, null, bean, bean, validator, defaultInterpolator, userInterpolator).Transform();
 				}
 			}
 
@@ -327,17 +327,17 @@ namespace NHibernate.Validator.Engine
 							var constraintContext = new ConstraintValidatorContext(member.Name, defaultInterpolator.GetAttributeMessage(validator));
 							if (!validator.IsValid(value, constraintContext))
 							{
-								new InvalidMessageTransformer(constraintContext, results, beanClass, member.Name, value, bean, validator, defaultInterpolator,userInterpolator).Transform();
+								new InvalidMessageTransformer(constraintContext, results, entityType, member.Name, value, bean, validator, defaultInterpolator,userInterpolator).Transform();
 							}
 						}
 					}
 				}
 			}
 
-			if (memberName != null && getterFound == 0 && TypeUtils.GetPropertyOrField(beanClass, memberName) == null)
+			if (memberName != null && getterFound == 0 && TypeUtils.GetPropertyOrField(entityType, memberName) == null)
 			{
 				throw new TargetException(
-					string.Format("The property or field '{0}' was not found in class {1}", memberName, beanClass.FullName));
+					string.Format("The property or field '{0}' was not found in class {1}", memberName, entityType.FullName));
 			}
 
 			return results;
@@ -615,15 +615,15 @@ namespace NHibernate.Validator.Engine
 					var constraintContext = new ConstraintValidatorContext(propertyName, defaultInterpolator.GetAttributeMessage(validator));
 					
 					if (!validator.IsValid(value, null))
-						new InvalidMessageTransformer(constraintContext, results, beanClass, propertyName, value, null, validator, defaultInterpolator, userInterpolator).Transform();
+						new InvalidMessageTransformer(constraintContext, results, entityType, propertyName, value, null, validator, defaultInterpolator, userInterpolator).Transform();
 
 				}
 			}
 
-			if (getterFound == 0 && TypeUtils.GetPropertyOrField(beanClass, propertyName) == null)
+			if (getterFound == 0 && TypeUtils.GetPropertyOrField(entityType, propertyName) == null)
 			{
 				throw new TargetException(
-					string.Format("The property or field '{0}' was not found in class {1}", propertyName, beanClass.FullName));
+					string.Format("The property or field '{0}' was not found in class {1}", propertyName, entityType.FullName));
 			}
 
 			return results.ToArray();
@@ -635,7 +635,7 @@ namespace NHibernate.Validator.Engine
 		/// <param name="persistentClass">hibernate metadata</param>
 		public void Apply(PersistentClass persistentClass)
 		{
-			foreach (IValidator validator in beanValidators)
+			foreach (IValidator validator in entityValidators)
 			{
 				IPersistentClassConstraint pcc = validator as IPersistentClassConstraint;
 				if (pcc != null)
@@ -788,8 +788,8 @@ namespace NHibernate.Validator.Engine
 		public void GetObjectData(SerializationInfo info, StreamingContext context)
 		{
 			info.AddValue("interpolator", userInterpolatorType);
-			info.AddValue("beanClass", beanClass);
-			info.AddValue("beanValidators", beanValidators);
+			info.AddValue("beanClass", entityType);
+			info.AddValue("beanValidators", entityValidators);
 			info.AddValue("memberValidators", memberValidators);
 			info.AddValue("childClassValidators", childClassValidators);
 			info.AddValue("memberGetters", memberGetters);
@@ -802,8 +802,8 @@ namespace NHibernate.Validator.Engine
 		{
 			System.Type interpolatorType = (System.Type)info.GetValue("interpolator", typeof(System.Type));
 			if(interpolatorType != null) userInterpolator = (IMessageInterpolator)Activator.CreateInstance(interpolatorType);
-			this.beanClass = (System.Type)info.GetValue("beanClass", typeof(System.Type));
-			this.beanValidators = (IList<IValidator>)info.GetValue("beanValidators", typeof(IList<IValidator>));
+			this.entityType = (System.Type)info.GetValue("beanClass", typeof(System.Type));
+			this.entityValidators = (IList<IValidator>)info.GetValue("beanValidators", typeof(IList<IValidator>));
 			this.memberValidators = (IList<IValidator>)info.GetValue("memberValidators", typeof(IList<IValidator>));
 			this.childClassValidators = (IDictionary<System.Type, IClassValidator>)info.GetValue("childClassValidators", typeof(IDictionary<System.Type, IClassValidator>));
 			this.memberGetters = (List<MemberInfo>)info.GetValue("memberGetters", typeof(List<MemberInfo>));

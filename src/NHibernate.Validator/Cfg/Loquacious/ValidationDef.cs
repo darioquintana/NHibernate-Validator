@@ -152,7 +152,7 @@ namespace NHibernate.Validator.Cfg.Loquacious
 
 		public void AddClassConstraint(Attribute ruleArgs)
 		{
-			classMap.AddBeanValidator(ruleArgs);
+			classMap.AddEntityValidator(ruleArgs);
 		}
 
 		#endregion
