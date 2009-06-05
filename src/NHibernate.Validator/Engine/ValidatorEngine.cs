@@ -46,12 +46,12 @@ namespace NHibernate.Validator.Engine
 				get { return false; }
 			}
 
-			public InvalidValue[] GetInvalidValues(object bean)
+			public InvalidValue[] GetInvalidValues(object entity)
 			{
 				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
 			}
 
-			public InvalidValue[] GetInvalidValues(object bean, string propertyName)
+			public InvalidValue[] GetInvalidValues(object entity, string propertyName)
 			{
 				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
 			}

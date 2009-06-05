@@ -81,7 +81,7 @@ namespace NHibernate.Validator.Engine
 		/// Create the validator engine for a particular entity class, using a resource bundle
 		/// for message rendering on violation
 		/// </summary>
-		/// <param name="entityType">bean type</param>
+		/// <param name="entityType">entity type</param>
 		/// <param name="resourceManager"></param>
 		/// <param name="culture">The CultureInfo for the <paramref name="entityType"/>.</param>
 		/// <param name="validatorMode">Validator definition mode</param>
@@ -92,13 +92,13 @@ namespace NHibernate.Validator.Engine
 		/// Create the validator engine for a particular bean class, using a resource bundle
 		/// for message rendering on violation
 		/// </summary>
-		/// <param name="beanClass">bean type</param>
+		/// <param name="entityType">entity type</param>
 		/// <param name="resourceManager"></param>
 		/// <param name="userInterpolator">Custom interpolator.</param>
-		/// <param name="culture">The CultureInfo for the <paramref name="beanClass"/>.</param>
+		/// <param name="culture">The CultureInfo for the <paramref name="entityType"/>.</param>
 		/// <param name="validatorMode">Validator definition mode</param>
-		public ClassValidator(System.Type beanClass, ResourceManager resourceManager, IMessageInterpolator userInterpolator, CultureInfo culture, ValidatorMode validatorMode)
-			: this(beanClass, new Dictionary<System.Type, IClassValidator>(), new JITClassValidatorFactory(resourceManager, culture, userInterpolator, validatorMode)) { }
+		public ClassValidator(System.Type entityType, ResourceManager resourceManager, IMessageInterpolator userInterpolator, CultureInfo culture, ValidatorMode validatorMode)
+			: this(entityType, new Dictionary<System.Type, IClassValidator>(), new JITClassValidatorFactory(resourceManager, culture, userInterpolator, validatorMode)) { }
 
 
 		internal ClassValidator(System.Type clazz, IDictionary<System.Type, IClassValidator> childClassValidators, IClassValidatorFactory factory)
@@ -225,19 +225,19 @@ namespace NHibernate.Validator.Engine
 		}
 
 		/// <summary>
-		/// apply constraints on a bean instance and return all the failures.
-		/// if <paramref name="bean"/> is null, an empty array is returned 
+		/// Apply constraints on a entity instance and return all the failures.
+		/// if <paramref name="entity"/> is null, an empty array is returned 
 		/// </summary>
-		/// <param name="bean">object to apply the constraints</param>
+		/// <param name="entity">object to apply the constraints</param>
 		/// <returns></returns>
-		public InvalidValue[] GetInvalidValues(object bean)
+		public InvalidValue[] GetInvalidValues(object entity)
 		{
-			return GetInvalidValues(bean, new IdentitySet());
+			return GetInvalidValues(entity, new IdentitySet());
 		}
 
-		public InvalidValue[] GetInvalidValues(object bean, string propertyName)
+		public InvalidValue[] GetInvalidValues(object entity, string propertyName)
 		{
-			if (bean == null)
+			if (entity == null)
 			{
 				return EMPTY_INVALID_VALUE_ARRAY;
 			}
@@ -245,28 +245,28 @@ namespace NHibernate.Validator.Engine
 			{
 				throw new ArgumentNullException("propertyName");
 			}
-			if (!entityType.IsInstanceOfType(bean))
+			if (!entityType.IsInstanceOfType(entity))
 			{
-				throw new ArgumentException("not an instance of: " + bean.GetType());
+				throw new ArgumentException("not an instance of: " + entity.GetType());
 			}
 
-			return MembersValidation(bean, propertyName).ToArray();
+			return MembersValidation(entity, propertyName).ToArray();
 		}
 
-		private InvalidValue[] GetInvalidValues(object bean, ISet circularityState)
+		private InvalidValue[] GetInvalidValues(object entity, ISet circularityState)
 		{
-			if (bean == null || circularityState.Contains(bean))
+			if (entity == null || circularityState.Contains(entity))
 			{
 				return EMPTY_INVALID_VALUE_ARRAY; //Avoid circularity
 			}
 			else
 			{
-				circularityState.Add(bean);
+				circularityState.Add(entity);
 			}
 
-			if (!entityType.IsInstanceOfType(bean))
+			if (!entityType.IsInstanceOfType(entity))
 			{
-				throw new ArgumentException("not an instance of: " + bean.GetType());
+				throw new ArgumentException("not an instance of: " + entity.GetType());
 			}
 
 			List<InvalidValue> results = new List<InvalidValue>();
@@ -275,33 +275,33 @@ namespace NHibernate.Validator.Engine
 			foreach (IValidator validator in entityValidators)
 			{
 				var constraintContext = new ConstraintValidatorContext(null,defaultInterpolator.GetAttributeMessage(validator));
-				if (!validator.IsValid(bean, constraintContext))
+				if (!validator.IsValid(entity, constraintContext))
 				{
-					new InvalidMessageTransformer(constraintContext, results, entityType, null, bean, bean, validator, defaultInterpolator, userInterpolator).Transform();
+					new InvalidMessageTransformer(constraintContext, results, entityType, null, entity, entity, validator, defaultInterpolator, userInterpolator).Transform();
 				}
 			}
 
-			results.AddRange(MembersValidation(bean, null));
+			results.AddRange(MembersValidation(entity, null));
 
 			//Child validation
 			for (int i = 0; i < childGetters.Count; i++)
 			{
 				MemberInfo member = childGetters[i];
 
-				if (NHibernateUtil.IsPropertyInitialized(bean, member.Name))
+				if (NHibernateUtil.IsPropertyInitialized(entity, member.Name))
 				{
-					object value = TypeUtils.GetMemberValue(bean, member);
+					object value = TypeUtils.GetMemberValue(entity, member);
 
 					if (value != null && NHibernateUtil.IsInitialized(value))
 					{
-						MakeChildValidation(value, bean, member, circularityState, results);
+						MakeChildValidation(value, entity, member, circularityState, results);
 					}
 				}
 			}
 			return results.ToArray();
 		}
 
-		private List<InvalidValue> MembersValidation(object bean, string memberName)
+		private List<InvalidValue> MembersValidation(object entity, string memberName)
 		{
 			//Property & Field Validation
 			List<InvalidValue> results = new List<InvalidValue>();
@@ -313,9 +313,9 @@ namespace NHibernate.Validator.Engine
 				if (memberName == null || member.Name.Equals(memberName))
 				{
 					getterFound++;
-					if (NHibernateUtil.IsPropertyInitialized(bean, member.Name))
+					if (NHibernateUtil.IsPropertyInitialized(entity, member.Name))
 					{
-						object value = TypeUtils.GetMemberValue(bean, member);
+						object value = TypeUtils.GetMemberValue(entity, member);
 						/* The implementation of NHibernateUtil.IsPropertyInitialized is not enough for us
 						 * because NH call it only for some kind of propeties and especially only when NH need this check.
 						 * We need to check if is itilialized its value to prevent the initialization of
@@ -327,7 +327,7 @@ namespace NHibernate.Validator.Engine
 							var constraintContext = new ConstraintValidatorContext(member.Name, defaultInterpolator.GetAttributeMessage(validator));
 							if (!validator.IsValid(value, constraintContext))
 							{
-								new InvalidMessageTransformer(constraintContext, results, entityType, member.Name, value, bean, validator, defaultInterpolator,userInterpolator).Transform();
+								new InvalidMessageTransformer(constraintContext, results, entityType, member.Name, value, entity, validator, defaultInterpolator,userInterpolator).Transform();
 							}
 						}
 					}
@@ -347,16 +347,12 @@ namespace NHibernate.Validator.Engine
 		/// Validate the child validation to objects and collections
 		/// </summary>
 		/// <param name="value">value to validate</param>
-		/// <param name="bean"></param>
-		/// <param name="member"></param>
-		/// <param name="circularityState"></param>
-		/// <param name="results"></param>
-		private void MakeChildValidation(object value, object bean, MemberInfo member, ISet circularityState, ICollection<InvalidValue> results)
+		private void MakeChildValidation(object value, object entity, MemberInfo member, ISet circularityState, ICollection<InvalidValue> results)
 		{
 			IEnumerable valueEnum = value as IEnumerable;
 			if (valueEnum != null)
 			{
-				MakeCollectionValidation(valueEnum, bean, member, circularityState, results);
+				MakeCollectionValidation(valueEnum, entity, member, circularityState, results);
 			}
 			else
 			{
@@ -365,7 +361,7 @@ namespace NHibernate.Validator.Engine
 
 				foreach (InvalidValue invalidValue in invalidValues)
 				{
-					invalidValue.AddParentBean(bean, member.Name);
+					invalidValue.AddParentBean(entity, member.Name);
 					results.Add(invalidValue);
 				}
 			}
