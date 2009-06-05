@@ -111,7 +111,7 @@ namespace NHibernate.Validator.Tests.Base
 		}
 
 		[Test]
-		public void BeanValidator()
+		public void EntityValidator()
 		{
 			Suricato s = new Suricato();
 			IClassValidator vtor = GetClassValidator(typeof(Suricato));

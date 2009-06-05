@@ -99,7 +99,7 @@ namespace NHibernate.Validator.Interpolator
 			}
 		}
 
-		private string Replace(string message, object bean)
+		private string Replace(string message, object entity)
 		{
 			var tokens = new StringTokenizer(message, "#${}", true);
 			var buf = new StringBuilder(100);
@@ -173,13 +173,13 @@ namespace NHibernate.Validator.Interpolator
 						}
 						else
 						{
-							buf.Append(Replace(_string,bean));
+							buf.Append(Replace(_string,entity));
 						}
 					}
 				}
 				else
 				{
-					ReplaceValue(buf, bean, token);
+					ReplaceValue(buf, entity, token);
 				}
 			}
 			return buf.ToString();
@@ -190,26 +190,26 @@ namespace NHibernate.Validator.Interpolator
 		/// The default interpolator can replace the message with public property values.
 		/// </summary>
 		/// <param name="buffer">Current buffer where the final string message is written.</param>
-		/// <param name="bean">Entity or value</param>
+		/// <param name="entity">Entity or value</param>
 		/// <param name="propertyName">Property name to be used.</param>
-		protected void ReplaceValue(StringBuilder buffer, object bean, string propertyName)
+		protected void ReplaceValue(StringBuilder buffer, object entity, string propertyName)
 		{
 			if (!propertyName.Contains("."))
 			{
-				var property = bean.GetType().GetProperty(propertyName);
-				if (property == null) throw new InvalidPropertyNameException(propertyName, bean.GetType());
+				var property = entity.GetType().GetProperty(propertyName);
+				if (property == null) throw new InvalidPropertyNameException(propertyName, entity.GetType());
 
-				var value = property.GetValue(bean, null);
+				var value = property.GetValue(entity, null);
 				buffer.Append(value);
 			}
 			else
 			{
 				var membersChain = propertyName.Split('.');
-				object value = bean;
+				object value = entity;
 				foreach (var memberName in membersChain)
 				{
 					var property = value.GetType().GetProperty(memberName);
-					if (property == null) throw new InvalidPropertyNameException(memberName, bean.GetType());
+					if (property == null) throw new InvalidPropertyNameException(memberName, entity.GetType());
 					value = property.GetValue(value, null);
 				}
 				if(value != null)

@@ -6,7 +6,7 @@ namespace NHibernate.Validator.Engine
 {
 	public class InvalidMessageTransformer
 	{
-		private readonly object bean;
+		private readonly object entity;
 		private readonly IValidator validator;
 		private readonly DefaultMessageInterpolatorAggregator defaultInterpolator;
 		private readonly IMessageInterpolator userInterpolator;
@@ -21,7 +21,7 @@ namespace NHibernate.Validator.Engine
 			System.Type @class, 
 			string propertyName /* nullable */, 
 			object value /* nullable */,
-			object bean /* nullable */,
+			object entity /* nullable */,
 			IValidator validator,
 			DefaultMessageInterpolatorAggregator defaultInterpolator,
 			IMessageInterpolator userInterpolator /* nullable */)
@@ -37,7 +37,7 @@ namespace NHibernate.Validator.Engine
 			this.@class = @class;
 			this.propertyName = propertyName;
 			this.value = value;
-			this.bean = bean;
+			this.entity = entity;
 			this.validator = validator;
 			this.defaultInterpolator = defaultInterpolator;
 			this.userInterpolator = userInterpolator;
@@ -47,21 +47,21 @@ namespace NHibernate.Validator.Engine
 		{
 			foreach (var invalidMsg in constraintContext.InvalidMessages)
 			{
-				var interpolatedMessage = Interpolate(bean, invalidMsg.Message, validator);
+				var interpolatedMessage = Interpolate(entity, invalidMsg.Message, validator);
 
-				results.Add(new InvalidValue(interpolatedMessage, @class, propertyName, value, bean));
+				results.Add(new InvalidValue(interpolatedMessage, @class, propertyName, value, entity));
 			}
 		}
 
-		private string Interpolate(object bean, string message, IValidator validator)
+		private string Interpolate(object entity, string message, IValidator validator)
 		{
 			if (userInterpolator != null)
 			{
-				return userInterpolator.Interpolate(message, bean, validator, defaultInterpolator);
+				return userInterpolator.Interpolate(message, entity, validator, defaultInterpolator);
 			}
 			else
 			{
-				return defaultInterpolator.Interpolate(message, bean, validator, null);
+				return defaultInterpolator.Interpolate(message, entity, validator, null);
 			}
 		}
 	}

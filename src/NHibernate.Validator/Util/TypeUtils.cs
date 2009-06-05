@@ -89,20 +89,20 @@ namespace NHibernate.Validator.Util
 		/// <summary>
 		/// Get the value of some Property or Field.
 		/// </summary>
-		/// <param name="bean"></param>
+		/// <param name="entity"></param>
 		/// <param name="member"></param>
 		/// <returns></returns>
-		public static object GetMemberValue(object bean, MemberInfo member)
+		public static object GetMemberValue(object entity, MemberInfo member)
 		{
 			try
 			{
 				FieldInfo fi = member as FieldInfo;
 				if (fi != null)
-					return fi.GetValue(bean);
+					return fi.GetValue(entity);
 
 				PropertyInfo pi = member as PropertyInfo;
 				if (pi != null)
-					return pi.GetValue(bean, null);
+					return pi.GetValue(entity, null);
 			}
 			catch(Exception e)
 			{

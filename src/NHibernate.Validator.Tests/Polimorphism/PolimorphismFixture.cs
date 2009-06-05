@@ -8,7 +8,7 @@ namespace NHibernate.Validator.Tests.Polimorphism
 	{
 		//See this post http://blogs.msdn.com/tomholl/archive/2008/03/02/polymorphism-and-the-validation-application-block.aspx"
 		// NHV ClassValidator can be used without generics this mean that the right way to create a new 
-		// ClassValidator is in presence of polimorphic classes is : new ClassValidator(bean.GetType())
+		// ClassValidator is in presence of polimorphic classes is : new ClassValidator(entity.GetType())
 		// Using the ValidatorEngine you can don't wary about that ;)
 
 		[Test]
