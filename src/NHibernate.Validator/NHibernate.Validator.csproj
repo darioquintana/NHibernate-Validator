@@ -245,6 +245,7 @@
       <SubType>
       </SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\DefaultValidatorMessages.pl.resx" />
     <None Include="Cfg\nhv-mapping.xsd">
       <SubType>
       </SubType>
