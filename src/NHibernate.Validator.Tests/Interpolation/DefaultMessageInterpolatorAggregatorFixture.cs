@@ -3,43 +3,89 @@ using System.IO;
 using System.Reflection;
 using System.Resources;
 using System.Runtime.Serialization.Formatters.Binary;
+using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Constraints;
 using NHibernate.Validator.Exceptions;
 using NHibernate.Validator.Interpolator;
 using NUnit.Framework;
-using RangeAttribute = NHibernate.Validator.Constraints.RangeAttribute;
+using RangeAttribute=NHibernate.Validator.Constraints.RangeAttribute;
 
 namespace NHibernate.Validator.Tests.Interpolation
 {
 	[TestFixture]
 	public class DefaultMessageInterpolatorAggregatorFixture
 	{
+		[Test]
+		public void GetAttributeMessage()
+		{
+			var mia = new DefaultMessageInterpolatorAggregator();
+			var va = new RangeValidator();
+			try
+			{
+				mia.GetAttributeMessage(va);
+			}
+			catch (AssertionFailureException)
+			{
+				// Ok
+			}
+			var defrm =
+				new ResourceManager(Environment.BaseNameOfMessageResource,
+				                    typeof (DefaultMessageInterpolatorAggregator).Assembly);
+			var custrm =
+				new ResourceManager("NHibernate.Validator.Tests.Resource.Messages", Assembly.GetExecutingAssembly());
+			var culture = new CultureInfo("en");
+
+			mia.Initialize(custrm, defrm, culture);
+			var a = new RangeAttribute(2, 10);
+			va.Initialize(a);
+			mia.AddInterpolator(a, va);
+			Assert.IsFalse(string.IsNullOrEmpty(mia.GetAttributeMessage(va)));
+		}
+
+		[Test]
+		public void Interpolate()
+		{
+			var defrm = new ResourceManager(Environment.BaseNameOfMessageResource,
+				                    typeof (DefaultMessageInterpolatorAggregator).Assembly);
+			var custrm = new ResourceManager("NHibernate.Validator.Tests.Resource.Messages", Assembly.GetExecutingAssembly());
+			var culture = new CultureInfo("en");
+
+			var mia = new DefaultMessageInterpolatorAggregator();
+			var dmi = new DefaultMessageInterpolator();
+			mia.Initialize(custrm, defrm, culture);
+			var va = new RangeValidator();
+			var a = new RangeAttribute(2, 10);
+
+			Assert.AreEqual(a.Message, mia.Interpolate(a.Message, new object(), va, dmi));
+
+			mia.AddInterpolator(a, va);
+			Assert.AreNotEqual(a.Message, mia.Interpolate(a.Message, new object(), va, dmi));
+		}
+
 		[Test, Ignore("Not supported yet.")]
 		public void Serialization()
 		{
-			ResourceManager defrm =
-				new ResourceManager(Cfg.Environment.BaseNameOfMessageResource,
-														typeof(DefaultMessageInterpolatorAggregator).Assembly);
-			ResourceManager custrm =
-				new ResourceManager("NHibernate.Validator.Tests.Resource.Messages", Assembly.GetExecutingAssembly());
-			CultureInfo culture = new CultureInfo("en");
+			var defrm = new ResourceManager(Environment.BaseNameOfMessageResource,
+			                                typeof (DefaultMessageInterpolatorAggregator).Assembly);
+			var custrm = new ResourceManager("NHibernate.Validator.Tests.Resource.Messages", Assembly.GetExecutingAssembly());
+			var culture = new CultureInfo("en");
 
-			DefaultMessageInterpolatorAggregator mia = new DefaultMessageInterpolatorAggregator();
+			var mia = new DefaultMessageInterpolatorAggregator();
 
 			mia.Initialize(custrm, defrm, culture);
-			RangeAttribute a = new RangeAttribute(2, 10);
-			RangeValidator va = new RangeValidator();
+			var a = new RangeAttribute(2, 10);
+			var va = new RangeValidator();
 			va.Initialize(a);
 			mia.AddInterpolator(a, va);
 			string originalMessage = mia.GetAttributeMessage(va);
 			Assert.IsFalse(string.IsNullOrEmpty(originalMessage));
-			using (MemoryStream memory = new MemoryStream())
+			using (var memory = new MemoryStream())
 			{
-				BinaryFormatter formatter = new BinaryFormatter();
+				var formatter = new BinaryFormatter();
 				formatter.Serialize(memory, mia);
 
 				memory.Position = 0;
-				DefaultMessageInterpolatorAggregator dmia = (DefaultMessageInterpolatorAggregator)formatter.Deserialize(memory);
+				var dmia = (DefaultMessageInterpolatorAggregator) formatter.Deserialize(memory);
 
 				// follow instruction is what the owing a reference of interpolator must do
 				dmia.Initialize(custrm, defrm, culture);
@@ -58,55 +104,6 @@ namespace NHibernate.Validator.Tests.Interpolation
 				 * Note: if each Validator overrides Equals this test would pass, but it's too much invasive
 				 */
 			}
-		}
-
-		[Test]
-		public void Interpolate()
-		{
-			ResourceManager defrm =
-	new ResourceManager(Cfg.Environment.BaseNameOfMessageResource,
-											typeof(DefaultMessageInterpolatorAggregator).Assembly);
-			ResourceManager custrm =
-				new ResourceManager("NHibernate.Validator.Tests.Resource.Messages", Assembly.GetExecutingAssembly());
-			CultureInfo culture = new CultureInfo("en");
-
-			DefaultMessageInterpolatorAggregator mia = new DefaultMessageInterpolatorAggregator();
-			DefaultMessageInterpolator dmi = new DefaultMessageInterpolator();
-			mia.Initialize(custrm, defrm, culture);
-			RangeValidator va = new RangeValidator();
-			RangeAttribute a = new RangeAttribute(2, 10);
-
-			Assert.AreEqual(a.Message, mia.Interpolate(a.Message, new object(), va, dmi));
-
-			mia.AddInterpolator(a, va);
-			Assert.AreNotEqual(a.Message, mia.Interpolate(a.Message, new object(), va, dmi));
-		}
-
-		[Test]
-		public void GetAttributeMessage()
-		{
-			DefaultMessageInterpolatorAggregator mia = new DefaultMessageInterpolatorAggregator();
-			RangeValidator va = new RangeValidator();
-			try
-			{
-				mia.GetAttributeMessage(va);
-			}
-			catch (AssertionFailureException)
-			{
-				// Ok
-			}
-			ResourceManager defrm =
-				new ResourceManager(Cfg.Environment.BaseNameOfMessageResource,
-				                    typeof (DefaultMessageInterpolatorAggregator).Assembly);
-			ResourceManager custrm =
-				new ResourceManager("NHibernate.Validator.Tests.Resource.Messages", Assembly.GetExecutingAssembly());
-			CultureInfo culture = new CultureInfo("en");
-
-			mia.Initialize(custrm, defrm, culture);
-			RangeAttribute a = new RangeAttribute(2, 10);
-			va.Initialize(a);
-			mia.AddInterpolator(a, va);
-			Assert.IsFalse(string.IsNullOrEmpty(mia.GetAttributeMessage(va)));
 		}
 	}
 }
