@@ -45,6 +45,7 @@ namespace NHibernate.Validator.Tests.Configuration
 		<property name='message_interpolator_class'>Myinterpolator</property>
 		<property name='external_mappings_loader_class'>MyLoader</property>
 		<property name='default_validator_mode'>OverrideAttributeWithXml</property>
+		<property name='constraint_validator_factory'>SomeNamespace.Type,SomeAssembly</property>
 		<mapping assembly='aAssembly'/>
 		<mapping file='aFile'/>
 		<mapping assembly='anotherAssembly' resource='TheResource'/>
@@ -61,13 +62,14 @@ namespace NHibernate.Validator.Tests.Configuration
 				Assert.AreEqual(1, found);
 			}
 			Assert.AreEqual("MySharedEngineProvider", cfg.SharedEngineProviderClass);
-			Assert.AreEqual(5, cfg.Properties.Count);
+			Assert.AreEqual(6, cfg.Properties.Count);
 			Assert.AreEqual(3, cfg.Mappings.Count);
 			Assert.AreEqual("false", cfg.Properties["apply_to_ddl"]);
 			Assert.AreEqual("false", cfg.Properties["autoregister_listeners"]);
 			Assert.AreEqual("Myinterpolator", cfg.Properties["message_interpolator_class"]);
 			Assert.AreEqual("MyLoader", cfg.Properties["external_mappings_loader_class"]);
 			Assert.AreEqual("OverrideAttributeWithXml", cfg.Properties["default_validator_mode"]);
+			Assert.AreEqual("SomeNamespace.Type,SomeAssembly",cfg.Properties["constraint_validator_factory"]);
 			Assert.Contains(new MappingConfiguration("aAssembly", ""), (IList)cfg.Mappings);
 			Assert.Contains(new MappingConfiguration("aFile"), (IList)cfg.Mappings);
 			Assert.Contains(new MappingConfiguration("anotherAssembly", "TheResource"), (IList)cfg.Mappings);

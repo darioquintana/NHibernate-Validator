@@ -35,6 +35,11 @@ namespace NHibernate.Validator.Cfg
 		public const string MappingLoaderClass = "external_mappings_loader_class";
 
 		/// <summary>
+		/// Constraint Validator Factory used to create Validators.
+		/// </summary>
+		public const string ConstraintValidatorFactory = "constraint_validator_factory";
+
+		/// <summary>
 		/// Define validation mode.
 		/// Default <see cref="Engine.ValidatorMode.UseAttribute"/>
 		/// </summary>

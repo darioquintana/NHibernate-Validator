@@ -29,6 +29,7 @@ namespace NHibernate.Validator.Engine
 	{
 		private static readonly ILog log = LogManager.GetLogger(typeof(ClassValidator));
 		private readonly System.Type entityType;
+		private readonly IConstraintValidatorFactory constraintValidatorFactory;
 
 		private readonly Dictionary<MemberInfo, List<Attribute>> membersAttributesDictionary =
 			new Dictionary<MemberInfo, List<Attribute>>();
@@ -71,8 +72,11 @@ namespace NHibernate.Validator.Engine
 
 
 		/// <summary>
-		/// Create the validator engine for this entity type
+		/// Create the validator engine for this entity type. 
 		/// </summary>
+		/// <remarks>
+		/// Used in Unit Testing.
+		/// </remarks>
 		/// <param name="entityType"></param>
 		public ClassValidator(System.Type entityType)
 			: this(entityType, null, null, ValidatorMode.UseAttribute) {}
@@ -81,32 +85,38 @@ namespace NHibernate.Validator.Engine
 		/// Create the validator engine for a particular entity class, using a resource bundle
 		/// for message rendering on violation
 		/// </summary>
+		/// <remarks>
+		/// Used in Unit Testing.
+		/// </remarks>
 		/// <param name="entityType">entity type</param>
 		/// <param name="resourceManager"></param>
 		/// <param name="culture">The CultureInfo for the <paramref name="entityType"/>.</param>
 		/// <param name="validatorMode">Validator definition mode</param>
 		public ClassValidator(System.Type entityType, ResourceManager resourceManager, CultureInfo culture, ValidatorMode validatorMode)
-			: this(entityType, new Dictionary<System.Type, IClassValidator>(), new JITClassValidatorFactory(resourceManager, culture, null, validatorMode)) {}
+			: this(entityType, new DefaultConstraintValidatorFactory(), new Dictionary<System.Type, IClassValidator>(), new JITClassValidatorFactory(new DefaultConstraintValidatorFactory(), resourceManager, culture, null, validatorMode)) {}
 
 		/// <summary>
 		/// Create the validator engine for a particular entity class, using a resource bundle
 		/// for message rendering on violation
 		/// </summary>
+		/// <remarks>
+		/// Used in Unit Testing.
+		/// </remarks>
 		/// <param name="entityType">entity type</param>
 		/// <param name="resourceManager"></param>
 		/// <param name="userInterpolator">Custom interpolator.</param>
 		/// <param name="culture">The CultureInfo for the <paramref name="entityType"/>.</param>
 		/// <param name="validatorMode">Validator definition mode</param>
 		public ClassValidator(System.Type entityType, ResourceManager resourceManager, IMessageInterpolator userInterpolator, CultureInfo culture, ValidatorMode validatorMode)
-			: this(entityType, new Dictionary<System.Type, IClassValidator>(), new JITClassValidatorFactory(resourceManager, culture, userInterpolator, validatorMode)) { }
+			: this(entityType, new DefaultConstraintValidatorFactory(), new Dictionary<System.Type, IClassValidator>(), new JITClassValidatorFactory(new DefaultConstraintValidatorFactory(), resourceManager, culture, userInterpolator, validatorMode)) { }
 
-
-		internal ClassValidator(System.Type clazz, IDictionary<System.Type, IClassValidator> childClassValidators, IClassValidatorFactory factory)
+		internal ClassValidator(System.Type clazz, IConstraintValidatorFactory constraintValidatorFactory, IDictionary<System.Type, IClassValidator> childClassValidators, IClassValidatorFactory factory)
 		{
 			if (!ShouldNeedValidation(clazz))
 				throw new ArgumentOutOfRangeException("clazz", "Create a validator for a System class.");
 
 			entityType = clazz;
+			this.constraintValidatorFactory = constraintValidatorFactory;
 			this.factory = factory;
 			messageBundle = factory.ResourceManager ?? GetDefaultResourceManager();
 			defaultMessageBundle = GetDefaultResourceManager();
@@ -472,7 +482,7 @@ namespace NHibernate.Validator.Engine
 					return null;
 				}
 
-				IValidator entityValidator = (IValidator)Activator.CreateInstance(validatorClass.Value);
+				IValidator entityValidator = constraintValidatorFactory.GetInstance(validatorClass.Value);
 
 				InitializeValidator(attribute, validatorClass.Value, entityValidator);
 
@@ -740,8 +750,8 @@ namespace NHibernate.Validator.Engine
 		{
 			private readonly JITClassMappingFactory classMappingFactory;
 
-			public JITClassValidatorFactory(ResourceManager resourceManager, CultureInfo culture, IMessageInterpolator userInterpolator, ValidatorMode validatorMode) 
-				: base(resourceManager, culture, userInterpolator, validatorMode)
+			public JITClassValidatorFactory(IConstraintValidatorFactory constraintValidatorFactory,ResourceManager resourceManager, CultureInfo culture, IMessageInterpolator userInterpolator, ValidatorMode validatorMode) 
+				: base(constraintValidatorFactory, resourceManager, culture, userInterpolator, validatorMode)
 			{
 				classMappingFactory = new JITClassMappingFactory();
 			}
@@ -755,12 +765,12 @@ namespace NHibernate.Validator.Engine
 
 			public override IClassValidator GetRootValidator(System.Type type)
 			{
-				return new ClassValidator(type, new Dictionary<System.Type, IClassValidator>(), this);
+				return new ClassValidator(type, ConstraintValidatorFactory, new Dictionary<System.Type, IClassValidator>(), this);
 			}
 
 			public override void GetChildValidator(IClassValidatorImplementor parentValidator, System.Type childType)
 			{
-				new ClassValidator(childType, parentValidator.ChildClassValidators, this);
+				new ClassValidator(childType, ConstraintValidatorFactory, parentValidator.ChildClassValidators, this);
 			}
 
 			#endregion

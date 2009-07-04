@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<nhv-mapping xmlns="urn:nhibernate-validator-1.0" 
+			assembly="NHibernate.Validator.Tests" 
+			namespace="NHibernate.Validator.Tests.ConstraintFactory.Model"
+			>
+
+	<class name="Foo">
+		<property name="Name">
+			<notnull-notempty/>			
+		</property>
+		
+		<property name="Description">
+			<notnull-notempty/>
+			<length min="10" max="300"/>
+		</property>		
+	</class>
+</nhv-mapping>

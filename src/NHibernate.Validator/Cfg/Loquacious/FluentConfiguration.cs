@@ -31,6 +31,12 @@ namespace NHibernate.Validator.Cfg.Loquacious
 			return this;
 		}
 
+		public IFluentConfiguration SetConstraintValidatorFactory<T>() where T : IConstraintValidatorFactory
+		{
+			properties[Environment.ConstraintValidatorFactory] = typeof(T).AssemblyQualifiedName;
+			return this;
+		}
+
 		public IFluentConfiguration SetDefaultValidatorMode(ValidatorMode mode)
 		{
 			properties[Environment.ValidatorMode] = ValidatorModeConvertFrom(mode);

@@ -129,6 +129,8 @@
     <Compile Include="Constraints\IsNumericValidator.cs" />
     <Compile Include="Engine\AbstractClassValidatorFactory.cs" />
     <Compile Include="Cfg\Environment.cs" />
+    <Compile Include="Engine\DefaultConstraintValidatorFactory.cs" />
+    <Compile Include="Engine\IConstraintValidatorFactory.cs" />
     <Compile Include="Engine\InvalidMessageTransformer.cs" />
     <Compile Include="Engine\ConstraintValidatorContext.cs" />
     <Compile Include="Engine\IClassMappingFactory.cs" />

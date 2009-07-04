@@ -117,6 +117,10 @@
     <Compile Include="ConstraintContext\MemberValidation\PasswordValidator.cs" />
     <Compile Include="ConstraintContext\EntityValidation\PasswordValidator2.cs" />
     <Compile Include="ConstraintContext\Messages.cs" />
+    <Compile Include="ConstraintFactory\ConstraintFactoryFixture.cs" />
+    <Compile Include="ConstraintFactory\Model\FooDef.cs" />
+    <Compile Include="ConstraintFactory\Model\Foo.cs" />
+    <Compile Include="ConstraintFactory\TestConstraintValidatorFactory.cs" />
     <Compile Include="CustomValidator\ValidatorClassFixture.cs" />
     <Compile Include="CustomValidator\IsOneValidator.cs" />
     <Compile Include="DeepIntegration\AbstractMultipleCollectionFixture.cs" />
@@ -371,6 +375,7 @@
     <EmbeddedResource Include="DeepIntegration\DynaEntity.hbm.xml" />
     <EmbeddedResource Include="Collections\Simple.nhv.xml" />
     <EmbeddedResource Include="Base\WebImage.nhv.xml" />
+    <EmbeddedResource Include="ConstraintFactory\Model\Foo.nhv.xml" />
     <Content Include="nhvalidator.cfg.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

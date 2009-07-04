@@ -37,6 +37,7 @@
 								<xs:enumeration value="external_mappings_loader_class" />
 								<xs:enumeration value="message_interpolator_class" />
 								<xs:enumeration value="default_validator_mode" />
+								<xs:enumeration value="constraint_validator_factory" />
 							</xs:restriction>
 						</xs:simpleType>
 					</xs:attribute>
