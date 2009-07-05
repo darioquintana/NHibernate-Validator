@@ -9,6 +9,21 @@ Release Notes - NHibernate.Validator - Version 1.2.0
     * The class NHibernate.Validator.Cfg.NHVConfiguration was renamed to XmlConfiguration
 	* The interface NHibernate.Validator.Engine.IMessageInterpolator and implementations had changed the signature. See [NHV-40]
 
+Release Notes - NHibernate.Validator - Version 1.2.0Alpha4
+	
+** Improvement
+    * [NHV-29] - <rule attribute="..."> without parameters
+    * [NHV-47] - Renaming Bean property in Entity at NHibernate.Validator.Engine.InvalidValue
+    * [NHV-49] - Internals: Renaming Bean to Entity, and BeanClass to EntityType
+    * [NHV-51] - Messages Polish translation
+
+** New Feature
+    * [NHV-46] - Constraint Validator Context implementation
+    * [NHV-50] - Constraint Validator Factory
+
+** Patch
+    * [NHV-44] - Dutch translation fixes
+
 Release Notes - NHibernate.Validator - Version 1.2.0Alpha3
 	* Updated to NHibernate 2.1Alpha2
 
