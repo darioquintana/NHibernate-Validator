@@ -147,7 +147,7 @@
 	<xs:element name="rule">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:sequence maxOccurs="unbounded">
+				<xs:sequence minOccurs="0" maxOccurs="unbounded">
 					<xs:element ref="param" />
 				</xs:sequence>
 			</xs:sequence>

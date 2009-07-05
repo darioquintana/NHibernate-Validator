@@ -167,6 +167,9 @@
     <Compile Include="Specifics\NHV25\DictionaryValueKeyFixture.cs" />
     <Compile Include="Specifics\NHV25\Show.cs" />
     <Compile Include="Specifics\NHV25\Tv.cs" />
+    <Compile Include="Specifics\NHV29\CustomValidator.cs" />
+    <Compile Include="Specifics\NHV29\Fixture.cs" />
+    <Compile Include="Specifics\NHV29\Foo.cs" />
     <Compile Include="Specifics\NHV41\Model.cs" />
     <Compile Include="Specifics\NHV41\FixtureNHV40.cs" />
     <Compile Include="ThreadSafe\Foo.cs" />
@@ -379,6 +382,7 @@
     <Content Include="nhvalidator.cfg.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Specifics\NHV29\Mappings.nhv.xml" />
     <EmbeddedResource Include="Specifics\NHV25\Show.nhv.xml" />
     <EmbeddedResource Include="Specifics\NHV25\Tv.nhv.xml" />
   </ItemGroup>

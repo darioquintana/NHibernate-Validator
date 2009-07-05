@@ -140,6 +140,9 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			log.Info("The type found for ruleRule = " + type.FullName);
 			Attribute thisattribute = (Attribute)Activator.CreateInstance(type);
 			log.Info("Attribute found = " + thisattribute);
+			
+			if (ruleRule.param == null) return thisattribute; //eager return
+			
 			foreach (NhvmParam parameter in ruleRule.param)
 			{
 				PropertyInfo propInfo = type.GetProperty(parameter.name);

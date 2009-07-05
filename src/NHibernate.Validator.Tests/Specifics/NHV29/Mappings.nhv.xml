@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<nhv-mapping xmlns="urn:nhibernate-validator-1.0"
+			 namespace="NHibernate.Validator.Tests.Specifics.NHV29"
+			 assembly="NHibernate.Validator.Tests">
+	<class name="Foo">
+		<property name="Name">
+			<rule attribute="CustomValidatorAttribute"/>
+		</property>
+	</class>
+</nhv-mapping>
