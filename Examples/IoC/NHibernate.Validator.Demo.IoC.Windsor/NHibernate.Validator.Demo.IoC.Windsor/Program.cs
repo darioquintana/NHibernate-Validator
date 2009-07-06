@@ -17,11 +17,11 @@ namespace NHibernate.Validator.Demo.IoC.Windsor
 
 			//registering your own constraint validators
 			container.AddComponent(typeof (PersonNameValidator).Name.ToLower(), typeof (PersonNameValidator));
-			///End of Configuration.
-
+			///End of IoC Configuration.
+			
 			var vtor = new ValidatorEngine();
 			vtor.Configure();
-
+			
 			//Validating a valid entity 'Contact'
 			var validCustomer = new Contact
 			                    	{
