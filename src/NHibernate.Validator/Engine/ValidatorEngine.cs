@@ -32,7 +32,7 @@ namespace NHibernate.Validator.Engine
 		private StateFullClassValidatorFactory factory;
 		private IMessageInterpolator interpolator;
 		private ValidatorMode defaultMode;
-		private IConstraintValidatorFactory constraintValidatorEngine;
+		private IConstraintValidatorFactory constraintValidatorFactory;
 		private bool applyToDDL;
 		private bool autoRegisterListeners;
 
@@ -215,14 +215,14 @@ namespace NHibernate.Validator.Engine
 					PropertiesHelper.GetString(Environment.MessageInterpolatorClass, config.Properties, string.Empty),
 					"message interpolator");
 
-			constraintValidatorEngine = GetImplementation<IConstraintValidatorFactory>(
+			constraintValidatorFactory = GetImplementation<IConstraintValidatorFactory>(
 			                            	PropertiesHelper.GetString(Environment.ConstraintValidatorFactory,
 			                            	                           config.Properties,
 			                            	                           string.Empty),
 			                            	"Constraint Validator Factory") ?? new DefaultConstraintValidatorFactory();
 
 
-			factory = new StateFullClassValidatorFactory(constraintValidatorEngine, null, null, interpolator, defaultMode);
+			factory = new StateFullClassValidatorFactory(constraintValidatorFactory, null, null, interpolator, defaultMode);
 
 			// UpLoad Mappings
 			if(mappingLoader == null)
