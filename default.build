@@ -180,15 +180,12 @@
 				<include name="nhvalidator.cfg.xml"/>
 				<include name="*.config"/>
 			</fileset>
-		</copy>	
+		</copy>
 		
 		<delete>
 			<fileset basedir="${bin.dir}">
-				<include name="NHibernate.DomainModel.xml" />
-				<include name="*Lucene.Net.xml" />
 				<include name="nhvalidator.cfg.xml"/>
 				<include name="nunit.*.dll" />
-				<include name="Rhino.Mocks.*" />
 				<include name="*.Test*" />
 			</fileset>
 		</delete>		
