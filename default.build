@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <project
-	name="NHibernate"
+	name="NHibernate Validator"
 	default="build"
 	xmlns="http://nant.sf.net/release/0.85-rc3/nant.xsd"
 >
