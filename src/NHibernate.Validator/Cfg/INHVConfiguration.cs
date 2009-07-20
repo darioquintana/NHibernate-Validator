@@ -10,16 +10,16 @@ namespace NHibernate.Validator.Cfg
 		/// <summary>
 		/// Assembly qualified name for shared engine provider.
 		/// </summary>
-		string SharedEngineProviderClass { get;}
+		string SharedEngineProviderClass { get; }
 
 		/// <summary>
 		/// Configured properties.
 		/// </summary>
-		IDictionary<string, string> Properties { get;}
+		IDictionary<string, string> Properties { get; }
 
 		/// <summary>
 		/// Configured Mappings.
 		/// </summary>
-		IList<MappingConfiguration> Mappings { get;}
+		IList<MappingConfiguration> Mappings { get; }
 	}
 }
