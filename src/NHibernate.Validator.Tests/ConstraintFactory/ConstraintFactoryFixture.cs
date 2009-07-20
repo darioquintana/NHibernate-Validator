@@ -9,12 +9,18 @@ namespace NHibernate.Validator.Tests.ConstraintFactory
 	[TestFixture]
 	public class ConstraintFactoryFixtureUsingAttributes
 	{
+		[SetUp]
+		public void OnSetup()
+		{
+			Environment.ConstraintValidatorFactory = null;
+		}
+
 		public virtual ValidatorEngine GetValidatorEngine()
 		{
 			var ve = new ValidatorEngine();
 			var cfg = new XmlConfiguration();
 			cfg.Properties[Environment.ValidatorMode] = "UseAttribute";
-			cfg.Properties[Environment.ConstraintValidatorFactory] =
+			cfg.Properties[Environment.ConstraintValidatorFactoryClass] =
 				typeof (TestConstraintValidatorFactory).AssemblyQualifiedName;
 			ve.Configure(cfg);
 			return ve;
@@ -39,7 +45,7 @@ namespace NHibernate.Validator.Tests.ConstraintFactory
 			var ve = new ValidatorEngine();
 			var cfg = new XmlConfiguration();
 			cfg.Properties[Environment.ValidatorMode] = "UseExternal";
-			cfg.Properties[Environment.ConstraintValidatorFactory] = 
+			cfg.Properties[Environment.ConstraintValidatorFactoryClass] = 
 				typeof (TestConstraintValidatorFactory).AssemblyQualifiedName;
 			ve.Configure(cfg);
 			return ve;
@@ -58,6 +64,16 @@ namespace NHibernate.Validator.Tests.ConstraintFactory
 				.Register(new [] { typeof(Foo) }) ;
 			
 			ve.Configure(configuration);
+			return ve;
+		}
+	}
+
+    public class ConstraintFactoryFixtureUsingAttributesAndEnvironment : ConstraintFactoryFixtureUsingAttributes
+	{
+		public override ValidatorEngine GetValidatorEngine()
+		{
+			Environment.ConstraintValidatorFactory = new TestConstraintValidatorFactory();
+			var ve = new ValidatorEngine();
 			return ve;
 		}
 	}

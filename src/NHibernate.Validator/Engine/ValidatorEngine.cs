@@ -78,7 +78,12 @@ namespace NHibernate.Validator.Engine
 
 		public ValidatorEngine()
 		{
-			factory = new StateFullClassValidatorFactory(new DefaultConstraintValidatorFactory(), null, null, null, ValidatorMode.UseAttribute);
+			if (Environment.ConstraintValidatorFactory != null)
+				constraintValidatorFactory = Environment.ConstraintValidatorFactory;
+			else
+				constraintValidatorFactory = new DefaultConstraintValidatorFactory();
+			
+			factory = new StateFullClassValidatorFactory(constraintValidatorFactory, null, null, null, ValidatorMode.UseAttribute);
 		}
 
 		/// <summary>
@@ -215,12 +220,18 @@ namespace NHibernate.Validator.Engine
 					PropertiesHelper.GetString(Environment.MessageInterpolatorClass, config.Properties, string.Empty),
 					"message interpolator");
 
-			constraintValidatorFactory = GetImplementation<IConstraintValidatorFactory>(
-			                            	PropertiesHelper.GetString(Environment.ConstraintValidatorFactory,
-			                            	                           config.Properties,
-			                            	                           string.Empty),
-			                            	"Constraint Validator Factory") ?? new DefaultConstraintValidatorFactory();
-
+			if (Environment.ConstraintValidatorFactory == null)
+			{
+                constraintValidatorFactory = GetImplementation<IConstraintValidatorFactory>(
+				                             	PropertiesHelper.GetString(Environment.ConstraintValidatorFactoryClass,
+				                             	                           config.Properties,
+				                             	                           string.Empty),
+				                             	"Constraint Validator Factory") ?? new DefaultConstraintValidatorFactory();
+			}
+			else
+			{
+				constraintValidatorFactory = Environment.ConstraintValidatorFactory;
+			}
 
 			factory = new StateFullClassValidatorFactory(constraintValidatorFactory, null, null, interpolator, defaultMode);
 

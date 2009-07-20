@@ -4,12 +4,19 @@ using NHibernate.Validator.Engine;
 using NHibernate.Validator.Tests.Base;
 using NHibernate.Validator.Tests.Integration;
 using NUnit.Framework;
+using Environment=System.Environment;
 
 namespace NHibernate.Validator.Tests.Serialization
 {
 	[TestFixture]
 	public class ValidatorEngineSerializationFixture
 	{
+		[SetUp]
+		public void OnSetup()
+		{
+			Cfg.Environment.ConstraintValidatorFactory = null;
+		}
+
 		[Test]
 		public void IsSerializable()
 		{
@@ -28,6 +35,7 @@ namespace NHibernate.Validator.Tests.Serialization
 		{
 			ValidatorEngine ve = new ValidatorEngine();
 			XmlConfiguration nhvc = new XmlConfiguration();
+			
 			nhvc.Properties[Cfg.Environment.ValidatorMode] = "UseAttribute";
 			nhvc.Properties[Cfg.Environment.MessageInterpolatorClass] = typeof(PrefixMessageInterpolator).AssemblyQualifiedName;
 			ve.Configure(nhvc);

@@ -37,7 +37,7 @@ namespace NHibernate.Validator.Cfg
 		/// <summary>
 		/// Constraint Validator Factory used to create Validators.
 		/// </summary>
-		public const string ConstraintValidatorFactory = "constraint_validator_factory";
+		public const string ConstraintValidatorFactoryClass = "constraint_validator_factory";
 
 		/// <summary>
 		/// Define validation mode.
@@ -121,5 +121,7 @@ namespace NHibernate.Validator.Cfg
 			get { return sharedEngineProviderInstance; }
 			set { sharedEngineProviderInstance = value; }
 		}
+
+		public static IConstraintValidatorFactory ConstraintValidatorFactory { get; set; }
 	}
 }

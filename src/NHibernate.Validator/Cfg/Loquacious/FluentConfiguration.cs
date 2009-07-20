@@ -33,7 +33,7 @@ namespace NHibernate.Validator.Cfg.Loquacious
 
 		public IFluentConfiguration SetConstraintValidatorFactory<T>() where T : IConstraintValidatorFactory
 		{
-			properties[Environment.ConstraintValidatorFactory] = typeof(T).AssemblyQualifiedName;
+			properties[Environment.ConstraintValidatorFactoryClass] = typeof(T).AssemblyQualifiedName;
 			return this;
 		}
 
