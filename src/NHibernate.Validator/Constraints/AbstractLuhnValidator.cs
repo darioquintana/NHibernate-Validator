@@ -8,7 +8,7 @@ namespace NHibernate.Validator.Constraints
 	[Serializable]
 	public abstract class AbstractLuhnValidator
 	{
-		private const string pattern = @"\d*$";
+		private const string pattern = @"^\d{14,19}$";
 		private static readonly Regex regex = new Regex(pattern, RegexOptions.Compiled);
 		public abstract int Multiplicator { get; }
 

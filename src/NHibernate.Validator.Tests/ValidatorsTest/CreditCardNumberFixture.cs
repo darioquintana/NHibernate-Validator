@@ -20,6 +20,8 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 			AssertInvalid("1234567890123456");
 			AssertInvalid("4417123456789112");
 			AssertInvalid("4408041234567890");
+			AssertInvalid("4408041234567890ab");
+			AssertInvalid("4408 0412 3456 7890");
 			AssertInvalid(5); // check any values different of string
 		}
 
