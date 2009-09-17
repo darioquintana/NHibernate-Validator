@@ -13,7 +13,7 @@ namespace NHibernate.Validator.Tests.Integration
 			get { return new[] { "Integration.SimpleWithRelation.hbm.xml" }; }
 		}
 
-		[Test, Ignore("Not fixed yet")]
+		[Test]
 		public void ValidateInitializedProxyAtFirstLevel()
 		{
 			var validatorConf = new FluentConfiguration();
@@ -45,7 +45,7 @@ namespace NHibernate.Validator.Tests.Integration
 			CleanDb();
 		}
 
-		[Test, Ignore("Not fixed yet")]
+		[Test]
 		public void ValidateNotInitializeProxyAtFirstLevel()
 		{
 			var validatorConf = new FluentConfiguration();
@@ -85,6 +85,7 @@ namespace NHibernate.Validator.Tests.Integration
 
 			var vDefSimple = new ValidationDef<SimpleWithRelation>();
 			vDefSimple.Define(s => s.Name).MatchWith("OK");
+			vDefSimple.Define(s => s.Relation).IsValid();
 			validatorConf.Register(vDefSimple);
 
 			var vDefRelation = new ValidationDef<Relation>();
@@ -114,7 +115,7 @@ namespace NHibernate.Validator.Tests.Integration
 			CleanDb();
 		}
 
-		[Test, Ignore("Not fixed yet")]
+		[Test]
 		public void ValidateNotInitializeProxyAtDeepLevel()
 		{
 			var validatorConf = new FluentConfiguration();
@@ -122,6 +123,7 @@ namespace NHibernate.Validator.Tests.Integration
 
 			var vDefSimple = new ValidationDef<SimpleWithRelation>();
 			vDefSimple.Define(s => s.Name).MatchWith("OK");
+			vDefSimple.Define(s => s.Relation).IsValid();
 			validatorConf.Register(vDefSimple);
 
 			var vDefRelation = new ValidationDef<Relation>();

@@ -1,3 +1,4 @@
+using System;
 using NHibernate.Proxy;
 
 namespace NHibernate.Validator.Engine
@@ -5,6 +6,7 @@ namespace NHibernate.Validator.Engine
 	/// <summary>
 	/// An <see cref="IEntityTypeInspector"/> for proxy coming from NHibernate.
 	/// </summary>
+	[Serializable]
 	public class DefaultEntityTypeInspector: IEntityTypeInspector
 	{
 		#region Implementation of IEntityTypeInspector

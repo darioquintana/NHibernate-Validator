@@ -35,6 +35,7 @@ namespace NHibernate.Validator.Engine
 		private IConstraintValidatorFactory constraintValidatorFactory;
 		private bool applyToDDL;
 		private bool autoRegisterListeners;
+		private IEntityTypeInspector entityTypeInspector = new DefaultEntityTypeInspector();
 
 		private readonly ThreadSafeDictionary<System.Type, ValidatableElement> validators =
 			new ThreadSafeDictionary<System.Type, ValidatableElement>(new Dictionary<System.Type, ValidatableElement>());
@@ -275,7 +276,7 @@ namespace NHibernate.Validator.Engine
 			if (entity == null) 
 				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
 
-			System.Type entityType = entity.GetType();
+			System.Type entityType = GuessEntityType(entity);
 
 			if (!ClassValidator.ShouldNeedValidation(entityType))
 				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
@@ -286,6 +287,12 @@ namespace NHibernate.Validator.Engine
 			ValidateSubElements(element, entity, result);
 			result.AddRange(element.Validator.GetInvalidValues(entity));
 			return result.ToArray();
+		}
+
+		private System.Type GuessEntityType(object entity)
+		{
+			System.Type result = entityTypeInspector.GuessType(entity);
+			return result ?? entity.GetType();
 		}
 
 		private static void ValidateSubElements(ValidatableElement element, object entity, List<InvalidValue> consolidatedInvalidValues)
