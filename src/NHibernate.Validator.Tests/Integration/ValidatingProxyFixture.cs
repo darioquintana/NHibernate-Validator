@@ -21,6 +21,7 @@ namespace NHibernate.Validator.Tests.Integration
 			
 			var vDefSimple = new ValidationDef<SimpleWithRelation>();
 			vDefSimple.Define(s => s.Name).MatchWith("OK");
+			validatorConf.Register(vDefSimple);
 
 			var engine = new ValidatorEngine();
 			engine.Configure(validatorConf);
@@ -52,6 +53,7 @@ namespace NHibernate.Validator.Tests.Integration
 
 			var vDefSimple = new ValidationDef<SimpleWithRelation>();
 			vDefSimple.Define(s => s.Name).MatchWith("OK");
+			validatorConf.Register(vDefSimple);
 
 			var engine = new ValidatorEngine();
 			engine.Configure(validatorConf);
@@ -83,9 +85,11 @@ namespace NHibernate.Validator.Tests.Integration
 
 			var vDefSimple = new ValidationDef<SimpleWithRelation>();
 			vDefSimple.Define(s => s.Name).MatchWith("OK");
+			validatorConf.Register(vDefSimple);
 
 			var vDefRelation = new ValidationDef<Relation>();
 			vDefRelation.Define(s => s.Description).MatchWith("OK");
+			validatorConf.Register(vDefRelation);
 
 			var engine = new ValidatorEngine();
 			engine.Configure(validatorConf);
@@ -118,9 +122,11 @@ namespace NHibernate.Validator.Tests.Integration
 
 			var vDefSimple = new ValidationDef<SimpleWithRelation>();
 			vDefSimple.Define(s => s.Name).MatchWith("OK");
+			validatorConf.Register(vDefSimple);
 
 			var vDefRelation = new ValidationDef<Relation>();
 			vDefRelation.Define(s => s.Description).MatchWith("OK");
+			validatorConf.Register(vDefRelation);
 
 			var engine = new ValidatorEngine();
 			engine.Configure(validatorConf);
