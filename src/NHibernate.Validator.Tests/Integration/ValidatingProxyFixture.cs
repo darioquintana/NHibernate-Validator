@@ -77,7 +77,7 @@ namespace NHibernate.Validator.Tests.Integration
 			CleanDb();
 		}
 
-		[Test, Ignore("Not fixed yet")]
+		[Test]
 		public void ValidateInitializedProxyAtDeepLevel()
 		{
 			var validatorConf = new FluentConfiguration();

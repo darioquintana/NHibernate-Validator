@@ -110,10 +110,13 @@ namespace NHibernate.Validator.Engine
 		public ClassValidator(System.Type entityType, ResourceManager resourceManager, IMessageInterpolator userInterpolator, CultureInfo culture, ValidatorMode validatorMode)
 			: this(entityType, new DefaultConstraintValidatorFactory(), new Dictionary<System.Type, IClassValidator>(), new JITClassValidatorFactory(new DefaultConstraintValidatorFactory(), resourceManager, culture, userInterpolator, validatorMode)) { }
 
-		internal ClassValidator(System.Type clazz, IConstraintValidatorFactory constraintValidatorFactory, IDictionary<System.Type, IClassValidator> childClassValidators, IClassValidatorFactory factory)
+		internal ClassValidator(System.Type clazz, IConstraintValidatorFactory constraintValidatorFactory,
+		                        IDictionary<System.Type, IClassValidator> childClassValidators, IClassValidatorFactory factory)
 		{
 			if (!ShouldNeedValidation(clazz))
+			{
 				throw new ArgumentOutOfRangeException("clazz", "Create a validator for a System class.");
+			}
 
 			entityType = clazz;
 			this.constraintValidatorFactory = constraintValidatorFactory;
@@ -122,10 +125,13 @@ namespace NHibernate.Validator.Engine
 			defaultMessageBundle = GetDefaultResourceManager();
 			culture = factory.Culture;
 			userInterpolator = factory.UserInterpolator;
-			if (userInterpolator !=null) userInterpolatorType = factory.UserInterpolator.GetType();
+			if (userInterpolator != null)
+			{
+				userInterpolatorType = factory.UserInterpolator.GetType();
+			}
 			this.childClassValidators = childClassValidators;
 			validatorMode = factory.ValidatorMode;
-			
+
 			//Initialize the ClassValidator
 			InitValidator(entityType, childClassValidators);
 		}
@@ -367,7 +373,7 @@ namespace NHibernate.Validator.Engine
 			else
 			{
 				//Simple Value, Non-Collection
-				InvalidValue[] invalidValues = GetClassValidator(value.GetType()).GetInvalidValues(value, circularityState);
+				InvalidValue[] invalidValues = GetClassValidator(GuessEntityType(value)).GetInvalidValues(value, circularityState);
 
 				foreach (InvalidValue invalidValue in invalidValues)
 				{
@@ -375,6 +381,11 @@ namespace NHibernate.Validator.Engine
 					results.Add(invalidValue);
 				}
 			}
+		}
+
+		private System.Type GuessEntityType(object value)
+		{
+			return factory.EntityTypeInspector.GuessType(value) ?? value.GetType();
 		}
 
 		private void MakeCollectionValidation(IEnumerable value, object entity, MemberInfo member, ISet circularityState, ICollection<InvalidValue> results)

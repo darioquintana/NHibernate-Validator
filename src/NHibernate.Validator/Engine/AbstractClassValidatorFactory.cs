@@ -1,6 +1,6 @@
+using System;
 using System.Globalization;
 using System.Resources;
-using System;
 
 namespace NHibernate.Validator.Engine
 {
@@ -12,14 +12,25 @@ namespace NHibernate.Validator.Engine
 		private readonly IMessageInterpolator userInterpolator;
 		private readonly ValidatorMode validatorMode;
 		private readonly IConstraintValidatorFactory constraintValidatorFactory;
-		
-		public AbstractClassValidatorFactory(IConstraintValidatorFactory constraintValidatorFactory, ResourceManager resourceManager, CultureInfo culture, IMessageInterpolator userInterpolator, ValidatorMode validatorMode)
+
+		protected AbstractClassValidatorFactory(IConstraintValidatorFactory constraintValidatorFactory,
+		                                        ResourceManager resourceManager, CultureInfo culture,
+		                                        IMessageInterpolator userInterpolator, ValidatorMode validatorMode)
+			: this(
+				constraintValidatorFactory, resourceManager, culture, userInterpolator, validatorMode,
+				new DefaultEntityTypeInspector()) {}
+
+		protected AbstractClassValidatorFactory(IConstraintValidatorFactory constraintValidatorFactory,
+		                                        ResourceManager resourceManager, CultureInfo culture,
+		                                        IMessageInterpolator userInterpolator, ValidatorMode validatorMode,
+		                                        IEntityTypeInspector entityTypeInspector)
 		{
 			this.constraintValidatorFactory = constraintValidatorFactory;
 			this.resourceManager = resourceManager;
 			this.culture = culture;
 			this.userInterpolator = userInterpolator;
 			this.validatorMode = validatorMode;
+			EntityTypeInspector = entityTypeInspector;
 		}
 
 		public IConstraintValidatorFactory ConstraintValidatorFactory
@@ -52,5 +63,7 @@ namespace NHibernate.Validator.Engine
 		public abstract void GetChildValidator(IClassValidatorImplementor parentValidator, System.Type childType);
 
 		public abstract IClassMappingFactory ClassMappingFactory { get; }
+
+		public IEntityTypeInspector EntityTypeInspector { get; private set; }
 	}
 }
