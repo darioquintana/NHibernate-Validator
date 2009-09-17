@@ -144,6 +144,7 @@
     <Compile Include="Engine\IValidatableSubElementsInspector.cs" />
     <Compile Include="Cfg\XmlMappingLoader.cs" />
     <Compile Include="Engine\JITClassMappingFactory.cs" />
+    <Compile Include="Engine\MultiEntityTypeInspector.cs" />
     <Compile Include="Engine\StateFullClassMappingFactory.cs" />
     <Compile Include="Engine\StateFullClassValidatorFactory.cs" />
     <Compile Include="Engine\ValidatableElement.cs" />
