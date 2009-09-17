@@ -8,7 +8,7 @@
 			<generator class="native"/>
 		</id>
 		<property name="Name"/>
-		<many-to-one name="Relation" cascade="all"/>
+		<many-to-one name="Relation"/>
 	</class>
 	
 	<class name="Relation">

@@ -45,7 +45,7 @@ namespace NHibernate.Validator.Tests.Integration
 		}
 
 		[Test, Ignore("Not fixed yet")]
-		public void ValidateNotInitializedProxyAtFirstLevel()
+		public void ValidateNotInitializeProxyAtFirstLevel()
 		{
 			var validatorConf = new FluentConfiguration();
 			validatorConf.SetDefaultValidatorMode(ValidatorMode.UseExternal);
@@ -69,6 +69,76 @@ namespace NHibernate.Validator.Tests.Integration
 			{
 				var proxy = s.Load<SimpleWithRelation>(savedId);
 				Assert.That(engine.IsValid(proxy));
+				Assert.That(!NHibernateUtil.IsInitialized(proxy), "should not initialize the proxy");
+			}
+
+			CleanDb();
+		}
+
+		[Test, Ignore("Not fixed yet")]
+		public void ValidateInitializedProxyAtDeepLevel()
+		{
+			var validatorConf = new FluentConfiguration();
+			validatorConf.SetDefaultValidatorMode(ValidatorMode.UseExternal);
+
+			var vDefSimple = new ValidationDef<SimpleWithRelation>();
+			vDefSimple.Define(s => s.Name).MatchWith("OK");
+
+			var vDefRelation = new ValidationDef<Relation>();
+			vDefRelation.Define(s => s.Description).MatchWith("OK");
+
+			var engine = new ValidatorEngine();
+			engine.Configure(validatorConf);
+
+			object savedIdRelation;
+			// fill DB
+			using (ISession s = OpenSession())
+			using (ITransaction tx = s.BeginTransaction())
+			{
+				var relation = new Relation{ Description = "OK" };
+				savedIdRelation = s.Save(relation);
+				tx.Commit();
+			}
+
+			using (ISession s = OpenSession())
+			{
+				var proxy = s.Load<Relation>(savedIdRelation);
+				NHibernateUtil.Initialize(proxy);
+				Assert.That(engine.IsValid(new SimpleWithRelation { Name = "OK", Relation = proxy }));
+			}
+
+			CleanDb();
+		}
+
+		[Test, Ignore("Not fixed yet")]
+		public void ValidateNotInitializeProxyAtDeepLevel()
+		{
+			var validatorConf = new FluentConfiguration();
+			validatorConf.SetDefaultValidatorMode(ValidatorMode.UseExternal);
+
+			var vDefSimple = new ValidationDef<SimpleWithRelation>();
+			vDefSimple.Define(s => s.Name).MatchWith("OK");
+
+			var vDefRelation = new ValidationDef<Relation>();
+			vDefRelation.Define(s => s.Description).MatchWith("OK");
+
+			var engine = new ValidatorEngine();
+			engine.Configure(validatorConf);
+
+			object savedIdRelation;
+			// fill DB
+			using (ISession s = OpenSession())
+			using (ITransaction tx = s.BeginTransaction())
+			{
+				var relation = new Relation { Description = "OK" };
+				savedIdRelation = s.Save(relation);
+				tx.Commit();
+			}
+
+			using (ISession s = OpenSession())
+			{
+				var proxy = s.Load<Relation>(savedIdRelation);
+				Assert.That(engine.IsValid(new SimpleWithRelation { Name = "OK", Relation = proxy }));
 				Assert.That(!NHibernateUtil.IsInitialized(proxy), "should not initialize the proxy");
 			}
 
