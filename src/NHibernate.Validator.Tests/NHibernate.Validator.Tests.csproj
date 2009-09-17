@@ -139,7 +139,9 @@
     <Compile Include="GraphNavigation\Address.cs" />
     <Compile Include="Inheritance\LoquaciousInheritanceFixture.cs" />
     <Compile Include="Integration\IntegrationOwnEngineFixture.cs" />
+    <Compile Include="Integration\SimpleWithRelation.cs" />
     <Compile Include="Integration\ValidateEventsFixture.cs" />
+    <Compile Include="Integration\ValidatingProxyFixture.cs" />
     <Compile Include="Integration\WrongClass.cs" />
     <Compile Include="Integration\WrongConstraint.cs" />
     <Compile Include="Integration\ValidatorInitializerFixture.cs" />
@@ -379,6 +381,7 @@
     <EmbeddedResource Include="Collections\Simple.nhv.xml" />
     <EmbeddedResource Include="Base\WebImage.nhv.xml" />
     <EmbeddedResource Include="ConstraintFactory\Model\Foo.nhv.xml" />
+    <EmbeddedResource Include="Integration\SimpleWithRelation.hbm.xml" />
     <Content Include="nhvalidator.cfg.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
