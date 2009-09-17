@@ -50,6 +50,12 @@ namespace NHibernate.Validator.Cfg.Loquacious
 			return this;
 		}
 
+		public IFluentConfiguration Register<TEntity>(IValidationDefinition<TEntity> validationDefinition) where TEntity : class
+		{
+			loader.AddClassDefinition(validationDefinition);
+			return this;
+		}
+
 		public IFluentConfiguration Register(IEnumerable<System.Type> definitions)
 		{
 			loader.AddClassDefinitions(definitions);

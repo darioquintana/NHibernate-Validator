@@ -13,6 +13,9 @@ namespace NHibernate.Validator.Cfg.Loquacious
 		IFluentConfiguration Register<TDef, TEntity>() where TDef : IValidationDefinition<TEntity>, IMappingSource, new()
 			where TEntity : class;
 
+		IFluentConfiguration Register<TEntity>(IValidationDefinition<TEntity> validationDefinition)
+			where TEntity : class;
+
 		IFluentConfiguration Register(IEnumerable<System.Type> definitions);
 	}
 }

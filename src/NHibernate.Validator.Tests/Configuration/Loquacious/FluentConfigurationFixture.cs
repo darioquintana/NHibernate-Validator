@@ -72,6 +72,17 @@ namespace NHibernate.Validator.Tests.Configuration.Loquacious
 			Assert.That(ve.GetValidator<Boo>(), Is.Not.Null);
 		}
 
+		[Test]
+		public void ShouldAddValidationDefInstance()
+		{
+			var fc = new FluentConfiguration();
+			var vd = new ValidationDef<Address>();
+			vd.Define(x => x.Country).MaxLength(10);
+			fc.Register(vd);
+			var mp = (IMappingsProvider)fc;
+			Assert.That(mp.GetMappings().Any(m => m.EntityType == typeof (Address)));
+		}
+
 		public class MessageInterpolatorStub : IMessageInterpolator
 		{
 			public string Interpolate(string message, object entity, IValidator validator, IMessageInterpolator defaultInterpolator)
