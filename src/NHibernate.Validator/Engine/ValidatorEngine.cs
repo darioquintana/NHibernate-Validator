@@ -377,7 +377,6 @@ namespace NHibernate.Validator.Engine
 		/// If the <see cref="System.Type"/> of the <paramref name="entity"/> was never inspected, or
 		/// it was not configured, the <see cref="IClassValidator"/> will be automatic added to the engine.
 		/// </remarks>
-		[Obsolete("Use ValidatePropertyValue<TEntity, TProperty>(TEntity, Expression<Func<TEntity, TProperty>>) instead.")]
 		public InvalidValue[] ValidatePropertyValue(object entity, string propertyName)
 		{
 			if (entity == null)
