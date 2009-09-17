@@ -131,6 +131,8 @@
     <Compile Include="DeepIntegration\MultipleSetFetchFixture.cs" />
     <Compile Include="DeepIntegration\Person.cs" />
     <Compile Include="Engine\ClassValidatorFixture.cs" />
+    <Compile Include="Integration\AnEntity.cs" />
+    <Compile Include="Integration\DefaultEntityTypeInspectorFixture.cs" />
     <Compile Include="Engine\ValidatableElementFixture.cs" />
     <Compile Include="GraphNavigation\Fixture.cs" />
     <Compile Include="GraphNavigation\OrderLine.cs" />
@@ -382,6 +384,7 @@
     <EmbeddedResource Include="Base\WebImage.nhv.xml" />
     <EmbeddedResource Include="ConstraintFactory\Model\Foo.nhv.xml" />
     <EmbeddedResource Include="Integration\SimpleWithRelation.hbm.xml" />
+    <EmbeddedResource Include="Integration\AnEntity.hbm.xml" />
     <Content Include="nhvalidator.cfg.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
