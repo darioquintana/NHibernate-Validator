@@ -325,11 +325,9 @@ namespace NHibernate.Validator.Engine
 			return results.ToArray();
 		}
 
-		private List<InvalidValue> MembersValidation(object entity, string memberName)
+		private IEnumerable<InvalidValue> MembersValidation(object entity, string memberName)
 		{
 			//Property & Field Validation
-			List<InvalidValue> results = new List<InvalidValue>();
-
 			int getterFound = 0;
 			for (int i = 0; i < memberValidators.Count; i++)
 			{
@@ -351,7 +349,11 @@ namespace NHibernate.Validator.Engine
 							var constraintContext = new ConstraintValidatorContext(member.Name, defaultInterpolator.GetAttributeMessage(validator));
 							if (!validator.IsValid(value, constraintContext))
 							{
-								results.AddRange(new InvalidMessageTransformer(constraintContext, entityType, member.Name, value, entity, validator, defaultInterpolator,userInterpolator).Transform());
+								var invalidValues = new InvalidMessageTransformer(constraintContext, entityType, member.Name, value, entity, validator, defaultInterpolator,userInterpolator).Transform();
+								foreach (var invalidValue in invalidValues)
+								{
+									yield return invalidValue;
+								}
 							}
 						}
 					}
@@ -363,8 +365,6 @@ namespace NHibernate.Validator.Engine
 				throw new TargetException(
 					string.Format("The property or field '{0}' was not found in class {1}", memberName, entityType.FullName));
 			}
-
-			return results;
 		}
 
 		/// <summary>
