@@ -15,13 +15,6 @@ namespace NHibernate.Validator.Engine
 
 		protected AbstractClassValidatorFactory(IConstraintValidatorFactory constraintValidatorFactory,
 		                                        ResourceManager resourceManager, CultureInfo culture,
-		                                        IMessageInterpolator userInterpolator, ValidatorMode validatorMode)
-			: this(
-				constraintValidatorFactory, resourceManager, culture, userInterpolator, validatorMode,
-				new DefaultEntityTypeInspector()) {}
-
-		protected AbstractClassValidatorFactory(IConstraintValidatorFactory constraintValidatorFactory,
-		                                        ResourceManager resourceManager, CultureInfo culture,
 		                                        IMessageInterpolator userInterpolator, ValidatorMode validatorMode,
 		                                        IEntityTypeInspector entityTypeInspector)
 		{
