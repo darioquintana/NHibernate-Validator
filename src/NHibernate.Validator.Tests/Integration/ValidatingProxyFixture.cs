@@ -40,6 +40,7 @@ namespace NHibernate.Validator.Tests.Integration
 				var proxy = s.Load<SimpleWithRelation>(savedId);
 				NHibernateUtil.Initialize(proxy);
 				Assert.That(engine.IsValid(proxy));
+				Assert.DoesNotThrow(() => engine.AssertValid(proxy));
 			}
 
 			CleanDb();
@@ -71,6 +72,7 @@ namespace NHibernate.Validator.Tests.Integration
 			{
 				var proxy = s.Load<SimpleWithRelation>(savedId);
 				Assert.That(engine.IsValid(proxy));
+				Assert.DoesNotThrow(() => engine.AssertValid(proxy));
 				Assert.That(!NHibernateUtil.IsInitialized(proxy), "should not initialize the proxy");
 			}
 
@@ -110,6 +112,7 @@ namespace NHibernate.Validator.Tests.Integration
 				var proxy = s.Load<Relation>(savedIdRelation);
 				NHibernateUtil.Initialize(proxy);
 				Assert.That(engine.IsValid(new SimpleWithRelation { Name = "OK", Relation = proxy }));
+				Assert.DoesNotThrow(() => engine.AssertValid(new SimpleWithRelation { Name = "OK", Relation = proxy }));
 			}
 
 			CleanDb();
@@ -147,6 +150,7 @@ namespace NHibernate.Validator.Tests.Integration
 			{
 				var proxy = s.Load<Relation>(savedIdRelation);
 				Assert.That(engine.IsValid(new SimpleWithRelation { Name = "OK", Relation = proxy }));
+				Assert.DoesNotThrow(() => engine.AssertValid(new SimpleWithRelation {Name = "OK", Relation = proxy}));
 				Assert.That(!NHibernateUtil.IsInitialized(proxy), "should not initialize the proxy");
 			}
 

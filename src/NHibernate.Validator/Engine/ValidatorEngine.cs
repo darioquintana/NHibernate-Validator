@@ -350,7 +350,7 @@ namespace NHibernate.Validator.Engine
 		public void AssertValid(object entity)
 		{
 			if (entity == null) return;
-			ValidatableElement element = GetElementOrNew(entity.GetType());
+			ValidatableElement element = GetElementOrNew(GuessEntityType(entity));
 			element.Validator.AssertValid(entity);
 		}
 
