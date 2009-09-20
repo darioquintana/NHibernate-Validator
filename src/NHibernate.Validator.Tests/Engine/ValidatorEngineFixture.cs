@@ -315,9 +315,8 @@ namespace NHibernate.Validator.Tests.Engine
 			}
 			catch(ValidatorConfigurationException e)
 			{
-				Assert.AreEqual(
-					"Public constructor was not found at message interpolator: "
-					+ typeof (NoDefConstructorInterpolator).AssemblyQualifiedName, e.Message);
+				Assert.That(e.Message, Text.Contains("Public constructor was not found"));
+				Assert.That(e.Message, Text.Contains(typeof (NoDefConstructorInterpolator).AssemblyQualifiedName));
 			}
 
 			try
@@ -413,9 +412,8 @@ namespace NHibernate.Validator.Tests.Engine
 			}
 			catch (ValidatorConfigurationException e)
 			{
-				Assert.AreEqual(
-					"Public constructor was not found at mapping loader: "
-					+ typeof(NoDefConstructorLoader).AssemblyQualifiedName, e.Message);
+				Assert.That(e.Message, Text.Contains("Public constructor was not found"));
+				Assert.That(e.Message, Text.Contains(typeof(NoDefConstructorLoader).AssemblyQualifiedName));
 			}
 
 			try

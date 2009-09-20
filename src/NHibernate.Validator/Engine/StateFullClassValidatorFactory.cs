@@ -16,8 +16,11 @@ namespace NHibernate.Validator.Engine
 		[NonSerialized] private IClassMappingFactory classMappingFactory = defaultClassMappingFactory;
 		private readonly IDictionary<System.Type, IClassValidator> validators = new Dictionary<System.Type, IClassValidator>();
 
-		public StateFullClassValidatorFactory(IConstraintValidatorFactory constraintValidatorFactory, ResourceManager resourceManager, CultureInfo culture, IMessageInterpolator userInterpolator, ValidatorMode validatorMode)
-			: base(constraintValidatorFactory, resourceManager, culture, userInterpolator, validatorMode) { }
+		public StateFullClassValidatorFactory(IConstraintValidatorFactory constraintValidatorFactory,
+		                                      ResourceManager resourceManager, CultureInfo culture,
+		                                      IMessageInterpolator userInterpolator, ValidatorMode validatorMode,
+		                                      IEntityTypeInspector entityTypeInspector)
+			: base(constraintValidatorFactory, resourceManager, culture, userInterpolator, validatorMode, entityTypeInspector) {}
 
 		public void Initialize(IMappingLoader loader)
 		{

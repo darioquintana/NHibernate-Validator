@@ -35,7 +35,7 @@ namespace NHibernate.Validator.Engine
 		private IConstraintValidatorFactory constraintValidatorFactory;
 		private bool applyToDDL;
 		private bool autoRegisterListeners;
-		private IEntityTypeInspector entityTypeInspector = new DefaultEntityTypeInspector();
+		private IEntityTypeInspector entityTypeInspector;
 
 		private readonly ThreadSafeDictionary<System.Type, ValidatableElement> validators =
 			new ThreadSafeDictionary<System.Type, ValidatableElement>(new Dictionary<System.Type, ValidatableElement>());
@@ -79,12 +79,10 @@ namespace NHibernate.Validator.Engine
 
 		public ValidatorEngine()
 		{
-			if (Environment.ConstraintValidatorFactory != null)
-				constraintValidatorFactory = Environment.ConstraintValidatorFactory;
-			else
-				constraintValidatorFactory = new DefaultConstraintValidatorFactory();
-			
-			factory = new StateFullClassValidatorFactory(constraintValidatorFactory, null, null, null, ValidatorMode.UseAttribute);
+			constraintValidatorFactory = Environment.ConstraintValidatorFactory ?? new DefaultConstraintValidatorFactory();
+			entityTypeInspector = new DefaultEntityTypeInspector();
+			factory = new StateFullClassValidatorFactory(constraintValidatorFactory, null, null, null, ValidatorMode.UseAttribute,
+			                                             entityTypeInspector);
 		}
 
 		/// <summary>
@@ -234,7 +232,22 @@ namespace NHibernate.Validator.Engine
 				constraintValidatorFactory = Environment.ConstraintValidatorFactory;
 			}
 
-			factory = new StateFullClassValidatorFactory(constraintValidatorFactory, null, null, interpolator, defaultMode);
+			var inspectorsTypes = new HashSet<System.Type>(config.EntityTypeInspectors) {typeof (DefaultEntityTypeInspector)};
+			if (inspectorsTypes.Count > 1)
+			{
+				var inspectors = new List<IEntityTypeInspector>();
+				foreach (var typeInspector in config.EntityTypeInspectors)
+				{
+					inspectors.Add(Instatiate<IEntityTypeInspector>(typeInspector));
+				}
+				entityTypeInspector = new MultiEntityTypeInspector(inspectors);
+			}
+			else
+			{
+				entityTypeInspector = new DefaultEntityTypeInspector();
+			}
+			factory = new StateFullClassValidatorFactory(constraintValidatorFactory, null, null, interpolator, defaultMode,
+			                                             entityTypeInspector);
 
 			// UpLoad Mappings
 			if(mappingLoader == null)
@@ -524,16 +537,11 @@ namespace NHibernate.Validator.Engine
 				try
 				{
 					System.Type type = ReflectHelper.ClassForName(classQualifiedName);
-					return (T)Activator.CreateInstance(type);
+					return Instatiate<T>(type);
 				}
-				catch (MissingMethodException ex)
+				catch (ValidatorConfigurationException)
 				{
-					throw new ValidatorConfigurationException("Public constructor was not found at " + frendlyName + ": " + classQualifiedName, ex);
-				}
-				catch (InvalidCastException ex)
-				{
-					throw new ValidatorConfigurationException(
-						"Type does not implement '" + typeof (T).FullName + "': " + classQualifiedName, ex);
+					throw;
 				}
 				catch (Exception ex)
 				{
@@ -541,6 +549,23 @@ namespace NHibernate.Validator.Engine
 				}
 			}
 			return null;
+		}
+
+		private static T Instatiate<T>(System.Type type)
+		{
+			try
+			{
+				return (T)Activator.CreateInstance(type);
+			}
+			catch (MissingMethodException ex)
+			{
+				throw new ValidatorConfigurationException("Public constructor was not found at : " + type.AssemblyQualifiedName, ex);
+			}
+			catch (InvalidCastException ex)
+			{
+				throw new ValidatorConfigurationException(
+					"Type does not implement '" + typeof(T).FullName + "': " + type.AssemblyQualifiedName, ex);
+			}
 		}
 
 		private static string GetDefaultConfigurationFilePath()
