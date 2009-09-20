@@ -29,7 +29,7 @@ namespace NHibernate.Validator.Engine
 			if (constraintContext == null) throw new ArgumentNullException("constraintContext");
 			if (results == null) throw new ArgumentNullException("results");
 			if (@class == null) throw new ArgumentNullException("class");
-			if (validator == null) throw new ArgumentNullException("valitor");
+			if (validator == null) throw new ArgumentNullException("validator");
 			if (defaultInterpolator == null) throw new ArgumentNullException("defaultInterpolator");
 
 			this.constraintContext = constraintContext;
