@@ -34,6 +34,9 @@ namespace NHibernate.Validator.Cfg
 		/// <summary>XPath expression for mapping nodes</summary>
 		public static readonly XPathExpression MappingsExpression;
 
+		/// <summary>XPath expression for entity-type-inspector nodes </summary>
+		public static readonly XPathExpression EntityTypeInspectorsExpression;
+
 		private static readonly XmlNamespaceManager nsMgr;
 
 		static CfgXmlHelper()
@@ -45,6 +48,7 @@ namespace NHibernate.Validator.Cfg
 			SharedEngineClassExpression = XPathExpression.Compile(RootPrefixPath + Environment.SharedEngineClass, nsMgr);
 			PropertiesExpression = XPathExpression.Compile(RootPrefixPath + "property", nsMgr);
 			MappingsExpression = XPathExpression.Compile(RootPrefixPath + "mapping", nsMgr);
+			EntityTypeInspectorsExpression = XPathExpression.Compile(RootPrefixPath + "entity-type-inspector", nsMgr);
 		}
 
 

@@ -12,6 +12,7 @@ namespace NHibernate.Validator.Cfg.Loquacious
 		private readonly FluentMappingLoader loader = new FluentMappingLoader();
 		protected readonly IList<MappingConfiguration> mappings = new List<MappingConfiguration>();
 		protected readonly IDictionary<string, string> properties = new Dictionary<string, string>();
+		protected readonly HashSet<System.Type> entityTypeInspectors = new HashSet<System.Type>();
 
 		public FluentConfiguration()
 		{
@@ -34,6 +35,12 @@ namespace NHibernate.Validator.Cfg.Loquacious
 		public IFluentConfiguration SetConstraintValidatorFactory<T>() where T : IConstraintValidatorFactory
 		{
 			properties[Environment.ConstraintValidatorFactoryClass] = typeof(T).AssemblyQualifiedName;
+			return this;
+		}
+
+		public IFluentConfiguration AddEntityTypeInspector<T>() where T : IEntityTypeInspector
+		{
+			entityTypeInspectors.Add(typeof (T));
 			return this;
 		}
 
@@ -103,6 +110,11 @@ namespace NHibernate.Validator.Cfg.Loquacious
 		IList<MappingConfiguration> INHVConfiguration.Mappings
 		{
 			get { return mappings; }
+		}
+
+		IEnumerable<System.Type> INHVConfiguration.EntityTypeInspectors
+		{
+			get { return entityTypeInspectors; }
 		}
 
 		#endregion

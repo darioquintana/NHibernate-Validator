@@ -9,6 +9,7 @@ namespace NHibernate.Validator.Cfg.Loquacious
 		IFluentConfiguration SetMessageInterpolator<T>() where T : IMessageInterpolator;
 		IFluentConfiguration SetDefaultValidatorMode(ValidatorMode mode);
 		IFluentConfiguration SetConstraintValidatorFactory<T>() where T : IConstraintValidatorFactory;
+		IFluentConfiguration AddEntityTypeInspector<T>() where T : IEntityTypeInspector;
 
 		IFluentConfiguration Register<TDef, TEntity>() where TDef : IValidationDefinition<TEntity>, IMappingSource, new()
 			where TEntity : class;

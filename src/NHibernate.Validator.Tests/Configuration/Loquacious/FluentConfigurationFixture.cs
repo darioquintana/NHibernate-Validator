@@ -90,5 +90,18 @@ namespace NHibernate.Validator.Tests.Configuration.Loquacious
 				return message;
 			}
 		}
+
+		[Test]
+		public void ShouldAddEntityTypeInspector()
+		{
+			var fc = new FluentConfiguration();
+			fc.AddEntityTypeInspector<DefaultEntityTypeInspector>();
+			fc.AddEntityTypeInspector<MultiEntityTypeInspector>();
+			var nhvc = (INHVConfiguration)fc;
+			var inspectors = nhvc.EntityTypeInspectors;
+			Assert.That(inspectors.Count(), Is.EqualTo(2));
+			Assert.That(inspectors.Contains(typeof(DefaultEntityTypeInspector)));
+			Assert.That(inspectors.Contains(typeof(MultiEntityTypeInspector)));
+		}
 	}
 }

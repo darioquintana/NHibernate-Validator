@@ -100,6 +100,7 @@ namespace NHibernate.Validator.Cfg
 			ParseSharedEngineProvider(navigator, fromAppSetting);
 			ParseProperties(navigator);
 			ParseMappings(navigator);
+			ParseEntityTypeInspectors(navigator);
 		}
 
 		private void ParseSharedEngineProvider(XPathNavigator navigator, bool fromAppConfig)
@@ -146,6 +147,21 @@ namespace NHibernate.Validator.Cfg
 					{
 						mappings.Add(mc);
 					}
+				}
+			}
+		}
+
+		private void ParseEntityTypeInspectors(XPathNavigator navigator)
+		{
+			XPathNodeIterator xpni = navigator.Select(CfgXmlHelper.EntityTypeInspectorsExpression);
+			while (xpni.MoveNext())
+			{
+				XPathNavigator pNav = xpni.Current.Clone();
+				pNav.MoveToFirstAttribute();
+				string fullName = pNav.Value;
+				if (!string.IsNullOrEmpty(fullName))
+				{
+					entityTypeInspectors.Add(System.Type.GetType(fullName));
 				}
 			}
 		}

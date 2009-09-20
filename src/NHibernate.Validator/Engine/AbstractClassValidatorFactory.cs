@@ -64,6 +64,6 @@ namespace NHibernate.Validator.Engine
 
 		public abstract IClassMappingFactory ClassMappingFactory { get; }
 
-		public IEntityTypeInspector EntityTypeInspector { get; private set; }
+		public IEntityTypeInspector EntityTypeInspector { get; protected set; }
 	}
 }

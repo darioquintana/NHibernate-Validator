@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Xml;
 using log4net.Config;
 using NHibernate.Validator.Cfg;
@@ -198,6 +199,35 @@ namespace NHibernate.Validator.Tests.Configuration
 			Assert.AreEqual("file='';assembly='NHibernate.Validator.Tests';resource=''", (new MappingConfiguration("NHibernate.Validator.Tests", "")).ToString());
 			Assert.AreEqual("file='aFilePath';assembly='';resource=''", (new MappingConfiguration("aFilePath")).ToString());
 			Assert.AreEqual("file='';assembly='NHibernate.Validator.Tests';resource='AResource'", (new MappingConfiguration("NHibernate.Validator.Tests", "AResource")).ToString());
+		}
+
+		[Test]
+		public void IgnoreEmptyItemsEntityTypeInspectors()
+		{
+			string xml =
+				@"<nhv-configuration xmlns='urn:nhv-configuration-1.0'>
+		<entity-type-inspector class=''/>
+	</nhv-configuration>";
+			XmlDocument cfgXml = new XmlDocument();
+			cfgXml.LoadXml(xml);
+			XmlTextReader xtr = new XmlTextReader(xml, XmlNodeType.Document, null);
+			XmlConfiguration cfg = new XmlConfiguration(xtr);
+			Assert.That(cfg.EntityTypeInspectors, Is.Empty);
+		}
+
+		[Test]
+		public void CanReadEntityTypeInspectors()
+		{
+			string xml =
+				@"<nhv-configuration xmlns='urn:nhv-configuration-1.0'>
+		<entity-type-inspector class='NHibernate.Validator.Engine.DefaultEntityTypeInspector, NHibernate.Validator'/>
+	</nhv-configuration>";
+			XmlDocument cfgXml = new XmlDocument();
+			cfgXml.LoadXml(xml);
+			XmlTextReader xtr = new XmlTextReader(xml, XmlNodeType.Document, null);
+			XmlConfiguration cfg = new XmlConfiguration(xtr);
+			Assert.That(cfg.EntityTypeInspectors, Is.Not.Empty);
+			Assert.That(cfg.EntityTypeInspectors.First(), Is.EqualTo(typeof(Validator.Engine.DefaultEntityTypeInspector)));
 		}
 	}
 }

@@ -15,6 +15,11 @@
 			<xs:attribute name="assembly" />
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="entity-type-inspector">
+		<xs:complexType>
+			<xs:attribute name="class" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="property">
 		<xs:complexType>
 			<xs:simpleContent>
@@ -50,6 +55,7 @@
 			<xs:sequence>
 				<xs:element ref="property" minOccurs="0" maxOccurs="unbounded" />
 				<xs:element ref="mapping" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="entity-type-inspector" minOccurs="0" maxOccurs="unbounded" />
 				<xs:element ref="shared_engine_provider" minOccurs="0" maxOccurs="1" />
 			</xs:sequence>
 		</xs:complexType>

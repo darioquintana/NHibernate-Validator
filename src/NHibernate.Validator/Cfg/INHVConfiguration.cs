@@ -21,5 +21,11 @@ namespace NHibernate.Validator.Cfg
 		/// Configured Mappings.
 		/// </summary>
 		IList<MappingConfiguration> Mappings { get; }
+
+		/// <summary>
+		/// Configured Entity Type Inspectors.
+		/// </summary>
+		/// <seealso cref="Engine.IEntityTypeInspector"/>
+		IEnumerable<System.Type> EntityTypeInspectors { get; }
 	}
 }
