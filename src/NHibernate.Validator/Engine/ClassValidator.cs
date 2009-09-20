@@ -301,7 +301,7 @@ namespace NHibernate.Validator.Engine
 				var constraintContext = new ConstraintValidatorContext(null,defaultInterpolator.GetAttributeMessage(validator));
 				if (!validator.IsValid(entity, constraintContext))
 				{
-					new InvalidMessageTransformer(constraintContext, results, entityType, null, entity, entity, validator, defaultInterpolator, userInterpolator).Transform();
+					results.AddRange(new InvalidMessageTransformer(constraintContext, entityType, null, entity, entity, validator, defaultInterpolator, userInterpolator).Transform());
 				}
 			}
 
@@ -351,7 +351,7 @@ namespace NHibernate.Validator.Engine
 							var constraintContext = new ConstraintValidatorContext(member.Name, defaultInterpolator.GetAttributeMessage(validator));
 							if (!validator.IsValid(value, constraintContext))
 							{
-								new InvalidMessageTransformer(constraintContext, results, entityType, member.Name, value, entity, validator, defaultInterpolator,userInterpolator).Transform();
+								results.AddRange(new InvalidMessageTransformer(constraintContext, entityType, member.Name, value, entity, validator, defaultInterpolator,userInterpolator).Transform());
 							}
 						}
 					}
@@ -638,10 +638,13 @@ namespace NHibernate.Validator.Engine
 					IValidator validator = memberValidators[i];
 					
 					var constraintContext = new ConstraintValidatorContext(propertyName, defaultInterpolator.GetAttributeMessage(validator));
-					
-					if (!validator.IsValid(value, null))
-						new InvalidMessageTransformer(constraintContext, results, entityType, propertyName, value, null, validator, defaultInterpolator, userInterpolator).Transform();
 
+					if (!validator.IsValid(value, null))
+					{
+						results.AddRange(
+							new InvalidMessageTransformer(constraintContext, entityType, propertyName, value, null, validator,
+							                              defaultInterpolator, userInterpolator).Transform());
+					}
 				}
 			}
 

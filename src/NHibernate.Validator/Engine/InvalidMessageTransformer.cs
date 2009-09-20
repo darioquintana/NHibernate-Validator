@@ -13,11 +13,9 @@ namespace NHibernate.Validator.Engine
 		private readonly System.Type @class;
 		private readonly ConstraintValidatorContext constraintContext;
 		private readonly string propertyName;
-		private readonly List<InvalidValue> results;
 		private readonly object value;
 
 		public InvalidMessageTransformer(ConstraintValidatorContext constraintContext, 
-			List<InvalidValue> results,
 			System.Type @class, 
 			string propertyName /* nullable */, 
 			object value /* nullable */,
@@ -27,13 +25,11 @@ namespace NHibernate.Validator.Engine
 			IMessageInterpolator userInterpolator /* nullable */)
 		{
 			if (constraintContext == null) throw new ArgumentNullException("constraintContext");
-			if (results == null) throw new ArgumentNullException("results");
 			if (@class == null) throw new ArgumentNullException("class");
 			if (validator == null) throw new ArgumentNullException("validator");
 			if (defaultInterpolator == null) throw new ArgumentNullException("defaultInterpolator");
 
 			this.constraintContext = constraintContext;
-			this.results = results;
 			this.@class = @class;
 			this.propertyName = propertyName;
 			this.value = value;
@@ -43,13 +39,13 @@ namespace NHibernate.Validator.Engine
 			this.userInterpolator = userInterpolator;
 		}
 
-		public void Transform()
+		public IEnumerable<InvalidValue> Transform()
 		{
 			foreach (var invalidMsg in constraintContext.InvalidMessages)
 			{
 				var interpolatedMessage = Interpolate(entity, invalidMsg.Message, validator);
 
-				results.Add(new InvalidValue(interpolatedMessage, @class, propertyName, value, entity));
+				yield return new InvalidValue(interpolatedMessage, @class, propertyName, value, entity);
 			}
 		}
 
