@@ -401,8 +401,8 @@ namespace NHibernate.Validator.Engine
 		{
 			if (entity == null)
 				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
-			
-			System.Type entityType = entity.GetType();
+
+			System.Type entityType = GuessEntityType(entity);
 
 			if (!ClassValidator.ShouldNeedValidation(entityType))
 				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
@@ -414,18 +414,7 @@ namespace NHibernate.Validator.Engine
 
 		public InvalidValue[] ValidatePropertyValue<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> expression) where TEntity : class
 		{
-			if (entity == null)
-				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
-
-			System.Type entityType = entity.GetType();
-
-			if (!ClassValidator.ShouldNeedValidation(entityType))
-				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
-
-			ValidatableElement element = GetElementOrNew(entityType);
-
-			var propertyName = TypeUtils.DecodeMemberAccessExpression(expression).Name;
-			return element.Validator.GetInvalidValues(entity, propertyName);
+			return ValidatePropertyValue(entity, TypeUtils.DecodeMemberAccessExpression(expression).Name);
 		}
 
 		/// <summary>

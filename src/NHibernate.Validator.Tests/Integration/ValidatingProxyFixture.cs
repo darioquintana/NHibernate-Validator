@@ -118,6 +118,49 @@ namespace NHibernate.Validator.Tests.Integration
 			CleanDb();
 		}
 
+        [Test]
+        public void ValidateChangedPropertyOfProxy()
+        {
+            var validatorConf = new FluentConfiguration();
+            validatorConf.SetDefaultValidatorMode(ValidatorMode.UseExternal);
+
+            var vDefSimple = new ValidationDef<SimpleWithRelation>();
+            vDefSimple.Define(s => s.Name).MatchWith("OK");
+            vDefSimple.Define(s => s.Relation).IsValid();
+            validatorConf.Register(vDefSimple);
+
+            var vDefRelation = new ValidationDef<Relation>();
+            vDefRelation.Define(s => s.Description).MatchWith("OK");
+            validatorConf.Register(vDefRelation);
+
+            var engine = new ValidatorEngine();
+            engine.Configure(validatorConf);
+
+            object savedIdRelation;
+            // fill DB
+            using (ISession s = OpenSession())
+            using (ITransaction tx = s.BeginTransaction())
+            {
+                var relation = new Relation { Description = "OK" };
+                savedIdRelation = s.Save(relation);
+                tx.Commit();
+            }
+
+            using (ISession s = OpenSession())
+            {
+                var proxy = s.Load<Relation>(savedIdRelation);
+                proxy.Description = "no";
+
+                Assert.AreEqual(1, engine.ValidatePropertyValue(proxy, p => p.Description).Length);
+                Assert.DoesNotThrow(() => engine.ValidatePropertyValue(proxy, p => p.Description));
+                
+                Assert.AreEqual(1, engine.ValidatePropertyValue(proxy, "Description").Length); 
+                Assert.DoesNotThrow(() => engine.ValidatePropertyValue(proxy, "Description"));
+            }
+
+            CleanDb();
+        }
+
 		[Test]
 		public void ValidateNotInitializeProxyAtDeepLevel()
 		{
