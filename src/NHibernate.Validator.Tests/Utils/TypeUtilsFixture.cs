@@ -37,6 +37,24 @@ namespace NHibernate.Validator.Tests.Utils
 		}
 	}
 
+	public interface ITestEntity<T>
+	{
+		T Name { get; }
+	}
+
+	public abstract class AbstractTestEntity<T> : ITestEntity<T>
+	{
+		public abstract T Name { get; }
+	}
+
+	public class TestEntity : AbstractTestEntity<string>
+	{
+		public override string Name
+		{
+			get { throw new NotImplementedException(); }
+		}
+	}
+
 	[TestFixture]
 	public class TypeUtilsFixture
 	{
@@ -138,6 +156,7 @@ namespace NHibernate.Validator.Tests.Utils
 			Assert.IsNotNull(TypeUtils.GetPropertyOrField(typeof(TestingClass), "IntProp"));
 			Assert.IsNotNull(TypeUtils.GetPropertyOrField(typeof(TestingClass), "bSimpleStr"));
 			Assert.IsNotNull(TypeUtils.GetPropertyOrField(typeof(TestingClass), "BaseIntProp"));
+			Assert.IsNotNull(TypeUtils.GetPropertyOrField(typeof (TestEntity), "Name"));
 			Assert.IsNull(TypeUtils.GetPropertyOrField(typeof(TestingClass), "WrongName"));
 		}
 

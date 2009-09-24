@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using NHibernate.Validator.Exceptions;
@@ -114,13 +115,17 @@ namespace NHibernate.Validator.Util
 
 		public static MemberInfo GetPropertyOrField(System.Type currentClass, string name)
 		{
-			MemberInfo memberInfo = currentClass.GetProperty(name, AnyVisibilityInstance);
-			if (memberInfo == null)
+			MemberInfo memberInfo;
+			try
 			{
-				memberInfo = currentClass.GetField(name, AnyVisibilityInstance);
+				memberInfo = currentClass.GetProperty(name, AnyVisibilityInstance);
+			}
+			catch (AmbiguousMatchException)
+			{
+				memberInfo = currentClass.GetProperties(AnyVisibilityInstance).FirstOrDefault(prop => prop.Name == name);
 			}
 
-			return memberInfo;
+			return memberInfo ?? currentClass.GetField(name, AnyVisibilityInstance);
 		}
 
 		public static MemberInfo DecodeMemberAccessExpression<TEntity, TResult>(Expression<Func<TEntity, TResult>> expression)
