@@ -44,8 +44,8 @@ namespace NHibernate.Validator.Engine
 			foreach (var invalidMsg in constraintContext.InvalidMessages)
 			{
 				var interpolatedMessage = Interpolate(entity, invalidMsg.Message, validator);
-
-				yield return new InvalidValue(interpolatedMessage, @class, propertyName, value, entity);
+				var property = invalidMsg.PropertyName ?? propertyName;
+				yield return new InvalidValue(interpolatedMessage, @class, property, value, entity);
 			}
 		}
 

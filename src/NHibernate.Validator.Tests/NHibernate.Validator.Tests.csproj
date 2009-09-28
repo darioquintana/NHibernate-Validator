@@ -177,6 +177,8 @@
     <Compile Include="Specifics\NHV29\Foo.cs" />
     <Compile Include="Specifics\NHV41\Model.cs" />
     <Compile Include="Specifics\NHV41\FixtureNHV40.cs" />
+    <Compile Include="Specifics\NHV62\Fixture.cs" />
+    <Compile Include="Specifics\NHV62\Model.cs" />
     <Compile Include="ThreadSafe\Foo.cs" />
     <Compile Include="ThreadSafe\ThreadSafeFixture.cs" />
     <Compile Include="Utils\AttributeUtilsFixture.cs" />
