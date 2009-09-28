@@ -86,6 +86,10 @@
     <Compile Include="It\CodFiscaleFixture.cs" />
     <Compile Include="It\LoquaciousFixture.cs" />
     <Compile Include="It\PartitaIVAFixture.cs" />
+    <Compile Include="Pl\NIPFixture.cs" />
+    <Compile Include="Pl\PESELFixture.cs" />
+    <Compile Include="Pl\PostalCodeFixture.cs" />
+    <Compile Include="Pl\REGONFixture.cs" />
     <Compile Include="Uy\CedulaIdentidadFixture.cs" />
   </ItemGroup>
   <ItemGroup>

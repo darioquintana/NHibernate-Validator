@@ -60,6 +60,14 @@
     <Compile Include="It\Extensions.cs" />
     <Compile Include="It\PartitaIvaAttribute.cs" />
     <Compile Include="It\PartitaIvaValidator.cs" />
+    <Compile Include="Pl\NIPAttribute.cs" />
+    <Compile Include="Pl\NIPValidator.cs" />
+    <Compile Include="Pl\PESELAttribute.cs" />
+    <Compile Include="Pl\PESELValidator.cs" />
+    <Compile Include="Pl\PostalCodeAttribute.cs" />
+    <Compile Include="Pl\PostalCodeValidator.cs" />
+    <Compile Include="Pl\REGONAttribute.cs" />
+    <Compile Include="Pl\REGONValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Uy\CedulaIdentidadAttribute.cs" />
     <Compile Include="Uy\CedulaIdentidadValidator.cs" />
