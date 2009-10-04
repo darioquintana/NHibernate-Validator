@@ -122,6 +122,14 @@ namespace NHibernate.Validator.Tests.Configuration
 			Assert.AreEqual("max message", maxa.Message);
 			Assert.AreEqual(200, maxa.Value);
 
+			DecimalMaxAttribute decimalmaxa = FindAttribute<DecimalMaxAttribute>(attributes);
+			Assert.AreEqual("decimal max message", decimalmaxa.Message);
+			Assert.AreEqual(200.1m, decimalmaxa.Value);
+
+			DecimalMinAttribute decimalmina = FindAttribute<DecimalMinAttribute>(attributes);
+			Assert.AreEqual("decimal min message", decimalmina.Message);
+			Assert.AreEqual(99.9m, decimalmina.Value);
+
 			mi = typeof(WellKnownRules).GetField("BProp");
 			attributes = new List<Attribute>(rm.GetMemberAttributes(mi));
 			AssertTrueAttribute ata = FindAttribute<AssertTrueAttribute>(attributes);

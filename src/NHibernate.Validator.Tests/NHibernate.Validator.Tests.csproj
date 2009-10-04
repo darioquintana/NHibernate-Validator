@@ -240,6 +240,8 @@
     <Compile Include="Base\ValidatorFixtureXml.cs" />
     <Compile Include="ValidatorsTest\AssertFalseFixture.cs" />
     <Compile Include="ValidatorsTest\CreditCardNumberFixture.cs" />
+    <Compile Include="ValidatorsTest\DecimalMaxValidatorFixture.cs" />
+    <Compile Include="ValidatorsTest\DecimalMinValidatorFixture.cs" />
     <Compile Include="ValidatorsTest\DigitsValidatorFixture.cs" />
     <Compile Include="ValidatorsTest\EANValidatorFixture.cs" />
     <Compile Include="ValidatorsTest\EmailValidatorFixture.cs" />

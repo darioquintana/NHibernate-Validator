@@ -30,6 +30,8 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			wellKnownRules[typeof(NhvmRange)] = ConvertToRange;
 			wellKnownRules[typeof(NhvmMin)] = ConvertToMin;
 			wellKnownRules[typeof(NhvmMax)] = ConvertToMax;
+			wellKnownRules[typeof(NhvmDecimalmax)] = ConvertToDecimalMax;
+			wellKnownRules[typeof(NhvmDecimalmin)] = ConvertToDecimalMin;
 			wellKnownRules[typeof(NhvmAsserttrue)] = ConvertToAssertTrue;
 			wellKnownRules[typeof(NhvmAssertfalse)] = ConvertToAssertFalse;
 			wellKnownRules[typeof(NhvmPattern)] = ConvertToPattern;
@@ -41,6 +43,46 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			wellKnownRules[typeof(NhvmFileexists)] = ConvertToFileExists;
 			wellKnownRules[typeof(NhvmValid)] = ConvertToValid;
 			wellKnownRules[typeof(NhvmIban)] = ConvertToIBAN;
+		}
+
+		private static Attribute ConvertToDecimalMin(XmlNhvmRuleConverterArgs rule)
+		{
+			NhvmDecimalmin minRule = (NhvmDecimalmin)rule.schemaRule;
+			decimal value = decimal.MinValue;
+
+			if (minRule.valueSpecified)
+				value = minRule.value;
+
+			log.Info(string.Format("Converting to DecimalMin attribute with value {0}", value));
+			DecimalMinAttribute thisAttribute = new DecimalMinAttribute();
+			thisAttribute.Value = value;
+
+			if (minRule.message != null)
+			{
+				thisAttribute.Message = minRule.message;
+			}
+
+			return thisAttribute;
+		}
+
+		private static Attribute ConvertToDecimalMax(XmlNhvmRuleConverterArgs rule)
+		{
+			NhvmDecimalmax maxRule = (NhvmDecimalmax)rule.schemaRule;
+			decimal value = decimal.MaxValue;
+
+			if (maxRule.valueSpecified)
+				value = maxRule.value;
+
+			log.Info(string.Format("Converting to DecimalMax attribute with value {0}", value));
+			DecimalMaxAttribute thisAttribute = new DecimalMaxAttribute();
+			thisAttribute.Value = value;
+
+			if (maxRule.message != null)
+			{
+				thisAttribute.Message = maxRule.message;
+			}
+
+			return thisAttribute;
 		}
 
 		public static Attribute CreateAttributeFromRule(object rule, string defaultAssembly, string defaultNameSpace)

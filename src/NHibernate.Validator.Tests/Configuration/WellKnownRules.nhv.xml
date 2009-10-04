@@ -40,7 +40,10 @@
 			<digits integerDigits="5" fractionalDigits="2" message="digits message"/>
 			<min value="100" message="min message"/>
 			<max value="200" message="max message"/>
+			<decimalmax value="200.1" message="decimal max message" />
+			<decimalmin value="99.9" message="decimal min message" />
 		</property>
+		
 		
 		<property name="BProp">
 			<asserttrue message="asserttrue message"/>

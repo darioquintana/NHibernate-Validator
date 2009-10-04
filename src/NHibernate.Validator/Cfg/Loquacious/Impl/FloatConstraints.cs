@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 using NHibernate.Validator.Constraints;
 
@@ -27,6 +28,16 @@ namespace NHibernate.Validator.Cfg.Loquacious.Impl
 		public IRuleArgsOptions GreaterThanOrEqualTo(long minValue)
 		{
 			return AddWithFinalRuleArgOptions(new MinAttribute(minValue));
+		}
+
+		public IRuleArgsOptions LessThanOrEqualTo(decimal maxValue)
+		{
+			return AddWithFinalRuleArgOptions(new DecimalMaxAttribute(maxValue));
+		}
+
+		public IRuleArgsOptions GreaterThanOrEqualTo(decimal minValue)
+		{
+			return AddWithFinalRuleArgOptions(new DecimalMinAttribute(minValue));
 		}
 
 		public IRuleArgsOptions IncludedBetween(long minValue, long maxValue)
