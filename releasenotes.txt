@@ -9,6 +9,26 @@ Release Notes - NHibernate.Validator - Version 1.2.0
     * The class NHibernate.Validator.Cfg.NHVConfiguration was renamed to XmlConfiguration
 	* The interface NHibernate.Validator.Engine.IMessageInterpolator and implementations had changed the signature. See [NHV-40]
 
+
+Release Notes - NHibernate.Validator - Version 1.2.0Beta2
+
+** Bug
+    * [NHV-54] - ugly Fail using external validation mapping with proxy
+
+** Improvement
+    * [NHV-55] - Fluent conf.: Allow the registration of a ValidationDef instance
+
+
+** Patch
+    * [NHV-53] - CreditCardNumberValidator fails if users put a space or a letter in the cc field
+    * [NHV-56] - ValidatePropertyValue fail with proxies from nhibernate
+    * [NHV-57] - AmbiguousMatchException within complex hierarchies
+    * [NHV-59] - Proxy in collection with HasValidElements constraints
+    * [NHV-61] - Polish Specific Validators
+    * [NHV-62] - Adding error with the property name when using Entity-Validator
+    * [NHV-63] - DecimalMax and DecimalMin validators
+
+
 Release Notes - NHibernate.Validator - Version 1.2.0Beta1
 
 ** Improvement
