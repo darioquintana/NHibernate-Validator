@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using NHibernate.Validator.Cfg.Loquacious;
 using NHibernate.Validator.Engine;
 using NUnit.Framework;
@@ -160,6 +161,49 @@ namespace NHibernate.Validator.Tests.Integration
 
             CleanDb();
         }
+
+		[Test]
+		public void ValidateHasValidElementsWithProxies()
+		{
+			var validatorConf = new FluentConfiguration();
+			validatorConf.SetDefaultValidatorMode(ValidatorMode.UseExternal);
+
+			var vDefSimple = new ValidationDef<SimpleWithCollection>();
+			vDefSimple.Define(s => s.Relations).HasValidElements();
+			validatorConf.Register(vDefSimple);
+
+			var vDefRelation = new ValidationDef<Relation>();
+			vDefRelation.Define(s => s.Description).MatchWith("OK");
+			validatorConf.Register(vDefRelation);
+
+			var engine = new ValidatorEngine();
+			engine.Configure(validatorConf);
+
+			object savedIdRelation;
+			// fill DB
+			using (ISession s = OpenSession())
+			using (ITransaction tx = s.BeginTransaction())
+			{
+				var relation = new Relation { Description = "OK" };
+				savedIdRelation = s.Save(relation);
+				tx.Commit();
+			}
+
+			using (ISession s = OpenSession())
+			{
+				var proxy = s.Load<Relation>(savedIdRelation);
+				var simpleWithCol = new SimpleWithCollection();
+				simpleWithCol.Relations = new List<Relation> {proxy};
+
+				Assert.DoesNotThrow(() => engine.Validate(simpleWithCol));
+
+				proxy.Description = "No-o-k";
+				Assert.IsFalse(engine.IsValid(simpleWithCol));
+
+			}
+
+			CleanDb();
+		}
 
 		[Test]
 		public void ValidateNotInitializeProxyAtDeepLevel()

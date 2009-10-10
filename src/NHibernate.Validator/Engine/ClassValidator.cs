@@ -444,7 +444,9 @@ namespace NHibernate.Validator.Engine
 						continue;
 					}
 
-					System.Type itemType = item.GetType();
+					System.Type result = factory.EntityTypeInspector.GuessType(item);
+					System.Type itemType = result ?? item.GetType();
+
 					if (ShouldNeedValidation(itemType))
 					{
 						InvalidValue[] invalidValues = GetClassValidator(itemType).GetInvalidValues(item, circularityState);
