@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using NHibernate.Validator.Constraints;
 using NHibernate.Validator.Engine;
 using NUnit.Framework;
 
@@ -43,11 +44,23 @@ namespace NHibernate.Validator.Tests.Serialization
 				System.Type[] types = assembly.GetTypes();
 				foreach (System.Type tp in types)
 				{
-					if (typeof(IValidator).IsAssignableFrom(tp) && !tp.IsInterface)
+					if (typeof(IValidator).IsAssignableFrom(tp) && !tp.IsInterface && tp.GetConstructor(new System.Type[0]) != null)
 						result.Add(tp);
 				}
 			}
 			return result;
+		}
+
+		public class Dummy
+		{
+			public int Value { get; set; }
+		}
+
+		[Test]
+		public void DelegatedConstraintIsSerializable()
+		{
+			var validatorInstance = new DelegatedConstraint<Dummy>((i, c) => i.Value > 0);
+			Assert.That(validatorInstance, Is.BinarySerializable);
 		}
 	}
 }

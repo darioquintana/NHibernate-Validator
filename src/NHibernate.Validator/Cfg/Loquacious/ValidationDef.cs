@@ -2,7 +2,6 @@ using System;
 using System.Linq.Expressions;
 using System.Reflection;
 using NHibernate.Validator.Cfg.Loquacious.Impl;
-using NHibernate.Validator.Exceptions;
 using NHibernate.Validator.Mappings;
 using System.Collections.Generic;
 using NHibernate.Validator.Util;
@@ -15,9 +14,9 @@ namespace NHibernate.Validator.Cfg.Loquacious
 
 		#region Implementation of IValidationDefinition<T>
 
-		public IInstanceConstraints ValidateInstance
+		public IInstanceConstraints<T> ValidateInstance
 		{
-			get { return new InstanceConstraints(this); }
+			get { return new InstanceConstraints<T>(this); }
 		}
 
 		public IIntegerConstraints Define(Expression<Func<T, short>> property)

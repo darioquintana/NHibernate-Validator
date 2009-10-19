@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 
@@ -7,7 +6,7 @@ namespace NHibernate.Validator.Cfg.Loquacious
 {
 	public interface IValidationDefinition<T> where T : class
 	{
-		IInstanceConstraints ValidateInstance { get; }
+		IInstanceConstraints<T> ValidateInstance { get; }
 
 		#region Integer Constraints
 

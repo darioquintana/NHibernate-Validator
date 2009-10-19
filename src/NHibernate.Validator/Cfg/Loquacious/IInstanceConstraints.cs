@@ -3,8 +3,9 @@ using System;
 
 namespace NHibernate.Validator.Cfg.Loquacious
 {
-	public interface IInstanceConstraints
+	public interface IInstanceConstraints<TEntity> where TEntity: class
 	{
-		IChainableConstraint<IInstanceConstraints> Using<T>(T attribute) where T : Attribute, IRuleArgs;
+		IChainableConstraint<IInstanceConstraints<TEntity>> Using<T>(T attribute) where T : Attribute, IRuleArgs;
+		IChainableConstraint<IInstanceConstraints<TEntity>> By(Func<TEntity, IConstraintValidatorContext, bool> isValidDelegate);
 	}
 }

@@ -490,29 +490,38 @@ namespace NHibernate.Validator.Engine
 		{
 			try
 			{
-				ValidatorClassAttribute validatorClass = null;
-				object[] AttributesInTheAttribute = attribute.GetType().GetCustomAttributes(typeof(ValidatorClassAttribute), false);
-
-				if (AttributesInTheAttribute.Length > 0)
+				IValidator entityValidator;
+				var delegatedAttribute = attribute as DelegatedEntityValidatorAttribute;
+				if (delegatedAttribute != null)
 				{
-					validatorClass = (ValidatorClassAttribute)AttributesInTheAttribute[0];
+					entityValidator = delegatedAttribute.Validator;
 				}
-
-				if (validatorClass == null)
+				else
 				{
-					return null;
+					ValidatorClassAttribute validatorClass = null;
+					object[] attributesInTheAttribute = attribute.GetType().GetCustomAttributes(typeof (ValidatorClassAttribute), false);
+
+					if (attributesInTheAttribute.Length > 0)
+					{
+						validatorClass = (ValidatorClassAttribute) attributesInTheAttribute[0];
+					}
+
+					if (validatorClass == null)
+					{
+						return null;
+					}
+
+					entityValidator = constraintValidatorFactory.GetInstance(validatorClass.Value);
+					InitializeValidator(attribute, validatorClass.Value, entityValidator);
 				}
-
-				IValidator entityValidator = constraintValidatorFactory.GetInstance(validatorClass.Value);
-
-				InitializeValidator(attribute, validatorClass.Value, entityValidator);
 
 				defaultInterpolator.AddInterpolator(attribute, entityValidator);
 				return entityValidator;
 			}
 			catch (Exception ex)
 			{
-				throw new HibernateValidatorException("could not instantiate ClassValidator, maybe some validator is not well formed; check InnerException", ex);
+				throw new HibernateValidatorException(
+					"could not instantiate ClassValidator, maybe some validator is not well formed; check InnerException", ex);
 			}
 		}
 

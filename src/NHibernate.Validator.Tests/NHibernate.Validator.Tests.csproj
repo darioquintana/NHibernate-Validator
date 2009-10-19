@@ -130,6 +130,8 @@
     <Compile Include="DeepIntegration\MultipleListFetchFixture.cs" />
     <Compile Include="DeepIntegration\MultipleSetFetchFixture.cs" />
     <Compile Include="DeepIntegration\Person.cs" />
+    <Compile Include="DelegatedEntityValidator\EngineIntegrationTest.cs" />
+    <Compile Include="DelegatedEntityValidator\Range.cs" />
     <Compile Include="Engine\ClassValidatorFixture.cs" />
     <Compile Include="Engine\MultiEntityTypeInspectorFixture.cs" />
     <Compile Include="Integration\AnEntity.cs" />

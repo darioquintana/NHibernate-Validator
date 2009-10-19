@@ -82,6 +82,7 @@
     <Compile Include="Cfg\Loquacious\Impl\BooleanConstraints.cs" />
     <Compile Include="Cfg\Loquacious\Impl\CollectionConstraints.cs" />
     <Compile Include="Cfg\Loquacious\Impl\DateTimeConstraints.cs" />
+    <Compile Include="Constraints\DelegatedEntityValidatorAttribute.cs" />
     <Compile Include="Cfg\Loquacious\Impl\FinalRuleArgsOptions.cs" />
     <Compile Include="Cfg\Loquacious\Impl\FloatConstraints.cs" />
     <Compile Include="Cfg\Loquacious\FluentMappingLoader.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="Constraints\DecimalMaxValidator.cs" />
     <Compile Include="Constraints\DecimalMinAttribute.cs" />
     <Compile Include="Constraints\DecimalMinValidator.cs" />
+    <Compile Include="Constraints\DelegatedConstraint.cs" />
     <Compile Include="Constraints\DigitsAttribute.cs" />
     <Compile Include="Constraints\DigitsValidator.cs" />
     <Compile Include="Constraints\EANAttribute.cs" />
