@@ -491,7 +491,7 @@ namespace NHibernate.Validator.Engine
 			try
 			{
 				IValidator entityValidator;
-				var delegatedAttribute = attribute as DelegatedEntityValidatorAttribute;
+				var delegatedAttribute = attribute as IValidatorInstanceProvider;
 				if (delegatedAttribute != null)
 				{
 					entityValidator = delegatedAttribute.Validator;
