@@ -192,7 +192,7 @@ namespace NHibernate.Validator.Interpolator
 		/// <param name="buffer">Current buffer where the final string message is written.</param>
 		/// <param name="entity">Entity or value</param>
 		/// <param name="propertyName">Property name to be used.</param>
-		protected void ReplaceValue(StringBuilder buffer, object entity, string propertyName)
+		protected virtual void ReplaceValue(StringBuilder buffer, object entity, string propertyName)
 		{
 			if (!propertyName.Contains("."))
 			{
