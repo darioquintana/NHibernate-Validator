@@ -43,7 +43,7 @@ namespace NHibernate.Validator.Cfg.Loquacious
 
 		#endregion
 
-		#region DateTime constraints
+		#region Boolean constraints
 
 		IBooleanConstraints Define(Expression<Func<T, bool>> property);
 		IBooleanConstraints Define(Expression<Func<T, bool?>> property);
