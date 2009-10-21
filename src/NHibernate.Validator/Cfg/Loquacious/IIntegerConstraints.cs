@@ -8,4 +8,9 @@ namespace NHibernate.Validator.Cfg.Loquacious
 		IRuleArgsOptions IncludedBetween(long minValue, long maxValue);
 		IRuleArgsOptions IsEAN();
 	}
+
+	public interface IIntegerConstraints<T> : IIntegerConstraints, ISatisfier<T, IIntegerConstraints<T>>
+	{
+		
+	}
 }

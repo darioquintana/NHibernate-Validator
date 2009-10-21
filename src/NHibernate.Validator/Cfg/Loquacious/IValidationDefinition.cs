@@ -10,18 +10,18 @@ namespace NHibernate.Validator.Cfg.Loquacious
 
 		#region Integer Constraints
 
-		IIntegerConstraints Define(Expression<Func<T, short>> property);
-		IIntegerConstraints Define(Expression<Func<T, short?>> property);
-		IIntegerConstraints Define(Expression<Func<T, int>> property);
-		IIntegerConstraints Define(Expression<Func<T, int?>> property);
-		IIntegerConstraints Define(Expression<Func<T, long>> property);
-		IIntegerConstraints Define(Expression<Func<T, long?>> property);
-		IIntegerConstraints Define(Expression<Func<T, ushort>> property);
-		IIntegerConstraints Define(Expression<Func<T, ushort?>> property);
-		IIntegerConstraints Define(Expression<Func<T, uint>> property);
-		IIntegerConstraints Define(Expression<Func<T, uint?>> property);
-		IIntegerConstraints Define(Expression<Func<T, ulong>> property);
-		IIntegerConstraints Define(Expression<Func<T, ulong?>> property);
+		IIntegerConstraints<short> Define(Expression<Func<T, short>> property);
+		IIntegerConstraints<short?> Define(Expression<Func<T, short?>> property);
+		IIntegerConstraints<int> Define(Expression<Func<T, int>> property);
+		IIntegerConstraints<int?> Define(Expression<Func<T, int?>> property);
+		IIntegerConstraints<long> Define(Expression<Func<T, long>> property);
+		IIntegerConstraints<long?> Define(Expression<Func<T, long?>> property);
+		IIntegerConstraints<ushort> Define(Expression<Func<T, ushort>> property);
+		IIntegerConstraints<ushort?> Define(Expression<Func<T, ushort?>> property);
+		IIntegerConstraints<uint> Define(Expression<Func<T, uint>> property);
+		IIntegerConstraints<uint?> Define(Expression<Func<T, uint?>> property);
+		IIntegerConstraints<ulong> Define(Expression<Func<T, ulong>> property);
+		IIntegerConstraints<ulong?> Define(Expression<Func<T, ulong?>> property);
 
 		#endregion
 

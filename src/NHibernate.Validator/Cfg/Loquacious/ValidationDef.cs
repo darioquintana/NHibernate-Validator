@@ -19,64 +19,64 @@ namespace NHibernate.Validator.Cfg.Loquacious
 			get { return new InstanceConstraints<T>(this); }
 		}
 
-		public IIntegerConstraints Define(Expression<Func<T, short>> property)
+		public IIntegerConstraints<short> Define(Expression<Func<T, short>> property)
 		{
-			return new IntegerConstraints(this, DecodeMemberAccessExpression(property));
+			return new IntegerConstraints<short>(this, DecodeMemberAccessExpression(property));
 		}
 
-		public IIntegerConstraints Define(Expression<Func<T, short?>> property)
+		public IIntegerConstraints<short?> Define(Expression<Func<T, short?>> property)
 		{
-			return new IntegerConstraints(this, DecodeMemberAccessExpression(property));
+			return new IntegerConstraints<short?>(this, DecodeMemberAccessExpression(property));
 		}
 
-		public IIntegerConstraints Define(Expression<Func<T, int>> property)
+		public IIntegerConstraints<int> Define(Expression<Func<T, int>> property)
 		{
-			return new IntegerConstraints(this, DecodeMemberAccessExpression(property));
+			return new IntegerConstraints<int>(this, DecodeMemberAccessExpression(property));
 		}
 
-		public IIntegerConstraints Define(Expression<Func<T, int?>> property)
+		public IIntegerConstraints<int?> Define(Expression<Func<T, int?>> property)
 		{
-			return new IntegerConstraints(this, DecodeMemberAccessExpression(property));
+			return new IntegerConstraints<int?>(this, DecodeMemberAccessExpression(property));
 		}
 
-		public IIntegerConstraints Define(Expression<Func<T, long>> property)
+		public IIntegerConstraints<long> Define(Expression<Func<T, long>> property)
 		{
-			return new IntegerConstraints(this, DecodeMemberAccessExpression(property));
+			return new IntegerConstraints<long>(this, DecodeMemberAccessExpression(property));
 		}
 
-		public IIntegerConstraints Define(Expression<Func<T, long?>> property)
+		public IIntegerConstraints<long?> Define(Expression<Func<T, long?>> property)
 		{
-			return new IntegerConstraints(this, DecodeMemberAccessExpression(property));
+			return new IntegerConstraints<long?>(this, DecodeMemberAccessExpression(property));
 		}
 
-		public IIntegerConstraints Define(Expression<Func<T, ushort>> property)
+		public IIntegerConstraints<ushort> Define(Expression<Func<T, ushort>> property)
 		{
-			return new IntegerConstraints(this, DecodeMemberAccessExpression(property));
+			return new IntegerConstraints<ushort>(this, DecodeMemberAccessExpression(property));
 		}
 
-		public IIntegerConstraints Define(Expression<Func<T, ushort?>> property)
+		public IIntegerConstraints<ushort?> Define(Expression<Func<T, ushort?>> property)
 		{
-			return new IntegerConstraints(this, DecodeMemberAccessExpression(property));
+			return new IntegerConstraints<ushort?>(this, DecodeMemberAccessExpression(property));
 		}
 
-		public IIntegerConstraints Define(Expression<Func<T, uint>> property)
+		public IIntegerConstraints<uint> Define(Expression<Func<T, uint>> property)
 		{
-			return new IntegerConstraints(this, DecodeMemberAccessExpression(property));
+			return new IntegerConstraints<uint>(this, DecodeMemberAccessExpression(property));
 		}
 
-		public IIntegerConstraints Define(Expression<Func<T, uint?>> property)
+		public IIntegerConstraints<uint?> Define(Expression<Func<T, uint?>> property)
 		{
-			return new IntegerConstraints(this, DecodeMemberAccessExpression(property));
+			return new IntegerConstraints<uint?>(this, DecodeMemberAccessExpression(property));
 		}
 
-		public IIntegerConstraints Define(Expression<Func<T, ulong>> property)
+		public IIntegerConstraints<ulong> Define(Expression<Func<T, ulong>> property)
 		{
-			return new IntegerConstraints(this, DecodeMemberAccessExpression(property));
+			return new IntegerConstraints<ulong>(this, DecodeMemberAccessExpression(property));
 		}
 
-		public IIntegerConstraints Define(Expression<Func<T, ulong?>> property)
+		public IIntegerConstraints<ulong?> Define(Expression<Func<T, ulong?>> property)
 		{
-			return new IntegerConstraints(this, DecodeMemberAccessExpression(property));
+			return new IntegerConstraints<ulong?>(this, DecodeMemberAccessExpression(property));
 		}
 
 		public IFloatConstraints Define(Expression<Func<T, float>> property)

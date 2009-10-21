@@ -4,11 +4,11 @@ using NHibernate.Validator.Engine;
 namespace NHibernate.Validator.Constraints
 {
 	[Serializable]
-	public class DelegatedConstraint<TEntity> : IValidator where TEntity: class
+	public class DelegatedConstraint<TSubject> : IValidator
 	{
-		private readonly Func<TEntity, IConstraintValidatorContext, bool> isValidDelegate;
+		private readonly Func<TSubject, IConstraintValidatorContext, bool> isValidDelegate;
 
-		public DelegatedConstraint(Func<TEntity, IConstraintValidatorContext, bool> isValidDelegate)
+		public DelegatedConstraint(Func<TSubject, IConstraintValidatorContext, bool> isValidDelegate)
 		{
 			if (isValidDelegate == null)
 			{
@@ -21,7 +21,7 @@ namespace NHibernate.Validator.Constraints
 
 		public bool IsValid(object value, IConstraintValidatorContext constraintValidatorContext)
 		{
-			return isValidDelegate(value as TEntity, constraintValidatorContext);
+			return isValidDelegate((TSubject)value, constraintValidatorContext);
 		}
 
 		#endregion

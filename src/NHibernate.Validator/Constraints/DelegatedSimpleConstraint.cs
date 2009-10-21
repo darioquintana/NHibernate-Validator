@@ -4,11 +4,11 @@ using NHibernate.Validator.Engine;
 namespace NHibernate.Validator.Constraints
 {
 	[Serializable]
-	public class DelegatedSimpleConstraint<TEntity> : IValidator where TEntity: class
+	public class DelegatedSimpleConstraint<TSubject> : IValidator
 	{
-		private readonly Func<TEntity, bool> isValidDelegate;
+		private readonly Func<TSubject, bool> isValidDelegate;
 
-		public DelegatedSimpleConstraint(Func<TEntity, bool> isValidDelegate)
+		public DelegatedSimpleConstraint(Func<TSubject, bool> isValidDelegate)
 		{
 			if (isValidDelegate == null)
 			{
@@ -21,7 +21,7 @@ namespace NHibernate.Validator.Constraints
 
 		public bool IsValid(object value, IConstraintValidatorContext constraintValidatorContext)
 		{
-			return isValidDelegate(value as TEntity);
+			return isValidDelegate((TSubject)value);
 		}
 
 		#endregion

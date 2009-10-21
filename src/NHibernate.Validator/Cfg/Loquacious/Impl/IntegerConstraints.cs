@@ -1,9 +1,11 @@
+using System;
 using System.Reflection;
 using NHibernate.Validator.Constraints;
+using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Cfg.Loquacious.Impl
 {
-	public class IntegerConstraints: BaseConstraints<IIntegerConstraints>, IIntegerConstraints
+	public class IntegerConstraints<T> : BaseConstraints<IIntegerConstraints<T>>, IIntegerConstraints<T>
 	{
 		public IntegerConstraints(IConstraintAggregator parent, MemberInfo member) : base(parent, member) {}
 
@@ -32,6 +34,22 @@ namespace NHibernate.Validator.Cfg.Loquacious.Impl
 		public IRuleArgsOptions IsEAN()
 		{
 			return AddWithFinalRuleArgOptions(new EANAttribute());
+		}
+
+		#endregion
+
+		#region Implementation of ISatisfier<T,IIntegerConstraints<T>>
+
+		public IChainableConstraint<IIntegerConstraints<T>> Satisfy(Func<T, IConstraintValidatorContext, bool> isValidDelegate)
+		{
+			var attribute = new DelegatedValidatorAttribute(new DelegatedConstraint<T>(isValidDelegate));
+			return AddWithConstraintsChain(attribute);
+		}
+
+		public IChainableConstraint<IIntegerConstraints<T>> Satisfy(Func<T, bool> isValidDelegate)
+		{
+			var attribute = new DelegatedValidatorAttribute(new DelegatedSimpleConstraint<T>(isValidDelegate));
+			return AddWithConstraintsChain(attribute);
 		}
 
 		#endregion
