@@ -5,4 +5,9 @@ namespace NHibernate.Validator.Cfg.Loquacious
 		IRuleArgsOptions IsInThePast();
 		IRuleArgsOptions IsInTheFuture();
 	}
+
+	public interface IDateTimeConstraints<T> : IDateTimeConstraints, ISatisfier<T, IDateTimeConstraints<T>>
+	{
+
+	}
 }

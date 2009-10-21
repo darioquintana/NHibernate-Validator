@@ -38,8 +38,8 @@ namespace NHibernate.Validator.Cfg.Loquacious
 
 		#region DateTime constraints
 
-		IDateTimeConstraints Define(Expression<Func<T, DateTime>> property);
-		IDateTimeConstraints Define(Expression<Func<T, DateTime?>> property);
+		IDateTimeConstraints<DateTime> Define(Expression<Func<T, DateTime>> property);
+		IDateTimeConstraints<DateTime?> Define(Expression<Func<T, DateTime?>> property);
 
 		#endregion
 

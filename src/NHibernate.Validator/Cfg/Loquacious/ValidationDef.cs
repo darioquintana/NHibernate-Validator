@@ -109,14 +109,14 @@ namespace NHibernate.Validator.Cfg.Loquacious
 			return new FloatConstraints<decimal?>(this, DecodeMemberAccessExpression(property));
 		}
 
-		public IDateTimeConstraints Define(Expression<Func<T, DateTime>> property)
+		public IDateTimeConstraints<DateTime> Define(Expression<Func<T, DateTime>> property)
 		{
-			return new DateTimeConstraints(this, DecodeMemberAccessExpression(property));
+			return new DateTimeConstraints<DateTime>(this, DecodeMemberAccessExpression(property));
 		}
 
-		public IDateTimeConstraints Define(Expression<Func<T, DateTime?>> property)
+		public IDateTimeConstraints<DateTime?> Define(Expression<Func<T, DateTime?>> property)
 		{
-			return new DateTimeConstraints(this, DecodeMemberAccessExpression(property));
+			return new DateTimeConstraints<DateTime?>(this, DecodeMemberAccessExpression(property));
 		}
 
 		public IBooleanConstraints Define(Expression<Func<T, bool>> property)
