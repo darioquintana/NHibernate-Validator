@@ -1,6 +1,8 @@
+using System;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using NHibernate.Validator.Constraints;
+using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Cfg.Loquacious.Impl
 {
@@ -93,6 +95,22 @@ namespace NHibernate.Validator.Cfg.Loquacious.Impl
 		public IRuleArgsOptions FilePathExists()
 		{
 			return AddWithFinalRuleArgOptions(new FileExistsAttribute());
+		}
+
+		#endregion
+
+		#region Implementation of ISatisfier<string,IStringConstraints>
+
+		public IChainableConstraint<IStringConstraints> Satisfy(Func<string, IConstraintValidatorContext, bool> isValidDelegate)
+		{
+			var attribute = new DelegatedValidatorAttribute(new DelegatedConstraint<string>(isValidDelegate));
+			return AddWithConstraintsChain(attribute);
+		}
+
+		public IChainableConstraint<IStringConstraints> Satisfy(Func<string, bool> isValidDelegate)
+		{
+			var attribute = new DelegatedValidatorAttribute(new DelegatedSimpleConstraint<string>(isValidDelegate));
+			return AddWithConstraintsChain(attribute);
 		}
 
 		#endregion

@@ -28,7 +28,7 @@ namespace NHibernate.Validator.Cfg.Loquacious.Impl
 
 		public IChainableConstraint<IInstanceConstraints<TEntity>> By(Func<TEntity, IConstraintValidatorContext, bool> isValidDelegate)
 		{
-			var attribute = new DelegatedEntityValidatorAttribute(new DelegatedConstraint<TEntity>(isValidDelegate));
+			var attribute = new DelegatedValidatorAttribute(new DelegatedConstraint<TEntity>(isValidDelegate));
 			parent.AddClassConstraint(attribute);
 			return new ChainableConstraint<IInstanceConstraints<TEntity>>(this, attribute);
 		}

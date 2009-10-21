@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 
 namespace NHibernate.Validator.Cfg.Loquacious
 {
-	public interface IStringConstraints
+	public interface IStringConstraints: ISatisfier<string,IStringConstraints>
 	{
 		IChainableConstraint<IStringConstraints> NotNullable();
 		IChainableConstraint<IStringConstraints> NotEmpty();

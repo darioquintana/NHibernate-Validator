@@ -53,7 +53,7 @@ namespace NHibernate.Validator.Tests.Serialization
 		[Test]
 		public void DelegatedEntityValidatorAttributeIsSerializable()
 		{
-			var attributeInstance = new DelegatedEntityValidatorAttribute(new DelegatedConstraint<Dummy>((i, c) => i.Value > 0));
+			var attributeInstance = new DelegatedValidatorAttribute(new DelegatedConstraint<Dummy>((i, c) => i.Value > 0));
 			Assert.That(attributeInstance, Is.BinarySerializable);
 		}
 	}

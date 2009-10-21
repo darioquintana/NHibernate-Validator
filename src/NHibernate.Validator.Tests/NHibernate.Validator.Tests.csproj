@@ -165,6 +165,7 @@
     <Compile Include="Mappings\MixSuricato.cs" />
     <Compile Include="Mappings\XmlClassMappingFixture.cs" />
     <Compile Include="LoggerSpy.cs" />
+    <Compile Include="Satisfier\StringConstraintsTests.cs" />
     <Compile Include="SerializationHelper.cs" />
     <Compile Include="Serialization\ClassValidatorSerializationFixture.cs" />
     <Compile Include="Serialization\RuleArgsSerializationFixture.cs" />

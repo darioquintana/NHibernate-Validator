@@ -74,7 +74,9 @@
     <Compile Include="Cfg\Loquacious\Impl\BooleanConstraints.cs" />
     <Compile Include="Cfg\Loquacious\Impl\CollectionConstraints.cs" />
     <Compile Include="Cfg\Loquacious\Impl\DateTimeConstraints.cs" />
-    <Compile Include="Constraints\DelegatedEntityValidatorAttribute.cs" />
+    <Compile Include="Cfg\Loquacious\ISatisfier.cs" />
+    <Compile Include="Constraints\DelegatedSimpleConstraint.cs" />
+    <Compile Include="Constraints\DelegatedValidatorAttribute.cs" />
     <Compile Include="Cfg\Loquacious\Impl\FinalRuleArgsOptions.cs" />
     <Compile Include="Cfg\Loquacious\Impl\FloatConstraints.cs" />
     <Compile Include="Cfg\Loquacious\FluentMappingLoader.cs" />
