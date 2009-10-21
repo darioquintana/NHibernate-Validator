@@ -4,6 +4,7 @@ using NHibernate.Validator.Engine;
 namespace NHibernate.Validator.Constraints
 {
 	[Serializable]
+	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true)]
 	public class DelegatedEntityValidatorAttribute : Attribute, IValidatorInstanceProvider, IRuleArgs
 	{
 		private readonly IValidator validatorInstance;
