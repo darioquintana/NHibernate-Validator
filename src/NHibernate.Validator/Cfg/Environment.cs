@@ -55,6 +55,11 @@ namespace NHibernate.Validator.Cfg
 		public const string BaseNameOfMessageResource = "NHibernate.Validator.Properties.DefaultValidatorMessages";
 
 		/// <summary>
+		/// The configuration property name for the custom resource manager
+		/// </summary>
+		public const string CustomResourceManager = "resource_manager";
+
+		/// <summary>
 		/// Define the provider of shared engine between various logical layers.
 		/// </summary>
 		/// <remarks>

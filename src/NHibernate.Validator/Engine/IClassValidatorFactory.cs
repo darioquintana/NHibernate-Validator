@@ -3,7 +3,7 @@ using System.Resources;
 
 namespace NHibernate.Validator.Engine
 {
-	internal interface IClassValidatorFactory
+	public interface IClassValidatorFactory
 	{
 		ResourceManager ResourceManager { get; }
 		CultureInfo Culture { get; }

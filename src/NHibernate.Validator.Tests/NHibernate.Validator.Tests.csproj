@@ -395,6 +395,9 @@
     <Content Include="nhvalidator.cfg.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Resource\Messages.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Specifics\NHV29\Mappings.nhv.xml" />
     <EmbeddedResource Include="Specifics\NHV25\Show.nhv.xml" />
     <EmbeddedResource Include="Specifics\NHV25\Tv.nhv.xml" />

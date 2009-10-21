@@ -38,6 +38,12 @@ namespace NHibernate.Validator.Cfg.Loquacious
 			return this;
 		}
 
+		public IFluentConfiguration SetCustomResourceManager(string resourceBaseName, Assembly assembly)
+		{
+			properties[Environment.CustomResourceManager] = resourceBaseName + ", " + assembly.FullName;
+			return this;
+		}
+
 		public IFluentConfiguration AddEntityTypeInspector<T>() where T : IEntityTypeInspector
 		{
 			entityTypeInspectors.Add(typeof (T));

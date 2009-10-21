@@ -103,5 +103,14 @@ namespace NHibernate.Validator.Tests.Configuration.Loquacious
 			Assert.That(inspectors.Contains(typeof(DefaultEntityTypeInspector)));
 			Assert.That(inspectors.Contains(typeof(MultiEntityTypeInspector)));
 		}
+
+		[Test]
+		public void ConfigureCustomResourceManager()
+		{
+			var fc = new FluentConfiguration();
+			fc.SetCustomResourceManager("NHibernate.Validator.Tests.Resource.Messages", Assembly.GetExecutingAssembly());
+			var cfg = (INHVConfiguration)fc;
+			Assert.That(cfg.Properties[Environment.CustomResourceManager], Is.EqualTo("NHibernate.Validator.Tests.Resource.Messages, " + Assembly.GetExecutingAssembly().FullName));
+		}
 	}
 }

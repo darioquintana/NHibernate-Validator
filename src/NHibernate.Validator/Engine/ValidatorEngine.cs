@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq.Expressions;
+using System.Resources;
 using System.Xml;
 using log4net;
 using NHibernate.Mapping;
@@ -11,6 +12,7 @@ using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Exceptions;
 using NHibernate.Validator.Util;
 using Environment=NHibernate.Validator.Cfg.Environment;
+using System.Reflection;
 
 namespace NHibernate.Validator.Engine
 {
@@ -246,7 +248,25 @@ namespace NHibernate.Validator.Engine
 			{
 				entityTypeInspector = new DefaultEntityTypeInspector();
 			}
-			factory = new StateFullClassValidatorFactory(constraintValidatorFactory, null, null, interpolator, defaultMode,
+
+			ResourceManager customResourceManager = null;
+			var customResourceManagerBaseName = PropertiesHelper.GetString(Environment.CustomResourceManager, config.Properties,
+			                                                               null);
+			if (!string.IsNullOrEmpty(customResourceManagerBaseName))
+			{
+				var resourceAndAssembly = TypeNameParser.Parse(customResourceManagerBaseName);
+				try
+				{
+					var assembly = Assembly.Load(resourceAndAssembly.Assembly);
+					customResourceManager = new ResourceManager(resourceAndAssembly.Type, assembly);
+				}
+				catch (Exception e)
+				{
+					throw new ValidatorConfigurationException("Could not configure NHibernate.Validator (custom resource manager).", e);
+				}
+			}
+
+			factory = new StateFullClassValidatorFactory(constraintValidatorFactory, customResourceManager, null, interpolator, defaultMode,
 			                                             entityTypeInspector);
 
 			// UpLoad Mappings

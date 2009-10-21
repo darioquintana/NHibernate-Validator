@@ -34,6 +34,7 @@
 									message_interpolator_class=null (example: YourNameSpace.YourInterpolator, YourAssembly);
 									external_mappings_loader_class=NHibernate.Validator.Cfg.XmlMappingLoader;
 									default_validator_mode= UseAttribute (see NHibernate.Validator.Engine.ValidatorMode for others values)
+									resource_manager=null (example: YourFullNameSpace.TheBaseNameOfTheResourceFileWithoutExtensionNorCulture, YourAssembly);
 								</xs:documentation>
 							</xs:annotation>
 							<xs:restriction base="xs:string">
@@ -43,6 +44,7 @@
 								<xs:enumeration value="message_interpolator_class" />
 								<xs:enumeration value="default_validator_mode" />
 								<xs:enumeration value="constraint_validator_factory" />
+								<xs:enumeration value="resource_manager" />
 							</xs:restriction>
 						</xs:simpleType>
 					</xs:attribute>

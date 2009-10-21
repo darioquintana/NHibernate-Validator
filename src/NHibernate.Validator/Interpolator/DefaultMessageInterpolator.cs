@@ -157,7 +157,7 @@ namespace NHibernate.Validator.Interpolator
 						{
 							_string = messageBundle != null ? messageBundle.GetString(token, culture) : null;
 						}
-						catch (MissingManifestResourceException)
+						catch (MissingManifestResourceException e)
 						{
 							//give a second chance with the default resource bundle
 						}

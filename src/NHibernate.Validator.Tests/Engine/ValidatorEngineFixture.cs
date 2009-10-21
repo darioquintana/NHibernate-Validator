@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml;
 using log4net.Config;
 using NHibernate.Validator.Cfg;
@@ -14,6 +15,7 @@ using System.Reflection;
 using log4net.Core;
 using System;
 using Environment=NHibernate.Validator.Cfg.Environment;
+using NHibernate.Validator.Util;
 
 namespace NHibernate.Validator.Tests.Engine
 {
@@ -445,6 +447,42 @@ namespace NHibernate.Validator.Tests.Engine
 			// should work
 			nhvc.Properties[Environment.MappingLoaderClass] = typeof(XmlMappingLoader).AssemblyQualifiedName;
 			ve.Configure(nhvc);
+		}
+
+		[Test]
+		public void CustomResourceManagerWasSetInStateFullClassValidatorFactory()
+		{
+			var ve = new ValidatorEngine();
+			var nhvc = new XmlConfiguration();
+			nhvc.Properties[Environment.CustomResourceManager] = "NHibernate.Validator.Tests.Resource.Messages, " + Assembly.GetExecutingAssembly().FullName;
+
+			ve.Configure(nhvc);
+			var factoryFieldInfo = TypeUtils.GetPropertyOrField(typeof (ValidatorEngine), "factory");
+			var factory = (IClassValidatorFactory)TypeUtils.GetMemberValue(ve, factoryFieldInfo);
+			Assert.That(factory.ResourceManager, Is.Not.Null);
+		}
+
+		[Test]
+		public void UseCustomResourceManager()
+		{
+			var ve = new ValidatorEngine();
+			var nhvc = new XmlConfiguration();
+			nhvc.Properties[Environment.CustomResourceManager] = "NHibernate.Validator.Tests.Resource.Messages, " + Assembly.GetExecutingAssembly().FullName;
+			nhvc.Properties[Environment.ValidatorMode] = "UseAttribute";
+			ve.Configure(nhvc);
+			var a = new Address {floor = -50};
+			var iv = ve.Validate(a);
+			Assert.That(iv.Any(x => x.Message.StartsWith("Floor cannot")));
+		}
+
+		[Test]
+		public void WhenExceptionWithResourceManager_ValidatorConfigurationException()
+		{
+			var ve = new ValidatorEngine();
+			var nhvc = new XmlConfiguration();
+			nhvc.Properties[Environment.CustomResourceManager] = "Whatever.Messages, Whatever";
+			var exception = Assert.Throws<ValidatorConfigurationException>(() => ve.Configure(nhvc));
+			Assert.That(exception.Message, Text.Contains("resource manager"));
 		}
 	}
 }

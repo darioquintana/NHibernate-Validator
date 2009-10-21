@@ -229,5 +229,21 @@ namespace NHibernate.Validator.Tests.Configuration
 			Assert.That(cfg.EntityTypeInspectors, Is.Not.Empty);
 			Assert.That(cfg.EntityTypeInspectors.First(), Is.EqualTo(typeof(Validator.Engine.DefaultEntityTypeInspector)));
 		}
+
+		[Test]
+		public void CanReadCustomResourceManager()
+		{
+			XmlConfigurator.Configure();
+
+			string xml =
+				@"<nhv-configuration xmlns='urn:nhv-configuration-1.0'>
+		<property name='resource_manager'>YourFullNameSpace.TheBaseNameOfTheResourceFileWithoutExtensionNorCulture, YourAssembly</property>
+	</nhv-configuration>";
+			XmlDocument cfgXml = new XmlDocument();
+			cfgXml.LoadXml(xml);
+			XmlTextReader xtr = new XmlTextReader(xml, XmlNodeType.Document, null);
+			XmlConfiguration cfg = new XmlConfiguration(xtr);
+			Assert.That(cfg.Properties["resource_manager"], Is.EqualTo("YourFullNameSpace.TheBaseNameOfTheResourceFileWithoutExtensionNorCulture, YourAssembly"));
+		}
 	}
 }

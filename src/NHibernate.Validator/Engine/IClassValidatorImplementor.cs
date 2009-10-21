@@ -3,7 +3,7 @@ using Iesi.Collections;
 
 namespace NHibernate.Validator.Engine
 {
-	internal interface IClassValidatorImplementor
+	public interface IClassValidatorImplementor
 	{
 		InvalidValue[] GetInvalidValues(object entity, ISet circularityState);
 		IDictionary<System.Type, IClassValidator> ChildClassValidators { get;}
