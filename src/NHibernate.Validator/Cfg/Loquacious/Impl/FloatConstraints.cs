@@ -1,10 +1,11 @@
 using System;
 using System.Reflection;
 using NHibernate.Validator.Constraints;
+using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Cfg.Loquacious.Impl
 {
-	public class FloatConstraints : BaseConstraints<IFloatConstraints>, IFloatConstraints
+	public class FloatConstraints<T> : BaseConstraints<IFloatConstraints<T>>, IFloatConstraints<T>
 	{
 		public FloatConstraints(IConstraintAggregator parent, MemberInfo member) : base(parent, member) {}
 
@@ -43,6 +44,22 @@ namespace NHibernate.Validator.Cfg.Loquacious.Impl
 		public IRuleArgsOptions IncludedBetween(long minValue, long maxValue)
 		{
 			return AddWithFinalRuleArgOptions(new RangeAttribute(minValue, maxValue));
+		}
+
+		#endregion
+
+		#region Implementation of ISatisfier<T,IFloatConstraints<T>>
+
+		public IChainableConstraint<IFloatConstraints<T>> Satisfy(Func<T, IConstraintValidatorContext, bool> isValidDelegate)
+		{
+			var attribute = new DelegatedValidatorAttribute(new DelegatedConstraint<T>(isValidDelegate));
+			return AddWithConstraintsChain(attribute);
+		}
+
+		public IChainableConstraint<IFloatConstraints<T>> Satisfy(Func<T, bool> isValidDelegate)
+		{
+			var attribute = new DelegatedValidatorAttribute(new DelegatedSimpleConstraint<T>(isValidDelegate));
+			return AddWithConstraintsChain(attribute);
 		}
 
 		#endregion

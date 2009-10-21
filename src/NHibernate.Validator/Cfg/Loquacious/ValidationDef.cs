@@ -79,34 +79,34 @@ namespace NHibernate.Validator.Cfg.Loquacious
 			return new IntegerConstraints<ulong?>(this, DecodeMemberAccessExpression(property));
 		}
 
-		public IFloatConstraints Define(Expression<Func<T, float>> property)
+		public IFloatConstraints<float> Define(Expression<Func<T, float>> property)
 		{
-			return new FloatConstraints(this, DecodeMemberAccessExpression(property));
+			return new FloatConstraints<float>(this, DecodeMemberAccessExpression(property));
 		}
 
-		public IFloatConstraints Define(Expression<Func<T, float?>> property)
+		public IFloatConstraints<float?> Define(Expression<Func<T, float?>> property)
 		{
-			return new FloatConstraints(this, DecodeMemberAccessExpression(property));
+			return new FloatConstraints<float?>(this, DecodeMemberAccessExpression(property));
 		}
 
-		public IFloatConstraints Define(Expression<Func<T, double>> property)
+		public IFloatConstraints<double> Define(Expression<Func<T, double>> property)
 		{
-			return new FloatConstraints(this, DecodeMemberAccessExpression(property));
+			return new FloatConstraints<double>(this, DecodeMemberAccessExpression(property));
 		}
 
-		public IFloatConstraints Define(Expression<Func<T, double?>> property)
+		public IFloatConstraints<double?> Define(Expression<Func<T, double?>> property)
 		{
-			return new FloatConstraints(this, DecodeMemberAccessExpression(property));
+			return new FloatConstraints<double?>(this, DecodeMemberAccessExpression(property));
 		}
 
-		public IFloatConstraints Define(Expression<Func<T, decimal>> property)
+		public IFloatConstraints<decimal> Define(Expression<Func<T, decimal>> property)
 		{
-			return new FloatConstraints(this, DecodeMemberAccessExpression(property));
+			return new FloatConstraints<decimal>(this, DecodeMemberAccessExpression(property));
 		}
 
-		public IFloatConstraints Define(Expression<Func<T, decimal?>> property)
+		public IFloatConstraints<decimal?> Define(Expression<Func<T, decimal?>> property)
 		{
-			return new FloatConstraints(this, DecodeMemberAccessExpression(property));
+			return new FloatConstraints<decimal?>(this, DecodeMemberAccessExpression(property));
 		}
 
 		public IDateTimeConstraints Define(Expression<Func<T, DateTime>> property)

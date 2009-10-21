@@ -27,12 +27,12 @@ namespace NHibernate.Validator.Cfg.Loquacious
 
 		#region floating point constraints
 
-		IFloatConstraints Define(Expression<Func<T, float>> property);
-		IFloatConstraints Define(Expression<Func<T, float?>> property);
-		IFloatConstraints Define(Expression<Func<T, double>> property);
-		IFloatConstraints Define(Expression<Func<T, double?>> property);
-		IFloatConstraints Define(Expression<Func<T, decimal>> property);
-		IFloatConstraints Define(Expression<Func<T, decimal?>> property);
+		IFloatConstraints<float> Define(Expression<Func<T, float>> property);
+		IFloatConstraints<float?> Define(Expression<Func<T, float?>> property);
+		IFloatConstraints<double> Define(Expression<Func<T, double>> property);
+		IFloatConstraints<double?> Define(Expression<Func<T, double?>> property);
+		IFloatConstraints<decimal> Define(Expression<Func<T, decimal>> property);
+		IFloatConstraints<decimal?> Define(Expression<Func<T, decimal?>> property);
 
 		#endregion
 
