@@ -165,6 +165,7 @@
     <Compile Include="Mappings\MixSuricato.cs" />
     <Compile Include="Mappings\XmlClassMappingFixture.cs" />
     <Compile Include="LoggerSpy.cs" />
+    <Compile Include="Satisfier\CollectionConstraintsTests.cs" />
     <Compile Include="Satisfier\DateTimeConstraintsTests.cs" />
     <Compile Include="Satisfier\FloatConstraintsTests.cs" />
     <Compile Include="Satisfier\IntegerConstraintsTests.cs" />

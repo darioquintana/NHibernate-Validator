@@ -50,7 +50,7 @@ namespace NHibernate.Validator.Cfg.Loquacious
 
 		#endregion
 
-		ICollectionConstraints Define<Te>(Expression<Func<T, ICollection<Te>>> property);
+		ICollectionConstraints<TElement> Define<TElement>(Expression<Func<T, IEnumerable<TElement>>> property);
 		
 		IStringConstraints Define(Expression<Func<T, string>> property);
 
