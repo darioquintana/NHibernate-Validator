@@ -140,19 +140,10 @@
 
 	<target name="common.run-tests"
 		description="Run NUnit tests">
-
-		<nunit2>
-			<formatter 
-				type="Xml" 
-				usefile="true" 
-				extension=".xml" 
-				outputdir="${bin.dir}"
-			/>
-			<test
-				assemblyname="${bin.dir}/${project::get-name()}.dll"
-				appconfig="${bin.dir}/${project::get-name()}.dll.config" />
-		</nunit2>
-
+		<call target="common.find-nunit" unless="${property::exists('nunit.found')}" />
+		<exec program="${nunit-console}">
+			<arg line="${bin.dir}/${project::get-name()}.dll /xml:${testresults.dir}/${project::get-name()}.dll-results.xml " />
+		</exec>
 	</target>
 
  
