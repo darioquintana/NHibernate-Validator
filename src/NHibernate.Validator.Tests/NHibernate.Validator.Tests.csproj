@@ -154,6 +154,7 @@
     <Compile Include="Interpolation\DefaultMessageInterpolatorAggregatorFixture.cs" />
     <Compile Include="Interpolation\InterpolationFixture.cs" />
     <Compile Include="Configuration\Loquacious\ValidationDefFixture.cs" />
+    <Compile Include="Interpolation\MessageTranslatorTest.cs" />
     <Compile Include="Mappings\A.cs" />
     <Compile Include="Mappings\AssertAnimalAttribute.cs" />
     <Compile Include="Mappings\CleanAddress.cs" />
