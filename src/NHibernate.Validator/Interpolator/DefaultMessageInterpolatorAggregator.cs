@@ -13,12 +13,11 @@ namespace NHibernate.Validator.Interpolator
 	{
 		private readonly IDictionary<IValidator, DefaultMessageInterpolator> interpolators;
 			
-
 		//transient but repopulated by the object owing a reference to the interpolator
 		[NonSerialized] private CultureInfo culture;
 		[NonSerialized] private ResourceManager defaultMessageBundle;
 		[NonSerialized] private ResourceManager messageBundle;
-		[NonSerialized] private bool IsInitilized;
+		[NonSerialized] private bool isInitilized;
 
 		#region IMessageInterpolator Members
 
@@ -40,14 +39,14 @@ namespace NHibernate.Validator.Interpolator
 		{
 			lock (this)
 			{
-				if (!IsInitilized)
+				if (!isInitilized)
 				{
 					foreach (DefaultMessageInterpolator interpolator in interpolators.Values)
 					{
 						interpolator.Initialize(messageBundle, defaultMessageBundle, culture);
 					}
 
-					IsInitilized = true;
+					isInitilized = true;
 				}
 			}
 		}
@@ -63,7 +62,7 @@ namespace NHibernate.Validator.Interpolator
 
 		public void AddInterpolator(Attribute attribute, IValidator validator)
 		{
-			DefaultMessageInterpolator interpolator = new DefaultMessageInterpolator();
+			var interpolator = new DefaultMessageInterpolator();
 			interpolator.Initialize(messageBundle, defaultMessageBundle, culture);
 			interpolator.Initialize(attribute);
 			interpolators[validator] = interpolator;
@@ -91,7 +90,6 @@ namespace NHibernate.Validator.Interpolator
 		{
 			interpolators = (IDictionary<IValidator, DefaultMessageInterpolator>)
 				info.GetValue("interpolators", typeof(IDictionary<IValidator, DefaultMessageInterpolator>));
-
 		}
 
 		public void GetObjectData(SerializationInfo info, StreamingContext context)

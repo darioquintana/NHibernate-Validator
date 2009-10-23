@@ -193,9 +193,6 @@ namespace NHibernate.Validator.Interpolator
 
 		public void GetObjectData(SerializationInfo info, StreamingContext context)
 		{
-			//private readonly Dictionary<string, object> attributeParameters = new Dictionary<string, object>();
-			//private string attributeMessage;
-
 			info.AddValue("attributeParameters",attributeParameters );
 			info.AddValue("message",attributeMessage );
 		}
