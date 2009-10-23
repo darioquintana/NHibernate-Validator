@@ -10,7 +10,7 @@ namespace NHibernate.Validator.Tests.Base
 	[TestFixture]
 	public class ValidatorFixture : BaseValidatorFixture
 	{
-		public static readonly string ESCAPING_EL = "(escaping #{el})";
+		public static readonly string ESCAPING_EL = "(escaping {el})";
 
 		[Test]
 		public void AddressValid()

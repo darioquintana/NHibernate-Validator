@@ -27,7 +27,7 @@ namespace NHibernate.Validator.Tests.Interpolation
 			b.Address = string.Empty;
 			InvalidValue[] invalidValues = validator.GetInvalidValues(b);
 			Assert.Greater(invalidValues.Length, 0);
-			Assert.AreEqual("{notpresent.Key} and #{key.notPresent} and {key.notPresent2} 1", invalidValues[0].Message,
+			Assert.AreEqual("{notpresent.Key} and {key.notPresent} and {key.notPresent2} 1", invalidValues[0].Message,
 			                "Missing key should be left unchanged");
 		}
 

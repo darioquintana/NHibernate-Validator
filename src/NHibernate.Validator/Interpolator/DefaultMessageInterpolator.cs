@@ -1,12 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using System.Resources;
 using System.Runtime.Serialization;
-using System.Text;
-using NHibernate.Util;
 using NHibernate.Validator.Engine;
 using NHibernate.Validator.Exceptions;
 
@@ -40,7 +37,7 @@ namespace NHibernate.Validator.Interpolator
 
 		#region IMessageInterpolator Members
 
-		public string Interpolate(string message, object entity, IValidator validator, IMessageInterpolator defaultInterpolator)
+		public virtual string Interpolate(string message, object entity, IValidator validator, IMessageInterpolator defaultInterpolator)
 		{
 			bool same = attributeMessage.Equals(message);
             if (same && interpolateMessage != null && !message.Contains("${"))
@@ -48,8 +45,7 @@ namespace NHibernate.Validator.Interpolator
 				return interpolateMessage; //short cut
 			}
 
-			string result;
-			result = Replace(message,entity);
+			string result = Replace(message,entity);
 			if (same)
 			{
 				interpolateMessage = result; //short cut in next iteration
@@ -99,108 +95,87 @@ namespace NHibernate.Validator.Interpolator
 			}
 		}
 
-		private string Replace(string message, object entity)
+		protected virtual string Replace(string message, object entity)
 		{
-			var tokens = new StringTokenizer(message, "#${}", true);
-			var buf = new StringBuilder(100);
-			var escaped = false;
-			var el = false;
-			var isMember = false;
+			var translator = new MessageTranslator(message);
+			var revelevantTokens = translator.RelevantTokens;
+			return translator.Replace(ExtractReplacements(revelevantTokens, entity));
+		}
 
-			IEnumerator ie = tokens.GetEnumerator();
-
-			while (ie.MoveNext())
+		protected virtual IDictionary<string, string> ExtractReplacements(IEnumerable<string> revelevantTokens, object entity)
+		{
+			var replacements = new Dictionary<string, string>(20);
+			foreach (var revelevantToken in revelevantTokens)
 			{
-				string token = (string) ie.Current;
-
-				if (!escaped && "#".Equals(token))
+				if (revelevantToken.StartsWith("$"))
 				{
-					el = true;
-				}
-
-				if(!el && ("$".Equals(token)))
-				{
-					isMember = true;
-				}
-				else if("}".Equals(token) && isMember)
-				{
-					isMember = false;
-				}
-				if (!el && "{".Equals(token))
-				{
-					escaped = true;
-				}
-				else if (escaped && "}".Equals(token))
-				{
-					escaped = false;
-				}
-				else if (!escaped)
-				{
-					if ("{".Equals(token))
-					{
-						el = false;
-					}
-
-					if(!"$".Equals(token)) buf.Append(token);
-				}
-				else if(!isMember)
-				{
-					object variable;
-					if (attributeParameters.TryGetValue(token.ToLowerInvariant(), out variable))
-					{
-						buf.Append(variable);
-					}
-					else
-					{
-						string _string = null;
-						try
-						{
-							_string = messageBundle != null ? messageBundle.GetString(token, culture) : null;
-						}
-						catch (MissingManifestResourceException e)
-						{
-							//give a second chance with the default resource bundle
-						}
-						if (_string == null)
-						{
-							_string = defaultMessageBundle.GetString(token, culture);
-							// in this case we don't catch the MissingManifestResourceException because
-							// we are sure that we DefaultValidatorMessages.resx is an embedded resource
-						}
-						if (_string == null)
-						{
-							buf.Append('{').Append(token).Append('}');
-						}
-						else
-						{
-							buf.Append(Replace(_string,entity));
-						}
-					}
+					var value = GetPropertyValue(entity, revelevantToken.Trim('$', '{', '}'));
+					replacements[revelevantToken] = value == null ? null : value.ToString();
 				}
 				else
 				{
-					ReplaceValue(buf, entity, token);
+					var replacement = GetAttributeOrResourceValue(revelevantToken.Trim('{', '}'));
+					if (replacement != null)
+					{
+						// the message in the resource may need to be parsed
+						replacement = Replace(replacement, entity);
+					}
+					if (replacement != null)
+					{
+						// the token need to be replaced; otherwise we leave the token itself
+						replacements[revelevantToken] = replacement;
+					}
 				}
 			}
-			return buf.ToString();
+			return replacements;
+		}
+
+		/// <summary>
+		/// Get the value of an Attribute's property or the value in the resource for a given key.
+		/// </summary>
+		/// <param name="token">The property-name of the attribute or key to find in the resources.</param>
+		/// <returns>The string in the resource or null where not found.</returns>
+		protected virtual string GetAttributeOrResourceValue(string token)
+		{
+			object attributeValue;
+			if (attributeParameters.TryGetValue(token.ToLowerInvariant(), out attributeValue))
+			{
+				return attributeValue == null ? null : attributeValue.ToString();
+			}
+
+			string resourceValue = null;
+			try
+			{
+				resourceValue = messageBundle != null ? messageBundle.GetString(token, culture) : null;
+			}
+			catch (MissingManifestResourceException e)
+			{
+				//give a second chance with the default resource bundle
+			}
+			if (resourceValue == null)
+			{
+				resourceValue = defaultMessageBundle.GetString(token, culture);
+				// in this case we don't catch the MissingManifestResourceException because
+				// we are sure that we DefaultValidatorMessages.resx is an embedded resource
+			}
+			return resourceValue;
 		}
 
 		/// <summary>
 		/// Override this method to obtain flexibility.
 		/// The default interpolator can replace the message with public property values.
 		/// </summary>
-		/// <param name="buffer">Current buffer where the final string message is written.</param>
 		/// <param name="entity">Entity or value</param>
 		/// <param name="propertyName">Property name to be used.</param>
-		protected virtual void ReplaceValue(StringBuilder buffer, object entity, string propertyName)
+		/// <returns>The value of the property</returns>
+		protected virtual object GetPropertyValue(object entity, string propertyName)
 		{
 			if (!propertyName.Contains("."))
 			{
 				var property = entity.GetType().GetProperty(propertyName);
 				if (property == null) throw new InvalidPropertyNameException(propertyName, entity.GetType());
 
-				var value = property.GetValue(entity, null);
-				buffer.Append(value);
+				return property.GetValue(entity, null);
 			}
 			else
 			{
@@ -212,8 +187,7 @@ namespace NHibernate.Validator.Interpolator
 					if (property == null) throw new InvalidPropertyNameException(memberName, entity.GetType());
 					value = property.GetValue(value, null);
 				}
-				if(value != null)
-					buffer.Append(value);
+				return value;
 			}
 		}
 
