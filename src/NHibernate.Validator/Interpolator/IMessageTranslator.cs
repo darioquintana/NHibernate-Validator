@@ -5,6 +5,6 @@ namespace NHibernate.Validator.Interpolator
 	public interface IMessageTranslator
 	{
 		IEnumerable<string> RelevantTokens { get; }
-		string Replace(string[] relevantTokens, string[] values);
+		string Replace(IEnumerable<KeyValuePair<string, string>> replacements);
 	}
 }
