@@ -19,6 +19,7 @@
 			<include name="NHibernate.Validator.Tests.dll" />
 			<include name="NHibernate.dll" />
 			<include name="nunit.framework.dll" />
+			<include name="SharpTestsEx.NUnit.dll" />
 			<include name="log4net.dll" />
 			<include name="Iesi.Collections.dll" />
 		</assemblyfileset>
