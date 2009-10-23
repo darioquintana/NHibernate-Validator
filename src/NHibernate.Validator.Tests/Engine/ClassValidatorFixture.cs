@@ -7,6 +7,7 @@ using NHibernate.Validator.Engine;
 using NHibernate.Validator.Tests.Base;
 using NUnit.Framework;
 using NHibernate.Validator.Constraints;
+using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.Engine
 {
@@ -49,11 +50,11 @@ namespace NHibernate.Validator.Tests.Engine
 			}
 		}
 
-		[Test, ExpectedException(typeof(ArgumentOutOfRangeException))]
+		[Test]
 		public void CrazyUseOrNHVFault()
 		{
 			// In case of NHV we are prevent unecessary validations
-			new ClassValidator(typeof(string));
+			ActionAssert.Throws<ArgumentOutOfRangeException>(() => new ClassValidator(typeof(string)));
 		}
 
 		[Test]

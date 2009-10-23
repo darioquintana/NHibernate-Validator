@@ -7,17 +7,18 @@ using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Cfg.MappingSchema;
 using NHibernate.Validator.Exceptions;
 using NUnit.Framework;
+using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.Configuration
 {
 	[TestFixture]
 	public class XmlMappingLoaderFixture
 	{
-		[Test, ExpectedException(typeof(ArgumentNullException))]
+		[Test]
 		public void LoadMappingsNull()
 		{
 			XmlMappingLoader ml = new XmlMappingLoader();
-			ml.LoadMappings(null);
+			ActionAssert.Throws<ArgumentNullException>(() => ml.LoadMappings(null));
 		}
 
 		[Test]
@@ -72,7 +73,7 @@ namespace NHibernate.Validator.Tests.Configuration
 			Assert.AreEqual(1, ml.Mappings.Length);
 		}
 
-		[Test, ExpectedException(typeof(ValidatorConfigurationException))]
+		[Test]
 		public void ResourceNotFound()
 		{
 			string xml =
@@ -84,7 +85,7 @@ namespace NHibernate.Validator.Tests.Configuration
 			XmlTextReader xtr = new XmlTextReader(xml, XmlNodeType.Document, null);
 			XmlConfiguration cfg = new XmlConfiguration(xtr);
 			XmlMappingLoader ml = new XmlMappingLoader();
-			ml.LoadMappings(cfg.Mappings);
+			ActionAssert.Throws<ValidatorConfigurationException>(() => ml.LoadMappings(cfg.Mappings));
 		}
 
 		[Test]
@@ -110,7 +111,7 @@ namespace NHibernate.Validator.Tests.Configuration
 			Assert.AreEqual(1, ml.Mappings.Length);
 		}
 
-		[Test, ExpectedException(typeof(ValidatorConfigurationException))]
+		[Test]
 		public void AddWrongStream()
 		{
 			string tmpf = Path.GetTempFileName();
@@ -122,13 +123,12 @@ namespace NHibernate.Validator.Tests.Configuration
 				sw.WriteLine("</nhv-mapping>");
 				sw.Flush();
 			}
-
+			
 			XmlMappingLoader ml = new XmlMappingLoader();
 			using (StreamReader sr = new StreamReader(tmpf))
 			{
-				ml.AddInputStream(sr.BaseStream, tmpf);
+				ActionAssert.Throws<ValidatorConfigurationException>(() => ml.AddInputStream(sr.BaseStream, tmpf));
 			}
-			Assert.AreEqual(1, ml.Mappings.Length);
 		}
 
 		[Test]
@@ -150,7 +150,7 @@ namespace NHibernate.Validator.Tests.Configuration
 			Assert.AreEqual(1, ml.Mappings.Length);
 		}
 
-		[Test, ExpectedException(typeof(ValidatorConfigurationException))]
+		[Test]
 		public void AddWrongFile()
 		{
 			string tmpf = Path.GetTempFileName();
@@ -163,7 +163,7 @@ namespace NHibernate.Validator.Tests.Configuration
 				sw.Flush();
 			}
 			XmlMappingLoader ml = new XmlMappingLoader();
-			ml.AddFile(tmpf);
+			ActionAssert.Throws<ValidatorConfigurationException>(() =>ml.AddFile(tmpf));
 		}
 
 		[Test]
@@ -173,11 +173,11 @@ namespace NHibernate.Validator.Tests.Configuration
 			Assert.Throws<ValidatorConfigurationException>(() => ml.AddFile("NoExistFile"),"Could not load file NoExistFile");
 		}
 
-		[Test, ExpectedException(typeof(ValidatorConfigurationException))]
+		[Test]
 		public void AddWrongAssembly()
 		{
 			XmlMappingLoader ml = new XmlMappingLoader();
-			ml.AddAssembly("NoExistAssemblyName");
+			Assert.Throws<ValidatorConfigurationException>(() =>ml.AddAssembly("NoExistAssemblyName"));
 		}
 
 		[Test]
@@ -255,12 +255,12 @@ namespace NHibernate.Validator.Tests.Configuration
 			Assert.That(cm.FirstOrDefault(x => x.EntityType == typeof(Base.Address)), Is.Not.Null);
 		}
 
-		[Test, ExpectedException(typeof(ArgumentNullException))]
+		[Test]
 		public void MappingDocumentParserTest()
 		{
 			// here we test only the exception since the other tests are included in MappingLoader
 			MappingDocumentParser mdp = new MappingDocumentParser();
-			mdp.Parse(null);
+			ActionAssert.Throws<ArgumentNullException>(() => mdp.Parse(null));
 		}
 	}
 }

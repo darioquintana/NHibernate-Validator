@@ -1,6 +1,7 @@
 using NHibernate.Validator.Engine;
 using NHibernate.Validator.Exceptions;
 using NUnit.Framework;
+using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.CustomValidator
 {
@@ -20,30 +21,19 @@ namespace NHibernate.Validator.Tests.CustomValidator
 		}
 
 
-		[Test,ExpectedException(typeof(HibernateValidatorException))]
+		[Test]
 		public void ExceptionMustBeThrown()
 		{
-			IClassValidator vtor = new ClassValidator(typeof (Foo));
-			
-			Foo f = new Foo();
-
-			vtor.GetInvalidValues(f);
+			ActionAssert.Throws<HibernateValidatorException>(() => new ClassValidator(typeof (Foo)));
 		}
 
 		/// <summary>
 		/// Expected an HibernateValidatorException instead of a NullReferenceException.
 		/// </summary>
-		[Test, ExpectedException(typeof(HibernateValidatorException))]
+		[Test]
 		public void MessageNull()
 		{
-			IClassValidator vtor = new ClassValidator(typeof(Foo2));
-
-			Foo2 f = new Foo2();
-
-			vtor.GetInvalidValues(f);
+			ActionAssert.Throws<HibernateValidatorException>(() => new ClassValidator(typeof(Foo2)));
 		}
-
-
-
 	}
 }

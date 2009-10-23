@@ -6,6 +6,7 @@ using NHibernate.Validator.Engine;
 using NHibernate.Validator.Exceptions;
 using NHibernate.Validator.Interpolator;
 using NHibernate.Validator.Tests.Base;
+using SharpTestsEx;
 using RangeAttribute = NHibernate.Validator.Constraints.RangeAttribute;
 using NUnit.Framework;
 
@@ -37,10 +38,13 @@ namespace NHibernate.Validator.Tests.Interpolation
 			Assert.AreEqual("The value of foo is 82 + 12", result);
 		}
 
-		[Test, ExpectedException(typeof(InvalidPropertyNameException))]
+		[Test]
 		public void InterpolatingValues_WrongMember()
 		{
-			GetInitializedInterpolator().Interpolate("The value of foo is ${WrongMember}.", new Foo { Number = 82 }, new RangeValidator(), null);
+			ActionAssert.Throws<InvalidPropertyNameException>(
+				() =>
+				GetInitializedInterpolator().Interpolate("The value of foo is ${WrongMember}.", new Foo {Number = 82},
+				                                         new RangeValidator(), null));
 		}
 
 		public IMessageInterpolator GetInitializedInterpolator()

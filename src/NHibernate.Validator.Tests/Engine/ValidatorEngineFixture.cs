@@ -14,6 +14,7 @@ using NUnit.Framework;
 using System.Reflection;
 using log4net.Core;
 using System;
+using SharpTestsEx;
 using Environment=NHibernate.Validator.Cfg.Environment;
 using NHibernate.Validator.Util;
 
@@ -40,18 +41,18 @@ namespace NHibernate.Validator.Tests.Engine
 			Assert.AreEqual(typeof(PrefixMessageInterpolator), ve.Interpolator.GetType());
 		}
 
-		[Test, ExpectedException(typeof(ValidatorConfigurationException))]
+		[Test]
 		public void IntentWrongNHVConfig()
 		{
 			ValidatorEngine ve = new ValidatorEngine();
-			ve.Configure((INHVConfiguration)null);
+			ActionAssert.Throws<ValidatorConfigurationException>(() => ve.Configure((INHVConfiguration)null));
 		}
 
-		[Test, ExpectedException(typeof(ValidatorConfigurationException))]
+		[Test]
 		public void IntentWrongXmlConfig()
 		{
 			ValidatorEngine ve = new ValidatorEngine();
-			ve.Configure((XmlReader)null);
+			ActionAssert.Throws<ValidatorConfigurationException>(() => ve.Configure((XmlReader)null));
 		}
 
 		[Test]

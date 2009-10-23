@@ -10,6 +10,7 @@ using NUnit.Framework;
 using NHibernate.Validator.Cfg;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.Configuration
 {
@@ -31,19 +32,19 @@ namespace NHibernate.Validator.Tests.Configuration
 			Assert.AreEqual(typeof(AssertAnimalAttribute), found.GetType());
 		}
 
-		[Test, ExpectedException(typeof(InvalidAttributeNameException))]
+		[Test]
 		public void CreateAttributeFromClassWrongName()
 		{
 			NhvmClassAttributename attributename = new NhvmClassAttributename();
 			attributename.Text = new string[] { "assertanimal" };
-			RuleAttributeFactory.CreateAttributeFromClass(typeof(Suricato), attributename);
+			ActionAssert.Throws<InvalidAttributeNameException>(() => RuleAttributeFactory.CreateAttributeFromClass(typeof(Suricato), attributename));
 		}
 
-		[Test, ExpectedException(typeof(ValidatorConfigurationException))]
+		[Test]
 		public void CreateAttributeFromRule()
 		{
 			// Testing exception when a new element is added in XSD but not in factory
-			RuleAttributeFactory.CreateAttributeFromRule("AnyObject", "", "");
+			ActionAssert.Throws<ValidatorConfigurationException>(() => RuleAttributeFactory.CreateAttributeFromRule("AnyObject", "", ""));
 
 			// For wellKnownRules we can't do a sure tests because we don't have a way to auto-check all
 			// classes derivered from serialization.
@@ -159,7 +160,7 @@ namespace NHibernate.Validator.Tests.Configuration
 														{ return a is T; });
 		}
 
-		[Test, ExpectedException(typeof(InvalidPropertyNameException))]
+		[Test]
 		public void WrongPropertyInCustomAttribute()
 		{
 			string tmpf = Path.GetTempFileName();
@@ -176,7 +177,7 @@ namespace NHibernate.Validator.Tests.Configuration
 				sw.WriteLine("</rule>");
 				sw.WriteLine("</property>");
 				sw.WriteLine("</class>");
-				sw.WriteLine("</nhv-mapping>"); 
+				sw.WriteLine("</nhv-mapping>");
 				sw.Flush();
 			}
 
@@ -191,7 +192,7 @@ namespace NHibernate.Validator.Tests.Configuration
 			MemberInfo mi;
 
 			mi = typeof(WellKnownRules).GetField("AP");
-			rm.GetMemberAttributes(mi);
+			ActionAssert.Throws<InvalidPropertyNameException>(() =>rm.GetMemberAttributes(mi));
 		}
 
 		[Test]

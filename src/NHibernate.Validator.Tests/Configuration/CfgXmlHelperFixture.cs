@@ -2,6 +2,7 @@ using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Engine;
 using NHibernate.Validator.Exceptions;
 using NUnit.Framework;
+using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.Configuration
 {
@@ -19,10 +20,10 @@ namespace NHibernate.Validator.Tests.Configuration
 			Assert.AreEqual(ValidatorMode.UseAttribute, CfgXmlHelper.ValidatorModeConvertFrom(string.Empty));
 		}
 
-		[Test, ExpectedException(typeof(ValidatorConfigurationException))]
+		[Test]
 		public void InvalidValidatorMode()
 		{
-			CfgXmlHelper.ValidatorModeConvertFrom("Not supported");
+			ActionAssert.Throws<ValidatorConfigurationException>(()=>CfgXmlHelper.ValidatorModeConvertFrom("Not supported"));
 		}
 	}
 }

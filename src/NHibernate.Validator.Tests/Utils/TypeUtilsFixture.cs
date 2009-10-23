@@ -5,6 +5,7 @@ using System.Reflection;
 using NHibernate.Validator.Exceptions;
 using NHibernate.Validator.Util;
 using NUnit.Framework;
+using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.Utils
 {
@@ -141,12 +142,13 @@ namespace NHibernate.Validator.Tests.Utils
 			Assert.IsNull(TypeUtils.GetMemberValue(tc, methodMember));
 		}
 
-		[Test, ExpectedException(typeof(InvalidStateException))]
+		[Test]
 		public void GetterWithException()
 		{
 			TestingClass tc = new TestingClass();
 			MemberInfo propMember = typeof(TestingClass).GetProperty("Problem");
-			TypeUtils.GetMemberValue(tc, propMember);
+			ActionAssert.Throws<InvalidStateException>(
+				() =>TypeUtils.GetMemberValue(tc, propMember));
 		}
 
 		[Test]

@@ -4,22 +4,18 @@ using NHibernate.Validator.Engine;
 using NHibernate.Validator.Exceptions;
 using NHibernate.Validator.Tests.Base;
 using NUnit.Framework;
+using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.Engine
 {
 	[TestFixture]
 	public class ValidatableElementFixture
 	{
-		[Test, ExpectedException(typeof(ArgumentNullException))]
-		public void DefCtorE1()
+		[Test]
+		public void DefCtor()
 		{
-			new ValidatableElement(null, null);
-		}
-
-		[Test, ExpectedException(typeof(ArgumentNullException))]
-		public void DefCtorE2()
-		{
-			new ValidatableElement(typeof(Address), null);
+			ActionAssert.Throws<ArgumentNullException>(() => new ValidatableElement(null, null));
+			ActionAssert.Throws<ArgumentNullException>(() => new ValidatableElement(typeof(Address), null));
 		}
 
 		[Test]

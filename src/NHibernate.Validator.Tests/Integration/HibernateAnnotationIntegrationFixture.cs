@@ -3,6 +3,7 @@ using NHibernate.Validator.Engine;
 using NHibernate.Validator.Event;
 using NHibernate.Validator.Exceptions;
 using NHibernate.Validator.Tests.Base;
+using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.Integration
 {
@@ -83,10 +84,10 @@ namespace NHibernate.Validator.Tests.Integration
 			Assert.IsNotNull(fortest.GetEngine().GetValidator<Address>());
 		}
 
-		[Test, ExpectedException(typeof(ArgumentNullException))]
+		[Test]
 		public void InvalidInitializer()
 		{
-			ValidatorInitializer.Initialize(null);
+			ActionAssert.Throws<ArgumentNullException>(() => ValidatorInitializer.Initialize(null));
 		}
 
 		[Test]
