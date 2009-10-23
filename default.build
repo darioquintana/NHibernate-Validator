@@ -53,6 +53,7 @@
 				<include name="Castle.Core.dll"  />
 				<include name="Castle.DynamicProxy2.dll"  />
 				<include name="nunit.*.dll"  />
+				<include name="SharpTestsEx*.dll"  />
 				<include name="log4net.dll"  />
 				<include name="Iesi.Collections.dll" />
 				<include name="NHibernate.dll"  />
@@ -178,6 +179,7 @@
 			<fileset basedir="${bin.dir}">
 				<include name="*Test*dll" />
 				<include name="nunit.*.dll" />
+				<include name="SharpTestsEx*.dll"  />
 				<include name="nhvalidator.cfg.xml"/>
 				<include name="*.config"/>
 			</fileset>
@@ -187,6 +189,7 @@
 			<fileset basedir="${bin.dir}">
 				<include name="nhvalidator.cfg.xml"/>
 				<include name="nunit.*.dll" />
+				<include name="SharpTestsEx*.dll"  />
 				<include name="*.Test*" />
 			</fileset>
 		</delete>
