@@ -165,6 +165,7 @@
     <Compile Include="Constraints\IBANValidator.cs" />
     <Compile Include="Constraints\IPAddressAttribute.cs" />
     <Compile Include="Constraints\IPAddressValidator.cs" />
+    <Compile Include="Interpolator\IInitializableMessageInterpolator.cs" />
     <Compile Include="Interpolator\IMessageTranslator.cs" />
     <Compile Include="Interpolator\MessageTranslator.cs" />
     <Compile Include="Mappings\AbstractClassMapping.cs" />

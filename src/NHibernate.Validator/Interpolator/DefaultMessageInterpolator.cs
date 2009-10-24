@@ -10,7 +10,7 @@ using NHibernate.Validator.Exceptions;
 namespace NHibernate.Validator.Interpolator
 {
 	[Serializable]
-	public class DefaultMessageInterpolator : IMessageInterpolator, ISerializable
+	public class DefaultMessageInterpolator : IMessageInterpolator, ISerializable, IInitializableMessageInterpolator
 	{
 		private readonly Dictionary<string, object> attributeParameters = new Dictionary<string, object>();
 		private string attributeMessage;
