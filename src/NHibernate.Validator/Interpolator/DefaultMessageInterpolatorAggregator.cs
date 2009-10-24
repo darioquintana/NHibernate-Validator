@@ -21,18 +21,17 @@ namespace NHibernate.Validator.Interpolator
 
 		#region IMessageInterpolator Members
 
-		public string Interpolate(string message, object entity, IValidator validator, IMessageInterpolator defaultInterpolator)
+		public string Interpolate(InterpolationInfo info)
 		{
 			CheckInitialized();
 
 			DefaultMessageInterpolator defaultMessageInterpolator;
-
-			if (!interpolators.TryGetValue(validator, out defaultMessageInterpolator))
+			if (!interpolators.TryGetValue(info.Validator, out defaultMessageInterpolator))
 			{
-				return message;
+				return info.Message;
 			}
 
-			return defaultMessageInterpolator.Interpolate(message, entity, validator, defaultInterpolator);
+			return defaultMessageInterpolator.Interpolate(info);
 		}
 
 		private void CheckInitialized()

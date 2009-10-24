@@ -6,28 +6,36 @@ namespace NHibernate.Validator.Engine
 {
 	public class InvalidMessageTransformer
 	{
-		private readonly object entity;
-		private readonly IValidator validator;
-		private readonly DefaultMessageInterpolatorAggregator defaultInterpolator;
-		private readonly IMessageInterpolator userInterpolator;
 		private readonly System.Type @class;
 		private readonly ConstraintValidatorContext constraintContext;
+		private readonly DefaultMessageInterpolatorAggregator defaultInterpolator;
+		private readonly object entity;
 		private readonly string propertyName;
+		private readonly IMessageInterpolator userInterpolator;
+		private readonly IValidator validator;
 		private readonly object value;
 
-		public InvalidMessageTransformer(ConstraintValidatorContext constraintContext, 
-			System.Type @class, 
-			string propertyName /* nullable */, 
-			object value /* nullable */,
-			object entity /* nullable */,
-			IValidator validator,
-			DefaultMessageInterpolatorAggregator defaultInterpolator,
-			IMessageInterpolator userInterpolator /* nullable */)
+		public InvalidMessageTransformer(ConstraintValidatorContext constraintContext, System.Type @class, string propertyName,
+		                                 object value, object entity, IValidator validator,
+		                                 DefaultMessageInterpolatorAggregator defaultInterpolator,
+		                                 IMessageInterpolator userInterpolator)
 		{
-			if (constraintContext == null) throw new ArgumentNullException("constraintContext");
-			if (@class == null) throw new ArgumentNullException("class");
-			if (validator == null) throw new ArgumentNullException("validator");
-			if (defaultInterpolator == null) throw new ArgumentNullException("defaultInterpolator");
+			if (constraintContext == null)
+			{
+				throw new ArgumentNullException("constraintContext");
+			}
+			if (@class == null)
+			{
+				throw new ArgumentNullException("class");
+			}
+			if (validator == null)
+			{
+				throw new ArgumentNullException("validator");
+			}
+			if (defaultInterpolator == null)
+			{
+				throw new ArgumentNullException("defaultInterpolator");
+			}
 
 			this.constraintContext = constraintContext;
 			this.@class = @class;
@@ -41,24 +49,20 @@ namespace NHibernate.Validator.Engine
 
 		public IEnumerable<InvalidValue> Transform()
 		{
-			foreach (var invalidMsg in constraintContext.InvalidMessages)
+			foreach (InvalidMessage invalidMsg in constraintContext.InvalidMessages)
 			{
-				var interpolatedMessage = Interpolate(entity, invalidMsg.Message, validator);
-				var property = invalidMsg.PropertyName ?? propertyName;
+				string property = invalidMsg.PropertyName ?? propertyName;
+				string interpolatedMessage = Interpolate(property, invalidMsg.Message);
 				yield return new InvalidValue(interpolatedMessage, @class, property, value, entity);
 			}
 		}
 
-		private string Interpolate(object entity, string message, IValidator validator)
+		private string Interpolate(string propName, string message)
 		{
-			if (userInterpolator != null)
-			{
-				return userInterpolator.Interpolate(message, entity, validator, defaultInterpolator);
-			}
-			else
-			{
-				return defaultInterpolator.Interpolate(message, entity, validator, null);
-			}
+			return userInterpolator != null
+			       	? userInterpolator.Interpolate(new InterpolationInfo(@class, entity, propName, validator, defaultInterpolator,
+			       	                                                     message))
+			       	: defaultInterpolator.Interpolate(new InterpolationInfo(@class, entity, propName, validator, null, message));
 		}
 	}
 }

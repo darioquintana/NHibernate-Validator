@@ -287,7 +287,7 @@ namespace NHibernate.Validator.Tests.Engine
 		{
 			private NoDefConstructorInterpolator() {}
 
-			public string Interpolate(string message, object entity, IValidator validator, IMessageInterpolator defaultInterpolator)
+			public string Interpolate(InterpolationInfo info)
 			{
 				throw new NotImplementedException();
 			}
@@ -299,7 +299,7 @@ namespace NHibernate.Validator.Tests.Engine
 			{
 				throw new NotImplementedException();
 			}
-			public string Interpolate(string message, object entity, IValidator validator, IMessageInterpolator defaultInterpolator)
+			public string Interpolate(InterpolationInfo info)
 			{
 				throw new Exception("The method or operation is not implemented.");
 			}

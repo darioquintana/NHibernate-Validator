@@ -133,6 +133,7 @@
     <Compile Include="Engine\DefaultEntityTypeInspector.cs" />
     <Compile Include="Engine\IConstraintValidatorFactory.cs" />
     <Compile Include="Engine\IEntityTypeInspector.cs" />
+    <Compile Include="Engine\InterpolationInfo.cs" />
     <Compile Include="Engine\InvalidMessageTransformer.cs" />
     <Compile Include="Engine\ConstraintValidatorContext.cs" />
     <Compile Include="Engine\IClassMappingFactory.cs" />

@@ -1,5 +1,3 @@
-using System;
-
 namespace NHibernate.Validator.Engine
 {
 	/// <summary>
@@ -9,6 +7,6 @@ namespace NHibernate.Validator.Engine
 	/// </summary>
 	public interface IMessageInterpolator
 	{
-		string Interpolate(String message, object entity, IValidator validator, IMessageInterpolator defaultInterpolator);
+		string Interpolate(InterpolationInfo info);
 	}
 }

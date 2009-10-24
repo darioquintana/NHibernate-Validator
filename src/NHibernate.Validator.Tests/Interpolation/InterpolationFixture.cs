@@ -34,17 +34,20 @@ namespace NHibernate.Validator.Tests.Interpolation
 		[Test]
 		public void InterpolatingValues()
 		{
-			var result = GetInitializedInterpolator().Interpolate("The value of foo is ${Number} + {Number}", new Foo { Number = 82 }, new RangeValidator(), null);
+			var info = new InterpolationInfo(typeof (Foo), new Foo {Number = 82}, "Number", new RangeValidator(), null,
+			                                 "The value of foo is ${Number} + {Number}");
+			var result = GetInitializedInterpolator().Interpolate(info);
 			Assert.AreEqual("The value of foo is 82 + 12", result);
 		}
 
 		[Test]
 		public void InterpolatingValues_WrongMember()
 		{
+			var info = new InterpolationInfo(typeof(Foo), new Foo { Number = 82 }, "Number", new RangeValidator(), null,
+																		 "The value of foo is ${WrongMember}.");
 			ActionAssert.Throws<InvalidPropertyNameException>(
 				() =>
-				GetInitializedInterpolator().Interpolate("The value of foo is ${WrongMember}.", new Foo {Number = 82},
-				                                         new RangeValidator(), null));
+				GetInitializedInterpolator().Interpolate(info));
 		}
 
 		public IMessageInterpolator GetInitializedInterpolator()

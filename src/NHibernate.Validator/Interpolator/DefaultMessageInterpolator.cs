@@ -37,15 +37,16 @@ namespace NHibernate.Validator.Interpolator
 
 		#region IMessageInterpolator Members
 
-		public virtual string Interpolate(string message, object entity, IValidator validator, IMessageInterpolator defaultInterpolator)
+		public virtual string Interpolate(InterpolationInfo info)
 		{
+			var message = info.Message;
 			bool same = attributeMessage.Equals(message);
-            if (same && interpolateMessage != null && !message.Contains("${"))
+			if (same && interpolateMessage != null && !message.Contains("${"))
 			{
 				return interpolateMessage; //short cut
 			}
 
-			string result = Replace(message,entity);
+			string result = Replace(message, info.EntityInstance);
 			if (same)
 			{
 				interpolateMessage = result; //short cut in next iteration

@@ -5,6 +5,7 @@ using System.Resources;
 using System.Runtime.Serialization.Formatters.Binary;
 using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Constraints;
+using NHibernate.Validator.Engine;
 using NHibernate.Validator.Exceptions;
 using NHibernate.Validator.Interpolator;
 using NUnit.Framework;
@@ -56,10 +57,12 @@ namespace NHibernate.Validator.Tests.Interpolation
 			var va = new RangeValidator();
 			var a = new RangeAttribute(2, 10);
 
-			Assert.AreEqual(a.Message, mia.Interpolate(a.Message, new object(), va, dmi));
+			var info = new InterpolationInfo(typeof (object), new object(), null, va, dmi, a.Message);
+			Assert.AreEqual(a.Message, mia.Interpolate(info));
 
 			mia.AddInterpolator(a, va);
-			Assert.AreNotEqual(a.Message, mia.Interpolate(a.Message, new object(), va, dmi));
+			var info1 = new InterpolationInfo(typeof(object), new object(), null, va, dmi, a.Message);
+			Assert.AreNotEqual(a.Message, mia.Interpolate(info1));
 		}
 
 		[Test, Ignore("Not supported yet.")]
