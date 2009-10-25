@@ -12,6 +12,7 @@ namespace NHibernate.Validator.Constraints
 		public DelegatedValidatorAttribute(IValidator validatorInstance)
 		{
 			this.validatorInstance = validatorInstance;
+			Message = "";
 		}
 
 		public string Message { get; set; }

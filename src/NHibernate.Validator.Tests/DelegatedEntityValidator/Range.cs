@@ -15,4 +15,12 @@ namespace NHibernate.Validator.Tests.DelegatedEntityValidator
 			ValidateInstance.By((instance, context) => instance.Start <= instance.End).WithMessage("Start should be less than End.");
 		}
 	}
+
+	public class RangeDefWithoutCustomMessage : ValidationDef<Range>
+	{
+		public RangeDefWithoutCustomMessage()
+		{
+			ValidateInstance.By((instance, context) => instance.Start <= instance.End);
+		}
+	}
 }
