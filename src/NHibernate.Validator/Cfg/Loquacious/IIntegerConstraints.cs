@@ -6,6 +6,7 @@ namespace NHibernate.Validator.Cfg.Loquacious
 		IRuleArgsOptions LessThanOrEqualTo(long maxValue);
 		IRuleArgsOptions GreaterThanOrEqualTo(long minValue);
 		IRuleArgsOptions IncludedBetween(long minValue, long maxValue);
+		IRuleArgsOptions Whitih(long minValue, long maxValue);
 		IRuleArgsOptions IsEAN();
 	}
 

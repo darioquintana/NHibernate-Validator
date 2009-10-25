@@ -31,6 +31,11 @@ namespace NHibernate.Validator.Cfg.Loquacious.Impl
 			return AddWithFinalRuleArgOptions(new RangeAttribute(minValue, maxValue));
 		}
 
+		public IRuleArgsOptions Whitih(long minValue, long maxValue)
+		{
+			return AddWithFinalRuleArgOptions(new WithinAttribute(minValue, maxValue));
+		}
+
 		public IRuleArgsOptions IsEAN()
 		{
 			return AddWithFinalRuleArgOptions(new EANAttribute());

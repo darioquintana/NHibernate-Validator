@@ -275,6 +275,7 @@
     <Compile Include="ValidatorsTest\RangeValidatorFixture.cs" />
     <Compile Include="ValidatorsTest\SizeValidatorFixture.cs" />
     <Compile Include="ValidatorsTest\ValidatorsFixture.cs" />
+    <Compile Include="ValidatorsTest\WithinValidatorFixture.cs" />
     <Compile Include="ValidatorsTest\XmlValidatorFixture.cs" />
     <Compile Include="ValidTests\Address.cs" />
     <Compile Include="ValidTests\Author.cs" />

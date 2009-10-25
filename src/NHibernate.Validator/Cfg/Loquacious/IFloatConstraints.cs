@@ -9,6 +9,7 @@ namespace NHibernate.Validator.Cfg.Loquacious
 		IRuleArgsOptions GreaterThanOrEqualTo(long minValue);
 		IRuleArgsOptions GreaterThanOrEqualTo(decimal minValue);
 		IRuleArgsOptions IncludedBetween(long minValue, long maxValue);
+		IRuleArgsOptions Whitih(double minValue, double maxValue);
 	}
 
 	public interface IFloatConstraints<T> : IFloatConstraints, ISatisfier<T, IFloatConstraints<T>>

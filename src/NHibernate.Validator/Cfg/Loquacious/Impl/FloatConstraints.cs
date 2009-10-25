@@ -46,6 +46,11 @@ namespace NHibernate.Validator.Cfg.Loquacious.Impl
 			return AddWithFinalRuleArgOptions(new RangeAttribute(minValue, maxValue));
 		}
 
+		public IRuleArgsOptions Whitih(double minValue, double maxValue)
+		{
+			return AddWithFinalRuleArgOptions(new WithinAttribute(minValue, maxValue));
+		}
+
 		#endregion
 
 		#region Implementation of ISatisfier<T,IFloatConstraints<T>>
