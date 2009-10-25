@@ -9,11 +9,29 @@ using NHibernate.Validator.Event;
 
 namespace NHibernate.Validator.Cfg
 {
+	/// <summary>
+	/// Extensions to integrate NHibernate.Validator with NHibernate
+	/// </summary>
 	public static class ValidatorInitializer
 	{
 		private static readonly ILog log = LogManager.GetLogger(typeof(ValidatorInitializer));
 
-		public static void Initialize(Configuration cfg)
+		/// <summary>
+		/// Initialize NHibernate's events and/or DLL.
+		/// </summary>
+		/// <param name="cfg">The NHibernate.Cfg.Configuration before build the session factory.</param>
+		/// <remarks>
+		/// If the <see cref="ISharedEngineProvider"/> was configured or the
+		/// <see cref="Environment.SharedEngineProvider"/> was set, it will be used for the integration;
+		/// otherwise a new <see cref="ValidatorEngine"/> will be configured and used.
+		/// <para>
+		/// To have DDL-integration you must set the configuration property "apply_to_ddl" to true
+		/// </para>
+		/// <para>
+		/// To have events-integration you must set the configuration property "autoregister_listeners" to true
+		/// </para>
+		/// </remarks>
+		public static void Initialize(this Configuration cfg)
 		{
 			if (cfg == null)
 				throw new ArgumentNullException("cfg");
@@ -30,7 +48,20 @@ namespace NHibernate.Validator.Cfg
 			Initialize(cfg, ve);
 		}
 
-		public static void Initialize(Configuration cfg, ValidatorEngine ve)
+		/// <summary>
+		/// Initialize NHibernate's events and/or DLL.
+		/// </summary>
+		/// <param name="cfg">The NHibernate.Cfg.Configuration before build the session factory.</param>
+		/// <param name="ve">A configured ValidatorEngine (after call <see cref="ValidatorEngine.Configure()"/>)</param>
+		/// <remarks>
+		/// <para>
+		/// To have DDL-integration you must set the configuration property "apply_to_ddl" to true
+		/// </para>
+		/// <para>
+		/// To have events-integration you must set the configuration property "autoregister_listeners" to true
+		/// </para>
+		/// </remarks>
+		public static void Initialize(this Configuration cfg, ValidatorEngine ve)
 		{
 			//Apply To DDL
 			if (ve.ApplyToDDL)
