@@ -174,4 +174,7 @@
   <data name="validator.size" xml:space="preserve">
     <value>size must be between {Min} and {Max}</value>
   </data>
+  <data name="validator.within" xml:space="preserve">
+    <value>must be within {Min} and {Max}</value>
+  </data>
 </root>
