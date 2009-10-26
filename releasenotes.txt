@@ -10,6 +10,15 @@ Release Notes - NHibernate.Validator - Version 1.2.0
 	* The interface NHibernate.Validator.Engine.IMessageInterpolator and implementations had changed the signature. See [NHV-40]
 
 
+Release Notes - NHibernate.Validator - Version 1.2.0Beta3
+
+** New Feature
+    * [NHV-60] - Custom ResourceManager Configuration
+    * [NHV-66] - Entity-Validation by lambda
+    * [NHV-67] - Property validation by lambda
+    * [NHV-68] - Within Validator
+
+	
 Release Notes - NHibernate.Validator - Version 1.2.0Beta2
 
 ** Bug
