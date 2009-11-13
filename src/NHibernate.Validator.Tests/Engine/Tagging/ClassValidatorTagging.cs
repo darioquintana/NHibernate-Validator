@@ -1,0 +1,85 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using NHibernate.Validator.Constraints;
+using NHibernate.Validator.Engine;
+using NUnit.Framework;
+using SharpTestsEx;
+
+namespace NHibernate.Validator.Tests.Engine.Tagging
+{
+	public class Error { }
+	public class Warning { }
+
+	public enum MyEnum
+	{
+		Error,
+		Warining
+	}
+
+	public class Entity
+	{
+		[Min(Value = 20, Tags = typeof(Error), Message = "a message")]
+		[Max(Tags = new[] { typeof(Error), typeof(Warning) }, Value = 100)]
+		public int ValueUsingTypes { get; set; }
+
+		[Min(Value = 20, Tags = "error", Message = "a message")]
+		[Max(Tags = new[] { "error", "warning" }, Value = 100)]
+		public int ValueUsingStrings { get; set; }
+
+		[Min(Value = 20, Tags = MyEnum.Error, Message = "a message")]
+		[Max(Tags = new[] { MyEnum.Error, MyEnum.Warining }, Value = 100)]
+		public int ValueUsingEnums { get; set; }
+	}
+
+	[TestFixture]
+	public class ClassValidatorTagging
+	{
+		private object minTypeId = (new MinAttribute()).TypeId;
+		private object maxTypeId = (new MaxAttribute()).TypeId;
+
+		private void GivingRulesFor(string propertyName, out ITagableRule minAttribute, out ITagableRule maxAttribute)
+		{
+			IClassValidator cv = new ClassValidator(typeof (Entity));
+			IEnumerable<Attribute> ma = cv.GetMemberConstraints(propertyName);
+			minAttribute = (ITagableRule) ma.First(a => a.TypeId == minTypeId);
+			maxAttribute = (ITagableRule) ma.First(a => a.TypeId == maxTypeId);
+		}
+
+		[Test]
+		public void MemberConstraints_ByTagOfType()
+		{
+			ITagableRule minAttribute;
+			ITagableRule maxAttribute;
+			
+			GivingRulesFor("ValueUsingTypes", out minAttribute, out maxAttribute);
+
+			minAttribute.TagCollection.Should().Contain(typeof (Error));
+			maxAttribute.TagCollection.Should().Contain(typeof (Error)).And.Contain(typeof (Warning));
+		}
+
+		[Test]
+		public void MemberConstraints_ByTagOfStrings()
+		{
+			ITagableRule minAttribute;
+			ITagableRule maxAttribute;
+
+			GivingRulesFor("ValueUsingStrings", out minAttribute, out maxAttribute);
+
+			minAttribute.TagCollection.Should().Contain("error");
+			maxAttribute.TagCollection.Should().Contain("error").And.Contain("warning");
+		}
+
+		[Test]
+		public void MemberConstraints_ByTagOfEnums()
+		{
+			ITagableRule minAttribute;
+			ITagableRule maxAttribute;
+
+			GivingRulesFor("ValueUsingEnums", out minAttribute, out maxAttribute);
+
+			minAttribute.TagCollection.Should().Contain(MyEnum.Error);
+			maxAttribute.TagCollection.Should().Contain(MyEnum.Error).And.Contain(MyEnum.Warining);
+		}
+	}
+}

@@ -125,6 +125,7 @@
     <Compile Include="Constraints\EANValidator.cs" />
     <Compile Include="Constraints\EmailAttribute.cs" />
     <Compile Include="Constraints\EmailValidator.cs" />
+    <Compile Include="Constraints\EmbeddedRuleArgsAttribute.cs" />
     <Compile Include="Constraints\IsNumericAttribute.cs" />
     <Compile Include="Constraints\IsNumericValidator.cs" />
     <Compile Include="Constraints\WithinAttribute.cs" />
@@ -144,6 +145,7 @@
     <Compile Include="Engine\IConstraintValidatorContext.cs" />
     <Compile Include="Engine\IInitializableValidator.cs" />
     <Compile Include="Engine\ISharedEngineProvider.cs" />
+    <Compile Include="Engine\ITagableRule.cs" />
     <Compile Include="Engine\IValidatableSubElementsInspector.cs" />
     <Compile Include="Cfg\XmlMappingLoader.cs" />
     <Compile Include="Engine\IValidatorInstanceProvider.cs" />

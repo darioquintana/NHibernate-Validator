@@ -137,6 +137,7 @@
     <Compile Include="DelegatedEntityValidator\EngineIntegrationTest.cs" />
     <Compile Include="DelegatedEntityValidator\Range.cs" />
     <Compile Include="Engine\ClassValidatorFixture.cs" />
+    <Compile Include="Engine\Tagging\ClassValidatorTagging.cs" />
     <Compile Include="Engine\MultiEntityTypeInspectorFixture.cs" />
     <Compile Include="Integration\AnEntity.cs" />
     <Compile Include="Integration\DefaultEntityTypeInspectorFixture.cs" />
