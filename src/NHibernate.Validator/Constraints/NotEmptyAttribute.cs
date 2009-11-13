@@ -13,7 +13,7 @@ namespace NHibernate.Validator.Constraints
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof (NotEmptyValidator))]
-	public class NotEmptyAttribute : Attribute, IRuleArgs
+	public class NotEmptyAttribute : EmbeddedRuleArgsAttribute, IRuleArgs
 	{
 		private string message = "{validator.notEmpty}";
 

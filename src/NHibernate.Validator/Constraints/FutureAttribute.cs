@@ -9,7 +9,7 @@ namespace NHibernate.Validator.Constraints
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof (FutureValidator))]
-	public class FutureAttribute : Attribute, IRuleArgs
+	public class FutureAttribute : EmbeddedRuleArgsAttribute, IRuleArgs
 	{
 		// TODO : Add tolerance
 		private string message = "{validator.future}";

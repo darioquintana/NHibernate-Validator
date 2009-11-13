@@ -9,7 +9,7 @@ namespace NHibernate.Validator.Constraints
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof(IsNumericValidator))]
-	public class IsNumericAttribute : Attribute, IRuleArgs
+	public class IsNumericAttribute : EmbeddedRuleArgsAttribute, IRuleArgs
 	{
 		public IsNumericAttribute()
 		{

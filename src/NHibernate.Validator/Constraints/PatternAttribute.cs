@@ -10,7 +10,7 @@ namespace NHibernate.Validator.Constraints
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true)]
 	[ValidatorClass(typeof (PatternValidator))]
-	public class PatternAttribute : Attribute, IRuleArgs
+	public class PatternAttribute : EmbeddedRuleArgsAttribute, IRuleArgs
 	{
 		private RegexOptions flags = RegexOptions.Compiled;
 		private string message = "{validator.pattern}";

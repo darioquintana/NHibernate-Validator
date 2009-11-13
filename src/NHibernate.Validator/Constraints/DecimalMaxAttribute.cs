@@ -9,7 +9,7 @@ namespace NHibernate.Validator.Constraints
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof(DecimalMaxValidator))]
-	public class DecimalMaxAttribute : Attribute, IRuleArgs
+	public class DecimalMaxAttribute : EmbeddedRuleArgsAttribute, IRuleArgs
 	{
 		private string message = "{validator.max}";
 

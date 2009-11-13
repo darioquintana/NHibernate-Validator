@@ -9,7 +9,7 @@ namespace NHibernate.Validator.Constraints
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof (PastValidator))]
-	public class PastAttribute : Attribute, IRuleArgs
+	public class PastAttribute : EmbeddedRuleArgsAttribute, IRuleArgs
 	{
 		private string message = "{validator.past}";
 

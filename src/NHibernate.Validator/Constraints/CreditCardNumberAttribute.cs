@@ -6,7 +6,7 @@ namespace NHibernate.Validator.Constraints
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof (CreditCardNumberValidator))]
-	public class CreditCardNumberAttribute : Attribute, IRuleArgs
+	public class CreditCardNumberAttribute : EmbeddedRuleArgsAttribute, IRuleArgs
 	{
 		private string message = "{validator.creditCardNumber}";
 

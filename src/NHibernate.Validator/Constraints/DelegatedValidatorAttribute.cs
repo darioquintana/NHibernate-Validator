@@ -5,7 +5,7 @@ namespace NHibernate.Validator.Constraints
 {
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true)]
-	public class DelegatedValidatorAttribute : Attribute, IValidatorInstanceProvider, IRuleArgs
+	public class DelegatedValidatorAttribute : EmbeddedRuleArgsAttribute, IValidatorInstanceProvider, IRuleArgs
 	{
 		private readonly IValidator validatorInstance;
 

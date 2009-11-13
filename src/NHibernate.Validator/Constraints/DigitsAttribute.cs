@@ -29,7 +29,7 @@ namespace NHibernate.Validator.Constraints
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof (DigitsValidator))]
-	public class DigitsAttribute : Attribute, IRuleArgs
+	public class DigitsAttribute : EmbeddedRuleArgsAttribute, IRuleArgs
 	{
 		private string message = "{validator.digits}";
 		public DigitsAttribute() {}

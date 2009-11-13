@@ -11,7 +11,7 @@ namespace NHibernate.Validator.Constraints
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof (EANValidator))]
-	public class EANAttribute : Attribute, IRuleArgs
+	public class EANAttribute : EmbeddedRuleArgsAttribute, IRuleArgs
 	{
 		private string message = "{validator.ean}";
 

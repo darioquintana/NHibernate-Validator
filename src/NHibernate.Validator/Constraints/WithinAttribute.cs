@@ -10,7 +10,7 @@ namespace NHibernate.Validator.Constraints
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof (WithinValidator))]
-	public class WithinAttribute : Attribute, IRuleArgs
+	public class WithinAttribute : EmbeddedRuleArgsAttribute, IRuleArgs
 	{
 		private string message = "{validator.within}";
 

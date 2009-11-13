@@ -10,7 +10,7 @@ namespace NHibernate.Validator.Constraints
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof (RangeValidator))]
-	public class RangeAttribute : Attribute, IRuleArgs
+	public class RangeAttribute : EmbeddedRuleArgsAttribute, IRuleArgs
 	{
 		private long max = long.MaxValue;
 		private string message = "{validator.range}";

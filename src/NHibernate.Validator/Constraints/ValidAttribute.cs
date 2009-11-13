@@ -6,5 +6,5 @@ namespace NHibernate.Validator.Constraints
 	/// Enables recursive validation of an associated object
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	public class ValidAttribute : Attribute {}
+	public class ValidAttribute : EmbeddedRuleArgsAttribute { }
 }

@@ -19,7 +19,7 @@ namespace NHibernate.Validator.Constraints
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof (SizeValidator))]
-	public class SizeAttribute : Attribute, IRuleArgs
+	public class SizeAttribute : EmbeddedRuleArgsAttribute, IRuleArgs
 	{
 		private int max = int.MaxValue;
 		private string message = "{validator.size}";

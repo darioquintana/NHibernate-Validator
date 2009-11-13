@@ -9,7 +9,7 @@ namespace NHibernate.Validator.Constraints
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof (AssertFalseValidator))]
-	public class AssertFalseAttribute : Attribute, IRuleArgs
+	public class AssertFalseAttribute : EmbeddedRuleArgsAttribute, IRuleArgs
 	{
 		private string message = "{validator.assertFalse}";
 

@@ -9,7 +9,7 @@ namespace NHibernate.Validator.Constraints
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof (LengthValidator))]
-	public class LengthAttribute : Attribute, IRuleArgs
+	public class LengthAttribute : EmbeddedRuleArgsAttribute, IRuleArgs
 	{
 		private int max = int.MaxValue;
 		private string message = "{validator.length}";
