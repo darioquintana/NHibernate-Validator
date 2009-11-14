@@ -5,6 +5,7 @@ using NHibernate.Validator.Cfg.Loquacious;
 using NHibernate.Validator.Constraints;
 using NHibernate.Validator.Mappings;
 using NUnit.Framework;
+using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.Configuration.Loquacious
 {
@@ -21,7 +22,7 @@ namespace NHibernate.Validator.Tests.Configuration.Loquacious
 			var v = new ValidationDef<KnownRules>();
 			v.Define(x => x.DtProp).IsInThePast();
 			IClassMapping cm = ((IMappingSource)v).GetMapping();
-			PropertyInfo lpi = typeof (KnownRules).GetProperty("DtProp", membersBindingFlags);
+			PropertyInfo lpi = typeof(KnownRules).GetProperty("DtProp", membersBindingFlags);
 
 			Assert.That(cm.GetMemberAttributes(lpi).Count(), Is.EqualTo(1));
 			Assert.That(cm.GetMemberAttributes(lpi).First(), Is.InstanceOf<PastAttribute>());
@@ -35,7 +36,7 @@ namespace NHibernate.Validator.Tests.Configuration.Loquacious
 		[Test]
 		public void ShouldAssignRuleArgsOptions()
 		{
-			PropertyInfo lpi = typeof (KnownRules).GetProperty("DtProp", membersBindingFlags);
+			PropertyInfo lpi = typeof(KnownRules).GetProperty("DtProp", membersBindingFlags);
 			var v = new ValidationDef<KnownRules>();
 			string expected = "{validator.past}";
 			v.Define(x => x.DtProp).IsInThePast();
@@ -91,6 +92,13 @@ namespace NHibernate.Validator.Tests.Configuration.Loquacious
 			cm = ((IMappingSource)v).GetMapping();
 			mAttrs = cm.GetMemberAttributes(lpi);
 			Assert.That(mAttrs.Count(), Is.EqualTo(2));
+		}
+
+		[Test]
+		public void ShouldWorkWithEnum()
+		{
+			var v = new ValidationDef<KnownRules>();
+			ActionAssert.NotThrow(() => v.Define(x => x.Enum));
 		}
 	}
 }

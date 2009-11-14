@@ -132,6 +132,10 @@ namespace NHibernate.Validator.Util
 		{
 			if (expression.Body.NodeType != ExpressionType.MemberAccess)
 			{
+				if ((expression.Body.NodeType == ExpressionType.Convert) && (expression.Body.Type == typeof (object)))
+				{
+					return ((MemberExpression) ((UnaryExpression) expression.Body).Operand).Member;
+				}
 				throw new HibernateValidatorException(
 					string.Format("Invalid expression type: Expected ExpressionType.MemberAccess, Found {0}", expression.Body.NodeType));
 			}
