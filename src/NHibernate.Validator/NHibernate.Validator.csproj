@@ -154,6 +154,7 @@
     <Compile Include="Engine\StateFullClassMappingFactory.cs" />
     <Compile Include="Engine\StateFullClassValidatorFactory.cs" />
     <Compile Include="Engine\ValidatableElement.cs" />
+    <Compile Include="Engine\ValidatorDef.cs" />
     <Compile Include="Engine\ValidatorEngine.cs" />
     <Compile Include="Event\NHibernateSharedEngineProvider.cs" />
     <Compile Include="Exceptions\AssertionFailureException.cs" />

@@ -77,6 +77,21 @@ namespace NHibernate.Validator.Engine
 			{
 				return ClassValidator.EmptyConstraints;
 			}
+
+			public InvalidValue[] GetInvalidValues(object entity, params object[] tags)
+			{
+				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
+			}
+
+			public InvalidValue[] GetInvalidValues(object entity, string propertyName, params object[] tags)
+			{
+				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
+			}
+
+			public InvalidValue[] GetPotentialInvalidValues(string propertyName, object value, params object[] tags)
+			{
+				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
+			}
 		}
 
 		public ValidatorEngine()

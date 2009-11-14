@@ -30,6 +30,10 @@ namespace NHibernate.Validator.Tests.Engine.Tagging
 		[Min(Value = 20, Tags = MyEnum.Error, Message = "a message")]
 		[Max(Tags = new[] { MyEnum.Error, MyEnum.Warining }, Value = 100)]
 		public int ValueUsingEnums { get; set; }
+
+		[Min(20)]
+		[Max(100)]
+		public int ValueWithoutTags { get; set; }
 	}
 
 	[TestFixture]
@@ -80,6 +84,55 @@ namespace NHibernate.Validator.Tests.Engine.Tagging
 
 			minAttribute.TagCollection.Should().Contain(MyEnum.Error);
 			maxAttribute.TagCollection.Should().Contain(MyEnum.Error).And.Contain(MyEnum.Warining);
+		}
+
+		[Test]
+		public void UseOnlySpecificTaggedValidators()
+		{
+			IClassValidator cv = new ClassValidator(typeof (Entity));
+			cv.GetInvalidValues(new Entity {ValueUsingTypes = 5}, "ValueUsingTypes", typeof (Warning)).Should().Have.Count.
+				EqualTo(0);
+			cv.GetInvalidValues(new Entity { ValueUsingTypes = 101}, "ValueUsingTypes", typeof(Warning)).Should().Have.Count.
+				EqualTo(1);
+			cv.GetInvalidValues(new Entity { ValueUsingTypes = 5 }, "ValueUsingTypes", typeof(Error)).Should().Have.Count.
+				EqualTo(1);
+			cv.GetInvalidValues(new Entity { ValueUsingTypes = 101 }, "ValueUsingTypes", typeof(Error)).Should().Have.Count.
+				EqualTo(1);
+
+			// Mixing
+			cv.GetInvalidValues(new Entity(), typeof (Error), "error").Should().Have.Count.EqualTo(2);
+		}
+
+		[Test]
+		public void WhenNoTagIsSpecified_ValidateAnything()
+		{
+			// all propeties are wrong
+			IClassValidator cv = new ClassValidator(typeof(Entity));
+			cv.GetInvalidValues(new Entity()).Should().Have.Count.EqualTo(4);
+		}
+
+		[Test]
+		public void WhenTagIsSpecified_ValidateOnlyWithTag()
+		{
+			// only property with 'typeof(Error)' as tag
+			IClassValidator cv = new ClassValidator(typeof(Entity));
+			cv.GetInvalidValues(new Entity(), typeof(Error)).Should().Have.Count.EqualTo(1);
+		}
+
+		[Test]
+		public void WhenTagsIncludeNull_ValidateOnlyWithTagAndWithNoTags()
+		{
+			// only properties with 'typeof(Error)' as tag and with no tag (prop 'ValueWithoutTags')
+			IClassValidator cv = new ClassValidator(typeof(Entity));
+			cv.GetInvalidValues(new Entity(), typeof(Error), null).Should().Have.Count.EqualTo(2);
+		}
+
+		[Test]
+		public void WhenTagsIncludeOnlyNull_ValidateOnlyWithNoTags()
+		{
+			// only property 'ValueWithoutTags'
+			IClassValidator cv = new ClassValidator(typeof(Entity));
+			cv.GetInvalidValues(new Entity(), new object[] {null}).Should().Have.Count.EqualTo(1);
 		}
 	}
 }

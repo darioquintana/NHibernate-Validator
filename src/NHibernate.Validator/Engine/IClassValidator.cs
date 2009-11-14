@@ -56,5 +56,34 @@ namespace NHibernate.Validator.Engine
 		/// <param name="propertyName">The name of the property.</param>
 		/// <returns>The list of attribute of the given property.</returns>
 		IEnumerable<Attribute> GetMemberConstraints(string propertyName);
+
+		/// <summary>
+		/// Apply constraints on a entity instance and return all the failures.
+		/// if <paramref name="entity"/> is null, an empty array is returned 
+		/// </summary>
+		/// <param name="entity">object to apply the constraints</param>
+		///<param name="tags">list of tags enabled fpr the validation.</param>
+		///<returns>Invalid values</returns>
+		InvalidValue[] GetInvalidValues(object entity, params object[] tags);
+
+		/// <summary>
+		/// Apply constraints on a entity instance and return all the failures for the given property.
+		/// if <paramref name="entity"/> is null, an empty array is returned. 
+		/// </summary>
+		/// <param name="entity">Object to apply the constraints</param>
+		/// <param name="propertyName">The name of the property to validate.</param>
+		///<param name="tags">list of tags enabled fpr the validation.</param>
+		///<returns>Invalid values</returns>
+		InvalidValue[] GetInvalidValues(object entity, string propertyName, params object[] tags);
+
+		/// <summary>
+		/// Apply constraints of a particular property value of a entity type and return all the failures.
+		/// The InvalidValue objects returns return null for <see cref="InvalidValue.Entity"/> and <see cref="InvalidValue.RootEntity"/>.
+		/// </summary>
+		/// <param name="propertyName">The name of the property to validate.</param>
+		/// <param name="value">the potential value of the property.</param>
+		///<param name="tags">list of tags enabled fpr the validation.</param>
+		///<returns>Invalid values</returns>
+		InvalidValue[] GetPotentialInvalidValues(string propertyName, object value, params object[] tags);
 	}
 }
