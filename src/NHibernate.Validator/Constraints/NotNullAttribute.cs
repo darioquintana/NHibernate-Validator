@@ -11,7 +11,7 @@ namespace NHibernate.Validator.Constraints
 	[ValidatorClass(typeof (NotNullValidator))]
 	public class NotNullAttribute : EmbeddedRuleArgsAttribute, IRuleArgs
 	{
-		private string message = "{validator.notEmpty}";
+		private string message = "{validator.notNull}";
 
 		#region IRuleArgs Members
 
