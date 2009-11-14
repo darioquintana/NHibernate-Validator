@@ -140,6 +140,7 @@
     <Compile Include="Engine\Tagging\ClassValidatorTagging.cs" />
     <Compile Include="Engine\MultiEntityTypeInspectorFixture.cs" />
     <Compile Include="Engine\Tagging\EmbeddedRulesTaggingTest.cs" />
+    <Compile Include="Engine\Tagging\ValidatorEngineTaggingXml.cs" />
     <Compile Include="Integration\AnEntity.cs" />
     <Compile Include="Integration\DefaultEntityTypeInspectorFixture.cs" />
     <Compile Include="Engine\ValidatableElementFixture.cs" />
@@ -405,6 +406,7 @@
     <EmbeddedResource Include="ConstraintFactory\Model\Foo.nhv.xml" />
     <EmbeddedResource Include="Integration\SimpleWithRelation.hbm.xml" />
     <EmbeddedResource Include="Integration\AnEntity.hbm.xml" />
+    <EmbeddedResource Include="Engine\Tagging\EntityXml.nhv.xml" />
     <Content Include="nhvalidator.cfg.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

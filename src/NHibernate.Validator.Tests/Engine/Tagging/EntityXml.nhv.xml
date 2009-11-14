@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<nhv-mapping xmlns="urn:nhibernate-validator-1.0"
+				   namespace="NHibernate.Validator.Tests.Engine.Tagging"
+			 assembly="NHibernate.Validator.Tests">
+	<class name="EntityXml">
+		<property name="ValueUsingTags">
+			<min value="20" tags="error"/>
+			<max value="100" tags="error warning"/>
+		</property>
+		<property name="ValueWithoutTags">
+			<min value="20"/>
+			<max value="100"/>
+		</property>
+	</class>
+</nhv-mapping>

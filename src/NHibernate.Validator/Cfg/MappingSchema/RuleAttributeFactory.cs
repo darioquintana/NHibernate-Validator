@@ -61,7 +61,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			{
 				thisAttribute.Message = minRule.message;
 			}
-
+			AssignTagsFromString(thisAttribute, minRule.tags);
 			return thisAttribute;
 		}
 
@@ -81,7 +81,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			{
 				thisAttribute.Message = maxRule.message;
 			}
-
+			AssignTagsFromString(thisAttribute, maxRule.tags);
 			return thisAttribute;
 		}
 
@@ -160,6 +160,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			{
 				thisAttribute.Message = digitsRule.message;
 			}
+			AssignTagsFromString(thisAttribute, digitsRule.tags);
 
 			return thisAttribute;
 		}
@@ -183,6 +184,12 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			Attribute thisattribute = (Attribute)Activator.CreateInstance(type);
 			log.Info("Attribute found = " + thisattribute);
 			
+			var tr = thisattribute as ITagableRule;
+			if(tr!=null)
+			{
+				AssignTagsFromString(tr, ruleRule.tags);
+			}
+
 			if (ruleRule.param == null) return thisattribute; //eager return
 			
 			foreach (NhvmParam parameter in ruleRule.param)
@@ -232,6 +239,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			{
 				thisAttribute.Message = rangeRule.message;
 			}
+			AssignTagsFromString(thisAttribute, rangeRule.tags);
 
 			return thisAttribute;
 		}
@@ -251,6 +259,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			{
 				thisAttribute.Message = patternRule.message;
 			}
+			AssignTagsFromString(thisAttribute, patternRule.tags);
 
 			return thisAttribute;
 		}
@@ -308,6 +317,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			{
 				thisAttribute.Message = ipAddressRule.message;
 			}
+			AssignTagsFromString(thisAttribute, ipAddressRule.tags);
 
 			return thisAttribute;
 		}
@@ -322,6 +332,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			{
 				thisAttribute.Message = assertTrueRule.message;
 			}
+			AssignTagsFromString(thisAttribute, assertTrueRule.tags);
 
 			return thisAttribute;
 		}
@@ -336,6 +347,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			{
 				thisAttribute.Message = assertTrueRule.message;
 			}
+			AssignTagsFromString(thisAttribute, assertTrueRule.tags);
 
 			return thisAttribute;
 		}
@@ -356,6 +368,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			{
 				thisAttribute.Message = minRule.message;
 			}
+			AssignTagsFromString(thisAttribute, minRule.tags);
 
 			return thisAttribute;
 		}
@@ -376,6 +389,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			{
 				thisAttribute.Message = maxRule.message;
 			}
+			AssignTagsFromString(thisAttribute, maxRule.tags);
 
 			return thisAttribute;
 		}
@@ -389,6 +403,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			{
 				thisAttribute.Message = emailRule.message;
 			}
+			AssignTagsFromString(thisAttribute, emailRule.tags);
 
 			return thisAttribute;
 		}
@@ -402,6 +417,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			{
 				thisAttribute.Message = pastRule.message;
 			}
+			AssignTagsFromString(thisAttribute, pastRule.tags);
 
 			return thisAttribute;
 		}
@@ -415,6 +431,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			{
 				thisAttribute.Message = futureRule.message;
 			}
+			AssignTagsFromString(thisAttribute, futureRule.tags);
 
 			return thisAttribute;
 		}
@@ -440,6 +457,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			{
 				thisAttribute.Message = sizeRule.message;
 			}
+			AssignTagsFromString(thisAttribute, sizeRule.tags);
 
 			return thisAttribute;
 		}
@@ -462,6 +480,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			{
 				thisAttribute.Message = lengthRule.message;
 			}
+			AssignTagsFromString(thisAttribute, lengthRule.tags);
 
 			return thisAttribute;
 		}
@@ -476,6 +495,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			{
 				thisAttribute.Message = notEmptyRule.message;
 			}
+			AssignTagsFromString(thisAttribute, notEmptyRule.tags);
 
 			return thisAttribute;
 		}
@@ -490,6 +510,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			{
 				thisAttribute.Message = notNullOrEmptyRule.message;
 			}
+			AssignTagsFromString(thisAttribute, notNullOrEmptyRule.tags);
 
 			return thisAttribute;
 		}
@@ -504,6 +525,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			{
 				thisAttribute.Message = creditCardNumberRule.message;
 			}
+			AssignTagsFromString(thisAttribute, creditCardNumberRule.tags);
 
 			return thisAttribute;
 		}
@@ -518,6 +540,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			{
 				thisAttribute.Message = eanRule.message;
 			}
+			AssignTagsFromString(thisAttribute, eanRule.tags);
 
 			return thisAttribute;
 		}
@@ -532,6 +555,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			{
 				thisAttribute.Message = notNullRule.message;
 			}
+			AssignTagsFromString(thisAttribute, notNullRule.tags);
 
 			return thisAttribute;
 		}
@@ -546,6 +570,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			{
 				thisAttribute.Message = fileExistsRule.message;
 			}
+			AssignTagsFromString(thisAttribute, fileExistsRule.tags);
 
 			return thisAttribute;
 		}
@@ -560,6 +585,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			{
 				thisAttribute.Message = ibanRule.message;
 			}
+			AssignTagsFromString(thisAttribute, ibanRule.tags);
 
 			return thisAttribute;
 		}
@@ -577,6 +603,16 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 				this.defaultAssembly = defaultAssembly;
 				this.defaultNameSpace = defaultNameSpace;
 			}
+		}
+
+		private static void AssignTagsFromString(ITagableRule rule, string tagsAttributeValue)
+		{
+			if (rule == null || string.IsNullOrEmpty(tagsAttributeValue) || string.IsNullOrEmpty(tagsAttributeValue.Trim()))
+			{
+				return;
+			}
+			var tags = tagsAttributeValue.Trim().Split(' ',',',';');
+			Array.ForEach(tags, tag => rule.TagCollection.Add(tag));
 		}
 	}
 }

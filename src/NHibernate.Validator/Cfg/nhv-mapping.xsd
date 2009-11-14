@@ -54,6 +54,7 @@
 			<xs:sequence>
 			</xs:sequence>
 			<xs:attribute name="message" type="xs:string" use="optional" />
+			<xs:attribute name="tags" type="xs:string" use="optional" />
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="not-empty">
@@ -61,6 +62,7 @@
 			<xs:sequence>
 			</xs:sequence>
 			<xs:attribute name="message" type="xs:string" use="optional" />
+			<xs:attribute name="tags" type="xs:string" use="optional" />
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="length">
@@ -70,6 +72,7 @@
 			<xs:attribute name="min" type="xs:int" use="optional" />
 			<xs:attribute name="max" type="xs:int" use="optional" />
 			<xs:attribute name="message" type="xs:string" use="optional" />
+			<xs:attribute name="tags" type="xs:string" use="optional" />
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="future">
@@ -77,12 +80,14 @@
 			<xs:sequence>
 			</xs:sequence>
 			<xs:attribute name="message" type="xs:string" use="optional" />
+			<xs:attribute name="tags" type="xs:string" use="optional" />
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="past">
 		<xs:complexType>
 			<xs:sequence />
 			<xs:attribute name="message" type="xs:string" use="optional" />
+			<xs:attribute name="tags" type="xs:string" use="optional" />
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="email">
@@ -90,6 +95,7 @@
 			<xs:sequence>
 			</xs:sequence>
 			<xs:attribute name="message" type="xs:string" />
+			<xs:attribute name="tags" type="xs:string" use="optional" />
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="size">
@@ -98,6 +104,7 @@
 			<xs:attribute name="min" type="xs:int" use="optional" />
 			<xs:attribute name="max" type="xs:int" use="optional" />
 			<xs:attribute name="message" type="xs:string" use="optional" />
+			<xs:attribute name="tags" type="xs:string" use="optional" />
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="range">
@@ -106,6 +113,7 @@
 			<xs:attribute name="min" type="xs:long" use="optional" />
 			<xs:attribute name="max" type="xs:long" use="optional" />
 			<xs:attribute name="message" type="xs:string" use="optional" />
+			<xs:attribute name="tags" type="xs:string" use="optional" />
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="min">
@@ -113,6 +121,7 @@
 			<xs:sequence />
 			<xs:attribute name="value" type="xs:long" use="optional" />
 			<xs:attribute name="message" type="xs:string" use="optional" />
+			<xs:attribute name="tags" type="xs:string" use="optional" />
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="pattern">
@@ -122,6 +131,7 @@
 			<xs:attribute name="regex" type="xs:string" use="optional" />
 			<xs:attribute name="message" type="xs:string" use="optional" />
 			<xs:attribute name="regex-options" type="xs:string" />
+			<xs:attribute name="tags" type="xs:string" use="optional" />
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="asserttrue">
@@ -129,6 +139,7 @@
 			<xs:sequence>
 			</xs:sequence>
 			<xs:attribute name="message" type="xs:string" use="optional" />
+			<xs:attribute name="tags" type="xs:string" use="optional" />
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="class">
@@ -154,6 +165,7 @@
 				</xs:sequence>
 			</xs:sequence>
 			<xs:attribute name="attribute" type="xs:string" />
+			<xs:attribute name="tags" type="xs:string" use="optional" />
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="param">
@@ -169,6 +181,7 @@
 			<xs:sequence />
 			<xs:attribute name="value" type="xs:long" use="optional" />
 			<xs:attribute name="message" type="xs:string" use="optional" />
+			<xs:attribute name="tags" type="xs:string" use="optional" />
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="decimalmax">
@@ -176,6 +189,7 @@
 			<xs:sequence />
 			<xs:attribute name="value" type="xs:decimal" use="optional" />
 			<xs:attribute name="message" type="xs:string" use="optional" />
+			<xs:attribute name="tags" type="xs:string" use="optional" />
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="decimalmin">
@@ -183,12 +197,14 @@
 			<xs:sequence />
 			<xs:attribute name="value" type="xs:decimal" use="optional" />
 			<xs:attribute name="message" type="xs:string" use="optional" />
+			<xs:attribute name="tags" type="xs:string" use="optional" />
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="notnull-notempty">
 		<xs:complexType>
 			<xs:sequence />
 			<xs:attribute name="message" type="xs:string" use="optional" />
+			<xs:attribute name="tags" type="xs:string" use="optional" />
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ipaddress">
@@ -196,6 +212,7 @@
 			<xs:sequence>
 			</xs:sequence>
 			<xs:attribute name="message" type="xs:string" use="optional" />
+			<xs:attribute name="tags" type="xs:string" use="optional" />
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="digits">
@@ -204,18 +221,21 @@
 			<xs:attribute name="integerDigits" type="xs:int" use="required" />
 			<xs:attribute name="fractionalDigits" type="xs:int" use="optional" />
 			<xs:attribute name="message" type="xs:string" use="optional" />
+			<xs:attribute name="tags" type="xs:string" use="optional" />
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ean">
 		<xs:complexType>
 			<xs:sequence />
 			<xs:attribute name="message" type="xs:string" use="optional" />
+			<xs:attribute name="tags" type="xs:string" use="optional" />
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="creditcardnumber">
 		<xs:complexType>
 			<xs:sequence />
 			<xs:attribute name="message" type="xs:string" use="optional" />
+			<xs:attribute name="tags" type="xs:string" use="optional" />
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="assertfalse">
@@ -223,12 +243,14 @@
 			<xs:sequence>
 			</xs:sequence>
 			<xs:attribute name="message" type="xs:string" />
+			<xs:attribute name="tags" type="xs:string" use="optional" />
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="fileexists">
 		<xs:complexType>
 			<xs:sequence />
 			<xs:attribute name="message" type="xs:string" use="optional" />
+			<xs:attribute name="tags" type="xs:string" use="optional" />
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="valid">
@@ -240,6 +262,7 @@
 		<xs:complexType>
 			<xs:sequence />
 			<xs:attribute name="message" type="xs:string" use="optional" />
+			<xs:attribute name="tags" type="xs:string" use="optional" />
 		</xs:complexType>
 	</xs:element>
 </xs:schema>
