@@ -164,5 +164,31 @@ namespace NHibernate.Validator.Tests.Engine.Tagging
 			cv.GetInvalidValues(new EntityWithCollection { Entities = new List<Entity> { new Entity(), new Entity() } }, typeof(Error)).Should().Have.Count.EqualTo(2);
 			cv.GetInvalidValues(new EntityWithCollection { Entities = new List<Entity> { new Entity(), new Entity() } }, typeof(Error), null).Should().Have.Count.EqualTo(4);
 		}
+
+		[Test]
+		public void ProofFor_NHV48()
+		{
+			IClassValidator cv = new ClassValidator(typeof(Book));
+			cv.GetInvalidValues(new Book(), BTags.Draft).Should().Have.Count.EqualTo(1);
+			cv.GetInvalidValues(new Book(), BTags.Publish).Should().Have.Count.EqualTo(2);
+		}
 	}
+
+	public class Draft { }
+	public class Publish { }
+
+	public static class BTags
+	{
+		public static System.Type Draft = typeof (Draft);
+		public static System.Type[] Publish = new[] { typeof(Publish), typeof(Draft) };
+	}
+	public class Book
+	{
+		[NotNullNotEmpty(Tags = typeof(Draft))]
+		public string Title { get; set; }
+
+		[NotNullNotEmpty(Tags = typeof(Publish))]
+		public string Abstract { get; set; }
+	}
+
 }
