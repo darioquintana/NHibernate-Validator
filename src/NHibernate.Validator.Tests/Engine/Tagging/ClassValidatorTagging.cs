@@ -42,6 +42,12 @@ namespace NHibernate.Validator.Tests.Engine.Tagging
 		public Entity Reference { get; set; }
 	}
 
+	public class EntityWithCollection
+	{
+		[Valid]
+		public IEnumerable<Entity> Entities { get; set; }
+	}
+
 	[TestFixture]
 	public class ClassValidatorTagging
 	{
@@ -144,10 +150,19 @@ namespace NHibernate.Validator.Tests.Engine.Tagging
 		[Test]
 		public void WhenTagIsSpecified_ValidateRelationForGivenTags()
 		{
-			// specifying [Valid] (without tags) the relation is always analized
+			// specifying [Valid] the relation is always analized
 			IClassValidator cv = new ClassValidator(typeof(EntityWithReletion));
 			cv.GetInvalidValues(new EntityWithReletion { Reference = new Entity() }, typeof(Error)).Should().Have.Count.EqualTo(1);
 			cv.GetInvalidValues(new EntityWithReletion { Reference = new Entity() }, typeof(Error), null).Should().Have.Count.EqualTo(2);
+		}
+
+		[Test]
+		public void WhenTagIsSpecified_ValidateCollectionForGivenTags()
+		{
+			// specifying [Valid] the collection is always analized
+			IClassValidator cv = new ClassValidator(typeof(EntityWithCollection));
+			cv.GetInvalidValues(new EntityWithCollection { Entities = new List<Entity> { new Entity(), new Entity() } }, typeof(Error)).Should().Have.Count.EqualTo(2);
+			cv.GetInvalidValues(new EntityWithCollection { Entities = new List<Entity> { new Entity(), new Entity() } }, typeof(Error), null).Should().Have.Count.EqualTo(4);
 		}
 	}
 }

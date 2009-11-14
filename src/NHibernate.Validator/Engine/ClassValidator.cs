@@ -369,10 +369,10 @@ namespace NHibernate.Validator.Engine
 		/// </summary>
 		private void MakeChildValidation(object value, object entity, MemberInfo member, ISet circularityState, ICollection<InvalidValue> results, ICollection<object> activeTags)
 		{
-			IEnumerable valueEnum = value as IEnumerable;
+			var valueEnum = value as IEnumerable;
 			if (valueEnum != null)
 			{
-				MakeCollectionValidation(valueEnum, entity, member, circularityState, results);
+				MakeCollectionValidation(valueEnum, entity, member, circularityState, results, activeTags);
 			}
 			else
 			{
@@ -392,7 +392,7 @@ namespace NHibernate.Validator.Engine
 			return factory.EntityTypeInspector.GuessType(value) ?? value.GetType();
 		}
 
-		private void MakeCollectionValidation(IEnumerable value, object entity, MemberInfo member, ISet circularityState, ICollection<InvalidValue> results)
+		private void MakeCollectionValidation(IEnumerable value, object entity, MemberInfo member, ISet circularityState, ICollection<InvalidValue> results, ICollection<object> activeTags)
 		{
 			if (TypeUtils.IsGenericDictionary(value.GetType())) //Generic Dictionary
 			{
@@ -408,7 +408,7 @@ namespace NHibernate.Validator.Engine
 					if (ShouldNeedValidation(ValueProperty.ReturnType))
 					{
 						InvalidValue[] invalidValuesKey =
-							GetClassValidator(ValueProperty.ReturnType).GetInvalidValues(valueValue, circularityState, null);//TODO activetags
+							GetClassValidator(ValueProperty.ReturnType).GetInvalidValues(valueValue, circularityState, activeTags);
 
 						foreach (InvalidValue invalidValue in invalidValuesKey)
 						{
@@ -420,7 +420,7 @@ namespace NHibernate.Validator.Engine
 					if (ShouldNeedValidation(KeyProperty.ReturnType))
 					{
 						InvalidValue[] invalidValuesValue =
-							GetClassValidator(KeyProperty.ReturnType).GetInvalidValues(keyValue, circularityState, null); //TODO activetags
+							GetClassValidator(KeyProperty.ReturnType).GetInvalidValues(keyValue, circularityState, activeTags);
 						foreach (InvalidValue invalidValue in invalidValuesValue)
 						{
 							invalidValue.AddParentEntity(entity, indexedPropName);
@@ -445,7 +445,7 @@ namespace NHibernate.Validator.Engine
 
 					if (ShouldNeedValidation(itemType))
 					{
-						InvalidValue[] invalidValues = GetClassValidator(itemType).GetInvalidValues(item, circularityState, null);//TODO activetags
+						InvalidValue[] invalidValues = GetClassValidator(itemType).GetInvalidValues(item, circularityState, activeTags);
 
 						String indexedPropName = string.Format("{0}[{1}]", member.Name, index);
 
