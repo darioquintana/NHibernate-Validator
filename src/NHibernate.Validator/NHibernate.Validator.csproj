@@ -126,6 +126,7 @@
     <Compile Include="Constraints\EmailAttribute.cs" />
     <Compile Include="Constraints\EmailValidator.cs" />
     <Compile Include="Constraints\EmbeddedRuleArgsAttribute.cs" />
+    <Compile Include="Util\EnumerableExtensions.cs" />
     <Compile Include="Constraints\IsNumericAttribute.cs" />
     <Compile Include="Constraints\IsNumericValidator.cs" />
     <Compile Include="Constraints\WithinAttribute.cs" />

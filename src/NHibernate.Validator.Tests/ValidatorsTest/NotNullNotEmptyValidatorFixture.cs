@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using NHibernate.Validator.Constraints;
-using NHibernate.Validator.Engine;
 using NUnit.Framework;
+using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.ValidatorsTest
 {
@@ -22,6 +22,15 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 			Assert.IsFalse(v.IsValid(123, context));
 			Assert.IsFalse(v.IsValid(new int[0], context));
 			Assert.IsFalse(v.IsValid(new List<int>(), context));
+		}
+
+		[Test]
+		public void WhenEnumeratorIsDisposable_ShouldDispose()
+		{
+			var v = new NotNullNotEmptyValidator();
+			DisposableEnumerator.DisposedTimes = 0;
+			v.IsValid(new DisposableEnumerable(), null);
+			DisposableEnumerator.DisposedTimes.Should().Be.GreaterThan(0);
 		}
 	}
 }

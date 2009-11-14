@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using NHibernate.Validator.Engine;
+using NHibernate.Validator.Util;
 
 namespace NHibernate.Validator.Constraints
 {
@@ -12,7 +13,7 @@ namespace NHibernate.Validator.Constraints
 			var ev = value as IEnumerable;
 			if (ev != null)
 			{
-				return ev.GetEnumerator().MoveNext();
+				return ev.Any();
 			}
 
 			return false;
