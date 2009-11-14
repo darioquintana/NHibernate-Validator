@@ -3,6 +3,7 @@ using System.Linq;
 using NHibernate.Validator.Engine;
 using NUnit.Framework;
 using SharpTestsEx;
+using NHibernate.Validator.Constraints;
 
 namespace NHibernate.Validator.Tests.Engine.Tagging
 {
@@ -14,7 +15,7 @@ namespace NHibernate.Validator.Tests.Engine.Tagging
 			get
 			{
 				return
-					typeof (IRuleArgs).Assembly.GetTypes().Where(t => typeof (IRuleArgs).IsAssignableFrom(t) && typeof (IRuleArgs) != t);
+					typeof (IRuleArgs).Assembly.GetTypes().Where(t => typeof (IRuleArgs).IsAssignableFrom(t) && typeof (IRuleArgs) != t && typeof(ValidAttribute) != t);
 			}
 		}
 

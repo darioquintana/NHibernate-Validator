@@ -36,6 +36,12 @@ namespace NHibernate.Validator.Tests.Engine.Tagging
 		public int ValueWithoutTags { get; set; }
 	}
 
+	public class EntityWithReletion
+	{
+		[Valid]
+		public Entity Reference { get; set; }
+	}
+
 	[TestFixture]
 	public class ClassValidatorTagging
 	{
@@ -133,6 +139,15 @@ namespace NHibernate.Validator.Tests.Engine.Tagging
 			// only property 'ValueWithoutTags'
 			IClassValidator cv = new ClassValidator(typeof(Entity));
 			cv.GetInvalidValues(new Entity(), new object[] {null}).Should().Have.Count.EqualTo(1);
+		}
+
+		[Test]
+		public void WhenTagIsSpecified_ValidateRelationForGivenTags()
+		{
+			// specifying [Valid] (without tags) the relation is always analized
+			IClassValidator cv = new ClassValidator(typeof(EntityWithReletion));
+			cv.GetInvalidValues(new EntityWithReletion { Reference = new Entity() }, typeof(Error)).Should().Have.Count.EqualTo(1);
+			cv.GetInvalidValues(new EntityWithReletion { Reference = new Entity() }, typeof(Error), null).Should().Have.Count.EqualTo(2);
 		}
 	}
 }

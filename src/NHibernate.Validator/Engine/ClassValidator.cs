@@ -307,7 +307,7 @@ namespace NHibernate.Validator.Engine
 
 					if (value != null && NHibernateUtil.IsInitialized(value))
 					{
-						MakeChildValidation(value, entity, member, circularityState, results);
+						MakeChildValidation(value, entity, member, circularityState, results, activeTags);
 					}
 				}
 			}
@@ -367,8 +367,7 @@ namespace NHibernate.Validator.Engine
 		/// <summary>
 		/// Validate the child validation to objects and collections
 		/// </summary>
-		/// <param name="value">value to validate</param>
-		private void MakeChildValidation(object value, object entity, MemberInfo member, ISet circularityState, ICollection<InvalidValue> results)
+		private void MakeChildValidation(object value, object entity, MemberInfo member, ISet circularityState, ICollection<InvalidValue> results, ICollection<object> activeTags)
 		{
 			IEnumerable valueEnum = value as IEnumerable;
 			if (valueEnum != null)
@@ -377,9 +376,8 @@ namespace NHibernate.Validator.Engine
 			}
 			else
 			{
-				// TODO :activeTags
 				//Simple Value, Non-Collection
-				InvalidValue[] invalidValues = GetClassValidator(GuessEntityType(value)).GetInvalidValues(value, circularityState, null);
+				InvalidValue[] invalidValues = GetClassValidator(GuessEntityType(value)).GetInvalidValues(value, circularityState, activeTags);
 
 				foreach (InvalidValue invalidValue in invalidValues)
 				{
