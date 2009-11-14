@@ -9,5 +9,6 @@ namespace NHibernate.Validator.Cfg.Loquacious
 		where TConstraints : class
 	{
 		IChainableConstraint<TConstraints> WithMessage(string message);
+		IChainableConstraint<TConstraints> WithTags(params object[] tags);
 	}
 }

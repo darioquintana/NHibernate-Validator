@@ -140,6 +140,7 @@
     <Compile Include="Engine\Tagging\ClassValidatorTagging.cs" />
     <Compile Include="Engine\MultiEntityTypeInspectorFixture.cs" />
     <Compile Include="Engine\Tagging\EmbeddedRulesTaggingTest.cs" />
+    <Compile Include="Engine\Tagging\ValidatorEngineTaggingLoquacious.cs" />
     <Compile Include="Engine\Tagging\ValidatorEngineTaggingXml.cs" />
     <Compile Include="Integration\AnEntity.cs" />
     <Compile Include="Integration\DefaultEntityTypeInspectorFixture.cs" />

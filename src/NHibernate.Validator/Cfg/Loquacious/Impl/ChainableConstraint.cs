@@ -1,5 +1,6 @@
 using System;
 using NHibernate.Validator.Engine;
+using NHibernate.Validator.Exceptions;
 
 namespace NHibernate.Validator.Cfg.Loquacious.Impl
 {
@@ -41,6 +42,21 @@ namespace NHibernate.Validator.Cfg.Loquacious.Impl
 				throw new ArgumentNullException("message");
 			}
 			ConstraintAttribute.Message = message;
+			return this;
+		}
+
+		public IChainableConstraint<TConstraints> WithTags(params object[] tags)
+		{
+			if (tags == null)
+			{
+				return this;
+			}
+			var tagableRule = ConstraintAttribute as ITagableRule;
+			if (tagableRule == null)
+			{
+				throw new ValidatorConfigurationException(string.Format("The constraint {0} does not supports tags.", ConstraintAttribute.GetType()));
+			}
+			Array.ForEach(tags, tag => tagableRule.TagCollection.Add(tag));
 			return this;
 		}
 
