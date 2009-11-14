@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using System.Linq;
 using NHibernate.Cfg;
 using NHibernate.Event;
 using NHibernate.Mapping;
 using NHibernate.Properties;
+using NHibernate.Validator.Constraints;
 using NHibernate.Validator.Engine;
 using Environment=NHibernate.Validator.Cfg.Environment;
 
@@ -95,6 +97,15 @@ namespace NHibernate.Validator.Event
 					if (component.IsEmbedded)
 					{
 						return;
+					}
+					var cv = Engine.GetClassValidator(property.PersistentClass.MappedClass);
+					if (cv != null)
+					{
+						if(cv.GetMemberConstraints(property.Name).OfType<ValidAttribute>().Any())
+						{
+							// the components is already marked as Valid
+							return;
+						}
 					}
 
 					IPropertyAccessor accesor = PropertyAccessorFactory.GetPropertyAccessor(property, EntityMode.Poco);
