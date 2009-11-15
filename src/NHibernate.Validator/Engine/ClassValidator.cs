@@ -377,7 +377,7 @@ namespace NHibernate.Validator.Engine
 			else
 			{
 				//Simple Value, Non-Collection
-				InvalidValue[] invalidValues = GetClassValidator(GuessEntityType(value)).GetInvalidValues(value, circularityState, activeTags);
+				var invalidValues = GetClassValidator(GuessEntityType(value)).GetInvalidValues(value, circularityState, activeTags);
 
 				foreach (InvalidValue invalidValue in invalidValues)
 				{
@@ -407,7 +407,7 @@ namespace NHibernate.Validator.Engine
 
 					if (ShouldNeedValidation(ValueProperty.ReturnType))
 					{
-						InvalidValue[] invalidValuesKey =
+						var invalidValuesKey =
 							GetClassValidator(ValueProperty.ReturnType).GetInvalidValues(valueValue, circularityState, activeTags);
 
 						foreach (InvalidValue invalidValue in invalidValuesKey)
@@ -419,7 +419,7 @@ namespace NHibernate.Validator.Engine
 
 					if (ShouldNeedValidation(KeyProperty.ReturnType))
 					{
-						InvalidValue[] invalidValuesValue =
+						var invalidValuesValue =
 							GetClassValidator(KeyProperty.ReturnType).GetInvalidValues(keyValue, circularityState, activeTags);
 						foreach (InvalidValue invalidValue in invalidValuesValue)
 						{
@@ -445,7 +445,7 @@ namespace NHibernate.Validator.Engine
 
 					if (ShouldNeedValidation(itemType))
 					{
-						InvalidValue[] invalidValues = GetClassValidator(itemType).GetInvalidValues(item, circularityState, activeTags);
+						var invalidValues = GetClassValidator(itemType).GetInvalidValues(item, circularityState, activeTags);
 
 						String indexedPropName = string.Format("{0}[{1}]", member.Name, index);
 
@@ -788,7 +788,7 @@ namespace NHibernate.Validator.Engine
 
 		#region IClassValidatorImplementor Members
 
-		InvalidValue[] IClassValidatorImplementor.GetInvalidValues(object entity, ISet circularityState, ICollection<object> activeTags)
+		IEnumerable<InvalidValue> IClassValidatorImplementor.GetInvalidValues(object entity, ISet circularityState, ICollection<object> activeTags)
 		{
 			return GetInvalidValues(entity, circularityState, activeTags);
 		}

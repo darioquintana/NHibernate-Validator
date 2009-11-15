@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using NHibernate.Validator.Interpolator;
 
 namespace NHibernate.Validator.Engine
@@ -49,12 +50,10 @@ namespace NHibernate.Validator.Engine
 
 		public IEnumerable<InvalidValue> Transform()
 		{
-			foreach (InvalidMessage invalidMsg in constraintContext.InvalidMessages)
-			{
-				string property = invalidMsg.PropertyName ?? propertyName;
-				string interpolatedMessage = Interpolate(property, invalidMsg.Message);
-				yield return new InvalidValue(interpolatedMessage, @class, property, value, entity);
-			}
+			return from invalidMsg in constraintContext.InvalidMessages
+			       let property = invalidMsg.PropertyName ?? propertyName
+			       let interpolatedMessage = Interpolate(property, invalidMsg.Message)
+			       select new InvalidValue(interpolatedMessage, @class, property, value, entity);
 		}
 
 		private string Interpolate(string propName, string message)
