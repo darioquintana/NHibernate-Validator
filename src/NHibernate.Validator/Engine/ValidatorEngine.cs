@@ -53,12 +53,12 @@ namespace NHibernate.Validator.Engine
 
 			public IEnumerable<InvalidValue> GetInvalidValues(object entity)
 			{
-				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
+				yield break;
 			}
 
 			public IEnumerable<InvalidValue> GetInvalidValues(object entity, string propertyName)
 			{
-				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
+				yield break;
 			}
 
 			public void AssertValid(object entity)
@@ -67,7 +67,7 @@ namespace NHibernate.Validator.Engine
 
 			public IEnumerable<InvalidValue> GetPotentialInvalidValues(string propertyName, object value)
 			{
-				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
+				yield break;
 			}
 
 			public void Apply(PersistentClass persistentClass)
@@ -76,22 +76,22 @@ namespace NHibernate.Validator.Engine
 
 			public IEnumerable<Attribute> GetMemberConstraints(string propertyName)
 			{
-				return ClassValidator.EmptyConstraints;
+				yield break;
 			}
 
 			public IEnumerable<InvalidValue> GetInvalidValues(object entity, params object[] tags)
 			{
-				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
+				yield break;
 			}
 
 			public IEnumerable<InvalidValue> GetInvalidValues(object entity, string propertyName, params object[] tags)
 			{
-				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
+				yield break;
 			}
 
 			public IEnumerable<InvalidValue> GetPotentialInvalidValues(string propertyName, object value, params object[] tags)
 			{
-				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
+				yield break;
 			}
 		}
 
@@ -322,7 +322,12 @@ namespace NHibernate.Validator.Engine
 		/// </remarks>
 		public InvalidValue[] Validate(object entity)
 		{
-			if (entity == null) 
+			return InternalValidate(entity).ToArray();
+		}
+
+		private IEnumerable<InvalidValue> InternalValidate(object entity)
+		{
+			if (entity == null)
 				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
 
 			System.Type entityType = GuessEntityType(entity);
@@ -332,7 +337,7 @@ namespace NHibernate.Validator.Engine
 
 			ValidatableElement element = GetElementOrNew(entityType);
 
-			return ValidateSubElements(element, entity).Concat(element.Validator.GetInvalidValues(entity)).ToArray();
+			return ValidateSubElements(element, entity).Concat(element.Validator.GetInvalidValues(entity));
 		}
 
 		private System.Type GuessEntityType(object entity)
@@ -373,8 +378,7 @@ namespace NHibernate.Validator.Engine
 		/// </remarks>
 		public bool IsValid(object entity)
 		{
-			// TODO: improving breaking at the first invalidValue
-			return Validate(entity).Length == 0;
+			return !InternalValidate(entity).Any();
 		}
 
 		/// <summary>
