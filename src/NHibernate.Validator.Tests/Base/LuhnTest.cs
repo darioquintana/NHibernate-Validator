@@ -1,5 +1,5 @@
-using NHibernate.Validator.Engine;
 using NUnit.Framework;
+using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.Base
 {
@@ -7,22 +7,21 @@ namespace NHibernate.Validator.Tests.Base
 	public class LuhnTest : BaseValidatorFixture
 	{
 		[Test]
-		public void CreditCard()
+		public void GivingValidState_NoInvalidValues()
 		{
-			CreditCard card = new CreditCard();
-			card.number = "1234567890123456";
-			IClassValidator classValidator = GetClassValidator(typeof(CreditCard));
-			InvalidValue[] invalidValues = classValidator.GetInvalidValues(card);
-			Assert.AreEqual(1, invalidValues.Length);
-			card.number = "541234567890125"; //right CC (luhn compliant)
-			invalidValues = classValidator.GetInvalidValues(card);
-			Assert.AreEqual(0, invalidValues.Length);
-			card.ean = "9782266156066"; //right EAN
-			invalidValues = classValidator.GetInvalidValues(card);
-			Assert.AreEqual(0, invalidValues.Length);
-			card.ean = "9782266156067"; //wrong EAN
-			invalidValues = classValidator.GetInvalidValues(card);
-			Assert.AreEqual(1, invalidValues.Length);
+			var card = new CreditCard {Number = "541234567890125", Ean = "9782266156066"};
+			var classValidator = GetClassValidator(typeof(CreditCard));
+
+			classValidator.GetInvalidValues(card).Should().Be.Empty();
+		}
+
+		[Test]
+		public void GivingInvalidState_HasInvalidValues()
+		{
+			var card = new CreditCard {Number = "1234567890123456", Ean = "9782266156067"};
+			var classValidator = GetClassValidator(typeof(CreditCard));
+
+			classValidator.GetInvalidValues(card).Should().Have.Count.EqualTo(2);
 		}
 	}
 }

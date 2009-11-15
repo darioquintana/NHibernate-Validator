@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using System.Resources;
 using NHibernate.Validator.Constraints;
@@ -25,10 +26,10 @@ namespace NHibernate.Validator.Tests.Interpolation
 
 			b = new Building();
 			b.Address = string.Empty;
-			InvalidValue[] invalidValues = validator.GetInvalidValues(b);
-			Assert.Greater(invalidValues.Length, 0);
-			Assert.AreEqual("{notpresent.Key} and {key.notPresent} and {key.notPresent2} 1", invalidValues[0].Message,
-			                "Missing key should be left unchanged");
+			var invalidValues = validator.GetInvalidValues(b);
+			invalidValues.Should().Not.Be.Empty();
+			invalidValues.Select(iv => iv.Message).Should("Missing key should be left unchanged").Contain(
+				"{notpresent.Key} and {key.notPresent} and {key.notPresent2} 1");
 		}
 
 		[Test]

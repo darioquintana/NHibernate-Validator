@@ -1,11 +1,13 @@
 using System;
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using System.Resources;
 using NHibernate.Validator.Engine;
 using NHibernate.Validator.Tests.Base;
 using NHibernate.Validator.Tests.Integration;
 using NUnit.Framework;
+using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.Serialization
 {
@@ -52,20 +54,18 @@ namespace NHibernate.Validator.Tests.Serialization
 			a.State = "Vic";
 			a.Line1 = "Karbarook Ave";
 			a.Id = 3;
-			InvalidValue[] validationMessages = cv.GetInvalidValues(a);
+			var validationMessages = cv.GetInvalidValues(a);
 
 			// All work before serialization
-			Assert.AreEqual(2, validationMessages.Length); //static field is tested also
-			Assert.IsTrue(validationMessages[0].Message.StartsWith("prefix_"));
-			Assert.IsTrue(validationMessages[1].Message.StartsWith("prefix_"));
+			validationMessages.Should().Have.Count.EqualTo(2); //static field is tested also
+			validationMessages.Select(iv => iv.Message).Satisfy(vm => vm.All(m => m.StartsWith("prefix_")));
 
 			// Serialize and deserialize
 			ClassValidator cvAfter = (ClassValidator)SerializationHelper.Deserialize(SerializationHelper.Serialize(cv));
 			validationMessages = cvAfter.GetInvalidValues(a);
 			// Now test after
-			Assert.AreEqual(2, validationMessages.Length); //static field is tested also
-			Assert.IsTrue(validationMessages[0].Message.StartsWith("prefix_"));
-			Assert.IsTrue(validationMessages[1].Message.StartsWith("prefix_"));
+			validationMessages.Should().Have.Count.EqualTo(2); //static field is tested also
+			validationMessages.Select(iv => iv.Message).Satisfy(vm => vm.All(m => m.StartsWith("prefix_")));
 		}
 	}
 }

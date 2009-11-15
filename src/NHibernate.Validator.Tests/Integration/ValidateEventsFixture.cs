@@ -4,6 +4,7 @@ using NHibernate.Validator.Event;
 using NHibernate.Validator.Exceptions;
 using NHibernate.Validator.Tests.Base;
 using NUnit.Framework;
+using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.Integration
 {
@@ -96,7 +97,7 @@ namespace NHibernate.Validator.Tests.Integration
 			}
 			catch (InvalidStateException e)
 			{
-				Assert.AreEqual(1, e.GetInvalidValues().Length);
+				e.GetInvalidValues().Should().Have.Count.EqualTo(1);
 			}
 
 			try
@@ -144,7 +145,7 @@ namespace NHibernate.Validator.Tests.Integration
 			}
 			catch (InvalidStateException e)
 			{
-				Assert.AreEqual(2, e.GetInvalidValues().Length);
+				e.GetInvalidValues().Should().Have.Count.EqualTo(2);
 			}
 			finally
 			{

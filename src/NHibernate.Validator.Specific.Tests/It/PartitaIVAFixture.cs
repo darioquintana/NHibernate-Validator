@@ -1,7 +1,9 @@
+using System.Linq;
 using NHibernate.Validator.Engine;
 using NHibernate.Validator.Specific.It;
 using NHibernate.Validator.Tests;
 using NUnit.Framework;
+using SharpTestsEx;
 
 namespace NHibernate.Validator.Specific.Tests.It
 {
@@ -46,13 +48,13 @@ namespace NHibernate.Validator.Specific.Tests.It
 		{
 			IClassValidator userValidator = GetClassValidator(typeof(Cliente));
 			Cliente c = new Cliente();
-			Assert.AreEqual(0, userValidator.GetInvalidValues(c).Length);
+			userValidator.GetInvalidValues(c).Should().Be.Empty();
 			c.Piva = "00007016322";
-			InvalidValue[] iv = userValidator.GetInvalidValues(c);
-			Assert.AreEqual(1, iv.Length);
-			Assert.AreEqual("Partita IVA incorretta.", iv[0].Message);
+			var iv = userValidator.GetInvalidValues(c);
+			iv.Should().Not.Be.Empty();
+			iv.Single().Message.Should().Be.EqualTo("Partita IVA incorretta.");
 			c.Piva = "00523580520";
-			Assert.AreEqual(0, userValidator.GetInvalidValues(c).Length);
+			userValidator.GetInvalidValues(c).Should().Be.Empty();
 		}
 
 		public class Cliente

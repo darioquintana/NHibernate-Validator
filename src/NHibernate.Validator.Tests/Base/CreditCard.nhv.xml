@@ -3,10 +3,10 @@
 			 namespace="NHibernate.Validator.Tests.Base"
 			 assembly="NHibernate.Validator.Tests">
 	<class name="CreditCard">
-		<property name="number">
+		<property name="Number">
 			<creditcardnumber />
 		</property>
-		<property name="ean">
+		<property name="Ean">
 			<ean/>
 		</property>
 	</class>

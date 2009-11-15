@@ -1,7 +1,9 @@
+using System.Linq;
 using NHibernate.Validator.Engine;
 using NHibernate.Validator.Tests;
 using NUnit.Framework;
 using NHibernate.Validator.Specific.Ar;
+using SharpTestsEx;
 
 namespace NHibernate.Validator.Specific.Tests.Ar
 {
@@ -33,17 +35,18 @@ namespace NHibernate.Validator.Specific.Tests.Ar
 		{
 			IClassValidator userValidator = GetClassValidator(typeof(Cliente));
 			Cliente c = new Cliente();
-			Assert.AreEqual(0, userValidator.GetInvalidValues(c).Length);
+			var iv = userValidator.GetInvalidValues(c);
+			iv.Should().Be.Empty();
 			c.Cuit = "AA";
-			InvalidValue[] iv = userValidator.GetInvalidValues(c);
-			Assert.AreEqual(1, iv.Length);
-			Assert.AreEqual("CUIT no valido.", iv[0].Message);
+			iv = userValidator.GetInvalidValues(c);
+			iv.Should().Not.Be.Empty();
+			iv.Single().Message.Should().Be.EqualTo("CUIT no valido.");
 			c.Cuit = "20017391322";
-			Assert.AreEqual(0, userValidator.GetInvalidValues(c).Length);
+			userValidator.GetInvalidValues(c).Should().Be.Empty();
 			c.CustomCuit = "AA";
 			iv = userValidator.GetInvalidValues(c);
-			Assert.AreEqual(1, iv.Length);
-			Assert.AreEqual("Not valid CUIT.", iv[0].Message);
+			iv.Should().Not.Be.Empty();
+			iv.Single().Message.Should().Be.EqualTo("Not valid CUIT.");
 		}
 
 		public class Cliente

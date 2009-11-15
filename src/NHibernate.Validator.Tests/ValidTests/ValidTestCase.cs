@@ -1,6 +1,6 @@
 using NHibernate.Validator.Engine;
-using NHibernate.Validator.Tests.ValidTests;
 using NUnit.Framework;
+using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.ValidTests
 {
@@ -17,12 +17,10 @@ namespace NHibernate.Validator.Tests.ValidTests
 			m.Address = a;
 			Form f = new Form();
 			f.Member = m;
-			InvalidValue[] values = formValidator.GetInvalidValues(f);
-			Assert.AreEqual(1, values.Length);
+			formValidator.GetInvalidValues(f).Should().Have.Count.EqualTo(1);
 
 			m.Address.City = "my city";
-			InvalidValue[] values2 = formValidator.GetInvalidValues(f);
-			Assert.AreEqual(0, values2.Length);
+			formValidator.GetInvalidValues(f).Should().Be.Empty();
 		}
 
 		[Test]
@@ -31,8 +29,7 @@ namespace NHibernate.Validator.Tests.ValidTests
 			IClassValidator vtor = GetClassValidator(typeof(Blog));
 			Blog b = new Blog();
 			b.Author = new Author();
-			InvalidValue[] values = vtor.GetInvalidValues(b);
-			Assert.AreEqual(2, values.Length);
+			vtor.GetInvalidValues(b).Should().Have.Count.EqualTo(2);
 		}
 	}
 }

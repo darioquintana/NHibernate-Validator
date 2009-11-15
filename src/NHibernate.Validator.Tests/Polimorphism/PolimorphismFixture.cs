@@ -1,5 +1,7 @@
+using System.Linq;
 using NHibernate.Validator.Engine;
 using NUnit.Framework;
+using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.Polimorphism
 {
@@ -19,16 +21,13 @@ namespace NHibernate.Validator.Tests.Polimorphism
 			d.B = "hola";
 			
 			ClassValidator vtor = new ClassValidator(typeof(DerivatedClass));
-			InvalidValue[] values = vtor.GetInvalidValues(d);
-			Assert.AreEqual(2,values.Length);
+			vtor.GetInvalidValues(d).Should().Have.Count.EqualTo(2);
 			
 			ClassValidator vtor2 = new ClassValidator(typeof(BaseClass));
-			InvalidValue[] values2 = vtor2.GetInvalidValues(d);
-			Assert.AreEqual(1, values2.Length, "Polimorphic support is no working");
+			vtor2.GetInvalidValues(d).Should("Polimorphic support is no working").Have.Count.EqualTo(1);
 
 			ValidatorEngine ve = new ValidatorEngine();
-			values = ve.Validate(d);
-			Assert.AreEqual(2, values.Length);
+			ve.Validate(d).Should().Have.Count.EqualTo(2);
 		}
 
 		[Test]
@@ -39,16 +38,13 @@ namespace NHibernate.Validator.Tests.Polimorphism
 			obj.B = "hola";
 
 			ClassValidator vtor = new ClassValidator(typeof(Impl));
-			InvalidValue[] values = vtor.GetInvalidValues(obj);
-			Assert.AreEqual(2,values.Length);
+			vtor.GetInvalidValues(obj).Should().Have.Count.EqualTo(2);
 
 			ClassValidator vtor2 = new ClassValidator(typeof(IContract));
-			InvalidValue[] values2 = vtor2.GetInvalidValues(obj);
-			Assert.AreEqual(1, values2.Length, "Polimorphic support is no working");
+			vtor2.GetInvalidValues(obj).Should("Polimorphic support is no working").Have.Count.EqualTo(1);
 
 			ValidatorEngine ve = new ValidatorEngine();
-			values = ve.Validate(obj);
-			Assert.AreEqual(2, values.Length);
+			ve.Validate(obj).Should().Have.Count.EqualTo(2);
 		}
 
 		[Test]
@@ -68,25 +64,21 @@ namespace NHibernate.Validator.Tests.Polimorphism
 			bBroken.A = "1234";
 
 			ClassValidator vtor = new ClassValidator(typeof(Composition));
-			InvalidValue[] ivalues;
 			Composition c = new Composition();
 
 			c.Any = bBroken;
-			ivalues = vtor.GetInvalidValues(c);
-			Assert.AreEqual(1, ivalues.Length);
-
+			vtor.GetInvalidValues(c).Should().Have.Count.EqualTo(1);
+			
 			c.Any = dFullBroken;
-			ivalues = vtor.GetInvalidValues(c);
-			Assert.AreEqual(2, ivalues.Length);
+			vtor.GetInvalidValues(c).Should().Have.Count.EqualTo(2);
 
 			c.Any = bOk;
-			ivalues = vtor.GetInvalidValues(c);
-			Assert.AreEqual(0, ivalues.Length);
+			vtor.GetInvalidValues(c).Should().Be.Empty();
 
 			c.Any = dPartialBroken;
-			ivalues = vtor.GetInvalidValues(c);
-			Assert.AreEqual(1, ivalues.Length);
-			Assert.AreEqual("A", ivalues[0].PropertyName);
+			var ivalue = vtor.GetInvalidValues(c);
+			ivalue.Should().Not.Be.Empty();
+			ivalue.Single().PropertyName.Should().Be.EqualTo("A");
 		}
 
 		[Test]
@@ -122,9 +114,9 @@ namespace NHibernate.Validator.Tests.Polimorphism
 			Assert.AreEqual(0, ivalues.Length);
 
 			c.Any = dPartialBroken;
-			ivalues = ve.Validate(c);
-			Assert.AreEqual(1, ivalues.Length);
-			Assert.AreEqual("A", ivalues[0].PropertyName);
+			var ivalue = ve.Validate(c);
+			ivalue.Should().Not.Be.Empty();
+			ivalue.Single().PropertyName.Should().Be.EqualTo("A");
 		}
 	}
 }

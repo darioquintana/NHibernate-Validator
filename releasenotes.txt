@@ -8,6 +8,7 @@ Release Notes - NHibernate.Validator - Version 1.2.0
     * ValidatorMode values was changed (see NHibernate.Validator.Engine.ValidatorMode for reference)
     * The class NHibernate.Validator.Cfg.NHVConfiguration was renamed to XmlConfiguration
 	* The interface NHibernate.Validator.Engine.IMessageInterpolator and implementations had changed the signature. See [NHV-40]
+	* Using IClassValidator all invalid states methods now return IEnumerable<InvalidValue> instead InvalidValue[]
 
 
 Release Notes - NHibernate.Validator - Version 1.2.0Beta3

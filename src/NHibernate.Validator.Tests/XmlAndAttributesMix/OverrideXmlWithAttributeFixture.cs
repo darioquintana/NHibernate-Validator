@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using NHibernate.Validator.Engine;
 using NUnit.Framework;
+using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.XmlAndAttributesMix
 {
@@ -25,9 +26,7 @@ namespace NHibernate.Validator.Tests.XmlAndAttributesMix
 
 			IClassValidator validator = GetClassValidator(typeof(Person));
 
-			InvalidValue[] invalids = validator.GetInvalidValues(person);
-
-			Assert.AreEqual(1, invalids.Length, " Address length was short than 5 as set in the attribute");
+			validator.GetInvalidValues(person).Should(" Address length was short than 5 as set in the attribute").Not.Be.Empty();
 		}
 	}
 }

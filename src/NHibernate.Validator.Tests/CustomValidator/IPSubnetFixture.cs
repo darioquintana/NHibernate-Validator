@@ -1,5 +1,6 @@
 using NHibernate.Validator.Engine;
 using NUnit.Framework;
+using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.CustomValidator
 {
@@ -19,16 +20,13 @@ namespace NHibernate.Validator.Tests.CustomValidator
 			controller.IP = "192.168.1.1";
 			IClassValidator validator = GetClassValidator(typeof(Controller));
 
-			InvalidValue[] res = validator.GetInvalidValues(controller);
-			Assert.AreEqual(2, res.Length);
+			validator.GetInvalidValues(controller).Should().Have.Count.EqualTo(2);
 
 			controller.IP = "192.168.2.1";
-			res = validator.GetInvalidValues(controller);
-			Assert.AreEqual(1, res.Length);
+			validator.GetInvalidValues(controller).Should().Have.Count.EqualTo(1);
 
 			controller.Name = "Controller";
-			res = validator.GetInvalidValues(controller);
-			Assert.AreEqual(0, res.Length);
+			validator.GetInvalidValues(controller).Should().Be.Empty();
 		}
 	}
 }

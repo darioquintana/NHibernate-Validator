@@ -1,5 +1,7 @@
+using System.Linq;
 using NHibernate.Validator.Engine;
 using NUnit.Framework;
+using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.Specifics.NHV25
 {
@@ -22,8 +24,7 @@ namespace NHibernate.Validator.Tests.Specifics.NHV25
 			tv.showse.Add(TestEnum.uno, showOk);
 			tv.showse.Add(TestEnum.due, showNok);
 			tv.showse.Add(TestEnum.tre, null);
-			InvalidValue[] valuese = validator.GetInvalidValues(tv);
-			Assert.AreEqual(1, valuese.Length);
+			validator.GetInvalidValues(tv).Should().Not.Be.Empty();
 		}
 
 		/// <summary>
@@ -44,9 +45,9 @@ namespace NHibernate.Validator.Tests.Specifics.NHV25
 			tv.shows.Add(1, showOk);
 			tv.shows.Add(2, showNok);
 			tv.shows.Add(3, null);
-			InvalidValue[] values = validator.GetInvalidValues(tv);
-			Assert.AreEqual(1, values.Length);
-			Assert.AreEqual("shows[2].name", values[0].PropertyPath);
+			var invalidValues = validator.GetInvalidValues(tv);
+			invalidValues.Should().Not.Be.Empty();
+			invalidValues.Single().PropertyPath.Should().Be.EqualTo("shows[2].name");
 		}
 	}
 }

@@ -1,4 +1,5 @@
 using NHibernate.Validator.Engine;
+using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.Inheritance
 {
@@ -12,11 +13,9 @@ namespace NHibernate.Validator.Tests.Inheritance
         {
             IClassValidator classValidator = GetClassValidator(typeof(Dog));
             Dog dog = new Dog();
-            InvalidValue[] invalidValues = classValidator.GetInvalidValues(dog);
-            Assert.AreEqual(3, invalidValues.Length);
+            classValidator.GetInvalidValues(dog).Should().Have.Count.EqualTo(3);
             dog.FavoriteBone = "DE";  //failure
-            invalidValues = classValidator.GetInvalidValues(dog);
-            Assert.AreEqual(3, invalidValues.Length);
+						classValidator.GetInvalidValues(dog).Should().Have.Count.EqualTo(3);
         }
     }
 }

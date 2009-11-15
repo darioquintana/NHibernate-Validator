@@ -1,9 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using NUnit.Framework;
 using NHibernate.Validator.Engine;
 using System.IO;
+using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.Base
 {
@@ -18,12 +16,10 @@ namespace NHibernate.Validator.Tests.Base
 			webImage.filename = "testunknown";
 
 			IClassValidator validator = GetClassValidator(typeof(WebImage));
-			InvalidValue[] invalids = validator.GetInvalidValues(webImage);
-			Assert.AreEqual(1, invalids.Length);
+			validator.GetInvalidValues(webImage).Should().Not.Be.Empty();
 
 			webImage.filename = Path.GetTempFileName();
-			invalids = validator.GetInvalidValues(webImage);
-			Assert.AreEqual(0, invalids.Length);
+			validator.GetInvalidValues(webImage).Should().Be.Empty();
 		}
 	}
 }

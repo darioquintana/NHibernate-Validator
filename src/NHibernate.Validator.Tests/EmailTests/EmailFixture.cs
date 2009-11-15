@@ -1,6 +1,7 @@
 using NHibernate.Validator.Engine;
 using NHibernate.Validator.Tests.Base;
 using NUnit.Framework;
+using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.EmailTests
 {
@@ -35,12 +36,12 @@ namespace NHibernate.Validator.Tests.EmailTests
 
 		private void isRightEmail(string email)
 		{
-			Assert.AreEqual(0, userValidator.GetPotentialInvalidValues("email", email).Length, "Wrong email");
+			userValidator.GetPotentialInvalidValues("email", email).Should("Wrong email").Be.Empty();
 		}
 
 		private void isWrongEmail(string email)
 		{
-			Assert.AreEqual(1, userValidator.GetPotentialInvalidValues("email", email).Length, "Right email");
+			userValidator.GetPotentialInvalidValues("email", email).Should("Right email").Not.Be.Empty();
 		}
 	}
 }

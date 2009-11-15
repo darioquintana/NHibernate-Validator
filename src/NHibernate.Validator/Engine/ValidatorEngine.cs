@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Resources;
 using System.Xml;
@@ -50,12 +51,12 @@ namespace NHibernate.Validator.Engine
 				get { return false; }
 			}
 
-			public InvalidValue[] GetInvalidValues(object entity)
+			public IEnumerable<InvalidValue> GetInvalidValues(object entity)
 			{
 				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
 			}
 
-			public InvalidValue[] GetInvalidValues(object entity, string propertyName)
+			public IEnumerable<InvalidValue> GetInvalidValues(object entity, string propertyName)
 			{
 				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
 			}
@@ -64,7 +65,7 @@ namespace NHibernate.Validator.Engine
 			{
 			}
 
-			public InvalidValue[] GetPotentialInvalidValues(string propertyName, object value)
+			public IEnumerable<InvalidValue> GetPotentialInvalidValues(string propertyName, object value)
 			{
 				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
 			}
@@ -78,17 +79,17 @@ namespace NHibernate.Validator.Engine
 				return ClassValidator.EmptyConstraints;
 			}
 
-			public InvalidValue[] GetInvalidValues(object entity, params object[] tags)
+			public IEnumerable<InvalidValue> GetInvalidValues(object entity, params object[] tags)
 			{
 				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
 			}
 
-			public InvalidValue[] GetInvalidValues(object entity, string propertyName, params object[] tags)
+			public IEnumerable<InvalidValue> GetInvalidValues(object entity, string propertyName, params object[] tags)
 			{
 				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
 			}
 
-			public InvalidValue[] GetPotentialInvalidValues(string propertyName, object value, params object[] tags)
+			public IEnumerable<InvalidValue> GetPotentialInvalidValues(string propertyName, object value, params object[] tags)
 			{
 				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
 			}
@@ -444,7 +445,7 @@ namespace NHibernate.Validator.Engine
 
 			ValidatableElement element = GetElementOrNew(entityType);
 
-			return element.Validator.GetInvalidValues(entity, propertyName);
+			return element.Validator.GetInvalidValues(entity, propertyName).ToArray();
 		}
 
 		public InvalidValue[] ValidatePropertyValue<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> expression) where TEntity : class
@@ -462,7 +463,7 @@ namespace NHibernate.Validator.Engine
 		public InvalidValue[] ValidatePropertyValue(System.Type entityType, string propertyName, object value)
 		{
 			IClassValidator cv = GetElementOrNew(entityType).Validator;
-			return cv.GetPotentialInvalidValues(propertyName, value);
+			return cv.GetPotentialInvalidValues(propertyName, value).ToArray();
 		}
 
 		/// <summary>

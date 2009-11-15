@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using NHibernate.Validator.Engine;
 using NHibernate.Validator.Event;
 using NHibernate.Validator.Exceptions;
@@ -162,9 +163,9 @@ namespace NHibernate.Validator.Tests.Integration
 			catch(InvalidStateException e)
 			{
 				//success
-				Assert.AreEqual(2, e.GetInvalidValues().Length);
-				Assert.IsTrue(e.GetInvalidValues()[0].Message.StartsWith("prefix_"),"Environment.MESSAGE_INTERPOLATOR_CLASS does not work");
-				Assert.IsTrue(e.GetInvalidValues()[1].Message.StartsWith("prefix_"), "Environment.MESSAGE_INTERPOLATOR_CLASS does not work");
+				var invalidValues = e.GetInvalidValues();
+				invalidValues.Should().Have.Count.EqualTo(2);
+				invalidValues.Satisfy("Environment.MESSAGE_INTERPOLATOR_CLASS does not work", ivs => ivs.All(iv => iv.Message.StartsWith("prefix_")));
 			}
 			finally
 			{
@@ -189,7 +190,7 @@ namespace NHibernate.Validator.Tests.Integration
 			} 
 			catch (InvalidStateException e) 
 			{
-				Assert.AreEqual(1, e.GetInvalidValues().Length);
+				e.GetInvalidValues().Should().Not.Be.Empty();
 			} 
 			finally 
 			{
@@ -235,7 +236,7 @@ namespace NHibernate.Validator.Tests.Integration
 			}
 			catch (InvalidStateException e)
 			{
-				Assert.AreEqual(1, e.GetInvalidValues().Length);
+				e.GetInvalidValues().Should().Not.Be.Empty();
 			}
 
 			try
@@ -286,7 +287,7 @@ namespace NHibernate.Validator.Tests.Integration
 			}
 			catch (InvalidStateException e) 
 			{
-				Assert.AreEqual(2, e.GetInvalidValues().Length );
+				e.GetInvalidValues().Should().Have.Count.EqualTo(2);
 			}
 			finally 
 			{

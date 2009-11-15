@@ -1,7 +1,9 @@
-﻿using NHibernate.Validator.Engine;
+﻿using System.Linq;
+using NHibernate.Validator.Engine;
 using NHibernate.Validator.Specific.Br;
 using NHibernate.Validator.Tests;
 using NUnit.Framework;
+using SharpTestsEx;
 
 namespace NHibernate.Validator.Specific.Tests.Br
 {
@@ -42,13 +44,14 @@ namespace NHibernate.Validator.Specific.Tests.Br
 		{
 			IClassValidator userValidator = GetClassValidator(typeof (Usuario));
 			var u = new Usuario();
-			Assert.AreEqual(0, userValidator.GetInvalidValues(u).Length);
+			userValidator.GetInvalidValues(u).Should().Be.Empty();
 			u.Cpf = "111cx1111";
-			InvalidValue[] iv = userValidator.GetInvalidValues(u);
-			Assert.AreEqual(1, iv.Length);
-			Assert.AreEqual("Número de CPF inválido.", iv[0].Message);
+			var iv = userValidator.GetInvalidValues(u);
+			iv.Should().Not.Be.Empty();
+			iv.Single().Message.Should().Be.EqualTo("Número de CPF inválido.");
+
 			u.Cpf = "111.111.111-11";
-			Assert.AreEqual(0, userValidator.GetInvalidValues(u).Length);
+			userValidator.GetInvalidValues(u).Should().Be.Empty();
 		}
 	}
 }

@@ -20,34 +20,17 @@ namespace NHibernate.Validator.Tests.Engine
 		public void GetInvalidValuesOfEntity()
 		{
 			IClassValidator cv = GetClassValidator(typeof(Address));
-			Assert.AreEqual(0, cv.GetInvalidValues(null).Length);
+			cv.GetInvalidValues(null).Should().Be.Empty();
 
-			try
-			{
-				cv.GetInvalidValues(new Suricato());
-				Assert.Fail("Accept an instance of another type");
-			}
-			catch(ArgumentException)
-			{
-				//ok
-			}
+			ActionAssert.Throws<ArgumentException>(()=>	cv.GetInvalidValues(new Suricato()));
 		}
 
 		[Test]
 		public void GetInvalidValuesOfProperty()
 		{
 			IClassValidator cv = GetClassValidator(typeof(Address));
-			Assert.AreEqual(0, cv.GetInvalidValues(null, "blacklistedZipCode").Length);
-
-			try
-			{
-				cv.GetInvalidValues(new Suricato(), "blacklistedZipCode");
-				Assert.Fail("Accept an instance of another type");
-			}
-			catch (ArgumentException)
-			{
-				//ok
-			}
+			cv.GetInvalidValues(null, "blacklistedZipCode").Should().Be.Empty();
+			ActionAssert.Throws<ArgumentException>(() => cv.GetInvalidValues(new Suricato(), "blacklistedZipCode"));
 		}
 
 		[Test]

@@ -4,6 +4,7 @@ using System.Text;
 using NHibernate.Validator.Engine;
 using NUnit.Framework;
 using log4net;
+using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.XmlAndAttributesMix
 {
@@ -27,8 +28,7 @@ namespace NHibernate.Validator.Tests.XmlAndAttributesMix
 			person.friends = 2;
 
 			IClassValidator validator = GetClassValidator(typeof(Person));
-			InvalidValue[] invalids = validator.GetInvalidValues(person);
-			Assert.AreEqual(0, invalids.Length, "Address has not minimum");
+			validator.GetInvalidValues(person).Should("Address has not minimum").Be.Empty();
 		}
 
 		[Test]
@@ -41,12 +41,10 @@ namespace NHibernate.Validator.Tests.XmlAndAttributesMix
 			person.friends = 21;
 
 			IClassValidator validator = GetClassValidator(typeof(Person));
-			InvalidValue[] invalids = validator.GetInvalidValues(person);
-			Assert.AreEqual(1, invalids.Length, "Person cannot have more than 20 friends by Xml");
+			validator.GetInvalidValues(person).Should("Person cannot have more than 20 friends by Xml").Have.Count.EqualTo(1);
 
 			person.friends = 1;
-			invalids = validator.GetInvalidValues(person);
-			Assert.AreEqual(1, invalids.Length, "Person cannot have less than 2 friends by Attribute");
+			validator.GetInvalidValues(person).Should("Person cannot have less than 2 friends by Attribute").Have.Count.EqualTo(1);
 		}
 
 		[Test]
@@ -59,8 +57,7 @@ namespace NHibernate.Validator.Tests.XmlAndAttributesMix
 			person.friends = 2;
 
 			IClassValidator validator = GetClassValidator(typeof(Person));
-			InvalidValue[] invalids = validator.GetInvalidValues(person);
-			Assert.AreEqual(1, invalids.Length, "Name cannot be empty by attribute");
+			validator.GetInvalidValues(person).Should("Name cannot be empty by attribute").Have.Count.EqualTo(1);
 		}
 	}
 }

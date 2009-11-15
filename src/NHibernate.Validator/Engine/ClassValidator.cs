@@ -256,12 +256,12 @@ namespace NHibernate.Validator.Engine
 		/// </summary>
 		/// <param name="entity">object to apply the constraints</param>
 		/// <returns></returns>
-		public InvalidValue[] GetInvalidValues(object entity)
+		public IEnumerable<InvalidValue> GetInvalidValues(object entity)
 		{
 			return GetInvalidValues(entity, new IdentitySet(), null);
 		}
 
-		public InvalidValue[] GetInvalidValues(object entity, string propertyName)
+		public IEnumerable<InvalidValue> GetInvalidValues(object entity, string propertyName)
 		{
 			return GetInvalidValues(entity, propertyName, null);
 		}
@@ -616,10 +616,10 @@ namespace NHibernate.Validator.Engine
 		/// <param name="entity">Object to be asserted</param>
 		public void AssertValid(object entity)
 		{
-			InvalidValue[] values = GetInvalidValues(entity);
-			if (values.Length > 0)
+			var invalidValues = GetInvalidValues(entity);
+			if (invalidValues.Any())
 			{
-				throw new InvalidStateException(values);
+				throw new InvalidStateException(invalidValues.ToArray());
 			}
 		}
 
@@ -631,7 +631,7 @@ namespace NHibernate.Validator.Engine
 		/// <param name="propertyName">Name of the property or field to validate</param>
 		/// <param name="value">Real value to validate. Is not an entity instance.</param>
 		/// <returns></returns>
-		public InvalidValue[] GetPotentialInvalidValues(string propertyName, object value)
+		public IEnumerable<InvalidValue> GetPotentialInvalidValues(string propertyName, object value)
 		{
 			List<InvalidValue> results = new List<InvalidValue>();
 
@@ -661,7 +661,7 @@ namespace NHibernate.Validator.Engine
 					string.Format("The property or field '{0}' was not found in class {1}", propertyName, entityType.FullName));
 			}
 
-			return results.ToArray();
+			return results;
 		}
 
 		/// <summary>
@@ -705,12 +705,12 @@ namespace NHibernate.Validator.Engine
 			return EmptyConstraints;
 		}
 
-		public InvalidValue[] GetInvalidValues(object entity, params object[] tags)
+		public IEnumerable<InvalidValue> GetInvalidValues(object entity, params object[] tags)
 		{
 			return GetInvalidValues(entity, new IdentitySet(), tags != null ? new HashSet<object>(tags) : null);
 		}
 
-		public InvalidValue[] GetInvalidValues(object entity, string propertyName, params object[] tags)
+		public IEnumerable<InvalidValue> GetInvalidValues(object entity, string propertyName, params object[] tags)
 		{
 			if (entity == null)
 			{
@@ -725,10 +725,10 @@ namespace NHibernate.Validator.Engine
 				throw new ArgumentException("not an instance of: " + entity.GetType());
 			}
 
-			return MembersValidation(entity, propertyName, tags != null ? new HashSet<object>(tags):null).ToArray();
+			return MembersValidation(entity, propertyName, tags != null ? new HashSet<object>(tags):null);
 		}
 
-		public InvalidValue[] GetPotentialInvalidValues(string propertyName, object value, params object[] tags)
+		public IEnumerable<InvalidValue> GetPotentialInvalidValues(string propertyName, object value, params object[] tags)
 		{
 			throw new NotImplementedException();
 		}

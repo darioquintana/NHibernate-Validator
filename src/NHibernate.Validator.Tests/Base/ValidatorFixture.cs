@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using System.Resources;
 using NHibernate.Validator.Engine;
 using NUnit.Framework;
+using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.Base
 {
@@ -23,48 +25,49 @@ namespace NHibernate.Validator.Tests.Base
 			a.Line1 = "Karbarook Ave";
 			a.Id = 3;
 			IClassValidator classValidator = GetClassValidator(typeof(Address), new ResourceManager("NHibernate.Validator.Tests.Resource.Messages", Assembly.GetExecutingAssembly()), new CultureInfo("en"));
-			InvalidValue[] validationMessages = classValidator.GetInvalidValues(a);
+			var validationMessages = classValidator.GetInvalidValues(a);
 			if (AllowStaticFields)
 			{
-				Assert.AreEqual(2, validationMessages.Length); //static field is tested also				
+				validationMessages.Should().Have.Count.EqualTo(2); //static field is tested also				
 			}
 			else
 			{
-				Assert.AreEqual(1, validationMessages.Length);
+				validationMessages.Should().Have.Count.EqualTo(1);
 			}
 			Address.blacklistedZipCode = "323232";
 			a.Zip = null;
 			a.State = "Victoria";
 			validationMessages = classValidator.GetInvalidValues(a);
-			Assert.AreEqual(2, validationMessages.Length);
+			validationMessages.Should().Have.Count.EqualTo(2);
 			//validationMessages = classValidator.GetInvalidValues(a, "zip");
 			//Assert.AreEqual(1, validationMessages.Length);
 			a.Zip = "3181";
 			a.State = "NSW";
 			validationMessages = classValidator.GetInvalidValues(a);
-			Assert.AreEqual(0, validationMessages.Length);
+			validationMessages.Should().Be.Empty();
 			a.Country = null;
 			validationMessages = classValidator.GetInvalidValues(a);
-			Assert.AreEqual(1, validationMessages.Length);
+			validationMessages.Should().Have.Count.EqualTo(1);
 			a.InternalValid = false;
 			validationMessages = classValidator.GetInvalidValues(a);
-			Assert.AreEqual(2, validationMessages.Length);
+			validationMessages.Should().Have.Count.EqualTo(2);
 			a.InternalValid = true;
 			a.Country = "France";
 			a.floor = 4000;
 			validationMessages = classValidator.GetInvalidValues(a);
-			Assert.AreEqual(1, validationMessages.Length);
+			validationMessages.Should().Have.Count.EqualTo(1);
 			string expectedMessage = string.Format("Floor cannot {0} be lower that -2 and greater than 50 {1}", ESCAPING_EL, ESCAPING_EL);
+			var invalidValue = validationMessages.First();
 			if (TestMessages)
 			{
-				Assert.AreEqual(expectedMessage, validationMessages[0].Message);
+				Assert.AreEqual(expectedMessage, invalidValue.Message);
 			}
-			Assert.AreEqual(typeof (Address), validationMessages[0].EntityType);
-			Assert.IsTrue(ReferenceEquals(a, validationMessages[0].Entity));
-			Assert.AreEqual(4000, validationMessages[0].Value);
+			Assert.AreEqual(typeof (Address), invalidValue.EntityType);
+			Assert.IsTrue(ReferenceEquals(a, invalidValue.Entity));
+			Assert.AreEqual(4000, invalidValue.Value);
 			if (TestMessages)
 			{
-				Assert.AreEqual("floor" + "[" + expectedMessage + "]", validationMessages[0].ToString());
+				Assert.AreEqual("floor" + "[" + expectedMessage + "]", invalidValue.ToString());
 			}
 		}
 
@@ -89,13 +92,13 @@ namespace NHibernate.Validator.Tests.Base
 			emmanuel.YoungerBrother = christophe;
 			christophe.Elder = emmanuel;
 			IClassValidator classValidator = GetClassValidator(typeof(Brother));
-			InvalidValue[] invalidValues = classValidator.GetInvalidValues(emmanuel);
-			Assert.AreEqual(0, invalidValues.Length);
+			var invalidValues = classValidator.GetInvalidValues(emmanuel);
+			invalidValues.Should().Be.Empty();
 			christophe.Name = null;
 			invalidValues = classValidator.GetInvalidValues(emmanuel);
-			Assert.AreEqual(1, invalidValues.Length, "Name cannot be null");
-			Assert.AreEqual(emmanuel, invalidValues[0].RootEntity);
-			Assert.AreEqual("YoungerBrother.Name", invalidValues[0].PropertyPath);
+			invalidValues.Should("Name cannot be null").Not.Be.Empty();
+			Assert.AreEqual(emmanuel, invalidValues.First().RootEntity);
+			Assert.AreEqual("YoungerBrother.Name", invalidValues.First().PropertyPath);
 			christophe.Name = "Christophe";
 			address = new Address();
 			address.InternalValid = true;
@@ -107,7 +110,7 @@ namespace NHibernate.Validator.Tests.Base
 			address.floor = -100;
 			christophe.Address = address;
 			invalidValues = classValidator.GetInvalidValues(emmanuel);
-			Assert.AreEqual(1, invalidValues.Length, "Floor cannot be less than -2");
+			invalidValues.Should("Floor cannot be less than -2").Not.Be.Empty();
 		}
 
 		[Test]
@@ -118,8 +121,8 @@ namespace NHibernate.Validator.Tests.Base
 
 			Assert.IsTrue(vtor.HasValidationRules);
 			var invalidValues = vtor.GetInvalidValues(s);
-			Assert.AreEqual(1, invalidValues.Length);
-			Assert.AreEqual("is not an animal", invalidValues[0].Message);
+			invalidValues.Should().Not.Be.Empty();
+			invalidValues.Single().Message.Should().Be.EqualTo("is not an animal");
 		}
 
 		/// <summary>
@@ -141,23 +144,20 @@ namespace NHibernate.Validator.Tests.Base
 			eng.HorsePower = 23;
 			eng.SerialNumber = "23-43###4";
 			IClassValidator classValidator = GetClassValidator(typeof(CarEngine));
-			InvalidValue[] invalidValues = classValidator.GetInvalidValues(eng);
-			Assert.AreEqual(2, invalidValues.Length);
+			var invalidValues = classValidator.GetInvalidValues(eng);
+			invalidValues.Should().Have.Count.EqualTo(2);
 
 			//This cannot be tested, the order is random
 			//Assert.AreEqual("must contain alphabetical characters only", invalidValues[0].Message);
 			//Assert.AreEqual("must match ....-....-....", invalidValues[1].Message);
 			//Instead of that, I do this:
-			List<string> list_invalidValues = new List<string>();
-			list_invalidValues.Add(invalidValues[0].Message);
-			list_invalidValues.Add(invalidValues[1].Message);
-			Assert.IsTrue(list_invalidValues.Contains("must contain alphabetical characters only"));
-			Assert.IsTrue(list_invalidValues.Contains("must match ....-....-...."));
-
+			invalidValues.Select(iv => iv.Message).Should()
+				.Contain("must contain alphabetical characters only")
+				.And
+				.Contain("must match ....-....-....");
 
 			eng.SerialNumber = "1234-5678-9012";
-			invalidValues = classValidator.GetInvalidValues(eng);
-			Assert.AreEqual(0, invalidValues.Length);
+			classValidator.GetInvalidValues(eng).Should().Be.Empty();
 		}
 
 		[Test]
@@ -167,13 +167,12 @@ namespace NHibernate.Validator.Tests.Base
 			boo.field = null;
 
 			IClassValidator validator = GetClassValidator(typeof(Boo));
-			InvalidValue[] invalids = validator.GetInvalidValues(boo);
-			Assert.AreEqual(1, invalids.Length, "null value cannot be valid");
+			var invalids = validator.GetInvalidValues(boo);
+			invalids.Should("null value cannot be valid").Not.Be.Empty();
 
 			boo.field = string.Empty;
 			invalids = validator.GetInvalidValues(boo);
-
-			Assert.AreEqual(1, invalids.Length, "empty value cannot be valid");
+			invalids.Should("empty value cannot be valid").Not.Be.Empty();
 		}
 
 		protected virtual bool AllowStaticFields

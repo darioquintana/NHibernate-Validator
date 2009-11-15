@@ -1,4 +1,6 @@
+using System.Linq;
 using NHibernate.Validator.Engine;
+using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.Collections
 {
@@ -24,19 +26,19 @@ namespace NHibernate.Validator.Tests.Collections
 			tv.presenters.Add(presNok);
 			IClassValidator validator = GetClassValidator(typeof(Tv));
 
-			InvalidValue[] values = validator.GetInvalidValues(tv);
-			Assert.AreEqual(1, values.Length);
-			Assert.AreEqual("presenters[1].name", values[0].PropertyPath);
+			var values = validator.GetInvalidValues(tv);
+			values.Should().Not.Be.Empty();
+			values.Single().PropertyPath.Should().Be.EqualTo("presenters[1].name");
 			tv.presenters.Clear();
 
 			tv.dontNeedDeepValidation = new List<string>();
 			tv.dontNeedDeepValidation.Add("something");
 			values = validator.GetInvalidValues(tv);
-			Assert.AreEqual(0, values.Length);
+			values.Should().Be.Empty();
 			tv.dontNeedDeepValidation.Add("something else");
 			values = validator.GetInvalidValues(tv);
-			Assert.AreEqual(1, values.Length);
-			Assert.AreEqual("dontNeedDeepValidation", values[0].PropertyPath);
+			values.Should().Not.Be.Empty();
+			values.Single().PropertyPath.Should().Be.EqualTo("dontNeedDeepValidation");
 		}
 
 		/// <summary>
@@ -56,9 +58,9 @@ namespace NHibernate.Validator.Tests.Collections
 			tv.shows.Add("Midnight", showOk);
 			tv.shows.Add("Primetime", showNok);
 			tv.shows.Add("Nothing", null);
-			InvalidValue[] values = validator.GetInvalidValues(tv);
-			Assert.AreEqual(1, values.Length);
-			Assert.AreEqual("shows[Primetime].name", values[0].PropertyPath);
+			var values = validator.GetInvalidValues(tv);
+			values.Should().Not.Be.Empty();
+			values.Single().PropertyPath.Should().Be.EqualTo("shows[Primetime].name");
 
 			//Inverted dictionary
 			tv = new Tv();
@@ -67,8 +69,8 @@ namespace NHibernate.Validator.Tests.Collections
 			tv.validatableInKey.Add(new Simple("Exalibur"), "Coll1");
 			tv.validatableInKey.Add(new Simple(), "Coll2");
 			values = validator.GetInvalidValues(tv);
-			Assert.AreEqual(1, values.Length);
-			Assert.AreEqual("validatableInKey[null].name", values[0].PropertyPath);
+			values.Should().Not.Be.Empty();
+			values.Single().PropertyPath.Should().Be.EqualTo("validatableInKey[null].name");
 		}
 
 		/// <summary>
@@ -85,9 +87,9 @@ namespace NHibernate.Validator.Tests.Collections
 			movieNok.Name = null;
 			tv.movies = new Movie[] {movieOk, null, movieNok};
 			IClassValidator validator = GetClassValidator(typeof(Tv));
-			InvalidValue[] values = validator.GetInvalidValues(tv);
-			Assert.AreEqual(1, values.Length);
-			Assert.AreEqual("movies[2].Name", values[0].PropertyPath);
+			var values = validator.GetInvalidValues(tv);
+			values.Should().Not.Be.Empty();
+			values.Single().PropertyPath.Should().Be.EqualTo("movies[2].Name");
 		}
 
 		[Test]
@@ -97,13 +99,13 @@ namespace NHibernate.Validator.Tests.Collections
 			IClassValidator vtor = GetClassValidator(typeof(HasCollection));
 
 			hc.StringCollection = new List<string>(new string[] {"cuidado", "con", "el", "carancho!"});
-			Assert.AreEqual(0, vtor.GetInvalidValues(hc).Length);
+			vtor.GetInvalidValues(hc).Should().Be.Empty();
 			
 			hc.StringCollection = new List<string>(new string[] { "pombero" });
-			Assert.AreEqual(1, vtor.GetInvalidValues(hc).Length);
+			vtor.GetInvalidValues(hc).Should().Not.Be.Empty();
 			
 			hc.StringCollection = new List<string>(new string[] { "Los","Pekes","Chicho","Nino","Nono","Fito" });
-			Assert.AreEqual(1, vtor.GetInvalidValues(hc).Length);
+			vtor.GetInvalidValues(hc).Should().Not.Be.Empty();
 		}
 
 		[Test]
@@ -113,19 +115,19 @@ namespace NHibernate.Validator.Tests.Collections
 			IClassValidator vtor = GetClassValidator(typeof(HasShowCollection));
 
 			hsc.Shows = new List<Show>( new Show[] {new Show("s1"), new Show("s2")} );
-			Assert.AreEqual(0, vtor.GetInvalidValues(hsc).Length);
+			vtor.GetInvalidValues(hsc).Should().Be.Empty();
 
 			hsc.Shows = new List<Show>(new Show[] { new Show("s1")});
-			Assert.AreEqual(1, vtor.GetInvalidValues(hsc).Length);
+			vtor.GetInvalidValues(hsc).Should().Have.Count.EqualTo(1);
 
 			hsc.Shows = new List<Show>(new Show[] { new Show(null) });
-			Assert.AreEqual(2, vtor.GetInvalidValues(hsc).Length);
+			vtor.GetInvalidValues(hsc).Should().Have.Count.EqualTo(2);
 
 			hsc.Shows = new List<Show>(new Show[] { new Show("s1"), new Show("s2"), new Show("s3"), new Show("s3") });
-			Assert.AreEqual(1, vtor.GetInvalidValues(hsc).Length);
+			vtor.GetInvalidValues(hsc).Should().Have.Count.EqualTo(1);
 
 			hsc.Shows = new List<Show>(new Show[] { new Show(null), new Show("s2"), new Show("s3"), new Show("s3") });
-			Assert.AreEqual(2, vtor.GetInvalidValues(hsc).Length);
+			vtor.GetInvalidValues(hsc).Should().Have.Count.EqualTo(2);
 		}
 
 		[Test]
@@ -135,13 +137,13 @@ namespace NHibernate.Validator.Tests.Collections
 			IClassValidator vtor = GetClassValidator(typeof(HasArrayWithValid));
 
 			hsc.Shows = new Show[] {new Show("s1"), new Show("s2")};
-			Assert.AreEqual(0, vtor.GetInvalidValues(hsc).Length);
+			vtor.GetInvalidValues(hsc).Should().Be.Empty();
 
 			hsc.Shows = new Show[] { new Show("s1"), new Show(null) };
-			Assert.AreEqual(1, vtor.GetInvalidValues(hsc).Length);
+			vtor.GetInvalidValues(hsc).Should().Not.Be.Empty();
 
 			hsc.Shows = new Show[] { new Show("s1"), new Show("s2"), new Show("s3"), new Show("s4"),new Show("s5") };
-			Assert.AreEqual(1, vtor.GetInvalidValues(hsc).Length);
+			vtor.GetInvalidValues(hsc).Should().Have.Count.EqualTo(1);
 		}
 	}
 }

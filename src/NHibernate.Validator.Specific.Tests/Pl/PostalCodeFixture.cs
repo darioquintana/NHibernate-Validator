@@ -1,7 +1,9 @@
+using System.Linq;
 using NHibernate.Validator.Engine;
 using NHibernate.Validator.Specific.Pl;
 using NHibernate.Validator.Tests;
 using NUnit.Framework;
+using SharpTestsEx;
 
 namespace NHibernate.Validator.Specific.Tests.Pl
 {
@@ -45,15 +47,15 @@ namespace NHibernate.Validator.Specific.Tests.Pl
 			IClassValidator personValidator = GetClassValidator(typeof (Person));
 			var p = new Person();
 
-			Assert.AreEqual(0, personValidator.GetInvalidValues(p).Length);
+			personValidator.GetInvalidValues(p).Should().Be.Empty();
 
 			p.PostalCode = "1234";
-			InvalidValue[] iv = personValidator.GetInvalidValues(p);
-			Assert.AreEqual(1, iv.Length);
-			Assert.AreEqual("Nieprawidlowy kod pocztowy.", iv[0].Message);
+			var iv = personValidator.GetInvalidValues(p);
+			iv.Should().Not.Be.Empty();
+			iv.Single().Message.Should().Be.EqualTo("Nieprawidlowy kod pocztowy.");
 
 			p.PostalCode = "12-345";
-			Assert.AreEqual(0, personValidator.GetInvalidValues(p).Length);
+			personValidator.GetInvalidValues(p).Should().Be.Empty();
 		}
 	}
 }
