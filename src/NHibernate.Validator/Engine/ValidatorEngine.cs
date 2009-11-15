@@ -332,10 +332,7 @@ namespace NHibernate.Validator.Engine
 
 			ValidatableElement element = GetElementOrNew(entityType);
 
-			var result = new List<InvalidValue>();
-			ValidateSubElements(element, entity, result);
-			result.AddRange(element.Validator.GetInvalidValues(entity));
-			return result.ToArray();
+			return ValidateSubElements(element, entity).Concat(element.Validator.GetInvalidValues(entity)).ToArray();
 		}
 
 		private System.Type GuessEntityType(object entity)
@@ -344,15 +341,21 @@ namespace NHibernate.Validator.Engine
 			return result ?? entity.GetType();
 		}
 
-		private static void ValidateSubElements(ValidatableElement element, object entity, List<InvalidValue> consolidatedInvalidValues)
+		private static IEnumerable<InvalidValue> ValidateSubElements(ValidatableElement element, object entity)
 		{
 			if (element != null)
 			{
 				foreach (ValidatableElement subElement in element.SubElements)
 				{
 					object component = subElement.Getter.Get(entity);
-					consolidatedInvalidValues.AddRange(subElement.Validator.GetInvalidValues(component));
-					ValidateSubElements(subElement, component, consolidatedInvalidValues);
+					foreach (var invalidValue in subElement.Validator.GetInvalidValues(component))
+					{
+						yield return invalidValue;
+					}
+					foreach (var invalidValue in ValidateSubElements(subElement, component))
+					{
+						yield return invalidValue;
+					}
 				}
 			}
 		}
