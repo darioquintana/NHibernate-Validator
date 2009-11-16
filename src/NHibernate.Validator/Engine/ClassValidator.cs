@@ -583,25 +583,19 @@ namespace NHibernate.Validator.Engine
 		/// <param name="persistentClass">hibernate metadata</param>
 		public void Apply(PersistentClass persistentClass)
 		{
-			foreach (IValidator validator in entityValidators)
+			foreach (var pcc in entityValidators.Select(ev=>ev.Validator).OfType<IPersistentClassConstraint>())
 			{
-				var pcc = validator as IPersistentClassConstraint;
-				if (pcc != null)
-					pcc.Apply(persistentClass);
+				pcc.Apply(persistentClass);
 			}
 
-			for (int i = 0; i < membersToValidate.Count; i++)
+			foreach (Member member in membersToValidate)
 			{
-				IValidator validator = membersToValidate[i].ValidatorDef.Validator;
-				MemberInfo getter = membersToValidate[i].Getter;
-
-				string propertyName = getter.Name;
-
-				if (validator is IPropertyConstraint)
+				var pc = member.ValidatorDef.Validator as IPropertyConstraint;
+				if (pc != null)
 				{
-					Property property = FindPropertyByName(persistentClass, propertyName);
+					Property property = FindPropertyByName(persistentClass, member.Getter.Name);
 					if (property != null)
-						((IPropertyConstraint) validator).Apply(property);
+						pc.Apply(property);
 				}
 			}
 		}
