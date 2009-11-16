@@ -30,7 +30,7 @@ namespace NHibernate.Validator.Engine
 		[Serializable]
 		private class Member
 		{
-			public ValidatorDef Validator { get; set; }
+			public ValidatorDef ValidatorDef { get; set; }
 			public MemberInfo Getter { get; set; }
 		}
 		private static readonly ILog log = LogManager.GetLogger(typeof(ClassValidator));
@@ -63,9 +63,6 @@ namespace NHibernate.Validator.Engine
 
 		private IList<ValidatorDef> entityValidators;
 
-		//private IList<ValidatorDef> memberValidators;
-
-		//private List<MemberInfo> memberGetters;
 		private List<Member> membersToValidate;
 
 		private List<MemberInfo> childGetters;
@@ -225,7 +222,7 @@ namespace NHibernate.Validator.Engine
 							var tagable = memberAttribute as ITagableRule;
 							membersToValidate.Add(new Member
 							                      	{
-							                      		Validator =
+							                      		ValidatorDef =
 							                      			new ValidatorDef(propertyValidator, tagable != null ? tagable.TagCollection : null),
 							                      		Getter = member
 							                      	});
@@ -334,9 +331,9 @@ namespace NHibernate.Validator.Engine
 			       * We need to check if is itilialized its value to prevent the initialization of
 			       * lazy-properties and lazy-collections.
 			       */
-						if (IsValidationNeededByTags(activeTags, membersToValidate[i].Validator.Tags) && NHibernateUtil.IsInitialized(value))
+						if (IsValidationNeededByTags(activeTags, membersToValidate[i].ValidatorDef.Tags) && NHibernateUtil.IsInitialized(value))
 			      {
-							IValidator validator = membersToValidate[i].Validator.Validator;
+							IValidator validator = membersToValidate[i].ValidatorDef.Validator;
 			        var constraintContext = new ConstraintValidatorContext(member.Name, defaultInterpolator.GetAttributeMessage(validator));
 							if (!validator.IsValid(value, constraintContext))
 			        {
@@ -588,7 +585,7 @@ namespace NHibernate.Validator.Engine
 
 		/// <summary>
 		/// Apply constraints of a particular property value of a entity type and return all the failures.
-		/// The InvalidValue objects returns return null for InvalidValue#Entity and InvalidValue#RootEntity.
+		/// The InvalidValue objects returns an empty enumerable for InvalidValue#Entity and InvalidValue#RootEntity.
 		/// Note: this is not recursive.
 		/// </summary>
 		/// <param name="propertyName">Name of the property or field to validate</param>
@@ -596,34 +593,23 @@ namespace NHibernate.Validator.Engine
 		/// <returns></returns>
 		public IEnumerable<InvalidValue> GetPotentialInvalidValues(string propertyName, object value)
 		{
-			int getterFound = 0;
-			for (int i = 0; i < membersToValidate.Count; i++)
+			var memberValidators = membersToValidate.Where(m => m.Getter.Name.Equals(propertyName)).ToArray();
+			if (memberValidators.Length == 0)
 			{
-				MemberInfo getter = membersToValidate[i].Getter;
-				if (getter.Name.Equals(propertyName))
-				{
-					getterFound++;
-					IValidator validator = membersToValidate[i].Validator.Validator;
-
-					var constraintContext = new ConstraintValidatorContext(propertyName, defaultInterpolator.GetAttributeMessage(validator));
-
-					if (!validator.IsValid(value, constraintContext))
-					{
-						var invalidMessageTransformer = new InvalidMessageTransformer(constraintContext, entityType, propertyName, value, null, validator,
-																																					defaultInterpolator, userInterpolator);
-						foreach (var invalidValue in invalidMessageTransformer.Transform())
-						{
-							yield return invalidValue;
-						}
-					}
-				}
+				throw new TargetException(string.Format("The property or field '{0}' was not found in class {1}", propertyName,
+				                                        entityType.FullName));
 			}
-
-			if (getterFound == 0 && TypeUtils.GetPropertyOrField(entityType, propertyName) == null)
-			{
-				throw new TargetException(
-					string.Format("The property or field '{0}' was not found in class {1}", propertyName, entityType.FullName));
-			}
+			return from member in memberValidators
+			       select member.ValidatorDef.Validator
+			       into validator
+			       	let constraintContext =
+			       	new ConstraintValidatorContext(propertyName, defaultInterpolator.GetAttributeMessage(validator))
+			       	where !validator.IsValid(value, constraintContext)
+			       	select
+			       	new InvalidMessageTransformer(constraintContext, entityType, propertyName, value, null, validator,
+			       	                              defaultInterpolator, userInterpolator)
+			       into invalidMessageTransformer 
+						 from invalidValue in invalidMessageTransformer.Transform() select invalidValue;
 		}
 
 		/// <summary>
@@ -641,7 +627,7 @@ namespace NHibernate.Validator.Engine
 
 			for (int i = 0; i < membersToValidate.Count; i++)
 			{
-				IValidator validator = membersToValidate[i].Validator.Validator;
+				IValidator validator = membersToValidate[i].ValidatorDef.Validator;
 				MemberInfo getter = membersToValidate[i].Getter;
 
 				string propertyName = getter.Name;
