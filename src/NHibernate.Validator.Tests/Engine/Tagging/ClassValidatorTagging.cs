@@ -36,6 +36,13 @@ namespace NHibernate.Validator.Tests.Engine.Tagging
 		public int ValueWithoutTags { get; set; }
 	}
 
+	public class EntityForPotential
+	{
+		[Length(Min = 5, Tags = typeof(Warning))]
+		[NotNullNotEmpty(Tags = new[] { typeof(Error), typeof(Warning) })]
+		public string Value { get; set; }
+	}
+
 	public class EntityWithReletion
 	{
 		[Valid]
@@ -163,6 +170,17 @@ namespace NHibernate.Validator.Tests.Engine.Tagging
 			IClassValidator cv = new ClassValidator(typeof(EntityWithCollection));
 			cv.GetInvalidValues(new EntityWithCollection { Entities = new List<Entity> { new Entity(), new Entity() } }, typeof(Error)).Should().Have.Count.EqualTo(2);
 			cv.GetInvalidValues(new EntityWithCollection { Entities = new List<Entity> { new Entity(), new Entity() } }, typeof(Error), null).Should().Have.Count.EqualTo(4);
+		}
+
+		[Test]
+		public void WhenTagIsSpecified_ValidatePotentialValueForGivenTags()
+		{
+			IClassValidator cv = new ClassValidator(typeof(EntityForPotential));
+			cv.GetPotentialInvalidValues("Value", "123", typeof(Warning)).Should().Have.Count.EqualTo(1);
+			cv.GetPotentialInvalidValues("Value", "", typeof(Warning)).Should().Have.Count.EqualTo(2);
+			cv.GetPotentialInvalidValues("Value", "", typeof(Error), typeof(Warning)).Should().Have.Count.EqualTo(2);
+			cv.GetPotentialInvalidValues("Value", "123", typeof(Error)).Should().Be.Empty();
+			cv.GetPotentialInvalidValues("Value", "", typeof(Error)).Should().Have.Count.EqualTo(1);
 		}
 
 		[Test]

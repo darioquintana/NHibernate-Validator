@@ -648,7 +648,21 @@ namespace NHibernate.Validator.Engine
 
 		public IEnumerable<InvalidValue> GetPotentialInvalidValues(string propertyName, object value, params object[] tags)
 		{
-			throw new NotImplementedException();
+			var activeTags = tags != null ? new HashSet<object>(tags) : null;
+			var memberValidators = membersToValidate.Where(m => m.Getter.Name.Equals(propertyName) && IsValidationNeededByTags(activeTags, m.ValidatorDef.Tags)).ToArray();
+			if (memberValidators.Length == 0)
+			{
+				throw new TargetException(string.Format("The property or field '{0}' was not found in class {1}", propertyName,
+																								entityType.FullName));
+			}
+			return from member in memberValidators
+						 select member.ValidatorDef.Validator
+							 into validator
+							 let constraintContext =
+							 new ConstraintValidatorContext(propertyName, defaultInterpolator.GetAttributeMessage(validator))
+							 where !validator.IsValid(value, constraintContext)
+							 from invalidValue in new InvalidMessageTransformer(constraintContext, entityType, propertyName, value, null, validator, defaultInterpolator, userInterpolator).Transform()
+							 select invalidValue;
 		}
 
 		private static Property FindPropertyByName(PersistentClass associatedClass, string propertyName)
