@@ -316,43 +316,24 @@ namespace NHibernate.Validator.Engine
 		private IEnumerable<InvalidValue> MembersInvalidValues(object entity, string memberName, ICollection<object> activeTags)
 		{
 			// Property & Field Validation
-			int getterFound = 0;
-			for (int i = 0; i < membersToValidate.Count; i++)
+			var membersValidators =
+				membersToValidate.Where(mtv => memberName == null || mtv.Getter.Name.Equals(memberName)).ToArray();
+			if (memberName != null && membersValidators.Length == 0 && TypeUtils.GetPropertyOrField(entityType, memberName) == null)
 			{
-				MemberInfo member = membersToValidate[i].Getter;
-			  if (memberName == null || member.Name.Equals(memberName))
-			  {
-			    getterFound++;
-			    if (NHibernateUtil.IsPropertyInitialized(entity, member.Name))
-			    {
-			      object value = TypeUtils.GetMemberValue(entity, member);
-			      /* The implementation of NHibernateUtil.IsPropertyInitialized is not enough for us
-			       * because NH call it only for some kind of propeties and especially only when NH need this check.
-			       * We need to check if is itilialized its value to prevent the initialization of
-			       * lazy-properties and lazy-collections.
-			       */
-						if (IsValidationNeededByTags(activeTags, membersToValidate[i].ValidatorDef.Tags) && NHibernateUtil.IsInitialized(value))
-			      {
-							IValidator validator = membersToValidate[i].ValidatorDef.Validator;
-			        var constraintContext = new ConstraintValidatorContext(member.Name, defaultInterpolator.GetAttributeMessage(validator));
-							if (!validator.IsValid(value, constraintContext))
-			        {
-			          var invalidValues = new InvalidMessageTransformer(constraintContext, entityType, member.Name, value, entity, validator, defaultInterpolator,userInterpolator).Transform();
-			          foreach (var invalidValue in invalidValues)
-			          {
-			            yield return invalidValue;
-			          }
-			        }
-			      }
-			    }
-			  }
+				throw new TargetException(
+					string.Format("The property or field '{0}' was not found in class {1}", memberName, entityType.FullName));
 			}
 
-			if (memberName != null && getterFound == 0 && TypeUtils.GetPropertyOrField(entityType, memberName) == null)
-			{
-			  throw new TargetException(
-			    string.Format("The property or field '{0}' was not found in class {1}", memberName, entityType.FullName));
-			}
+			return from mtv in membersValidators
+			       let member = mtv.Getter
+			       where NHibernateUtil.IsPropertyInitialized(entity, member.Name)
+			       let value = TypeUtils.GetMemberValue(entity, member)
+						 where IsValidationNeededByTags(activeTags, mtv.ValidatorDef.Tags) && NHibernateUtil.IsInitialized(value)
+						 let validator = mtv.ValidatorDef.Validator
+			       let constraintContext = new ConstraintValidatorContext(member.Name, defaultInterpolator.GetAttributeMessage(validator))
+			       where !validator.IsValid(value, constraintContext)
+			       from invalidValue in new InvalidMessageTransformer(constraintContext, entityType, member.Name, value, entity, validator, defaultInterpolator, userInterpolator).Transform()
+			       select invalidValue;
 		}
 
 		private bool IsValidationNeededByTags(ICollection<object> activeTags, ICollection<object> validatorTags)
@@ -605,11 +586,8 @@ namespace NHibernate.Validator.Engine
 			       	let constraintContext =
 			       	new ConstraintValidatorContext(propertyName, defaultInterpolator.GetAttributeMessage(validator))
 			       	where !validator.IsValid(value, constraintContext)
-			       	select
-			       	new InvalidMessageTransformer(constraintContext, entityType, propertyName, value, null, validator,
-			       	                              defaultInterpolator, userInterpolator)
-			       into invalidMessageTransformer 
-						 from invalidValue in invalidMessageTransformer.Transform() select invalidValue;
+							 from invalidValue in new InvalidMessageTransformer(constraintContext, entityType, propertyName, value, null, validator, defaultInterpolator, userInterpolator).Transform()
+							select invalidValue;
 		}
 
 		/// <summary>
