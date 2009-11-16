@@ -45,7 +45,7 @@ namespace NHibernate.Validator.Tests.Specifics.NHV25
 			tv.shows.Add(1, showOk);
 			tv.shows.Add(2, showNok);
 			tv.shows.Add(3, null);
-			var invalidValues = validator.GetInvalidValues(tv);
+			var invalidValues = validator.GetInvalidValues(tv).ToArray();
 			invalidValues.Should().Not.Be.Empty();
 			invalidValues.Single().PropertyPath.Should().Be.EqualTo("shows[2].name");
 		}

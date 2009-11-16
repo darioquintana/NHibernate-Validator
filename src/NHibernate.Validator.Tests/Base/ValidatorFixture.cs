@@ -95,7 +95,7 @@ namespace NHibernate.Validator.Tests.Base
 			var invalidValues = classValidator.GetInvalidValues(emmanuel);
 			invalidValues.Should().Be.Empty();
 			christophe.Name = null;
-			invalidValues = classValidator.GetInvalidValues(emmanuel);
+			invalidValues = classValidator.GetInvalidValues(emmanuel).ToArray();
 			invalidValues.Should("Name cannot be null").Not.Be.Empty();
 			Assert.AreEqual(emmanuel, invalidValues.First().RootEntity);
 			Assert.AreEqual("YoungerBrother.Name", invalidValues.First().PropertyPath);

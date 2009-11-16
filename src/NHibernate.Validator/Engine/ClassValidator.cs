@@ -170,8 +170,8 @@ namespace NHibernate.Validator.Engine
 		/// Initialize the <see cref="ClassValidator"/> type.
 		/// </summary>
 		/// <param name="clazz"></param>
-		/// <param name="childClassValidators"></param>
-		private void InitValidator(System.Type clazz, IDictionary<System.Type, IClassValidator> childClassValidators)
+		/// <param name="nestedClassValidators"></param>
+		private void InitValidator(System.Type clazz, IDictionary<System.Type, IClassValidator> nestedClassValidators)
 		{
 			entityValidators = new List<ValidatorDef>();
 			memberValidators = new List<ValidatorDef>();
@@ -181,12 +181,12 @@ namespace NHibernate.Validator.Engine
 			defaultInterpolator.Initialize(messageBundle, defaultMessageBundle, culture);
 
 			//build the class hierarchy to look for members in
-			childClassValidators.Add(clazz, this);
+			nestedClassValidators.Add(clazz, this);
 			ISet<System.Type> classes = new HashedSet<System.Type>();
 			AddSuperClassesAndInterfaces(clazz, classes);
 			
 			// Create the IClassMapping for each class of the validator
-			List<IClassMapping> classesMaps = new List<IClassMapping>(classes.Count);
+			var classesMaps = new List<IClassMapping>(classes.Count);
 			foreach (System.Type type in classes)
 			{
 				IClassMapping mapping = factory.ClassMappingFactory.GetClassMapping(type, validatorMode);
@@ -266,93 +266,85 @@ namespace NHibernate.Validator.Engine
 			return GetInvalidValues(entity, propertyName, null);
 		}
 
-		private InvalidValue[] GetInvalidValues(object entity, ISet circularityState, ICollection<object> activeTags)
+		private IEnumerable<InvalidValue> GetInvalidValues(object entity, ISet circularityState, ICollection<object> activeTags)
 		{
 			if (entity == null || circularityState.Contains(entity))
 			{
 				return EMPTY_INVALID_VALUE_ARRAY; //Avoid circularity
 			}
-			else
-			{
-				circularityState.Add(entity);
-			}
+			circularityState.Add(entity);
 
 			if (!entityType.IsInstanceOfType(entity))
 			{
 				throw new ArgumentException("not an instance of: " + entity.GetType());
 			}
-
-			List<InvalidValue> results = new List<InvalidValue>();
-
-			//Entity Validation
-			foreach (var validator in entityValidators.Where(ev=> IsValidationNeededByTags(activeTags,ev.Tags)).Select(ev=>ev.Validator))
-			{
-				var constraintContext = new ConstraintValidatorContext(null,defaultInterpolator.GetAttributeMessage(validator));
-				if (!validator.IsValid(entity, constraintContext))
-				{
-					results.AddRange(new InvalidMessageTransformer(constraintContext, entityType, null, entity, entity, validator, defaultInterpolator, userInterpolator).Transform());
-				}
-			}
-
-			results.AddRange(MembersValidation(entity, null, activeTags));
-
-			//Child validation
-			for (int i = 0; i < childGetters.Count; i++)
-			{
-				MemberInfo member = childGetters[i];
-
-				if (NHibernateUtil.IsPropertyInitialized(entity, member.Name))
-				{
-					object value = TypeUtils.GetMemberValue(entity, member);
-
-					if (value != null && NHibernateUtil.IsInitialized(value))
-					{
-						MakeChildValidation(value, entity, member, circularityState, results, activeTags);
-					}
-				}
-			}
-			return results.ToArray();
+			return 
+				EntityInvalidValues(entity, activeTags)
+				.Concat(MembersInvalidValues(entity, null, activeTags))
+				.Concat(ChildrenInvalidValues(entity, circularityState, activeTags));
 		}
 
-		private IEnumerable<InvalidValue> MembersValidation(object entity, string memberName, ICollection<object> activeTags)
+		private IEnumerable<InvalidValue> ChildrenInvalidValues(object entity, ISet circularityState,
+		                                                        ICollection<object> activeTags)
 		{
-			//Property & Field Validation
+			return from member in childGetters
+			       where NHibernateUtil.IsPropertyInitialized(entity, member.Name)
+			       let value = TypeUtils.GetMemberValue(entity, member)
+			       where value != null && NHibernateUtil.IsInitialized(value)
+			       from invalidValue in ChildInvalidValues(value, entity, member, circularityState, activeTags)
+			       select invalidValue;
+		}
+
+		private IEnumerable<InvalidValue> EntityInvalidValues(object entity, ICollection<object> activeTags)
+		{
+			return from validator in entityValidators.Where(ev => IsValidationNeededByTags(activeTags, ev.Tags)).Select(ev => ev.Validator)
+						 let constraintContext = new ConstraintValidatorContext(null, defaultInterpolator.GetAttributeMessage(validator))
+						 where !validator.IsValid(entity, constraintContext)
+						 select new InvalidMessageTransformer(constraintContext, entityType, null, entity, entity, validator, defaultInterpolator, userInterpolator)
+							 into invalidMessageTransformer
+							 from invalidValue in invalidMessageTransformer.Transform()
+							 select invalidValue;
+		}
+
+		private IEnumerable<InvalidValue> MembersInvalidValues(object entity, string memberName, ICollection<object> activeTags)
+		{
+			// Property & Field Validation
 			int getterFound = 0;
 			for (int i = 0; i < memberValidators.Count; i++)
 			{
-				MemberInfo member = memberGetters[i];
-				if (memberName == null || member.Name.Equals(memberName))
-				{
-					getterFound++;
-					if (NHibernateUtil.IsPropertyInitialized(entity, member.Name))
-					{
-						object value = TypeUtils.GetMemberValue(entity, member);
-						/* The implementation of NHibernateUtil.IsPropertyInitialized is not enough for us
-						 * because NH call it only for some kind of propeties and especially only when NH need this check.
-						 * We need to check if is itilialized its value to prevent the initialization of
-						 * lazy-properties and lazy-collections.
-						 */
-						if (IsValidationNeededByTags(activeTags, memberValidators[i].Tags) && NHibernateUtil.IsInitialized(value))
-						{
-							IValidator validator = memberValidators[i].Validator;
-							var constraintContext = new ConstraintValidatorContext(member.Name, defaultInterpolator.GetAttributeMessage(validator));
+			  MemberInfo member = memberGetters[i];
+			  if (memberName == null || member.Name.Equals(memberName))
+			  {
+			    getterFound++;
+			    if (NHibernateUtil.IsPropertyInitialized(entity, member.Name))
+			    {
+			      object value = TypeUtils.GetMemberValue(entity, member);
+			      /* The implementation of NHibernateUtil.IsPropertyInitialized is not enough for us
+			       * because NH call it only for some kind of propeties and especially only when NH need this check.
+			       * We need to check if is itilialized its value to prevent the initialization of
+			       * lazy-properties and lazy-collections.
+			       */
+			      if (IsValidationNeededByTags(activeTags, memberValidators[i].Tags) && NHibernateUtil.IsInitialized(value))
+			      {
+			        IValidator validator = memberValidators[i].Validator;
+			        var constraintContext = new ConstraintValidatorContext(member.Name, defaultInterpolator.GetAttributeMessage(validator));
 							if (!validator.IsValid(value, constraintContext))
-							{
-								var invalidValues = new InvalidMessageTransformer(constraintContext, entityType, member.Name, value, entity, validator, defaultInterpolator,userInterpolator).Transform();
-								foreach (var invalidValue in invalidValues)
-								{
-									yield return invalidValue;
-								}
-							}
-						}
-					}
-				}
+			        {
+			          var invalidValues = new InvalidMessageTransformer(constraintContext, entityType, member.Name, value, entity, validator, defaultInterpolator,userInterpolator).Transform();
+			          foreach (var invalidValue in invalidValues)
+			          {
+			            yield return invalidValue;
+			          }
+			        }
+			      }
+			    }
+			  }
 			}
 
 			if (memberName != null && getterFound == 0 && TypeUtils.GetPropertyOrField(entityType, memberName) == null)
 			{
-				throw new TargetException(
-					string.Format("The property or field '{0}' was not found in class {1}", memberName, entityType.FullName));
+			  throw new TargetException(
+			    string.Format("The property or field '{0}' was not found in class {1}", memberName, entityType.FullName));
 			}
 		}
 
@@ -367,23 +359,19 @@ namespace NHibernate.Validator.Engine
 		/// <summary>
 		/// Validate the child validation to objects and collections
 		/// </summary>
-		private void MakeChildValidation(object value, object entity, MemberInfo member, ISet circularityState, ICollection<InvalidValue> results, ICollection<object> activeTags)
+		private IEnumerable<InvalidValue> ChildInvalidValues(object value, object entity, MemberInfo member, ISet circularityState, ICollection<object> activeTags)
 		{
 			var valueEnum = value as IEnumerable;
 			if (valueEnum != null)
 			{
-				MakeCollectionValidation(valueEnum, entity, member, circularityState, results, activeTags);
+				return TypeUtils.IsGenericDictionary(value.GetType())
+				       	? DictionaryInvalidValues(valueEnum, member, entity, circularityState, activeTags)
+				       	: CollectionInvalidValues(valueEnum, entity, member, circularityState, activeTags);
 			}
 			else
 			{
 				//Simple Value, Non-Collection
-				var invalidValues = GetClassValidator(GuessEntityType(value)).GetInvalidValues(value, circularityState, activeTags);
-
-				foreach (InvalidValue invalidValue in invalidValues)
-				{
-					invalidValue.AddParentEntity(entity, member.Name);
-					results.Add(invalidValue);
-				}
+				return GetClassValidator(GuessEntityType(value)).GetInvalidValues(value, circularityState, activeTags).WithParent(entity, member.Name);
 			}
 		}
 
@@ -392,86 +380,51 @@ namespace NHibernate.Validator.Engine
 			return factory.EntityTypeInspector.GuessType(value) ?? value.GetType();
 		}
 
-		private void MakeCollectionValidation(IEnumerable value, object entity, MemberInfo member, ISet circularityState, ICollection<InvalidValue> results, ICollection<object> activeTags)
+		private IEnumerable<InvalidValue> CollectionInvalidValues(IEnumerable value, object entity, MemberInfo member, ISet circularityState, ICollection<object> activeTags)
 		{
-			if (TypeUtils.IsGenericDictionary(value.GetType())) //Generic Dictionary
+			return
+				value.Cast<object>().Select(
+					(item, i) => new {Item = item, IndexedPropName = string.Format("{0}[{1}]", member.Name, i)}).Where(
+					elem => elem.Item != null).SelectMany(
+					elem => CollectionItemInvalidValues(entity, elem.IndexedPropName, elem.Item, circularityState, activeTags));
+		}
+
+		private IEnumerable<InvalidValue> CollectionItemInvalidValues(object collectionOwner, string indexedPropName, object item, ISet circularityState, ICollection<object> activeTags)
+		{
+			if(item == null)
 			{
-				foreach (object item in value)
-				{
-					IGetter ValueProperty = new BasicPropertyAccessor().GetGetter(item.GetType(), "Value");
-					IGetter KeyProperty = new BasicPropertyAccessor().GetGetter(item.GetType(), "Key");
-
-					object valueValue = ValueProperty.Get(item);
-					object keyValue = KeyProperty.Get(item);
-					string indexedPropName = string.Format("{0}[{1}]", member.Name, keyValue);
-
-					if (ShouldNeedValidation(ValueProperty.ReturnType))
-					{
-						var invalidValuesKey =
-							GetClassValidator(ValueProperty.ReturnType).GetInvalidValues(valueValue, circularityState, activeTags);
-
-						foreach (InvalidValue invalidValue in invalidValuesKey)
-						{
-							invalidValue.AddParentEntity(entity, indexedPropName);
-							results.Add(invalidValue);
-						}
-					}
-
-					if (ShouldNeedValidation(KeyProperty.ReturnType))
-					{
-						var invalidValuesValue =
-							GetClassValidator(KeyProperty.ReturnType).GetInvalidValues(keyValue, circularityState, activeTags);
-						foreach (InvalidValue invalidValue in invalidValuesValue)
-						{
-							invalidValue.AddParentEntity(entity, indexedPropName);
-							results.Add(invalidValue);
-						}
-					}
-				}
+				return EMPTY_INVALID_VALUE_ARRAY;
 			}
-			else //Generic collection
+			System.Type candidateType = factory.EntityTypeInspector.GuessType(item);
+			System.Type itemType = candidateType ?? item.GetType();
+			if (!ShouldNeedValidation(itemType))
 			{
-				int index = 0;
-				foreach (object item in value)
-				{
-					if (item == null)
-					{
-						index++;
-						continue;
-					}
-
-					System.Type result = factory.EntityTypeInspector.GuessType(item);
-					System.Type itemType = result ?? item.GetType();
-
-					if (ShouldNeedValidation(itemType))
-					{
-						var invalidValues = GetClassValidator(itemType).GetInvalidValues(item, circularityState, activeTags);
-
-						String indexedPropName = string.Format("{0}[{1}]", member.Name, index);
-
-						foreach (InvalidValue invalidValue in invalidValues)
-						{
-							invalidValue.AddParentEntity(entity, indexedPropName);
-							results.Add(invalidValue);
-						}
-					}
-					index++;
-				}
+				return EMPTY_INVALID_VALUE_ARRAY;
 			}
+			return GetClassValidator(itemType).GetInvalidValues(item, circularityState, activeTags).WithParent(collectionOwner,
+			                                                                                                   indexedPropName);
+		}
+
+		private IEnumerable<InvalidValue> DictionaryInvalidValues(IEnumerable dictionary, MemberInfo dictionaryMember, object ownerEntity, ISet circularityState, ICollection<object> activeTags)
+		{
+			return dictionary.AsKeyValue()
+				.Select(item => new {item, indexedPropName = string.Format("{0}[{1}]", dictionaryMember.Name, item.Key)})
+				.SelectMany(t => CollectionItemInvalidValues(ownerEntity, t.indexedPropName, t.item.Value, circularityState, activeTags)
+					.Concat(CollectionItemInvalidValues(ownerEntity, t.indexedPropName, t.item.Key, circularityState, activeTags)));
 		}
 
 		/// <summary>
-		/// Get the ClassValidator for the <paramref name="entityType"/>
+		/// Get the ClassValidator for the <paramref name="objectType"/>
 		/// parametter  from <see cref="childClassValidators"/>. If doesn't exist, a 
 		/// new <see cref="ClassValidator"/> is returned.
 		/// </summary>
-		/// <param name="entityType">type</param>
+		/// <param name="objectType">type</param>
 		/// <returns></returns>
-		private IClassValidatorImplementor GetClassValidator(System.Type entityType)
+		private IClassValidatorImplementor GetClassValidator(System.Type objectType)
 		{
 			IClassValidator result;
-			if (!childClassValidators.TryGetValue(entityType, out result))
-				return (factory.GetRootValidator(entityType) as IClassValidatorImplementor);
+			if (!childClassValidators.TryGetValue(objectType, out result))
+				return (factory.GetRootValidator(objectType) as IClassValidatorImplementor);
 			else
 				return (result as IClassValidatorImplementor);
 		}
@@ -521,7 +474,7 @@ namespace NHibernate.Validator.Engine
 			}
 		}
 
-		private static readonly System.Type baseInitializableType = typeof(IInitializableValidator<>);
+		private static readonly System.Type BaseInitializableType = typeof(IInitializableValidator<>);
 		private static void InitializeValidator(Attribute attribute, System.Type validatorClass, IValidator entityValidator)
 		{
 			/* This method was added to supply major difference between JAVA and NET generics.
@@ -533,7 +486,7 @@ namespace NHibernate.Validator.Engine
 			 * the method Initialize.
 			 */
 			System.Type[] args = {attribute.GetType()};
-			System.Type concreteIvc = baseInitializableType.MakeGenericType(args);
+			System.Type concreteIvc = BaseInitializableType.MakeGenericType(args);
 			if (concreteIvc.IsAssignableFrom(validatorClass))
 			{
 				MethodInfo initMethod = concreteIvc.GetMethod("Initialize");
@@ -633,8 +586,6 @@ namespace NHibernate.Validator.Engine
 		/// <returns></returns>
 		public IEnumerable<InvalidValue> GetPotentialInvalidValues(string propertyName, object value)
 		{
-			List<InvalidValue> results = new List<InvalidValue>();
-
 			int getterFound = 0;
 			for (int i = 0; i < memberValidators.Count; i++)
 			{
@@ -643,14 +594,17 @@ namespace NHibernate.Validator.Engine
 				{
 					getterFound++;
 					IValidator validator = memberValidators[i].Validator;
-					
+
 					var constraintContext = new ConstraintValidatorContext(propertyName, defaultInterpolator.GetAttributeMessage(validator));
 
-					if (!validator.IsValid(value, null))
+					if (!validator.IsValid(value, constraintContext))
 					{
-						results.AddRange(
-							new InvalidMessageTransformer(constraintContext, entityType, propertyName, value, null, validator,
-							                              defaultInterpolator, userInterpolator).Transform());
+						var invalidMessageTransformer = new InvalidMessageTransformer(constraintContext, entityType, propertyName, value, null, validator,
+																																					defaultInterpolator, userInterpolator);
+						foreach (var invalidValue in invalidMessageTransformer.Transform())
+						{
+							yield return invalidValue;
+						}
 					}
 				}
 			}
@@ -660,8 +614,6 @@ namespace NHibernate.Validator.Engine
 				throw new TargetException(
 					string.Format("The property or field '{0}' was not found in class {1}", propertyName, entityType.FullName));
 			}
-
-			return results;
 		}
 
 		/// <summary>
@@ -672,7 +624,7 @@ namespace NHibernate.Validator.Engine
 		{
 			foreach (IValidator validator in entityValidators)
 			{
-				IPersistentClassConstraint pcc = validator as IPersistentClassConstraint;
+				var pcc = validator as IPersistentClassConstraint;
 				if (pcc != null)
 					pcc.Apply(persistentClass);
 			}
@@ -695,14 +647,7 @@ namespace NHibernate.Validator.Engine
 
 		public IEnumerable<Attribute> GetMemberConstraints(string propertyName)
 		{
-			foreach (var member in membersAttributesDictionary)
-			{
-				if (member.Key.Name.Equals(propertyName))
-				{
-					return member.Value.AsReadOnly();
-				}
-			}
-			return EmptyConstraints;
+			return membersAttributesDictionary.Where(member => member.Key.Name.Equals(propertyName)).SelectMany(member => member.Value);
 		}
 
 		public IEnumerable<InvalidValue> GetInvalidValues(object entity, params object[] tags)
@@ -724,8 +669,7 @@ namespace NHibernate.Validator.Engine
 			{
 				throw new ArgumentException("not an instance of: " + entity.GetType());
 			}
-
-			return MembersValidation(entity, propertyName, tags != null ? new HashSet<object>(tags):null);
+			return MembersInvalidValues(entity, propertyName, tags != null ? new HashSet<object>(tags) : null);
 		}
 
 		public IEnumerable<InvalidValue> GetPotentialInvalidValues(string propertyName, object value, params object[] tags)
@@ -866,14 +810,14 @@ namespace NHibernate.Validator.Engine
 
 		public ClassValidator(SerializationInfo info, StreamingContext ctxt)
 		{
-			System.Type interpolatorType = (System.Type)info.GetValue("interpolator", typeof(System.Type));
+			var interpolatorType = (System.Type)info.GetValue("interpolator", typeof(System.Type));
 			if(interpolatorType != null) userInterpolator = (IMessageInterpolator)Activator.CreateInstance(interpolatorType);
-			this.entityType = (System.Type)info.GetValue("entityType", typeof(System.Type));
-			this.entityValidators = (IList<ValidatorDef>)info.GetValue("entityValidators", typeof(IList<ValidatorDef>));
-			this.memberValidators = (IList<ValidatorDef>)info.GetValue("memberValidators", typeof(IList<ValidatorDef>));
-			this.childClassValidators = (IDictionary<System.Type, IClassValidator>)info.GetValue("childClassValidators", typeof(IDictionary<System.Type, IClassValidator>));
-			this.memberGetters = (List<MemberInfo>)info.GetValue("memberGetters", typeof(List<MemberInfo>));
-			this.childGetters = (List<MemberInfo>)info.GetValue("childGetters", typeof(List<MemberInfo>));
+			entityType = (System.Type)info.GetValue("entityType", typeof(System.Type));
+			entityValidators = (IList<ValidatorDef>)info.GetValue("entityValidators", typeof(IList<ValidatorDef>));
+			memberValidators = (IList<ValidatorDef>)info.GetValue("memberValidators", typeof(IList<ValidatorDef>));
+			childClassValidators = (IDictionary<System.Type, IClassValidator>)info.GetValue("childClassValidators", typeof(IDictionary<System.Type, IClassValidator>));
+			memberGetters = (List<MemberInfo>)info.GetValue("memberGetters", typeof(List<MemberInfo>));
+			childGetters = (List<MemberInfo>)info.GetValue("childGetters", typeof(List<MemberInfo>));
 			membersAttributesDictionary =
 				(Dictionary<MemberInfo, List<Attribute>>)
 				info.GetValue("membersAttributesDictionary", typeof (Dictionary<MemberInfo, List<Attribute>>));
@@ -881,9 +825,33 @@ namespace NHibernate.Validator.Engine
 			messageBundle = GetDefaultResourceManager();
 			
 			culture = CultureInfo.CurrentCulture;
-			this.defaultInterpolator = (DefaultMessageInterpolatorAggregator)info.GetValue("defaultInterpolator", typeof(DefaultMessageInterpolatorAggregator));
+			defaultInterpolator = (DefaultMessageInterpolatorAggregator)info.GetValue("defaultInterpolator", typeof(DefaultMessageInterpolatorAggregator));
 			defaultInterpolator.Initialize(messageBundle,defaultMessageBundle,culture);
+		}
+	}
 
+	internal static class InvaliValueExtensions
+	{
+		public static IEnumerable<InvalidValue> WithParent(this IEnumerable<InvalidValue> source, object parentEntity, string memberName)
+		{
+			foreach (var invalidValue in source)
+			{
+				invalidValue.AddParentEntity(parentEntity, memberName);
+				yield return invalidValue;
+			}
+		}
+
+		public static IEnumerable<KeyValuePair<object,object>> AsKeyValue(this IEnumerable source)
+		{
+			var itemsIterator = source.GetEnumerator();
+			if (itemsIterator.MoveNext())
+			{
+				IGetter valueProperty = new BasicPropertyAccessor().GetGetter(itemsIterator.Current.GetType(), "Value");
+				IGetter keyProperty = new BasicPropertyAccessor().GetGetter(itemsIterator.Current.GetType(), "Key");
+				return source.Cast<object>().Select(
+					item => new KeyValuePair<object, object>(keyProperty.Get(item), valueProperty.Get(item)));
+			}
+			return new KeyValuePair<object, object>[0];
 		}
 	}
 }

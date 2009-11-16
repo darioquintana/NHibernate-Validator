@@ -26,17 +26,17 @@ namespace NHibernate.Validator.Tests.Collections
 			tv.presenters.Add(presNok);
 			IClassValidator validator = GetClassValidator(typeof(Tv));
 
-			var values = validator.GetInvalidValues(tv);
+			var values = validator.GetInvalidValues(tv).ToArray();
 			values.Should().Not.Be.Empty();
 			values.Single().PropertyPath.Should().Be.EqualTo("presenters[1].name");
 			tv.presenters.Clear();
 
 			tv.dontNeedDeepValidation = new List<string>();
 			tv.dontNeedDeepValidation.Add("something");
-			values = validator.GetInvalidValues(tv);
+			values = validator.GetInvalidValues(tv).ToArray();
 			values.Should().Be.Empty();
 			tv.dontNeedDeepValidation.Add("something else");
-			values = validator.GetInvalidValues(tv);
+			values = validator.GetInvalidValues(tv).ToArray();
 			values.Should().Not.Be.Empty();
 			values.Single().PropertyPath.Should().Be.EqualTo("dontNeedDeepValidation");
 		}
@@ -58,7 +58,7 @@ namespace NHibernate.Validator.Tests.Collections
 			tv.shows.Add("Midnight", showOk);
 			tv.shows.Add("Primetime", showNok);
 			tv.shows.Add("Nothing", null);
-			var values = validator.GetInvalidValues(tv);
+			var values = validator.GetInvalidValues(tv).ToArray();
 			values.Should().Not.Be.Empty();
 			values.Single().PropertyPath.Should().Be.EqualTo("shows[Primetime].name");
 
@@ -68,7 +68,7 @@ namespace NHibernate.Validator.Tests.Collections
 			tv.validatableInKey = new Dictionary<Simple, string>();
 			tv.validatableInKey.Add(new Simple("Exalibur"), "Coll1");
 			tv.validatableInKey.Add(new Simple(), "Coll2");
-			values = validator.GetInvalidValues(tv);
+			values = validator.GetInvalidValues(tv).ToArray();
 			values.Should().Not.Be.Empty();
 			values.Single().PropertyPath.Should().Be.EqualTo("validatableInKey[null].name");
 		}
@@ -87,7 +87,7 @@ namespace NHibernate.Validator.Tests.Collections
 			movieNok.Name = null;
 			tv.movies = new Movie[] {movieOk, null, movieNok};
 			IClassValidator validator = GetClassValidator(typeof(Tv));
-			var values = validator.GetInvalidValues(tv);
+			var values = validator.GetInvalidValues(tv).ToArray();
 			values.Should().Not.Be.Empty();
 			values.Single().PropertyPath.Should().Be.EqualTo("movies[2].Name");
 		}

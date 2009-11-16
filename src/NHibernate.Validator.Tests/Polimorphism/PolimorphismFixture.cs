@@ -76,7 +76,7 @@ namespace NHibernate.Validator.Tests.Polimorphism
 			vtor.GetInvalidValues(c).Should().Be.Empty();
 
 			c.Any = dPartialBroken;
-			var ivalue = vtor.GetInvalidValues(c);
+			var ivalue = vtor.GetInvalidValues(c).ToArray();
 			ivalue.Should().Not.Be.Empty();
 			ivalue.Single().PropertyName.Should().Be.EqualTo("A");
 		}
