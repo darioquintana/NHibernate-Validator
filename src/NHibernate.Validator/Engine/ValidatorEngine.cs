@@ -324,12 +324,12 @@ namespace NHibernate.Validator.Engine
 		private IEnumerable<InvalidValue> InternalValidate(object entity)
 		{
 			if (entity == null)
-				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
+				return ClassValidator.EmptyInvalidValueArray;
 
 			System.Type entityType = GuessEntityType(entity);
 
 			if (!ClassValidator.ShouldNeedValidation(entityType))
-				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
+				return ClassValidator.EmptyInvalidValueArray;
 
 			ValidatableElement element = GetElementOrNew(entityType);
 
@@ -351,7 +351,7 @@ namespace NHibernate.Validator.Engine
 				       from invalidValue in subElement.Validator.GetInvalidValues(component).Concat(ValidateSubElements(subElement, component))
 				       select invalidValue;
 			}
-			return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
+			return ClassValidator.EmptyInvalidValueArray;
 		}
 
 		/// <summary>
@@ -432,12 +432,12 @@ namespace NHibernate.Validator.Engine
 		public InvalidValue[] ValidatePropertyValue(object entity, string propertyName)
 		{
 			if (entity == null)
-				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
+				return ClassValidator.EmptyInvalidValueArray;
 
 			System.Type entityType = GuessEntityType(entity);
 
 			if (!ClassValidator.ShouldNeedValidation(entityType))
-				return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
+				return ClassValidator.EmptyInvalidValueArray;
 
 			ValidatableElement element = GetElementOrNew(entityType);
 

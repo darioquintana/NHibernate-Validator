@@ -61,14 +61,13 @@ namespace NHibernate.Validator.Engine
 
 		private readonly IDictionary<System.Type, IClassValidator> childClassValidators;
 
-		private IList<ValidatorDef> entityValidators;
+		private List<ValidatorDef> entityValidators;
 
 		private List<Member> membersToValidate;
 
 		private List<MemberInfo> childGetters;
 
-		public static readonly InvalidValue[] EMPTY_INVALID_VALUE_ARRAY = new InvalidValue[0];
-		public static readonly IEnumerable<Attribute> EmptyConstraints = new Attribute[0];
+		public static readonly InvalidValue[] EmptyInvalidValueArray = new InvalidValue[0];
 
 		private readonly CultureInfo culture;
 
@@ -277,7 +276,7 @@ namespace NHibernate.Validator.Engine
 		{
 			if (entity == null || circularityState.Contains(entity))
 			{
-				return EMPTY_INVALID_VALUE_ARRAY; //Avoid circularity
+				return EmptyInvalidValueArray; //Avoid circularity
 			}
 			circularityState.Add(entity);
 
@@ -382,13 +381,13 @@ namespace NHibernate.Validator.Engine
 		{
 			if(item == null)
 			{
-				return EMPTY_INVALID_VALUE_ARRAY;
+				return EmptyInvalidValueArray;
 			}
 			System.Type candidateType = factory.EntityTypeInspector.GuessType(item);
 			System.Type itemType = candidateType ?? item.GetType();
 			if (!ShouldNeedValidation(itemType))
 			{
-				return EMPTY_INVALID_VALUE_ARRAY;
+				return EmptyInvalidValueArray;
 			}
 			return GetClassValidator(itemType).GetInvalidValues(item, circularityState, activeTags).WithParent(collectionOwner,
 			                                                                                                   indexedPropName);
@@ -615,7 +614,7 @@ namespace NHibernate.Validator.Engine
 		{
 			if (entity == null)
 			{
-				return EMPTY_INVALID_VALUE_ARRAY;
+				return EmptyInvalidValueArray;
 			}
 			if (string.IsNullOrEmpty(propertyName))
 			{
@@ -783,7 +782,7 @@ namespace NHibernate.Validator.Engine
 			var interpolatorType = (System.Type)info.GetValue("interpolator", typeof(System.Type));
 			if(interpolatorType != null) userInterpolator = (IMessageInterpolator)Activator.CreateInstance(interpolatorType);
 			entityType = (System.Type)info.GetValue("entityType", typeof(System.Type));
-			entityValidators = (IList<ValidatorDef>)info.GetValue("entityValidators", typeof(IList<ValidatorDef>));
+			entityValidators = (List<ValidatorDef>)info.GetValue("entityValidators", typeof(List<ValidatorDef>));
 			membersToValidate = (List<Member>)info.GetValue("membersToValidate", typeof(List<Member>));
 			childClassValidators = (IDictionary<System.Type, IClassValidator>)info.GetValue("childClassValidators", typeof(IDictionary<System.Type, IClassValidator>));
 			childGetters = (List<MemberInfo>)info.GetValue("childGetters", typeof(List<MemberInfo>));
