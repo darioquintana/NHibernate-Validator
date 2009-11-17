@@ -16,6 +16,7 @@ namespace NHibernate.Validator.Constraints
 		/// does the object/element pass the constraints
 		/// </summary>
 		/// <param name="value">Object to be validated</param>
+		/// <param name="constraintContext"></param>
 		/// <returns>if the instance is valid</returns>
 		public bool IsValid(object value, IConstraintValidatorContext constraintContext)
 		{
@@ -73,11 +74,11 @@ namespace NHibernate.Validator.Constraints
 
 		#endregion
 
-		private static bool IsNumeric(object Expression)
+		private static bool IsNumeric(object expression)
 		{
 			double retNum;
 
-			return double.TryParse(Convert.ToString(Expression), NumberStyles.Any, NumberFormatInfo.InvariantInfo, out retNum);
+			return double.TryParse(Convert.ToString(expression), NumberStyles.Any, NumberFormatInfo.InvariantInfo, out retNum);
 		}
 	}
 }

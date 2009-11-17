@@ -138,6 +138,10 @@ namespace NHibernate.Validator.Interpolator
 		/// <returns>The string in the resource or null where not found.</returns>
 		protected virtual string GetAttributeOrResourceValue(string token)
 		{
+			if (token == null)
+			{
+				return null;
+			}
 			object attributeValue;
 			if (attributeParameters.TryGetValue(token.ToLowerInvariant(), out attributeValue))
 			{
@@ -145,21 +149,21 @@ namespace NHibernate.Validator.Interpolator
 			}
 
 			string resourceValue = null;
-			try
+			if (messageBundle != null)
 			{
-				resourceValue = messageBundle != null ? messageBundle.GetString(token, culture) : null;
+				try
+				{
+					resourceValue = messageBundle.GetString(token, culture);
+				}
+				catch (MissingManifestResourceException)
+				{
+					//give a second chance with the default resource bundle
+					resourceValue = null;
+				}
 			}
-			catch (MissingManifestResourceException e)
-			{
-				//give a second chance with the default resource bundle
-			}
-			if (resourceValue == null)
-			{
-				resourceValue = defaultMessageBundle.GetString(token, culture);
-				// in this case we don't catch the MissingManifestResourceException because
-				// we are sure that we DefaultValidatorMessages.resx is an embedded resource
-			}
-			return resourceValue;
+			// in this case we don't catch the MissingManifestResourceException because
+			// we are sure that we DefaultValidatorMessages.resx is an embedded resource
+			return resourceValue ?? defaultMessageBundle.GetString(token, culture);
 		}
 
 		/// <summary>
