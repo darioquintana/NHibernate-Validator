@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NHibernate.Validator.Engine
 {
@@ -27,14 +28,7 @@ namespace NHibernate.Validator.Engine
 
 		public System.Type GuessType(object entityInstance)
 		{
-			foreach (var inspector in Inspectors)
-			{
-				System.Type result = inspector.GuessType(entityInstance);
-				if (result != null)
-					return result;
-			}
-
-			return null;
+			return Inspectors.Select(inspector => inspector.GuessType(entityInstance)).FirstOrDefault(result => result != null);
 		}
 
 		#endregion

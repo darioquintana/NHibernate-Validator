@@ -253,11 +253,7 @@ namespace NHibernate.Validator.Engine
 			var inspectorsTypes = new HashSet<System.Type>(config.EntityTypeInspectors) {typeof (DefaultEntityTypeInspector)};
 			if (inspectorsTypes.Count > 1)
 			{
-				var inspectors = new List<IEntityTypeInspector>();
-				foreach (var typeInspector in config.EntityTypeInspectors)
-				{
-					inspectors.Add(Instatiate<IEntityTypeInspector>(typeInspector));
-				}
+				var inspectors = config.EntityTypeInspectors.Select(typeInspector => Instatiate<IEntityTypeInspector>(typeInspector)).ToArray();
 				entityTypeInspector = new MultiEntityTypeInspector(inspectors);
 			}
 			else
