@@ -42,7 +42,7 @@ namespace NHibernate.Validator.Engine
 
 		private readonly ThreadSafeDictionary<System.Type, ValidatableElement> validators =
 			new ThreadSafeDictionary<System.Type, ValidatableElement>(new Dictionary<System.Type, ValidatableElement>());
-		private static readonly ValidatableElement alwaysValidPlaceHolder = new ValidatableElement(typeof (object), new EmptyClassValidator());
+		private static readonly ValidatableElement AlwaysValidPlaceHolder = new ValidatableElement(typeof (object), new EmptyClassValidator());
 
 		private class EmptyClassValidator: IClassValidator
 		{
@@ -498,7 +498,7 @@ namespace NHibernate.Validator.Engine
 			if (element.HasSubElements || element.Validator.HasValidationRules)
 				validators[element.EntityType] = element;
 			else
-				validators[element.EntityType] = alwaysValidPlaceHolder;
+				validators[element.EntityType] = AlwaysValidPlaceHolder;
 		}
 
 		/// <summary>
