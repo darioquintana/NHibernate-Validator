@@ -311,17 +311,18 @@ namespace NHibernate.Validator.Engine
 		/// Apply constraints/rules on a entity instance.
 		/// </summary>
 		/// <param name="entity">The entity instance to validate</param>
+		/// <param name="activeTags">Tags included in the validation.</param>
 		/// <returns>All the failures or an empty array if <paramref name="entity"/> is null.</returns>
 		/// <remarks>
 		/// If the <see cref="System.Type"/> of the <paramref name="entity"/> was never inspected, or
 		/// it was not configured, the <see cref="IClassValidator"/> will be automatic added to the engine.
 		/// </remarks>
-		public InvalidValue[] Validate(object entity)
+		public InvalidValue[] Validate(object entity, params object[] activeTags)
 		{
-			return InternalValidate(entity).ToArray();
+			return InternalValidate(entity, activeTags).ToArray();
 		}
 
-		private IEnumerable<InvalidValue> InternalValidate(object entity)
+		private IEnumerable<InvalidValue> InternalValidate(object entity, params object[] activeTags)
 		{
 			if (entity == null)
 				return ClassValidator.EmptyInvalidValueArray;
@@ -332,8 +333,11 @@ namespace NHibernate.Validator.Engine
 				return ClassValidator.EmptyInvalidValueArray;
 
 			ValidatableElement element = GetElementOrNew(entityType);
-
-			return ValidateSubElements(element, entity).Concat(element.Validator.GetInvalidValues(entity));
+			if(activeTags != null && activeTags.Length == 0)
+			{
+				activeTags = null;
+			}
+			return ValidateSubElements(element, entity, activeTags).Concat(element.Validator.GetInvalidValues(entity, activeTags));
 		}
 
 		private System.Type GuessEntityType(object entity)
@@ -342,13 +346,13 @@ namespace NHibernate.Validator.Engine
 			return result ?? entity.GetType();
 		}
 
-		private static IEnumerable<InvalidValue> ValidateSubElements(ValidatableElement element, object entity)
+		private static IEnumerable<InvalidValue> ValidateSubElements(ValidatableElement element, object entity, params object[] activeTags)
 		{
 			if (element != null)
 			{
 				return from subElement in element.SubElements
 				       let component = subElement.Getter.Get(entity)
-				       from invalidValue in subElement.Validator.GetInvalidValues(component).Concat(ValidateSubElements(subElement, component))
+							 from invalidValue in subElement.Validator.GetInvalidValues(component, activeTags).Concat(ValidateSubElements(subElement, component, activeTags))
 				       select invalidValue;
 			}
 			return ClassValidator.EmptyInvalidValueArray;
@@ -358,6 +362,7 @@ namespace NHibernate.Validator.Engine
 		/// Apply constraints/rules on a entity instance.
 		/// </summary>
 		/// <param name="entity">The entity instance to validate</param>
+		/// <param name="activeTags">Tags included in the validation.</param>
 		/// <returns>
 		/// False if there is one or more the failures; True otherwise (including when <paramref name="entity"/> is null).
 		/// </returns>
@@ -365,9 +370,9 @@ namespace NHibernate.Validator.Engine
 		/// If the <see cref="System.Type"/> of the <paramref name="entity"/> was never inspected, or
 		/// it was not configured, the <see cref="IClassValidator"/> will be automatic added to the engine.
 		/// </remarks>
-		public bool IsValid(object entity)
+		public bool IsValid(object entity, params object[] activeTags)
 		{
-			return !InternalValidate(entity).Any();
+			return !InternalValidate(entity, activeTags).Any();
 		}
 
 		/// <summary>
