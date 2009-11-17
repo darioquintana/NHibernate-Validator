@@ -346,19 +346,12 @@ namespace NHibernate.Validator.Engine
 		{
 			if (element != null)
 			{
-				foreach (ValidatableElement subElement in element.SubElements)
-				{
-					object component = subElement.Getter.Get(entity);
-					foreach (var invalidValue in subElement.Validator.GetInvalidValues(component))
-					{
-						yield return invalidValue;
-					}
-					foreach (var invalidValue in ValidateSubElements(subElement, component))
-					{
-						yield return invalidValue;
-					}
-				}
+				return from subElement in element.SubElements
+				       let component = subElement.Getter.Get(entity)
+				       from invalidValue in subElement.Validator.GetInvalidValues(component).Concat(ValidateSubElements(subElement, component))
+				       select invalidValue;
 			}
+			return ClassValidator.EMPTY_INVALID_VALUE_ARRAY;
 		}
 
 		/// <summary>
