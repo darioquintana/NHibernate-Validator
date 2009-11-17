@@ -27,7 +27,7 @@ namespace NHibernate.Validator.Tests.Engine.Tagging
 		[TestFixtureSetUp]
 		public void CreateEngine()
 		{
-			var conf = new NHVConfigurationBase();
+			var conf = new XmlConfiguration();
 			conf.Properties[Environment.ValidatorMode] = "UseExternal";
 			conf.Mappings.Add(new MappingConfiguration("NHibernate.Validator.Tests", "NHibernate.Validator.Tests.Engine.Tagging.EntityXml.nhv.xml"));
 			ve = new ValidatorEngine();

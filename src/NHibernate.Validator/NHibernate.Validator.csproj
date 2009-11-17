@@ -99,7 +99,6 @@
     <Compile Include="Cfg\Loquacious\Impl\RelationshipConstraints.cs" />
     <Compile Include="Cfg\Loquacious\Impl\StringConstraints.cs" />
     <Compile Include="Cfg\Loquacious\ValidationDef.cs" />
-    <Compile Include="Cfg\NHVConfigurationBase.cs" />
     <Compile Include="Constraints\AbstractLuhnValidator.cs" />
     <Compile Include="Constraints\AssertFalseAttribute.cs" />
     <Compile Include="Constraints\AssertFalseValidator.cs" />

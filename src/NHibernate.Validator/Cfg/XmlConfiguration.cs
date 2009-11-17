@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Xml;
@@ -12,18 +13,24 @@ namespace NHibernate.Validator.Cfg
 	/// <summary>
 	/// Configuration parsed values for nhv-configuration section.
 	/// </summary>
-	public class XmlConfiguration : NHVConfigurationBase
+	public class XmlConfiguration : INHVConfiguration
 	{
 		private static readonly ILog log = LogManager.GetLogger(typeof (XmlConfiguration));
 
 		private const string CfgSchemaResource = "NHibernate.Validator.Cfg.nhv-configuration.xsd";
 		private readonly XmlSchema config = ReadXmlSchemaFromEmbeddedResource(CfgSchemaResource);
+		private readonly HashSet<System.Type> entityTypeInspectors = new HashSet<System.Type>();
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="XmlConfiguration"/> class.
 		/// </summary>
 		/// <remarks>An empty configuration.</remarks>
-		public XmlConfiguration() {}
+		public XmlConfiguration()
+		{
+			entityTypeInspectors = new HashSet<System.Type>();
+			Mappings = new List<MappingConfiguration>();
+			Properties = new Dictionary<string, string>();
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="XmlConfiguration"/> class.
@@ -35,7 +42,7 @@ namespace NHibernate.Validator.Cfg
 		/// <exception cref="ValidatorConfigurationException">When nhibernate-configuration.xsd can't be applied.</exception>
 		public XmlConfiguration(XmlReader configurationReader) : this(configurationReader, false) {}
 
-		internal XmlConfiguration(XmlReader configurationReader, bool fromAppSetting)
+		internal XmlConfiguration(XmlReader configurationReader, bool fromAppSetting):this()
 		{
 			XPathNavigator nav;
 			try
@@ -52,6 +59,23 @@ namespace NHibernate.Validator.Cfg
 				throw new ValidatorConfigurationException(e);
 			}
 			Parse(nav, fromAppSetting);
+		}
+
+		public string SharedEngineProviderClass { get; private set; }
+
+		/// <summary>
+		/// Configured properties
+		/// </summary>
+		public IDictionary<string, string> Properties { get; private set; }
+
+		/// <summary>
+		/// Configured Mappings
+		/// </summary>
+		public IList<MappingConfiguration> Mappings { get; private set; }
+
+		public IEnumerable<System.Type> EntityTypeInspectors
+		{
+			get { return entityTypeInspectors; }
 		}
 
 		private XmlReaderSettings GetSettings()
@@ -109,9 +133,9 @@ namespace NHibernate.Validator.Cfg
 			if (xpn != null)
 			{
 				xpn.MoveToFirstAttribute();
-				sharedEngineProviderClass = xpn.Value;
+				SharedEngineProviderClass = xpn.Value;
 
-				if (!fromAppConfig && !string.IsNullOrEmpty(sharedEngineProviderClass))
+				if (!fromAppConfig && !string.IsNullOrEmpty(SharedEngineProviderClass))
 				{
 					log.Warn(string.Format("{0} propety is ignored out of application configuration file.",
 					                       Environment.SharedEngineClass));
@@ -130,7 +154,7 @@ namespace NHibernate.Validator.Cfg
 				string propName = pNav.Value;
 				if (!string.IsNullOrEmpty(propName) && !string.IsNullOrEmpty(propValue))
 				{
-					properties[propName] = propValue;
+					Properties[propName] = propValue;
 				}
 			}
 		}
@@ -143,9 +167,9 @@ namespace NHibernate.Validator.Cfg
 				var mc = new MappingConfiguration(xpni.Current);
 				if (!mc.IsEmpty())
 				{
-					if (!mappings.Contains(mc))
+					if (!Mappings.Contains(mc))
 					{
-						mappings.Add(mc);
+						Mappings.Add(mc);
 					}
 				}
 			}

@@ -5,6 +5,7 @@ namespace NHibernate.Validator.Constraints
 {
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true)]
+	[CLSCompliant(false)]
 	public class DelegatedValidatorAttribute : EmbeddedRuleArgsAttribute, IValidatorInstanceProvider, IRuleArgs
 	{
 		private readonly IValidator validatorInstance;
