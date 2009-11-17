@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace NHibernate.Validator.Engine
 {
@@ -11,69 +12,43 @@ namespace NHibernate.Validator.Engine
 	[Serializable]
 	public class InvalidValue
 	{
-		private readonly string message;
-		private readonly object value;
-		private readonly System.Type entityType;
-		private readonly string propertyName;
-		private readonly object entity;
-		private object rootEntity;
-		private string propertyPath;
-
-		public InvalidValue(string message, System.Type entityType, string propertyName, object value, object entity)
+		public InvalidValue(string message, System.Type entityType, string propertyName, object value, object entity, ICollection<object> matchTags)
 		{
-			this.message = message;
-			this.value = value;
-			this.entityType = entityType;
-			this.propertyName = propertyName;
-			this.entity = entity;
-			rootEntity = entity;
-			propertyPath = propertyName;
+			Message = message;
+			Value = value;
+			EntityType = entityType;
+			PropertyName = propertyName;
+			Entity = entity;
+			MatchTags = matchTags;
+			RootEntity = entity;
+			PropertyPath = propertyName;
 		}
 
-		public void AddParentEntity(object parentEntity, string propertyName) 
-		{
-			rootEntity = parentEntity;
-			propertyPath = propertyName + "." + propertyPath;
-		}
+		public object RootEntity { get; private set; }
 
-		public object RootEntity
-		{
-			get { return rootEntity; }
-		}
+		public string PropertyPath { get; private set; }
 
-		public string PropertyPath
-		{
-			get { return propertyPath; }
-		}
+		public System.Type EntityType { get; private set; }
 
-		public System.Type EntityType
-		{
-			get { return entityType; }
-		}
+		public string Message { get; private set; }
 
-		public string Message
-		{
-			get { return message; }
-		}
+		public string PropertyName { get; private set; }
 
-		public string PropertyName
-		{
-			get { return propertyName; }
-		}
+		public object Value { get; private set; }
 
-		public object Value
-		{
-			get { return value; }
-		}
+		public object Entity { get; private set; }
 
-		public object Entity
+		public ICollection<object> MatchTags { get; private set; }
+
+		public void AddParentEntity(object parentEntity, string propertyName)
 		{
-			get { return entity; }
+			RootEntity = parentEntity;
+			PropertyPath = propertyName + "." + PropertyPath;
 		}
 
 		public override string ToString()
 		{
-			return string.Concat(propertyName, "[", message, "]");
+			return string.Concat(PropertyName, "[", Message, "]");
 		}
 	}
 }

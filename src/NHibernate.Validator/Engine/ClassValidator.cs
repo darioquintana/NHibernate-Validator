@@ -304,10 +304,11 @@ namespace NHibernate.Validator.Engine
 
 		private IEnumerable<InvalidValue> EntityInvalidValues(object entity, ICollection<object> activeTags)
 		{
-			return from validator in entityValidators.Where(ev => IsValidationNeededByTags(activeTags, ev.Tags)).Select(ev => ev.Validator)
+			return from validatorDef in entityValidators.Where(ev => IsValidationNeededByTags(activeTags, ev.Tags))
+						 let validator = validatorDef.Validator
 						 let constraintContext = new ConstraintValidatorContext(null, defaultInterpolator.GetAttributeMessage(validator))
 						 where !validator.IsValid(entity, constraintContext)
-						 select new InvalidMessageTransformer(constraintContext, entityType, null, entity, entity, validator, defaultInterpolator, userInterpolator)
+						 select new InvalidMessageTransformer(constraintContext, activeTags, entityType, null, entity, entity, validatorDef, defaultInterpolator, userInterpolator)
 							 into invalidMessageTransformer
 							 from invalidValue in invalidMessageTransformer.Transform()
 							 select invalidValue;
@@ -332,7 +333,7 @@ namespace NHibernate.Validator.Engine
 						 let validator = mtv.ValidatorDef.Validator
 			       let constraintContext = new ConstraintValidatorContext(member.Name, defaultInterpolator.GetAttributeMessage(validator))
 			       where !validator.IsValid(value, constraintContext)
-			       from invalidValue in new InvalidMessageTransformer(constraintContext, entityType, member.Name, value, entity, validator, defaultInterpolator, userInterpolator).Transform()
+						 from invalidValue in new InvalidMessageTransformer(constraintContext, activeTags, entityType, member.Name, value, entity, mtv.ValidatorDef, defaultInterpolator, userInterpolator).Transform()
 			       select invalidValue;
 		}
 
@@ -637,13 +638,14 @@ namespace NHibernate.Validator.Engine
 																								entityType.FullName));
 			}
 			return from member in memberValidators
-						 select member.ValidatorDef.Validator
-							 into validator
-							 let constraintContext =
-							 new ConstraintValidatorContext(propertyName, defaultInterpolator.GetAttributeMessage(validator))
-							 where !validator.IsValid(value, constraintContext)
-							 from invalidValue in new InvalidMessageTransformer(constraintContext, entityType, propertyName, value, null, validator, defaultInterpolator, userInterpolator).Transform()
-							 select invalidValue;
+			       let validator = member.ValidatorDef.Validator
+			       let constraintContext =
+			       	new ConstraintValidatorContext(propertyName, defaultInterpolator.GetAttributeMessage(validator))
+			       where !validator.IsValid(value, constraintContext)
+			       from invalidValue in
+			       	new InvalidMessageTransformer(constraintContext, activeTags, entityType, propertyName, value, null,
+			       	                              member.ValidatorDef, defaultInterpolator, userInterpolator).Transform()
+			       select invalidValue;
 		}
 
 		private static Property FindPropertyByName(PersistentClass associatedClass, string propertyName)
