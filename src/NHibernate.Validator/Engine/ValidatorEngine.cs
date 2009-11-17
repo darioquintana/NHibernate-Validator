@@ -397,14 +397,15 @@ namespace NHibernate.Validator.Engine
 		/// <typeparam name="T">The entity type</typeparam>
 		/// <param name="propertyName">The name of a property</param>
 		/// <param name="value">The value of the property.</param>
+		/// <param name="activeTags">Tags included in the validation.</param>
 		/// <returns>All the invalid values.</returns>
 		/// <remarks>
 		/// If the <typeparamref name="T"/> was never inspected, or
 		/// it was not configured, the <see cref="IClassValidator"/> will be automatic added to the engine.
 		/// </remarks>
-		public InvalidValue[] ValidatePropertyValue<T>(string propertyName, object value)
+		public InvalidValue[] ValidatePropertyValue<T>(string propertyName, object value, params object[] activeTags)
 		{
-			return ValidatePropertyValue(typeof(T), propertyName, value);
+			return ValidatePropertyValue(typeof(T), propertyName, value, activeTags);
 		}
 
 		/// <summary>
@@ -414,14 +415,15 @@ namespace NHibernate.Validator.Engine
 		/// <typeparam name="TProperty">The property type.</typeparam>
 		/// <param name="expression">The lamda expression of the property getter.</param>
 		/// <param name="value">The potencial value of the property.</param>
+		/// <param name="activeTags">Tags included in the validation.</param>
 		/// <remarks>
 		/// If the <typeparamref name="TEntity"/> was never inspected, or
 		/// it was not configured, the <see cref="IClassValidator"/> will be automatic added to the engine.
 		/// </remarks>
-		public InvalidValue[] ValidatePropertyValue<TEntity, TProperty>(Expression<Func<TEntity, TProperty>> expression, TProperty value) where TEntity : class
+		public InvalidValue[] ValidatePropertyValue<TEntity, TProperty>(Expression<Func<TEntity, TProperty>> expression, TProperty value, params object[] activeTags) where TEntity : class
 		{
 			var propertyName = TypeUtils.DecodeMemberAccessExpression(expression).Name;
-			return ValidatePropertyValue(typeof (TEntity), propertyName, value);
+			return ValidatePropertyValue(typeof (TEntity), propertyName, value, activeTags);
 		}
 
 		/// <summary>
@@ -429,12 +431,13 @@ namespace NHibernate.Validator.Engine
 		/// </summary>
 		/// <param name="entity">The entity instance to validate</param>
 		/// <param name="propertyName">The name of a property</param>
+		/// <param name="activeTags">Tags included in the validation.</param>
 		/// <returns>All the invalid values.</returns>
 		/// <remarks>
 		/// If the <see cref="System.Type"/> of the <paramref name="entity"/> was never inspected, or
 		/// it was not configured, the <see cref="IClassValidator"/> will be automatic added to the engine.
 		/// </remarks>
-		public InvalidValue[] ValidatePropertyValue(object entity, string propertyName)
+		public InvalidValue[] ValidatePropertyValue(object entity, string propertyName, params object[] activeTags)
 		{
 			if (entity == null)
 				return ClassValidator.EmptyInvalidValueArray;
@@ -445,13 +448,16 @@ namespace NHibernate.Validator.Engine
 				return ClassValidator.EmptyInvalidValueArray;
 
 			ValidatableElement element = GetElementOrNew(entityType);
-
-			return element.Validator.GetInvalidValues(entity, propertyName).ToArray();
+			if (activeTags != null && activeTags.Length == 0)
+			{
+				activeTags = null;
+			}
+			return element.Validator.GetInvalidValues(entity, propertyName, activeTags).ToArray();
 		}
 
-		public InvalidValue[] ValidatePropertyValue<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> expression) where TEntity : class
+		public InvalidValue[] ValidatePropertyValue<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> expression, params object[] activeTags) where TEntity : class
 		{
-			return ValidatePropertyValue(entity, TypeUtils.DecodeMemberAccessExpression(expression).Name);
+			return ValidatePropertyValue(entity, TypeUtils.DecodeMemberAccessExpression(expression).Name, activeTags);
 		}
 
 		/// <summary>
@@ -460,11 +466,16 @@ namespace NHibernate.Validator.Engine
 		/// <param name="entityType">The entity instance to validate</param>
 		/// <param name="propertyName">The name of a property</param>
 		/// <param name="value">The value of the property.</param>
+		/// <param name="activeTags">Tags included in the validation.</param>
 		/// <returns>All the invalid values.</returns>
-		public InvalidValue[] ValidatePropertyValue(System.Type entityType, string propertyName, object value)
+		public InvalidValue[] ValidatePropertyValue(System.Type entityType, string propertyName, object value, params object[] activeTags)
 		{
 			IClassValidator cv = GetElementOrNew(entityType).Validator;
-			return cv.GetPotentialInvalidValues(propertyName, value).ToArray();
+			if (activeTags != null && activeTags.Length == 0)
+			{
+				activeTags = null;
+			}
+			return cv.GetPotentialInvalidValues(propertyName, value, activeTags).ToArray();
 		}
 
 		/// <summary>
