@@ -77,5 +77,12 @@ namespace NHibernate.Validator.Tests.Engine.Tagging
 			maxAttribute.TagCollection.Should().Be.Empty();
 			notEmptyAttribute.TagCollection.Should().Be.Empty();
 		}
+
+		[Test]
+		public void ValidateEntityWithTags()
+		{
+			ve.Validate(new EntityLoq {ValueUsingTags = new string('A', 21)}, Tags.Warning).Should().Be.Empty();
+			ve.Validate(new EntityLoq {ValueUsingTags = ""}, Tags.Error).Should().Have.Count.EqualTo(1);
+		}
 	}
 }
