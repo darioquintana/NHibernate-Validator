@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace NHibernate.Validator.Cfg.Loquacious
 {
+	[CLSCompliant(false)]
 	public interface IValidationDefinition<T> where T : class
 	{
 		IInstanceConstraints<T> ValidateInstance { get; }
@@ -16,11 +17,17 @@ namespace NHibernate.Validator.Cfg.Loquacious
 		IIntegerConstraints<int?> Define(Expression<Func<T, int?>> property);
 		IIntegerConstraints<long> Define(Expression<Func<T, long>> property);
 		IIntegerConstraints<long?> Define(Expression<Func<T, long?>> property);
+		[CLSCompliant(false)]
 		IIntegerConstraints<ushort> Define(Expression<Func<T, ushort>> property);
+		[CLSCompliant(false)]
 		IIntegerConstraints<ushort?> Define(Expression<Func<T, ushort?>> property);
+		[CLSCompliant(false)]
 		IIntegerConstraints<uint> Define(Expression<Func<T, uint>> property);
+		[CLSCompliant(false)]
 		IIntegerConstraints<uint?> Define(Expression<Func<T, uint?>> property);
+		[CLSCompliant(false)]
 		IIntegerConstraints<ulong> Define(Expression<Func<T, ulong>> property);
+		[CLSCompliant(false)]
 		IIntegerConstraints<ulong?> Define(Expression<Func<T, ulong?>> property);
 
 		#endregion

@@ -7,6 +7,7 @@ using NHibernate.Validator.Mappings;
 
 namespace NHibernate.Validator.Cfg.Loquacious
 {
+	[CLSCompliant(false)]
 	public class FluentConfiguration : INHVConfiguration, IFluentConfiguration, IMappingLoader
 	{
 		private readonly FluentMappingLoader loader = new FluentMappingLoader();

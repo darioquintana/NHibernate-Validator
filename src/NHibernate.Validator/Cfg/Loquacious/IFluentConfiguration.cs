@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using NHibernate.Validator.Engine;
 using System.Reflection;
 
 namespace NHibernate.Validator.Cfg.Loquacious
 {
+	[CLSCompliant(false)]
 	public interface IFluentConfiguration
 	{
 		INhIntegration IntegrateWithNHibernate { get; }

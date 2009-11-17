@@ -49,31 +49,37 @@ namespace NHibernate.Validator.Cfg.Loquacious
 			return new IntegerConstraints<long?>(this, DecodeMemberAccessExpression(property));
 		}
 
+		[CLSCompliant(false)]
 		public IIntegerConstraints<ushort> Define(Expression<Func<T, ushort>> property)
 		{
 			return new IntegerConstraints<ushort>(this, DecodeMemberAccessExpression(property));
 		}
 
+		[CLSCompliant(false)]
 		public IIntegerConstraints<ushort?> Define(Expression<Func<T, ushort?>> property)
 		{
 			return new IntegerConstraints<ushort?>(this, DecodeMemberAccessExpression(property));
 		}
 
+		[CLSCompliant(false)]
 		public IIntegerConstraints<uint> Define(Expression<Func<T, uint>> property)
 		{
 			return new IntegerConstraints<uint>(this, DecodeMemberAccessExpression(property));
 		}
 
+		[CLSCompliant(false)]
 		public IIntegerConstraints<uint?> Define(Expression<Func<T, uint?>> property)
 		{
 			return new IntegerConstraints<uint?>(this, DecodeMemberAccessExpression(property));
 		}
 
+		[CLSCompliant(false)]
 		public IIntegerConstraints<ulong> Define(Expression<Func<T, ulong>> property)
 		{
 			return new IntegerConstraints<ulong>(this, DecodeMemberAccessExpression(property));
 		}
 
+		[CLSCompliant(false)]
 		public IIntegerConstraints<ulong?> Define(Expression<Func<T, ulong?>> property)
 		{
 			return new IntegerConstraints<ulong?>(this, DecodeMemberAccessExpression(property));

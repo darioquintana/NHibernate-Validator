@@ -122,6 +122,7 @@ namespace NHibernate.Validator.Cfg.Loquacious
 			}
 		}
 
+		[CLSCompliant(false)]
 		public void AddClassDefinition<T>(IValidationDefinition<T> definition) where T : class
 		{
 			if (definition == null)

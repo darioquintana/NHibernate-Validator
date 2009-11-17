@@ -17,6 +17,7 @@ namespace NHibernate.Validator.Cfg.Loquacious
 
 		#endregion
 
+		[CLSCompliant(false)]
 		public void Add<T>(IValidationDefinition<T> definition) where T : class
 		{
 			if (definition == null)
