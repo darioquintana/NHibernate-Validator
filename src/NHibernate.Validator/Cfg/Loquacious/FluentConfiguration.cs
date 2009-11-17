@@ -10,9 +10,9 @@ namespace NHibernate.Validator.Cfg.Loquacious
 	public class FluentConfiguration : INHVConfiguration, IFluentConfiguration, IMappingLoader
 	{
 		private readonly FluentMappingLoader loader = new FluentMappingLoader();
-		protected readonly IList<MappingConfiguration> mappings = new List<MappingConfiguration>();
-		protected readonly IDictionary<string, string> properties = new Dictionary<string, string>();
-		protected readonly HashSet<System.Type> entityTypeInspectors = new HashSet<System.Type>();
+		private readonly IList<MappingConfiguration> mappings = new List<MappingConfiguration>();
+		private readonly IDictionary<string, string> properties = new Dictionary<string, string>();
+		private readonly HashSet<System.Type> entityTypeInspectors = new HashSet<System.Type>();
 
 		public FluentConfiguration()
 		{
