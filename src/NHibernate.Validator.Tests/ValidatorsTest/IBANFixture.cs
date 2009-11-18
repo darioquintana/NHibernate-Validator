@@ -9,7 +9,7 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		[Test]
 		public void IsValid()
 		{
-			IBANValidator v = new IBANValidator();
+			var v = new IBANAttribute();
 
 			//True value tests:
 			Assert.IsTrue(v.IsValid(null, null));
