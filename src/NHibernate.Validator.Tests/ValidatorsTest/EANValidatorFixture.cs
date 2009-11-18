@@ -10,7 +10,7 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		[Test]
 		public void IsValid()
 		{
-			EANValidator v = new EANValidator();
+			var v = new EANAttribute();
 			Assert.IsTrue(v.IsValid("9782266156066" , null));
 			Assert.IsTrue(v.IsValid(9782266156066, null));
 			Assert.IsTrue(v.IsValid(9782266156066U, null));
