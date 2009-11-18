@@ -329,7 +329,7 @@ namespace NHibernate.Validator.Engine
 
 			System.Type entityType = GuessEntityType(entity);
 
-			if (!ClassValidator.ShouldNeedValidation(entityType))
+			if (!entityType.ShouldNeedValidation())
 				return ClassValidator.EmptyInvalidValueArray;
 
 			ValidatableElement element = GetElementOrNew(entityType);
@@ -444,7 +444,7 @@ namespace NHibernate.Validator.Engine
 
 			System.Type entityType = GuessEntityType(entity);
 
-			if (!ClassValidator.ShouldNeedValidation(entityType))
+			if (!entityType.ShouldNeedValidation())
 				return ClassValidator.EmptyInvalidValueArray;
 
 			ValidatableElement element = GetElementOrNew(entityType);
@@ -561,7 +561,7 @@ namespace NHibernate.Validator.Engine
 		/// </remarks>
 		public IClassValidator GetClassValidator(System.Type entityType)
 		{
-			if (!ClassValidator.ShouldNeedValidation(entityType))
+			if (!entityType.ShouldNeedValidation())
 				return null;
 
 			return factory.GetRootValidator(entityType);

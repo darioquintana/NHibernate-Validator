@@ -124,7 +124,7 @@ namespace NHibernate.Validator.Engine
 		internal ClassValidator(System.Type clazz, IConstraintValidatorFactory constraintValidatorFactory,
 		                        IDictionary<System.Type, IClassValidator> childClassValidators, IClassValidatorFactory factory)
 		{
-			if (!ShouldNeedValidation(clazz))
+			if (!clazz.ShouldNeedValidation())
 			{
 				throw new ArgumentOutOfRangeException("clazz", "Create a validator for a System class.");
 			}
@@ -145,12 +145,6 @@ namespace NHibernate.Validator.Engine
 
 			//Initialize the ClassValidator
 			InitValidator(entityType, childClassValidators);
-		}
-
-		internal static bool ShouldNeedValidation(System.Type clazz)
-		{
-			return (!clazz.FullName.StartsWith("System") &&
-			        !clazz.IsValueType);
 		}
 
 		/// <summary>
@@ -385,7 +379,7 @@ namespace NHibernate.Validator.Engine
 			}
 			System.Type candidateType = factory.EntityTypeInspector.GuessType(item);
 			System.Type itemType = candidateType ?? item.GetType();
-			if (!ShouldNeedValidation(itemType))
+			if (!itemType.ShouldNeedValidation())
 			{
 				return EmptyInvalidValueArray;
 			}
@@ -506,9 +500,9 @@ namespace NHibernate.Validator.Engine
 			if (TypeUtils.IsGenericDictionary(TypeUtils.GetType(member)))
 			{
 				clazzDictionary = TypeUtils.GetGenericTypesOfDictionary(member);
-				if (ShouldNeedValidation(clazzDictionary.Key) && !childClassValidators.ContainsKey(clazzDictionary.Key))
+				if (clazzDictionary.Key.ShouldNeedValidation() && !childClassValidators.ContainsKey(clazzDictionary.Key))
 					factory.GetChildValidator(this, clazzDictionary.Key);
-				if (ShouldNeedValidation(clazzDictionary.Value) && !childClassValidators.ContainsKey(clazzDictionary.Value))
+				if (clazzDictionary.Value.ShouldNeedValidation() && !childClassValidators.ContainsKey(clazzDictionary.Value))
 					factory.GetChildValidator(this, clazzDictionary.Value);
 
 				return;
@@ -518,7 +512,7 @@ namespace NHibernate.Validator.Engine
 				clazz = TypeUtils.GetTypeOfMember(member);
 			}
 
-			if (ShouldNeedValidation(clazz) && !childClassValidators.ContainsKey(clazz))
+			if (clazz.ShouldNeedValidation() && !childClassValidators.ContainsKey(clazz))
 			{
 				factory.GetChildValidator(this, clazz);
 			}
