@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using NHibernate.Mapping;
 using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Constraints
@@ -8,8 +10,7 @@ namespace NHibernate.Validator.Constraints
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	[ValidatorClass(typeof(DecimalMinValidator))]
-	public class DecimalMinAttribute : EmbeddedRuleArgsAttribute, IRuleArgs
+	public class DecimalMinAttribute : EmbeddedRuleArgsAttribute, IRuleArgs, IValidator, IPropertyConstraint
 	{
 		private string message = "{validator.min}";
 
@@ -31,5 +32,41 @@ namespace NHibernate.Validator.Constraints
 		}
 
 		#endregion
+
+		public bool IsValid(object value, IConstraintValidatorContext validatorContext)
+		{
+			if (value == null)
+			{
+				return true;
+			}
+			try
+			{
+				return Convert.ToDecimal(value) >= Value;
+			}
+			catch (InvalidCastException)
+			{
+				if (value is char)
+				{
+					return Convert.ToInt32(value) >= Value;
+				}
+				return false;
+			}
+			catch (FormatException)
+			{
+				return false;
+			}
+			catch (OverflowException)
+			{
+				return false;
+			}
+		}
+
+		public void Apply(Property property)
+		{
+			IEnumerator ie = property.ColumnIterator.GetEnumerator();
+			ie.MoveNext();
+			var col = (Column)ie.Current;
+			col.CheckConstraint = col.Name + ">=" + Value;
+		}
 	}
 }

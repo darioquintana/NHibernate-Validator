@@ -33,7 +33,7 @@ namespace NHibernate.Validator.Constraints
 
 		#endregion
 
-		#region IInitializableValidator<MaxAttribute> Members
+		#region IValidator Members
 
 		public bool IsValid(object value, IConstraintValidatorContext validatorContext)
 		{

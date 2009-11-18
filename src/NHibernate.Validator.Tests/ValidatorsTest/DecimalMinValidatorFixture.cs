@@ -10,12 +10,11 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		[Test]
 		public void IsValid()
 		{
-			DecimalMinValidator v = new DecimalMinValidator();
-			v.Initialize(new DecimalMinAttribute());
+			var v = new DecimalMinAttribute();
 			Assert.IsTrue(v.IsValid(0, null));
 			Assert.IsTrue(v.IsValid(1, null));
 
-			v.Initialize(new DecimalMinAttribute(10.1456m));
+			v= new DecimalMinAttribute(10.1456m);
 			Assert.IsTrue(v.IsValid(10.1456m, null));
 			Assert.IsTrue(v.IsValid(10.1457m, null));
 			Assert.IsTrue(v.IsValid(10.1456m.ToString(), null));

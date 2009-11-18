@@ -109,7 +109,6 @@
     <Compile Include="Constraints\CreditCardNumberValidator.cs" />
     <Compile Include="Constraints\DecimalMaxAttribute.cs" />
     <Compile Include="Constraints\DecimalMinAttribute.cs" />
-    <Compile Include="Constraints\DecimalMinValidator.cs" />
     <Compile Include="Constraints\DelegatedConstraint.cs" />
     <Compile Include="Constraints\DigitsAttribute.cs" />
     <Compile Include="Constraints\DigitsValidator.cs" />
