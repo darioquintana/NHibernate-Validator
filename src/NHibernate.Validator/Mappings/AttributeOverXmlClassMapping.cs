@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Reflection;
-using Iesi.Collections.Generic;
 
 namespace NHibernate.Validator.Mappings
 {
@@ -22,7 +21,7 @@ namespace NHibernate.Validator.Mappings
 		{
 			InitializeClassAttributes(xmlcm, rcm);
 
-			var lmembers = new HashedSet<MemberInfo>();
+			var lmembers = new HashSet<MemberInfo>();
 			InitializeMembers(lmembers, xmlcm, rcm);
 
 			members = new List<MemberInfo>(lmembers).ToArray();

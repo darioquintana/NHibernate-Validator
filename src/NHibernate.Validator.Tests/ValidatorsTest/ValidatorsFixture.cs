@@ -60,8 +60,9 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 			f.Past = DateTime.Today.AddDays(1); //tomorrow
 			validator.GetInvalidValues(f).Should().Have.Count.EqualTo(1);
 
+			// note: using Milliseconds the Past constraint mail fail depending on the speed of your machine
 			f.Future = DateTime.Now.AddMilliseconds(-1);
-			f.Past = DateTime.Now.AddMilliseconds(+1);
+			f.Past = DateTime.Now.AddMilliseconds(+5);
 			validator.GetInvalidValues(f).Should().Have.Count.EqualTo(2);
 		}
 

@@ -23,7 +23,7 @@ namespace NHibernate.Validator.Mappings
 
 			InitializeClassAttributes(rcm, xmlcm);
 
-			var lmembers = new HashedSet<MemberInfo>();
+			var lmembers = new HashSet<MemberInfo>();
 			InitializeMembers(lmembers, rcm, xmlcm);
 
 			members = new List<MemberInfo>(lmembers).ToArray();

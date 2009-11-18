@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Iesi.Collections.Generic;
 using NHibernate.Validator.Util;
 
 namespace NHibernate.Validator.Mappings
 {
 	public abstract class MixedClassMapping : AbstractClassMapping
 	{
-		protected virtual void InitializeMembers(HashedSet<MemberInfo> lmembers, IClassMapping baseMap, IClassMapping alternativeMap)
+		protected virtual void InitializeMembers(HashSet<MemberInfo> lmembers, IClassMapping baseMap, IClassMapping alternativeMap)
 		{
 			MixMembersWith(lmembers, baseMap);
 			MixMembersWith(lmembers, alternativeMap);
@@ -21,7 +20,7 @@ namespace NHibernate.Validator.Mappings
 			CombineAttribute(alternativeMap.GetClassAttributes(), classAttributes);
 		}
 
-		protected void MixMembersWith(ISet<MemberInfo> lmembers, IClassMapping mapping)
+		protected void MixMembersWith(HashSet<MemberInfo> lmembers, IClassMapping mapping)
 		{
 			foreach (MemberInfo info in mapping.GetMembers())
 			{
