@@ -111,7 +111,6 @@
     <Compile Include="Constraints\DecimalMinAttribute.cs" />
     <Compile Include="Constraints\DelegatedConstraint.cs" />
     <Compile Include="Constraints\DigitsAttribute.cs" />
-    <Compile Include="Constraints\DigitsValidator.cs" />
     <Compile Include="Constraints\EANAttribute.cs" />
     <Compile Include="Constraints\EANValidator.cs" />
     <Compile Include="Constraints\EmailAttribute.cs" />
