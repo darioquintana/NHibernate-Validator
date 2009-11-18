@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Constraints
@@ -8,8 +9,7 @@ namespace NHibernate.Validator.Constraints
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	[ValidatorClass(typeof(IsNumericValidator))]
-	public class IsNumericAttribute : EmbeddedRuleArgsAttribute, IRuleArgs
+	public class IsNumericAttribute : EmbeddedRuleArgsAttribute, IRuleArgs, IValidator
 	{
 		public IsNumericAttribute()
 		{
@@ -21,5 +21,20 @@ namespace NHibernate.Validator.Constraints
 		public string Message { get; set; }
 
 		#endregion
+
+		#region Implementation of IValidator
+
+		public bool IsValid(object value, IConstraintValidatorContext validatorContext)
+		{
+			return value == null || (value is string && IsNumeric(value));
+		}
+
+		#endregion
+		private static bool IsNumeric(object Expression)
+		{
+			double retNum;
+
+			return double.TryParse(Convert.ToString(Expression), NumberStyles.Any, NumberFormatInfo.InvariantInfo, out retNum);
+		}
 	}
 }
