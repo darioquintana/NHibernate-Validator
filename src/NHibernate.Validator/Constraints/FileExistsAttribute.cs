@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Constraints
@@ -8,8 +9,7 @@ namespace NHibernate.Validator.Constraints
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	[ValidatorClass(typeof (FileExistsValidator))]
-	public class FileExistsAttribute : EmbeddedRuleArgsAttribute, IRuleArgs
+	public class FileExistsAttribute : EmbeddedRuleArgsAttribute, IRuleArgs, IValidator
 	{
 		private string message = "{validator.fileExists}";
 
@@ -22,5 +22,27 @@ namespace NHibernate.Validator.Constraints
 		}
 
 		#endregion
+
+		#region IValidator Members
+
+		public bool IsValid(object value, IConstraintValidatorContext constraintContext)
+		{
+			if (value == null)
+			{
+				return true;
+			}
+
+			if (!(value is string))
+			{
+				return false;
+			}
+
+			string fileName = value.ToString();
+
+			return File.Exists(fileName);
+		}
+
+		#endregion
+
 	}
 }

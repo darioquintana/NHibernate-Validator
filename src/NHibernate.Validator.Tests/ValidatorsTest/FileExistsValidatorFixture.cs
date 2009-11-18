@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using NHibernate.Validator.Constraints;
 using NUnit.Framework;
 using System.IO;
@@ -13,7 +10,7 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		[Test]
 		public void IsValid()
 		{
-			FileExistsValidator v = new FileExistsValidator();
+			var v = new FileExistsAttribute();
 
 			Assert.IsTrue(v.IsValid(Path.GetTempFileName(), null));
 			Assert.IsTrue(v.IsValid(null, null));
