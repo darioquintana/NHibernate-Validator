@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using NHibernate.Validator.Constraints;
 using NUnit.Framework;
 
@@ -12,7 +9,7 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		[Test]
 		public void IsValid()
 		{
-			AssertFalseValidator v = new AssertFalseValidator();
+			var v = new AssertFalseAttribute();
 			Assert.IsTrue(v.IsValid(false, null));
 			Assert.IsFalse(v.IsValid(null, null));
 			Assert.IsFalse(v.IsValid(true, null));
