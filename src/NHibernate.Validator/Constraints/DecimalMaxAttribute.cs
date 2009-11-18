@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using NHibernate.Mapping;
 using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Constraints
@@ -8,8 +10,7 @@ namespace NHibernate.Validator.Constraints
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	[ValidatorClass(typeof(DecimalMaxValidator))]
-	public class DecimalMaxAttribute : EmbeddedRuleArgsAttribute, IRuleArgs
+	public class DecimalMaxAttribute : EmbeddedRuleArgsAttribute, IRuleArgs, IValidator, IPropertyConstraint
 	{
 		private string message = "{validator.max}";
 
@@ -28,6 +29,47 @@ namespace NHibernate.Validator.Constraints
 		{
 			get { return message; }
 			set { message = value; }
+		}
+
+		#endregion
+
+		#region IInitializableValidator<MaxAttribute> Members
+
+		public bool IsValid(object value, IConstraintValidatorContext validatorContext)
+		{
+			if (value == null)
+			{
+				return true;
+			}
+
+			try
+			{
+				return Convert.ToDecimal(value) <= Value;
+			}
+			catch (InvalidCastException)
+			{
+				return false;
+			}
+			catch (FormatException)
+			{
+				return false;
+			}
+			catch (OverflowException)
+			{
+				return false;
+			}
+		}
+
+		#endregion
+
+		#region IPropertyConstraint Members
+
+		public void Apply(Property property)
+		{
+			IEnumerator ie = property.ColumnIterator.GetEnumerator();
+			ie.MoveNext();
+			var col = (Column)ie.Current;
+			col.CheckConstraint = col.Name + "<=" + Value;
 		}
 
 		#endregion
