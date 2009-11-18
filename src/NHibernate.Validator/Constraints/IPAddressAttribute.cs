@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Constraints
@@ -8,8 +9,7 @@ namespace NHibernate.Validator.Constraints
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	[ValidatorClass(typeof (IPAddressValidator))]
-	public class IPAddressAttribute : EmbeddedRuleArgsAttribute, IRuleArgs
+	public class IPAddressAttribute : EmbeddedRuleArgsAttribute, IRuleArgs, IValidator
 	{
 		private string message = "{validator.ipaddress}";
 
@@ -22,5 +22,32 @@ namespace NHibernate.Validator.Constraints
 		}
 
 		#endregion
+
+		#region IValidator Members
+
+		public bool IsValid(object value, IConstraintValidatorContext validatorContext)
+		{
+			if (value == null)
+			{
+				return true;
+			}
+
+			if (value is IPAddress)
+			{
+				return true;
+			}
+
+			string ip = value.ToString();
+			IPAddress ipAddress;
+			if (IPAddress.TryParse(ip, out ipAddress))
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		#endregion
+
 	}
 }

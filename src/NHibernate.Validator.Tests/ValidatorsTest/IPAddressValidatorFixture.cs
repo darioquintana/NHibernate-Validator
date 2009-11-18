@@ -10,7 +10,7 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		[Test]
 		public void IsValid()
 		{
-			IPAddressValidator v = new IPAddressValidator();
+			var v = new IPAddressAttribute();
 			Assert.IsTrue(v.IsValid("192.168.0.1", null));
 			Assert.IsTrue(v.IsValid("255.255.255.255", null));
 			Assert.IsTrue(v.IsValid("192.168.0.0", null));
