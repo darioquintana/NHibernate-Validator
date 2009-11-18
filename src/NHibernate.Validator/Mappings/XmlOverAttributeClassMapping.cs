@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Reflection;
-using Iesi.Collections.Generic;
 
 namespace NHibernate.Validator.Mappings
 {

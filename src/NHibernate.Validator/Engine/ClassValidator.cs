@@ -6,7 +6,6 @@ using System.Globalization;
 using System.Reflection;
 using System.Resources;
 using System.Runtime.Serialization;
-using Iesi.Collections;
 using log4net;
 using NHibernate.Mapping;
 using NHibernate.Properties;
@@ -257,7 +256,7 @@ namespace NHibernate.Validator.Engine
 		/// <returns></returns>
 		public IEnumerable<InvalidValue> GetInvalidValues(object entity)
 		{
-			return GetInvalidValues(entity, new IdentitySet(), null);
+			return GetInvalidValues(entity, NewCircularStateSet(), null);
 		}
 
 		public IEnumerable<InvalidValue> GetInvalidValues(object entity, string propertyName)
@@ -265,7 +264,7 @@ namespace NHibernate.Validator.Engine
 			return GetInvalidValues(entity, propertyName, null);
 		}
 
-		private IEnumerable<InvalidValue> GetInvalidValues(object entity, ISet circularityState, ICollection<object> activeTags)
+		private IEnumerable<InvalidValue> GetInvalidValues(object entity, HashSet<object> circularityState, ICollection<object> activeTags)
 		{
 			if (entity == null || circularityState.Contains(entity))
 			{
@@ -283,7 +282,7 @@ namespace NHibernate.Validator.Engine
 				.Concat(ChildrenInvalidValues(entity, circularityState, activeTags));
 		}
 
-		private IEnumerable<InvalidValue> ChildrenInvalidValues(object entity, ISet circularityState,
+		private IEnumerable<InvalidValue> ChildrenInvalidValues(object entity, HashSet<object> circularityState,
 		                                                        ICollection<object> activeTags)
 		{
 			return from member in childGetters
@@ -340,7 +339,7 @@ namespace NHibernate.Validator.Engine
 		/// <summary>
 		/// Validate the child validation to objects and collections
 		/// </summary>
-		private IEnumerable<InvalidValue> ChildInvalidValues(object value, object entity, MemberInfo member, ISet circularityState, ICollection<object> activeTags)
+		private IEnumerable<InvalidValue> ChildInvalidValues(object value, object entity, MemberInfo member, HashSet<object> circularityState, ICollection<object> activeTags)
 		{
 			var valueEnum = value as IEnumerable;
 			if (valueEnum != null)
@@ -361,7 +360,7 @@ namespace NHibernate.Validator.Engine
 			return factory.EntityTypeInspector.GuessType(value) ?? value.GetType();
 		}
 
-		private IEnumerable<InvalidValue> CollectionInvalidValues(IEnumerable value, object entity, MemberInfo member, ISet circularityState, ICollection<object> activeTags)
+		private IEnumerable<InvalidValue> CollectionInvalidValues(IEnumerable value, object entity, MemberInfo member, HashSet<object> circularityState, ICollection<object> activeTags)
 		{
 			return
 				value.Cast<object>().Select(
@@ -370,7 +369,7 @@ namespace NHibernate.Validator.Engine
 					elem => CollectionItemInvalidValues(entity, elem.IndexedPropName, elem.Item, circularityState, activeTags));
 		}
 
-		private IEnumerable<InvalidValue> CollectionItemInvalidValues(object collectionOwner, string indexedPropName, object item, ISet circularityState, ICollection<object> activeTags)
+		private IEnumerable<InvalidValue> CollectionItemInvalidValues(object collectionOwner, string indexedPropName, object item, HashSet<object> circularityState, ICollection<object> activeTags)
 		{
 			if(item == null)
 			{
@@ -386,7 +385,7 @@ namespace NHibernate.Validator.Engine
 			                                                                                                   indexedPropName);
 		}
 
-		private IEnumerable<InvalidValue> DictionaryInvalidValues(IEnumerable dictionary, MemberInfo dictionaryMember, object ownerEntity, ISet circularityState, ICollection<object> activeTags)
+		private IEnumerable<InvalidValue> DictionaryInvalidValues(IEnumerable dictionary, MemberInfo dictionaryMember, object ownerEntity, HashSet<object> circularityState, ICollection<object> activeTags)
 		{
 			return dictionary.AsKeyValue()
 				.Select(item => new {item, indexedPropName = string.Format("{0}[{1}]", dictionaryMember.Name, item.Key)})
@@ -600,7 +599,7 @@ namespace NHibernate.Validator.Engine
 
 		public IEnumerable<InvalidValue> GetInvalidValues(object entity, params object[] tags)
 		{
-			return GetInvalidValues(entity, new IdentitySet(), tags != null ? new HashSet<object>(tags) : null);
+			return GetInvalidValues(entity, NewCircularStateSet(), tags != null ? new HashSet<object>(tags) : null);
 		}
 
 		public IEnumerable<InvalidValue> GetInvalidValues(object entity, string propertyName, params object[] tags)
@@ -695,7 +694,7 @@ namespace NHibernate.Validator.Engine
 
 		#region IClassValidatorImplementor Members
 
-		IEnumerable<InvalidValue> IClassValidatorImplementor.GetInvalidValues(object entity, ISet circularityState, ICollection<object> activeTags)
+		IEnumerable<InvalidValue> IClassValidatorImplementor.GetInvalidValues(object entity, HashSet<object> circularityState, ICollection<object> activeTags)
 		{
 			return GetInvalidValues(entity, circularityState, activeTags);
 		}
@@ -788,6 +787,11 @@ namespace NHibernate.Validator.Engine
 			culture = CultureInfo.CurrentCulture;
 			defaultInterpolator = (DefaultMessageInterpolatorAggregator)info.GetValue("defaultInterpolator", typeof(DefaultMessageInterpolatorAggregator));
 			defaultInterpolator.Initialize(messageBundle,defaultMessageBundle,culture);
+		}
+
+		private HashSet<object> NewCircularStateSet()
+		{
+			return new HashSet<object>(new ReferenceEqualityComparer());
 		}
 	}
 
