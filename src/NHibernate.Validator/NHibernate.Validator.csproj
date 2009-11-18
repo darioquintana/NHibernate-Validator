@@ -154,7 +154,6 @@
     <Compile Include="Exceptions\InvalidPropertyNameException.cs" />
     <Compile Include="Constraints\FileExistsAttribute.cs" />
     <Compile Include="Constraints\FutureAttribute.cs" />
-    <Compile Include="Constraints\FutureValidator.cs" />
     <Compile Include="Exceptions\HibernateValidatorException.cs" />
     <Compile Include="Engine\IClassValidator.cs" />
     <Compile Include="Engine\IRuleArgs.cs" />
