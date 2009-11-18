@@ -206,7 +206,7 @@ namespace NHibernate.Validator.Engine
 
 					foreach (Attribute memberAttribute in memberAttributes)
 					{
-						IValidator propertyValidator = CreateValidator(memberAttribute);
+						IValidator propertyValidator = CreateOrGetValidator(memberAttribute);
 
 						if (propertyValidator != null)
 						{
@@ -236,7 +236,7 @@ namespace NHibernate.Validator.Engine
 
 		private void ValidateClassAtribute(Attribute classAttribute)
 		{
-			IValidator validator = CreateValidator(classAttribute);
+			IValidator validator = CreateOrGetValidator(classAttribute);
 
 			if (validator != null)
 			{
@@ -415,7 +415,7 @@ namespace NHibernate.Validator.Engine
 		/// </summary>
 		/// <param name="attribute">attribute</param>
 		/// <returns>the validator for the attribute</returns>
-		private IValidator CreateValidator(Attribute attribute)
+		private IValidator CreateOrGetValidator(Attribute attribute)
 		{
 			try
 			{
