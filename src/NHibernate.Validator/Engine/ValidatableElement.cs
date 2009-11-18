@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Iesi.Collections.Generic;
 using NHibernate.Properties;
 
 namespace NHibernate.Validator.Engine
@@ -13,7 +12,7 @@ namespace NHibernate.Validator.Engine
 	{
 		private readonly System.Type entityType;
 		private readonly IGetter getter;
-		private readonly HashedSet<ValidatableElement> subElements = new HashedSet<ValidatableElement>();
+		private readonly HashSet<ValidatableElement> subElements = new HashSet<ValidatableElement>();
 		private readonly IClassValidator validator;
 
 		/// <summary>
@@ -101,7 +100,7 @@ namespace NHibernate.Validator.Engine
 
 		public override bool Equals(object obj)
 		{
-			ValidatableElement that = obj as ValidatableElement;
+			var that = obj as ValidatableElement;
 			if(that == null) 
 				return false;
 			return entityType.Equals(that.EntityType);
