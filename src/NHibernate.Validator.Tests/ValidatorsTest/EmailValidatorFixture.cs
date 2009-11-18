@@ -10,7 +10,7 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		[Test]
 		public void IsValid()
 		{
-			EmailValidator v = new EmailValidator();
+			var v = new EmailAttribute();
 			Assert.IsTrue(v.IsValid("emmanuel@hibernate.org", null));
 			Assert.IsTrue(v.IsValid("", null));
 			Assert.IsTrue(v.IsValid(null, null));

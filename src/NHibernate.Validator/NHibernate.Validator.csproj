@@ -114,7 +114,6 @@
     <Compile Include="Constraints\EANAttribute.cs" />
     <Compile Include="Constraints\EANValidator.cs" />
     <Compile Include="Constraints\EmailAttribute.cs" />
-    <Compile Include="Constraints\EmailValidator.cs" />
     <Compile Include="Constraints\EmbeddedRuleArgsAttribute.cs" />
     <Compile Include="Engine\ReferenceEqualityComparer.cs" />
     <Compile Include="Engine\SystemTypeExtensions.cs" />
