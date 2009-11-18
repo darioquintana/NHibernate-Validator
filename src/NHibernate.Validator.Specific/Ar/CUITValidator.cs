@@ -5,8 +5,9 @@ namespace NHibernate.Validator.Specific.Ar
 {
 	public class CUITValidator : IValidator
 	{
-		private static readonly Regex check = new Regex(@"^(\d{11})|(\d{2}([ ]|[-])\d{8}([ ]|[-])\d)$", RegexOptions.Compiled);
-		private static readonly Regex separetors = new Regex(@"(\s+)|[-]", RegexOptions.Compiled);
+		// http://es.wikipedia.org/wiki/C%C3%B3digo_%C3%9Anico_de_Identificaci%C3%B3n_Tributaria
+		private static readonly Regex Check = new Regex(@"^(\d{11})|(\d{2}([ ]|[-])\d{8}([ ]|[-])\d)$", RegexOptions.Compiled);
+		private static readonly Regex Separetors = new Regex(@"(\s+)|[-]", RegexOptions.Compiled);
 
 		public bool IsValid(object value, IConstraintValidatorContext constraintContext)
 		{
@@ -19,11 +20,11 @@ namespace NHibernate.Validator.Specific.Ar
 			{
 				return true;
 			}
-			if (!check.IsMatch(cuit))
+			if (!Check.IsMatch(cuit))
 			{
 				return false;
 			}
-			cuit = separetors.Replace(cuit, "");
+			cuit = Separetors.Replace(cuit, "");
 
 			double sum = 0;
 			bool bint = false;
@@ -45,7 +46,9 @@ namespace NHibernate.Validator.Specific.Ar
 				}
 			}
 
-			return (cuit.Length - (sum % 11)) == char.GetNumericValue(cuit[cuit.Length - 1]);
+			var verificationChar = (cuit.Length - (sum % 11));
+			verificationChar = verificationChar == 11 ? 0 : verificationChar == 10 ? 9 : verificationChar;
+			return verificationChar == char.GetNumericValue(cuit[cuit.Length - 1]);
 		}
 	}
 }

@@ -21,6 +21,7 @@ namespace NHibernate.Validator.Specific.Tests.Ar
 			Assert.IsTrue(v.IsValid("20017391322", null));
 			Assert.IsTrue(v.IsValid("20-01739132-2", null));
 			Assert.IsTrue(v.IsValid("20 01739132 2", null));
+			Assert.IsTrue(v.IsValid("20-13499715-0", null));
 
 			//False value tests (on true value)
 			Assert.IsFalse(v.IsValid("20 01739132/2", null));
