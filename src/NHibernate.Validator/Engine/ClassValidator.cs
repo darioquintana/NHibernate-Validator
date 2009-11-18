@@ -7,7 +7,6 @@ using System.Reflection;
 using System.Resources;
 using System.Runtime.Serialization;
 using Iesi.Collections;
-using Iesi.Collections.Generic;
 using log4net;
 using NHibernate.Mapping;
 using NHibernate.Properties;
@@ -178,7 +177,7 @@ namespace NHibernate.Validator.Engine
 
 			//build the class hierarchy to look for members in
 			nestedClassValidators.Add(clazz, this);
-			ISet<System.Type> classes = new HashedSet<System.Type>();
+			HashSet<System.Type> classes = new HashSet<System.Type>();
 			AddSuperClassesAndInterfaces(clazz, classes);
 			
 			// Create the IClassMapping for each class of the validator
@@ -525,7 +524,7 @@ namespace NHibernate.Validator.Engine
 		/// </summary>
 		/// <param name="clazz">Type to be analyzed</param>
 		/// <param name="classes">Collections of types</param>
-		private static void AddSuperClassesAndInterfaces(System.Type clazz, ISet<System.Type> classes)
+		private static void AddSuperClassesAndInterfaces(System.Type clazz, HashSet<System.Type> classes)
 		{
 			//iterate for all SuperClasses
 			for (System.Type currentClass = clazz; currentClass != null && currentClass != typeof(object); currentClass = currentClass.BaseType)
