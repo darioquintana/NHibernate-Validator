@@ -9,7 +9,6 @@ using System.Runtime.Serialization;
 using log4net;
 using NHibernate.Mapping;
 using NHibernate.Properties;
-using NHibernate.Util;
 using NHibernate.Validator.Constraints;
 using NHibernate.Validator.Exceptions;
 using NHibernate.Validator.Interpolator;
@@ -427,21 +426,26 @@ namespace NHibernate.Validator.Engine
 				}
 				else
 				{
-					ValidatorClassAttribute validatorClass = null;
-					object[] attributesInTheAttribute = attribute.GetType().GetCustomAttributes(typeof (ValidatorClassAttribute), false);
-
-					if (attributesInTheAttribute.Length > 0)
+					entityValidator = attribute as IValidator;
+					if (entityValidator == null)
 					{
-						validatorClass = (ValidatorClassAttribute) attributesInTheAttribute[0];
-					}
+						ValidatorClassAttribute validatorClass = null;
+						object[] attributesInTheAttribute = attribute.GetType().GetCustomAttributes(typeof (ValidatorClassAttribute),
+						                                                                            false);
 
-					if (validatorClass == null)
-					{
-						return null;
-					}
+						if (attributesInTheAttribute.Length > 0)
+						{
+							validatorClass = (ValidatorClassAttribute) attributesInTheAttribute[0];
+						}
 
-					entityValidator = constraintValidatorFactory.GetInstance(validatorClass.Value);
-					InitializeValidator(attribute, validatorClass.Value, entityValidator);
+						if (validatorClass == null)
+						{
+							return null;
+						}
+
+						entityValidator = constraintValidatorFactory.GetInstance(validatorClass.Value);
+						InitializeValidator(attribute, validatorClass.Value, entityValidator);
+					}
 				}
 
 				defaultInterpolator.AddInterpolator(attribute, entityValidator);
