@@ -22,8 +22,7 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		[Test]
 		public void Extreme()
 		{
-			MinValidator v = new MinValidator();
-			v.Initialize(new MinAttribute(-10000));
+			var v = new MinAttribute {Value = -10000};
 			Assert.IsTrue(v.IsValid(-10000, null));
 			Assert.IsTrue(v.IsValid(-10000L, null));
 			Assert.IsTrue(v.IsValid(123UL, null));
@@ -48,10 +47,9 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		[Test]
 		public void IsValid()
 		{
-			MinValidator v = new MinValidator();
-			v.Initialize(new MinAttribute());
+			var v = new MinAttribute();
 			Assert.IsTrue(v.IsValid(0, null));
-			v.Initialize(new MinAttribute(2));
+			v = new MinAttribute(2);
 			Assert.IsTrue(v.IsValid(3, null));
 			Assert.IsTrue(v.IsValid(2, null));
 			Assert.IsTrue(v.IsValid((decimal) 200.0, null));
