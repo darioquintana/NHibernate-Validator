@@ -98,7 +98,6 @@
     <Compile Include="Constraints\AbstractLuhnValidator.cs" />
     <Compile Include="Constraints\AssertFalseAttribute.cs" />
     <Compile Include="Constraints\AssertTrueAttribute.cs" />
-    <Compile Include="Constraints\AssertTrueValidator.cs" />
     <Compile Include="Cfg\CfgXmlHelper.cs" />
     <Compile Include="Cfg\ConfigurationSectionHandler.cs" />
     <Compile Include="Cfg\INHVConfiguration.cs" />
