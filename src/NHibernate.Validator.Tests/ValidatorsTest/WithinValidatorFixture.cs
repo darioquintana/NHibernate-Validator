@@ -34,8 +34,7 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		[Test]
 		public void Extreme()
 		{
-			var v = new WithinValidator();
-			v.Initialize(new WithinAttribute(double.MinValue, 10000.9999999999D));
+			var v=new WithinAttribute(double.MinValue, 10000.9999999999D);
 			Assert.IsTrue(v.IsValid(10000, null));
 			Assert.IsTrue(v.IsValid(10000L, null));
 			Assert.IsTrue(v.IsValid(123UL, null));
@@ -58,7 +57,7 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 			Assert.IsFalse(v.IsValid(double.MaxValue, null));
 			Assert.IsFalse(v.IsValid("1" + double.MaxValue, null));
 
-			v.Initialize(new WithinAttribute(-10000.9999999999d, double.MaxValue));
+			v=new WithinAttribute(-10000.9999999999d, double.MaxValue);
 			Assert.IsTrue(v.IsValid(123UL, null));
 			Assert.IsTrue(v.IsValid(123U, null));
 			Assert.IsTrue(v.IsValid((ushort) 5, null));
@@ -82,10 +81,9 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		[Test]
 		public void IsValid()
 		{
-			var v = new WithinValidator();
-			v.Initialize(new WithinAttribute());
+			var v = new WithinAttribute();
 			Assert.IsTrue(v.IsValid(long.MinValue, null));
-			v.Initialize(new WithinAttribute(100, 1000));
+			v=new WithinAttribute(100, 1000);
 			Assert.IsTrue(v.IsValid(null, null));
 			Assert.IsTrue(v.IsValid("105", null));
 			Assert.IsTrue(v.IsValid(200, null));

@@ -120,7 +120,6 @@
     <Compile Include="Util\EnumerableExtensions.cs" />
     <Compile Include="Constraints\IsNumericAttribute.cs" />
     <Compile Include="Constraints\WithinAttribute.cs" />
-    <Compile Include="Constraints\WithinValidator.cs" />
     <Compile Include="Engine\AbstractClassValidatorFactory.cs" />
     <Compile Include="Cfg\Environment.cs" />
     <Compile Include="Engine\DefaultConstraintValidatorFactory.cs" />

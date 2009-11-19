@@ -1,4 +1,7 @@
 using System;
+using System.Linq;
+using System.Text;
+using NHibernate.Mapping;
 using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Constraints
@@ -9,8 +12,7 @@ namespace NHibernate.Validator.Constraints
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	[ValidatorClass(typeof (WithinValidator))]
-	public class WithinAttribute : EmbeddedRuleArgsAttribute, IRuleArgs
+	public class WithinAttribute : EmbeddedRuleArgsAttribute, IRuleArgs, IValidator, IPropertyConstraint
 	{
 		private string message = "{validator.within}";
 
@@ -43,6 +45,65 @@ namespace NHibernate.Validator.Constraints
 		{
 			get { return message; }
 			set { message = value; }
+		}
+
+		#endregion
+
+		#region Implementation of IValidator
+
+		public bool IsValid(object value, IConstraintValidatorContext constraintValidatorContext)
+		{
+			if (value == null)
+			{
+				return true;
+			}
+
+			try
+			{
+				double cvalue = Convert.ToDouble(value);
+				return cvalue > Min && cvalue < Max;
+			}
+			catch (InvalidCastException)
+			{
+				if (value is char)
+				{
+					int i = Convert.ToInt32(value);
+					return i > Min && i < Max;
+				}
+				return false;
+			}
+			catch (FormatException)
+			{
+				return false;
+			}
+			catch (OverflowException)
+			{
+				return false;
+			}
+		}
+
+		#endregion
+
+		#region Implementation of IPropertyConstraint
+
+		public void Apply(Property property)
+		{
+			var col = property.ColumnIterator.OfType<Column>().First();
+
+			var check = new StringBuilder(80);
+			if (Min != double.MinValue)
+			{
+				check.Append(col.Name).Append('>').Append(Convert.ToInt64(Min));
+			}
+			if (Max != double.MaxValue && Min != double.MinValue)
+			{
+				check.Append(" and ");
+			}
+			if (Max != double.MaxValue)
+			{
+				check.Append(col.Name).Append('<').Append(Convert.ToInt64(Max));
+			}
+			col.CheckConstraint = check.ToString();
 		}
 
 		#endregion
