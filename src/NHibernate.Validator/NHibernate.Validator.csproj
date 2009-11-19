@@ -184,10 +184,8 @@
     <Compile Include="Engine\IValidator.cs" />
     <Compile Include="Constraints\LengthAttribute.cs" />
     <Compile Include="Constraints\NotNullAttribute.cs" />
-    <Compile Include="Constraints\NotNullValidator.cs" />
     <Compile Include="Engine\IPersistentClassConstraint.cs" />
     <Compile Include="Constraints\NotNullNotEmptyAttribute.cs" />
-    <Compile Include="Constraints\NotNullNotEmptyValidator.cs" />
     <Compile Include="Constraints\PastAttribute.cs" />
     <Compile Include="Constraints\PastValidator.cs" />
     <Compile Include="Constraints\PatternAttribute.cs" />

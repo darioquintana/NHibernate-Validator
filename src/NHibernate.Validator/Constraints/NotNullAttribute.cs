@@ -1,4 +1,5 @@
 using System;
+using NHibernate.Mapping;
 using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Constraints
@@ -8,17 +9,40 @@ namespace NHibernate.Validator.Constraints
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	[ValidatorClass(typeof (NotNullValidator))]
-	public class NotNullAttribute : EmbeddedRuleArgsAttribute, IRuleArgs
+	public class NotNullAttribute : EmbeddedRuleArgsAttribute, IRuleArgs, IValidator, IPropertyConstraint
 	{
-		private string message = "{validator.notNull}";
+		public NotNullAttribute()
+		{
+			Message = "{validator.notNull}";
+		}
 
 		#region IRuleArgs Members
 
-		public string Message
+		public string Message { get; set; }
+
+		#endregion
+
+		#region IPropertyConstraint Members
+
+		public void Apply(Property property)
 		{
-			get { return message; }
-			set { message = value; }
+			//single table should not be forced to null
+			if (!property.IsComposite && !(property.PersistentClass is SingleTableSubclass))
+			{
+				foreach (Column column in property.ColumnIterator)
+				{
+					column.IsNullable = false;
+				}
+			}
+		}
+
+		#endregion
+
+		#region IValidator Members
+
+		public virtual bool IsValid(object value, IConstraintValidatorContext validatorContext)
+		{
+			return value != null;
 		}
 
 		#endregion

@@ -11,7 +11,7 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		[Test]
 		public void IsValid()
 		{
-			NotNullNotEmptyValidator v = new NotNullNotEmptyValidator();
+			var v = new NotNullNotEmptyAttribute();
 			var context = new ConstraintContextMock();
 			Assert.IsTrue(v.IsValid("abc", context));
 			Assert.IsTrue(v.IsValid(new int[] { 1 }, context));
@@ -27,7 +27,7 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		[Test]
 		public void WhenEnumeratorIsDisposable_ShouldDispose()
 		{
-			var v = new NotNullNotEmptyValidator();
+			var v = new NotNullNotEmptyAttribute();
 			DisposableEnumerator.DisposedTimes = 0;
 			v.IsValid(new DisposableEnumerable(), null);
 			DisposableEnumerator.DisposedTimes.Should().Be.GreaterThan(0);
