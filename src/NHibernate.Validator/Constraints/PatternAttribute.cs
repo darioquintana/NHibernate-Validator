@@ -11,7 +11,8 @@ namespace NHibernate.Validator.Constraints
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true)]
 	public class PatternAttribute : EmbeddedRuleArgsAttribute, IRuleArgs, IValidator
 	{
-		private readonly Regex regex;
+		[NonSerialized]
+		private Regex regex;
 		private string message = "{validator.pattern}";
 
 		public PatternAttribute()
@@ -23,13 +24,11 @@ namespace NHibernate.Validator.Constraints
 		{
 			Flags = RegexOptions.Compiled;
 			Regex = regex;
-			this.regex = new Regex(Regex, Flags);
 		}
 
 		public PatternAttribute(string regex, RegexOptions flags) : this(regex)
 		{
 			Flags = flags;
-			this.regex = new Regex(Regex, Flags);
 		}
 
 		public PatternAttribute(string regex, RegexOptions flags, string message) : this(regex, flags)
@@ -60,10 +59,14 @@ namespace NHibernate.Validator.Constraints
 				return true;
 			}
 
-			return regex.IsMatch(value.ToString());
+			return GetRegEx().IsMatch(value.ToString());
 		}
 
 		#endregion
 
+		private Regex GetRegEx()
+		{
+			return regex ?? (regex = new Regex(Regex, Flags));
+		}
 	}
 }

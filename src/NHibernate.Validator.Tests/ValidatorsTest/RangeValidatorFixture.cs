@@ -10,10 +10,9 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		[Test]
 		public void IsValid()
 		{
-			var v = new RangeValidator();
-			v.Initialize(new Constraints.RangeAttribute());
+			var v=new Constraints.RangeAttribute();
 			Assert.IsTrue(v.IsValid(long.MinValue, null));
-			v.Initialize(new Constraints.RangeAttribute(100, 1000));
+			v= new Constraints.RangeAttribute(100, 1000);
 			Assert.IsTrue(v.IsValid(100, null));
 			Assert.IsTrue(v.IsValid(1000, null));
 			Assert.IsTrue(v.IsValid(null, null));
@@ -53,8 +52,7 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		[Test]
 		public void Extreme()
 		{
-			var v = new RangeValidator();
-			v.Initialize(new Constraints.RangeAttribute(long.MinValue, 10000));
+			var v = new Constraints.RangeAttribute(long.MinValue, 10000);
 			Assert.IsTrue(v.IsValid(10000, null));
 			Assert.IsTrue(v.IsValid(10000L, null));
 			Assert.IsTrue(v.IsValid(123UL, null));
@@ -75,7 +73,7 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 			Assert.IsFalse(v.IsValid(double.MaxValue, null));
 			Assert.IsFalse(v.IsValid("1" + double.MaxValue, null));
 
-			v.Initialize(new Constraints.RangeAttribute(-10000, long.MaxValue));
+			v = new Constraints.RangeAttribute(-10000, long.MaxValue);
 			Assert.IsTrue(v.IsValid(-10000, null));
 			Assert.IsTrue(v.IsValid(-10000L, null));
 			Assert.IsTrue(v.IsValid(123UL, null));

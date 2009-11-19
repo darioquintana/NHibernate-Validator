@@ -20,7 +20,7 @@ namespace NHibernate.Validator.Tests.Interpolation
 		public void GetAttributeMessage()
 		{
 			var mia = new DefaultMessageInterpolatorAggregator();
-			var va = new RangeValidator();
+			var va = new RangeAttribute();
 			try
 			{
 				mia.GetAttributeMessage(va);
@@ -37,9 +37,8 @@ namespace NHibernate.Validator.Tests.Interpolation
 			var culture = new CultureInfo("en");
 
 			mia.Initialize(custrm, defrm, culture);
-			var a = new RangeAttribute(2, 10);
-			va.Initialize(a);
-			mia.AddInterpolator(a, va);
+			va = new RangeAttribute(2, 10);
+			mia.AddInterpolator(va, va);
 			Assert.IsFalse(string.IsNullOrEmpty(mia.GetAttributeMessage(va)));
 		}
 
@@ -54,15 +53,14 @@ namespace NHibernate.Validator.Tests.Interpolation
 			var mia = new DefaultMessageInterpolatorAggregator();
 			var dmi = new DefaultMessageInterpolator();
 			mia.Initialize(custrm, defrm, culture);
-			var va = new RangeValidator();
-			var a = new RangeAttribute(2, 10);
+			var va = new RangeAttribute(2, 10);
 
-			var info = new InterpolationInfo(typeof (object), new object(), null, va, dmi, a.Message);
-			Assert.AreEqual(a.Message, mia.Interpolate(info));
+			var info = new InterpolationInfo(typeof (object), new object(), null, va, dmi, va.Message);
+			Assert.AreEqual(va.Message, mia.Interpolate(info));
 
-			mia.AddInterpolator(a, va);
-			var info1 = new InterpolationInfo(typeof(object), new object(), null, va, dmi, a.Message);
-			Assert.AreNotEqual(a.Message, mia.Interpolate(info1));
+			mia.AddInterpolator(va, va);
+			var info1 = new InterpolationInfo(typeof(object), new object(), null, va, dmi, va.Message);
+			Assert.AreNotEqual(va.Message, mia.Interpolate(info1));
 		}
 
 		[Test, Ignore("Not supported yet.")]
@@ -77,8 +75,7 @@ namespace NHibernate.Validator.Tests.Interpolation
 
 			mia.Initialize(custrm, defrm, culture);
 			var a = new RangeAttribute(2, 10);
-			var va = new RangeValidator();
-			va.Initialize(a);
+			var va = new RangeAttribute();
 			mia.AddInterpolator(a, va);
 			string originalMessage = mia.GetAttributeMessage(va);
 			Assert.IsFalse(string.IsNullOrEmpty(originalMessage));
