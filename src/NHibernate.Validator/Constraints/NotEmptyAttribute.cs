@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using NHibernate.Validator.Engine;
+using NHibernate.Validator.Util;
 
 namespace NHibernate.Validator.Constraints
 {
@@ -12,8 +14,7 @@ namespace NHibernate.Validator.Constraints
 	/// </remarks>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	[ValidatorClass(typeof (NotEmptyValidator))]
-	public class NotEmptyAttribute : EmbeddedRuleArgsAttribute, IRuleArgs
+	public class NotEmptyAttribute : EmbeddedRuleArgsAttribute, IRuleArgs, IValidator
 	{
 		private string message = "{validator.notEmpty}";
 
@@ -23,6 +24,27 @@ namespace NHibernate.Validator.Constraints
 		{
 			get { return message; }
 			set { message = value; }
+		}
+
+		#endregion
+
+		#region IValidator Members
+
+		public bool IsValid(object value, IConstraintValidatorContext validatorContext)
+		{
+			if (value == null)
+			{
+				return true;
+			}
+
+			var check = value as string;
+			if (check != null)
+			{
+				return !string.Empty.Equals(check.Trim());
+			}
+
+			var ev = value as IEnumerable;
+			return ev != null && ev.Any();
 		}
 
 		#endregion

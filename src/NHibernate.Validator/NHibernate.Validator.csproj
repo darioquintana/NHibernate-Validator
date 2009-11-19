@@ -171,7 +171,6 @@
     <Compile Include="Constraints\MaxAttribute.cs" />
     <Compile Include="Constraints\MinAttribute.cs" />
     <Compile Include="Constraints\NotEmptyAttribute.cs" />
-    <Compile Include="Constraints\NotEmptyValidator.cs" />
     <Compile Include="Event\ValidatePreUpdateEventListener.cs" />
     <Compile Include="Event\ValidateEventListener.cs" />
     <Compile Include="Event\ValidatePreInsertEventListener.cs" />

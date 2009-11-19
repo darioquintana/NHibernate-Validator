@@ -13,7 +13,7 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		[Test]
 		public void IsValid()
 		{
-			NotEmptyValidator v = new NotEmptyValidator();
+			var v = new NotEmptyAttribute();
 			Assert.IsTrue(v.IsValid("abc", null));
 			Assert.IsTrue(v.IsValid(new int[] { 1 }, null));
 			Assert.IsTrue(v.IsValid(new List<int>(new int[] { 1 }), null));
@@ -29,7 +29,7 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		[Test]
 		public void WhenEnumeratorIsDisposable_ShouldDispose()
 		{
-			var v = new NotEmptyValidator();
+			var v = new NotEmptyAttribute();
 			DisposableEnumerator.DisposedTimes = 0;
 			v.IsValid(new DisposableEnumerable(), null);
 			DisposableEnumerator.DisposedTimes.Should().Be.GreaterThan(0);
