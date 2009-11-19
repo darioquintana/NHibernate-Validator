@@ -9,36 +9,38 @@ namespace NHibernate.Validator.Constraints
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true)]
-	public class PatternAttribute : EmbeddedRuleArgsAttribute, IRuleArgs, IValidator
+	[ValidatorClass(typeof(PatternValidator))]
+	public class PatternAttribute : EmbeddedRuleArgsAttribute, IRuleArgs
 	{
-		[NonSerialized]
-		private Regex regex;
+		private RegexOptions flags = RegexOptions.Compiled;
 		private string message = "{validator.pattern}";
 
-		public PatternAttribute()
-		{
-			Flags = RegexOptions.Compiled;
-		}
+		public PatternAttribute() { }
 
 		public PatternAttribute(string regex)
 		{
-			Flags = RegexOptions.Compiled;
 			Regex = regex;
 		}
 
-		public PatternAttribute(string regex, RegexOptions flags) : this(regex)
+		public PatternAttribute(string regex, RegexOptions flags)
+			: this(regex)
 		{
-			Flags = flags;
+			this.flags = flags;
 		}
 
-		public PatternAttribute(string regex, RegexOptions flags, string message) : this(regex, flags)
+		public PatternAttribute(string regex, RegexOptions flags, string message)
+			: this(regex, flags)
 		{
-			Message = message;
+			this.message = message;
 		}
 
 		public string Regex { get; set; }
 
-		public RegexOptions Flags { get; set; }
+		public RegexOptions Flags
+		{
+			get { return flags; }
+			set { flags = value; }
+		}
 
 		#region IRuleArgs Members
 
@@ -49,24 +51,5 @@ namespace NHibernate.Validator.Constraints
 		}
 
 		#endregion
-
-		#region Implementation of IValidator
-
-		public virtual bool IsValid(object value, IConstraintValidatorContext validatorContext)
-		{
-			if (value == null)
-			{
-				return true;
-			}
-
-			return GetRegEx().IsMatch(value.ToString());
-		}
-
-		#endregion
-
-		private Regex GetRegEx()
-		{
-			return regex ?? (regex = new Regex(Regex, Flags));
-		}
 	}
 }
