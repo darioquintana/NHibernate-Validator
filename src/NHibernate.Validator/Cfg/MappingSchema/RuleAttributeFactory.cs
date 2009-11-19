@@ -123,7 +123,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			}
 
 			Attribute attribute = (Attribute)Activator.CreateInstance(type);
-			if (attribute is IRuleArgs)
+			if (attribute is IRuleArgs && attributename.message != null)
 			{
 				((IRuleArgs) attribute).Message = attributename.message;
 			}

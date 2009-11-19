@@ -2,13 +2,13 @@
 
 namespace NHibernate.Validator.Tests.ConstraintFactory.Model
 {
+	[My]
 	public class Foo
 	{
-		[NotNullNotEmpty]
-		public string Name { get; set; }
+		[CreditCardNumber]
+		public string CreditCard { get; set; }
 
-		[NotNullNotEmpty]
-		[LengthAttribute(Min = 10, Max = 300)]
+		[My]
 		public string Description { get; set; }
 	}
 }

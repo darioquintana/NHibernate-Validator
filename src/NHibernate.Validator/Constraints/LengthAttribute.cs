@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using NHibernate.Mapping;
 using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Constraints
@@ -8,10 +10,8 @@ namespace NHibernate.Validator.Constraints
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	[ValidatorClass(typeof (LengthValidator))]
-	public class LengthAttribute : EmbeddedRuleArgsAttribute, IRuleArgs
+	public class LengthAttribute : EmbeddedRuleArgsAttribute, IRuleArgs, IValidator, IPropertyConstraint
 	{
-		private int max = int.MaxValue;
 		private string message = "{validator.length}";
 
 		public LengthAttribute(int min, int max) : this(max)
@@ -21,18 +21,16 @@ namespace NHibernate.Validator.Constraints
 
 		public LengthAttribute(int max)
 		{
-			this.max = max;
+			Max = max;
 		}
 
-		public LengthAttribute() {}
-
+		public LengthAttribute()
+		{
+			Max = int.MaxValue;
+		}
 		public int Min { get; set; }
 
-		public int Max
-		{
-			get { return max; }
-			set { max = value; }
-		}
+		public int Max { get; set; }
 
 		#region IRuleArgs Members
 
@@ -40,6 +38,43 @@ namespace NHibernate.Validator.Constraints
 		{
 			get { return message; }
 			set { message = value; }
+		}
+
+		#endregion
+
+		#region IValidator Members
+
+		public bool IsValid(object value, IConstraintValidatorContext validatorContext)
+		{
+			if (value == null)
+			{
+				return true;
+			}
+			if (!(value is string))
+			{
+				return false;
+			}
+
+			var @string = (string)value;
+			int length = @string.Length;
+
+			return length >= Min && length <= Max;
+		}
+
+		#endregion
+
+		#region IPropertyConstraint Members
+
+		public void Apply(Property property)
+		{
+			IEnumerator ie = property.ColumnIterator.GetEnumerator();
+			ie.MoveNext();
+			var col = (Column)ie.Current;
+
+			if (Max < int.MaxValue)
+			{
+				col.Length = Max;
+			}
 		}
 
 		#endregion

@@ -6,7 +6,8 @@ namespace NHibernate.Validator.Tests.ConstraintFactory.Model
 	{
 		public FooDef()
 		{
-			Define(x => x.Name).NotNullableAndNotEmpty();
+			ValidateInstance.Using(new MyAttribute());
+			Define(x => x.CreditCard).IsCreditCardNumber();
 			Define(x => x.Description).NotNullableAndNotEmpty().And.LengthBetween(10, 300);
 		}
 	}

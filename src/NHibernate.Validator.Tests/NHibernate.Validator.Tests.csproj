@@ -124,6 +124,7 @@
     <Compile Include="ConstraintFactory\ConstraintFactoryFixture.cs" />
     <Compile Include="ConstraintFactory\Model\FooDef.cs" />
     <Compile Include="ConstraintFactory\Model\Foo.cs" />
+    <Compile Include="ConstraintFactory\Model\MyValidator.cs" />
     <Compile Include="ConstraintFactory\TestConstraintValidatorFactory.cs" />
     <Compile Include="CustomValidator\ValidatorClassFixture.cs" />
     <Compile Include="CustomValidator\IsOneValidator.cs" />

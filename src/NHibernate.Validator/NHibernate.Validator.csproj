@@ -185,7 +185,6 @@
     <Compile Include="Engine\IPropertyConstraint.cs" />
     <Compile Include="Engine\IValidator.cs" />
     <Compile Include="Constraints\LengthAttribute.cs" />
-    <Compile Include="Constraints\LengthValidator.cs" />
     <Compile Include="Constraints\NotNullAttribute.cs" />
     <Compile Include="Constraints\NotNullValidator.cs" />
     <Compile Include="Engine\IPersistentClassConstraint.cs" />
