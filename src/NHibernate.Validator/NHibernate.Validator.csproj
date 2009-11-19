@@ -192,7 +192,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Constraints\RangeAttribute.cs" />
     <Compile Include="Constraints\SizeAttribute.cs" />
-    <Compile Include="Constraints\SizeValidator.cs" />
     <Compile Include="Util\AttributeUtils.cs" />
     <Compile Include="Util\TypeUtils.cs" />
     <Compile Include="Engine\ValidatorClassAttribute.cs" />

@@ -9,12 +9,10 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		[Test]
 		public void IsValid()
 		{
-			SizeValidator v = new SizeValidator();
-			
-			v.Initialize(new SizeAttribute());
+			var v = new SizeAttribute();
 			Assert.IsTrue(v.IsValid(new int[0], null));
-			
-			v.Initialize(new SizeAttribute(1,3));
+
+			v = new SizeAttribute(1, 3);
 			Assert.IsTrue(v.IsValid(new int[1], null));
 			Assert.IsTrue(v.IsValid(new int[3], null));
 			Assert.IsTrue(v.IsValid(null, null));

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Constraints
@@ -18,8 +19,7 @@ namespace NHibernate.Validator.Constraints
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	[ValidatorClass(typeof (SizeValidator))]
-	public class SizeAttribute : EmbeddedRuleArgsAttribute, IRuleArgs
+	public class SizeAttribute : EmbeddedRuleArgsAttribute, IRuleArgs, IValidator
 	{
 		private int max = int.MaxValue;
 		private string message = "{validator.size}";
@@ -55,6 +55,26 @@ namespace NHibernate.Validator.Constraints
 		{
 			get { return message; }
 			set { message = value; }
+		}
+
+		#endregion
+
+		#region Implementation of IValidator
+
+		public bool IsValid(object value, IConstraintValidatorContext validatorContext)
+		{
+			if (value == null)
+			{
+				return true;
+			}
+
+			var collection = value as ICollection;
+			if (collection == null)
+			{
+				return false;
+			}
+
+			return collection.Count >= Min && collection.Count <= Max;
 		}
 
 		#endregion
