@@ -10,10 +10,9 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		[Test]
 		public void IsValid()
 		{
-			MaxValidator v = new MaxValidator();
-			v.Initialize(new MaxAttribute());
+			var v = new MaxAttribute();
 			Assert.IsTrue(v.IsValid(0, null));
-			v.Initialize(new MaxAttribute(1000));
+			v= new MaxAttribute(1000);
 			Assert.IsTrue(v.IsValid(3, null));
 			Assert.IsTrue(v.IsValid(200.0m, null));
 			Assert.IsTrue(v.IsValid(1000, null));
@@ -39,8 +38,7 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		[Test]
 		public void Extreme()
 		{
-			MaxValidator v = new MaxValidator();
-			v.Initialize(new MaxAttribute(10000));
+			var v = new MaxAttribute(10000);
 			Assert.IsTrue(v.IsValid(10000, null));
 			Assert.IsTrue(v.IsValid(10000L, null));
 			Assert.IsTrue(v.IsValid(123UL, null));

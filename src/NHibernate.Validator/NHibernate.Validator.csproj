@@ -169,7 +169,6 @@
     <Compile Include="Mappings\XmlClassMapping.cs" />
     <Compile Include="Mappings\XmlOverAttributeClassMapping.cs" />
     <Compile Include="Constraints\MaxAttribute.cs" />
-    <Compile Include="Constraints\MaxValidator.cs" />
     <Compile Include="Constraints\MinAttribute.cs" />
     <Compile Include="Constraints\NotEmptyAttribute.cs" />
     <Compile Include="Constraints\NotEmptyValidator.cs" />
