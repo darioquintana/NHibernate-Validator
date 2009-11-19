@@ -801,7 +801,7 @@ namespace NHibernate.Validator.Engine
 
 	internal static class InvaliValueExtensions
 	{
-		public static IEnumerable<InvalidValue> WithParent(this IEnumerable<InvalidValue> source, object parentEntity, string memberName)
+		internal static IEnumerable<InvalidValue> WithParent(this IEnumerable<InvalidValue> source, object parentEntity, string memberName)
 		{
 			foreach (var invalidValue in source)
 			{
@@ -810,7 +810,7 @@ namespace NHibernate.Validator.Engine
 			}
 		}
 
-		public static IEnumerable<KeyValuePair<object,object>> AsKeyValue(this IEnumerable source)
+		internal static IEnumerable<KeyValuePair<object, object>> AsKeyValue(this IEnumerable source)
 		{
 			var itemsIterator = source.GetEnumerator();
 			if (itemsIterator.MoveNext())
