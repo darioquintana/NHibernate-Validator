@@ -10,7 +10,7 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		[Test]
 		public void IsValid()
 		{
-			PastValidator v = new PastValidator();
+			var v = new PastAttribute();
 			Assert.IsTrue(v.IsValid(DateTime.Now.AddMilliseconds(-1), null));
 			Assert.IsTrue(v.IsValid(new DateTime?(), null));
 			Assert.IsTrue(v.IsValid(new DateTime?(DateTime.Now.AddDays(-1)), null));

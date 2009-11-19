@@ -8,19 +8,37 @@ namespace NHibernate.Validator.Constraints
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	[ValidatorClass(typeof (PastValidator))]
-	public class PastAttribute : EmbeddedRuleArgsAttribute, IRuleArgs
+	public class PastAttribute : EmbeddedRuleArgsAttribute, IRuleArgs, IValidator
 	{
-		private string message = "{validator.past}";
+		public PastAttribute()
+		{
+			Message = "{validator.past}";
+		}
 
 		#region IRuleArgs Members
 
-		public string Message
+		public string Message { get; set; }
+
+		#endregion
+
+		#region IValidator Members
+
+		public bool IsValid(object value, IConstraintValidatorContext constraintContext)
 		{
-			get { return message; }
-			set { message = value; }
+			if (value == null)
+			{
+				return true;
+			}
+
+			if (value is DateTime)
+			{
+				return DateTime.Now.CompareTo(value) > 0;
+			}
+
+			return false;
 		}
 
 		#endregion
+
 	}
 }
