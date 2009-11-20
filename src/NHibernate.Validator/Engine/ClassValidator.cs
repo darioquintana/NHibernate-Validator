@@ -123,7 +123,7 @@ namespace NHibernate.Validator.Engine
 		{
 			if (!clazz.ShouldNeedValidation())
 			{
-				throw new ArgumentOutOfRangeException("clazz", "Create a validator for a System class.");
+				throw new ArgumentOutOfRangeException("clazz", clazz, "Create a validator for a unsupported type.");
 			}
 
 			entityType = clazz;

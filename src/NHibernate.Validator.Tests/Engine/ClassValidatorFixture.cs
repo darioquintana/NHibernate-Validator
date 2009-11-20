@@ -15,6 +15,12 @@ namespace NHibernate.Validator.Tests.Engine
 	public class ClassValidatorFixture : BaseValidatorFixture
 	{
 		// this Fixture is to test some special case
+		[Test]
+		public void CreationOfValidatorForSystemTypeShouldThrow()
+		{
+			ActionAssert.Throws<ArgumentOutOfRangeException>(() => new ClassValidator(typeof (string)))
+				.ActualValue.Should().Be.EqualTo(typeof (string));
+		}
 
 		[Test]
 		public void GetInvalidValuesOfEntity()
