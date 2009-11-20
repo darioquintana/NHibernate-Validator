@@ -9,10 +9,10 @@ namespace NHibernate.Validator.Constraints
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true)]
-	[ValidatorClass(typeof(PatternValidator))]
-	public class PatternAttribute : EmbeddedRuleArgsAttribute, IRuleArgs
+	public class PatternAttribute : EmbeddedRuleArgsAttribute, IRuleArgs, IValidator
 	{
 		private RegexOptions flags = RegexOptions.Compiled;
+		private Regex regex;
 		private string message = "{validator.pattern}";
 
 		public PatternAttribute() { }
@@ -48,6 +48,20 @@ namespace NHibernate.Validator.Constraints
 		{
 			get { return message; }
 			set { message = value; }
+		}
+
+		#endregion
+
+		#region IInitializableValidator<PatternAttribute> Members
+
+		public virtual bool IsValid(object value, IConstraintValidatorContext validatorContext)
+		{
+			return value == null || GetRegex().IsMatch(value.ToString());
+		}
+
+		protected Regex GetRegex()
+		{
+			return regex ?? (regex = new Regex(Regex, Flags));
 		}
 
 		#endregion

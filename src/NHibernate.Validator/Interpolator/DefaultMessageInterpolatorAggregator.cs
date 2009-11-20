@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Resources;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using NHibernate.Validator.Engine;
 using NHibernate.Validator.Exceptions;
@@ -82,7 +83,7 @@ namespace NHibernate.Validator.Interpolator
 
 		public DefaultMessageInterpolatorAggregator()
 		{
-			interpolators = new Dictionary<IValidator, DefaultMessageInterpolator>();
+			interpolators = new Dictionary<IValidator, DefaultMessageInterpolator>(new ValidatorReferenceEqualityComparer());
 		}
 
 		public DefaultMessageInterpolatorAggregator(SerializationInfo info, StreamingContext context)
@@ -94,6 +95,20 @@ namespace NHibernate.Validator.Interpolator
 		public void GetObjectData(SerializationInfo info, StreamingContext context)
 		{
 			info.AddValue("interpolators", interpolators);
+		}
+
+		[Serializable]
+		private class ValidatorReferenceEqualityComparer : IEqualityComparer<IValidator>
+		{
+			public bool Equals(IValidator x, IValidator y)
+			{
+				return ReferenceEquals(x, y);
+			}
+
+			public int GetHashCode(IValidator obj)
+			{
+				return RuntimeHelpers.GetHashCode(obj);
+			}
 		}
 	}
 }
