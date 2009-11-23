@@ -156,6 +156,16 @@ namespace NHibernate.Validator.Cfg.Loquacious
 			return new CollectionConstraints<TElement>(this, DecodeMemberAccessExpression(property));
 		}
 
+		public IGuidConstraints Define(Expression<Func<T, Guid>> property)
+		{
+			return new GuidConstraints(this, DecodeMemberAccessExpression(property));
+		}
+
+		public IGuidConstraints Define(Expression<Func<T, Guid?>> property)
+		{
+			return new GuidConstraints(this, DecodeMemberAccessExpression(property));
+		}
+
 		public IRelationshipConstraints Define(Expression<Func<T, object>> property)
 		{
 			return new RelationshipConstraints(this, DecodeMemberAccessExpression(property));

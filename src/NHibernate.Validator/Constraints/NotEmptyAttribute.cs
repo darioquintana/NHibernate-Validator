@@ -37,10 +37,14 @@ namespace NHibernate.Validator.Constraints
 				return true;
 			}
 
-			var check = value as string;
-			if (check != null)
+			var checkString = value as string;
+			if (checkString != null)
 			{
-				return !string.Empty.Equals(check.Trim());
+				return !string.Empty.Equals(checkString.Trim());
+			}
+			if (value is Guid)
+			{
+				return !Guid.Empty.Equals(value);
 			}
 
 			var ev = value as IEnumerable;

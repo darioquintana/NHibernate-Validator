@@ -100,5 +100,15 @@ namespace NHibernate.Validator.Tests.Configuration.Loquacious
 			var v = new ValidationDef<KnownRules>();
 			ActionAssert.NotThrow(() => v.Define(x => x.Enum));
 		}
+
+		[Test]
+		public void ShouldWorkWithGuid()
+		{
+			PropertyInfo lpi = typeof(KnownRules).GetProperty("GuidProp", membersBindingFlags);
+			var v = new ValidationDef<KnownRules>();
+			v.Define(x => x.GuidProp).NotEmpty();
+			IClassMapping cm = ((IMappingSource)v).GetMapping();
+			cm.GetMemberAttributes(lpi).Select(x => x.GetType()).Single().Should().Be.EqualTo<NotNullNotEmptyAttribute>();
+		}
 	}
 }

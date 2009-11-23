@@ -25,6 +25,11 @@ namespace NHibernate.Validator.Constraints
 
 		public override bool IsValid(object value, IConstraintValidatorContext validatorContext)
 		{
+			if (value is Guid)
+			{
+				return !Guid.Empty.Equals(value);
+			}
+ 
 			var ev = value as IEnumerable;
 			if (ev != null)
 			{

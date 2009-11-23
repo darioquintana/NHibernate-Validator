@@ -17,5 +17,6 @@ namespace NHibernate.Validator.Tests.Configuration.Loquacious
 		public int[] ArrProp { get; set; }
 		public string Pattern { get; set; }
 		public MyEnum Enum { get; set; }
+		public Guid GuidProp { get; set; }
 	}
 }

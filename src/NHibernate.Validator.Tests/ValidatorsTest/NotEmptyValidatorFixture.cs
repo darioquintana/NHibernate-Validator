@@ -34,6 +34,20 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 			v.IsValid(new DisposableEnumerable(), null);
 			DisposableEnumerator.DisposedTimes.Should().Be.GreaterThan(0);
 		}
+
+		[Test]
+		public void CanValidateGuid()
+		{
+			var v = new NotEmptyAttribute();
+			v.IsValid(Guid.NewGuid(), null).Should().Be.True();
+			v.IsValid(Guid.Empty, null).Should().Be.False();
+			Guid? gn = null;
+			v.IsValid(gn, null).Should().Be.True();
+			gn = Guid.Empty;
+			v.IsValid(gn, null).Should().Be.False();
+			gn = Guid.NewGuid();
+			v.IsValid(gn, null).Should().Be.True();
+		}
 	}
 
 	public class DisposableEnumerable: IEnumerable
