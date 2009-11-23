@@ -201,6 +201,8 @@
     <Compile Include="Specifics\NHV62\Model.cs" />
     <Compile Include="Specifics\NHV71\Customer.cs" />
     <Compile Include="Specifics\NHV71\ValidComponentTester.cs" />
+    <Compile Include="Specifics\NHV79\Cat.cs" />
+    <Compile Include="Specifics\NHV79\Fixture.cs" />
     <Compile Include="ThreadSafe\Foo.cs" />
     <Compile Include="ThreadSafe\ThreadSafeFixture.cs" />
     <Compile Include="Utils\AttributeUtilsFixture.cs" />

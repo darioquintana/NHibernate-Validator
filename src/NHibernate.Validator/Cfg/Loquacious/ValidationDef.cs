@@ -85,6 +85,17 @@ namespace NHibernate.Validator.Cfg.Loquacious
 			return new IntegerConstraints<ulong?>(this, DecodeMemberAccessExpression(property));
 		}
 
+		public IIntegerConstraints<byte> Define(Expression<Func<T, byte>> property)
+		{
+			return new IntegerConstraints<byte>(this, DecodeMemberAccessExpression(property));
+		}
+
+		[CLSCompliant(false)]
+		public IIntegerConstraints<byte?> Define(Expression<Func<T, byte?>> property)
+		{
+			return new IntegerConstraints<byte?>(this, DecodeMemberAccessExpression(property));
+		}
+
 		public IFloatConstraints<float> Define(Expression<Func<T, float>> property)
 		{
 			return new FloatConstraints<float>(this, DecodeMemberAccessExpression(property));
