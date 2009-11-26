@@ -10,6 +10,28 @@ Release Notes - NHibernate.Validator - Version 1.2.0
 	* The interface NHibernate.Validator.Engine.IMessageInterpolator and implementations had changed the signature. See [NHV-40]
 	* Using IClassValidator all invalid states methods now return IEnumerable<InvalidValue> instead InvalidValue[]
 
+	
+Release Notes - NHibernate.Validator - Version 1.2.0CR1
+
+** Bug
+    * [NHV-71] - Inconsistent component validation
+    * [NHV-72] - NotNullAttribute uses {validator.notEmpty} message, not {validator.notNull} as expected
+    * [NHV-76] - CUIT Validator Argentina No Valida CUIT Nro 20-13499715-0
+
+** Improvement
+    * [NHV-73] - NotEmptyValidator and NotNullNotEmptyValidator IEnumerator should be disposed of.
+    * [NHV-75] - Return IEnumerable<InvalidValue> instead InvalidValue[]
+    * [NHV-77] - Ability to have Attribute as Validator
+    * [NHV-78] - Put invalid value on ArgumentOutOfRangeException in ClassValidator ctor
+    * [NHV-80] - Guid in Loquacios
+
+** New Feature
+    * [NHV-16] - Should support params to work with
+    * [NHV-74] - Validate through Tags
+
+** Patch
+    * [NHV-70] - Loquacious configuration for enum properties causes exception
+    * [NHV-79] - Define a constraints fluently for BYTE property
 
 Release Notes - NHibernate.Validator - Version 1.2.0Beta3
 
@@ -18,7 +40,7 @@ Release Notes - NHibernate.Validator - Version 1.2.0Beta3
     * [NHV-66] - Entity-Validation by lambda
     * [NHV-67] - Property validation by lambda
     * [NHV-68] - Within Validator
-
+	
 	
 Release Notes - NHibernate.Validator - Version 1.2.0Beta2
 
