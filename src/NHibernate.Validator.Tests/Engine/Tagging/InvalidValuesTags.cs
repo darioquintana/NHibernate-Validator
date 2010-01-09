@@ -28,10 +28,10 @@ namespace NHibernate.Validator.Tests.Engine.Tagging
 		{
 			// all propeties are wrong
 			IClassValidator cv = new ClassValidator(typeof(aEntity));
-			var invalidValues = cv.GetInvalidValues(new aEntity {ValueMinMax= 101 }).ToArray();
+			var invalidValues = cv.GetInvalidValues(new aEntity {ValueMinMax = 101 }).ToArray();
 			invalidValues.First(iv => iv.PropertyName == "ValueMinMax").MatchTags.Should().Have.SameValuesAs("error", "warning");
 			invalidValues.First(iv => iv.PropertyName == "ValueMin").MatchTags.Should().Have.SameValuesAs("warning", "information");
-			invalidValues.First(iv => iv.PropertyName == "ValueWithoutTags").MatchTags.Should().Contain(null).And.Have.Count.EqualTo(1);
+			invalidValues.First(iv => iv.PropertyName == "ValueWithoutTags").MatchTags.Should().Have.Count.EqualTo(0);
 		}
 
 		[Test]
@@ -57,7 +57,7 @@ namespace NHibernate.Validator.Tests.Engine.Tagging
 
 			invalidValues = cv.GetInvalidValues(new aEntity(), new[]{ "error", null}).ToArray();
 			invalidValues.First(iv => iv.PropertyName == "ValueMinMax").MatchTags.Should().Have.SameValuesAs("error");
-			invalidValues.First(iv => iv.PropertyName == "ValueWithoutTags").MatchTags.Should().Contain(null).And.Have.Count.EqualTo(1);
+			invalidValues.First(iv => iv.PropertyName == "ValueWithoutTags").MatchTags.Should().Have.Count.EqualTo(0);
 		}
 	}
 }

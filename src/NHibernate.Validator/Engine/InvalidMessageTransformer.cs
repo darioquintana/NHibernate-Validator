@@ -77,7 +77,7 @@ namespace NHibernate.Validator.Engine
 
 		private ICollection<object> GetEfectiveValidatorMatchTags()
 		{
-			return validatorDef.Tags == null || validatorDef.Tags.Count == 0 ? new object[] { null } : validatorDef.Tags;
+			return validatorDef.Tags == null || validatorDef.Tags.Count == 0 ? new List<object>() : validatorDef.Tags;
 		}
 	}
 }
