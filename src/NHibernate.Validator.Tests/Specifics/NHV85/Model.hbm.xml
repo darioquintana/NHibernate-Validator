@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="NHibernate.Validator.Tests"
+                   namespace="NHibernate.Validator.Tests.Specifics.NHV85"
+                   default-lazy="true">
+
+  <class name="Parent">
+
+    <id name="Id">
+      <generator class="hilo"/>
+    </id>
+
+    <bag access="property" cascade="all-delete-orphan" inverse="true" name="Children" mutable="true">
+      <key foreign-key="FK_ParentHasChildren">
+        <column name="ChildFk" />
+      </key>
+      <one-to-many class="Child" />
+    </bag>
+
+    <property name="Name" />
+
+  </class>
+
+  <class name="Child">
+
+    <id name="Id">
+      <generator class="hilo"/>
+    </id>
+
+    <many-to-one cascade="save-update" class="Parent" foreign-key="FK_ChildHasAParentAssociated" name="Parent">
+      <column name="ContactFk" />
+    </many-to-one>
+
+    <property name="Name" />
+
+  </class>
+
+</hibernate-mapping>

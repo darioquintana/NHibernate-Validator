@@ -203,6 +203,8 @@
     <Compile Include="Specifics\NHV71\ValidComponentTester.cs" />
     <Compile Include="Specifics\NHV79\Cat.cs" />
     <Compile Include="Specifics\NHV79\Fixture.cs" />
+    <Compile Include="Specifics\NHV85\FixtureNHV85.cs" />
+    <Compile Include="Specifics\NHV85\Model.cs" />
     <Compile Include="ThreadSafe\Foo.cs" />
     <Compile Include="ThreadSafe\ThreadSafeFixture.cs" />
     <Compile Include="Utils\AttributeUtilsFixture.cs" />
@@ -419,6 +421,7 @@
     <Content Include="nhvalidator.cfg.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Specifics\NHV85\Model.hbm.xml" />
     <EmbeddedResource Include="Specifics\NHV71\Customer.hbm.xml" />
     <EmbeddedResource Include="Resource\Messages.resx">
       <SubType>Designer</SubType>

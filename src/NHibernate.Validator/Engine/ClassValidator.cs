@@ -15,6 +15,7 @@ using NHibernate.Validator.Interpolator;
 using NHibernate.Validator.Mappings;
 using NHibernate.Validator.Util;
 using Environment=NHibernate.Validator.Cfg.Environment;
+using NHibernate.Collection;
 
 namespace NHibernate.Validator.Engine
 {
@@ -287,7 +288,7 @@ namespace NHibernate.Validator.Engine
 			return from member in childGetters
 			       where NHibernateUtil.IsPropertyInitialized(entity, member.Name)
 			       let value = TypeUtils.GetMemberValue(entity, member)
-			       where value != null && NHibernateUtil.IsInitialized(value)
+			       where value != null && (NHibernateUtil.IsInitialized(value) || value is AbstractPersistentCollection)
 			       from invalidValue in ChildInvalidValues(value, entity, member, circularityState, activeTags)
 			       select invalidValue;
 		}
@@ -314,7 +315,7 @@ namespace NHibernate.Validator.Engine
 				throw new TargetException(
 					string.Format("The property or field '{0}' was not found in class {1}", memberName, entityType.FullName));
 			}
-
+            
 			return from mtv in membersValidators
 			       let member = mtv.Getter
 			       where NHibernateUtil.IsPropertyInitialized(entity, member.Name)
@@ -341,6 +342,11 @@ namespace NHibernate.Validator.Engine
 		private IEnumerable<InvalidValue> ChildInvalidValues(object value, object entity, MemberInfo member, HashSet<object> circularityState, ICollection<object> activeTags)
 		{
 			var valueEnum = value as IEnumerable;
+			if (!NHibernateUtil.IsInitialized(value) && value is AbstractPersistentCollection)
+			{
+				valueEnum = (value as AbstractPersistentCollection).QueuedAdditionIterator;
+			}
+
 			if (valueEnum != null)
 			{
 				return TypeUtils.IsGenericDictionary(value.GetType())
