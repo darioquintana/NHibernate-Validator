@@ -139,6 +139,7 @@
     <Compile Include="DelegatedEntityValidator\Range.cs" />
     <Compile Include="Engine\AttributeAsValidatorTest.cs" />
     <Compile Include="Engine\ClassValidatorFixture.cs" />
+    <Compile Include="Engine\EngineMocking.cs" />
     <Compile Include="Engine\ReferenceEqualityComparerTests.cs" />
     <Compile Include="Engine\Tagging\ClassValidatorTagging.cs" />
     <Compile Include="Engine\MultiEntityTypeInspectorFixture.cs" />
