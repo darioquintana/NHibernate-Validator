@@ -87,6 +87,7 @@
     <Compile Include="Ar\CUITFixture.cs" />
     <Compile Include="Br\CEPFixture.cs" />
     <Compile Include="Br\CPFFixture.cs" />
+    <Compile Include="Hr\OIBFixture.cs" />
     <Compile Include="It\CodFiscaleFixture.cs" />
     <Compile Include="It\LoquaciousFixture.cs" />
     <Compile Include="It\PartitaIVAFixture.cs" />

@@ -55,6 +55,8 @@
     <Compile Include="Br\CEPValidator.cs" />
     <Compile Include="Br\CPFAttribute.cs" />
     <Compile Include="Br\CPFValidator.cs" />
+    <Compile Include="Hr\OIBAttribute.cs" />
+    <Compile Include="Hr\OIBValidator.cs" />
     <Compile Include="It\CodiceFiscaleAttribute.cs" />
     <Compile Include="It\CodiceFiscaleValidator.cs" />
     <Compile Include="It\Extensions.cs" />
