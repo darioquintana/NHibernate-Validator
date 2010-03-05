@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Specific.Br
@@ -10,7 +10,7 @@ namespace NHibernate.Validator.Specific.Br
 	[ValidatorClass(typeof (CEPValidator))]
 	public class CEPAttribute : Attribute, IRuleArgs
 	{
-		private string message = "Número de CEP inválido.";
+		private string message = "NÃºmero de CEP invÃ¡lido.";
 
 		#region IRuleArgs Members
 

@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Specific.Br
@@ -10,7 +10,7 @@ namespace NHibernate.Validator.Specific.Br
 	[ValidatorClass(typeof (CPFValidator))]
 	public class CPFAttribute : Attribute, IRuleArgs
 	{
-		private string message = "Número de CPF inválido.";
+		private string message = "NÃºmero de CPF invÃ¡lido.";
 
 		#region IRuleArgs Members
 
