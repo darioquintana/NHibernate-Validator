@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="NHibernate.Validator.Tests"
+                   namespace="NHibernate.Validator.Tests.Specifics.NHV91"
+                   default-lazy="true">
+	<class name="EntityWithComponent">
+		<id
+			name="Id"
+			type="int">
+			<generator class="increment" />
+		</id>
+		<property name="Name" />
+		<component name="Component">
+			<property name="Value"/>
+			<component name="NestedComponent">
+				<property name="Description"/>
+			</component>
+		</component>
+	</class>
+
+</hibernate-mapping>

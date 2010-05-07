@@ -210,6 +210,8 @@
     <Compile Include="Specifics\NHV85\Model.cs" />
     <Compile Include="Specifics\NHV90\FixtureNHV90.cs" />
     <Compile Include="Specifics\NHV90\Model.cs" />
+    <Compile Include="Specifics\NHV91\Model.cs" />
+    <Compile Include="Specifics\NHV91\NestedComponentsFixture.cs" />
     <Compile Include="ThreadSafe\Foo.cs" />
     <Compile Include="ThreadSafe\ThreadSafeFixture.cs" />
     <Compile Include="Utils\AttributeUtilsFixture.cs" />
@@ -426,6 +428,7 @@
     <Content Include="nhvalidator.cfg.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Specifics\NHV91\Model.hbm.xml" />
     <EmbeddedResource Include="Specifics\NHV90\Model.hbm.xml" />
     <EmbeddedResource Include="Specifics\NHV82\Person.hbm.xml" />
     <EmbeddedResource Include="Specifics\NHV85\Model.hbm.xml" />
