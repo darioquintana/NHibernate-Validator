@@ -98,13 +98,18 @@ namespace NHibernate.Validator.Event
 					{
 						return;
 					}
-					var cv = Engine.GetClassValidator(property.PersistentClass.MappedClass);
-					if (cv != null)
+
+					if (property.PersistentClass != null)
 					{
-						if(cv.GetMemberConstraints(property.Name).OfType<ValidAttribute>().Any())
+						var cv = Engine.GetClassValidator(property.PersistentClass.MappedClass);
+
+						if (cv != null)
 						{
-							// the components is already marked as Valid
-							return;
+							if (cv.GetMemberConstraints(property.Name).OfType<ValidAttribute>().Any())
+							{
+								// the components is already marked as Valid
+								return;
+							}
 						}
 					}
 
