@@ -208,6 +208,11 @@
     <Compile Include="Specifics\NHV82\Person.cs" />
     <Compile Include="Specifics\NHV85\FixtureNHV85.cs" />
     <Compile Include="Specifics\NHV85\Model.cs" />
+    <Compile Include="Specifics\NHV88\Fixture.cs" />
+    <Compile Include="Specifics\NHV88\Group.cs" />
+    <Compile Include="Specifics\NHV88\GroupValidation.cs" />
+    <Compile Include="Specifics\NHV88\User.cs" />
+    <Compile Include="Specifics\NHV88\UserValidation.cs" />
     <Compile Include="Specifics\NHV90\FixtureNHV90.cs" />
     <Compile Include="Specifics\NHV90\Model.cs" />
     <Compile Include="Specifics\NHV91\Model.cs" />

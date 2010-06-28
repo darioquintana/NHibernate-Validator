@@ -279,11 +279,20 @@ namespace NHibernate.Validator.Engine
 			return 
 				EntityInvalidValues(entity, activeTags)
 				.Concat(MembersInvalidValues(entity, null, activeTags))
-				.Concat(ChildrenInvalidValues(entity, circularityState, activeTags));
+				.Concat(GetChildrenInvalidValues(entity, circularityState, activeTags));
 		}
 
-		private IEnumerable<InvalidValue> ChildrenInvalidValues(object entity, HashSet<object> circularityState,
-		                                                        ICollection<object> activeTags)
+		private IEnumerable<InvalidValue> GetChildrenInvalidValues(object entity, string memberName, HashSet<object> circularityState, ICollection<object> activeTags)
+		{
+			return from member in childGetters
+				   where memberName.Equals(member.Name) && NHibernateUtil.IsPropertyInitialized(entity, member.Name)
+				   let value = TypeUtils.GetMemberValue(entity, member)
+				   where value != null && (NHibernateUtil.IsInitialized(value) || value is AbstractPersistentCollection)
+				   from invalidValue in ChildInvalidValues(value, entity, member, circularityState, activeTags)
+				   select invalidValue;
+		}
+
+		private IEnumerable<InvalidValue> GetChildrenInvalidValues(object entity, HashSet<object> circularityState, ICollection<object> activeTags)
 		{
 			return from member in childGetters
 			       where NHibernateUtil.IsPropertyInitialized(entity, member.Name)
@@ -303,29 +312,6 @@ namespace NHibernate.Validator.Engine
 							 into invalidMessageTransformer
 							 from invalidValue in invalidMessageTransformer.Transform()
 							 select invalidValue;
-		}
-
-		private IEnumerable<InvalidValue> MembersInvalidValues(object entity, string memberName, ICollection<object> activeTags)
-		{
-			// Property & Field Validation
-			var membersValidators =
-				membersToValidate.Where(mtv => memberName == null || mtv.Getter.Name.Equals(memberName)).ToArray();
-			if (memberName != null && membersValidators.Length == 0 && TypeUtils.GetPropertyOrField(entityType, memberName) == null)
-			{
-				throw new TargetException(
-					string.Format("The property or field '{0}' was not found in class {1}", memberName, entityType.FullName));
-			}
-            
-			return from mtv in membersValidators
-			       let member = mtv.Getter
-			       where NHibernateUtil.IsPropertyInitialized(entity, member.Name)
-			       let value = TypeUtils.GetMemberValue(entity, member)
-						 where IsValidationNeededByTags(activeTags, mtv.ValidatorDef.Tags) && NHibernateUtil.IsInitialized(value)
-						 let validator = mtv.ValidatorDef.Validator
-			       let constraintContext = new ConstraintValidatorContext(member.Name, defaultInterpolator.GetAttributeMessage(validator))
-			       where !validator.IsValid(value, constraintContext)
-						 from invalidValue in new InvalidMessageTransformer(constraintContext, activeTags, entityType, member.Name, value, entity, mtv.ValidatorDef, defaultInterpolator, userInterpolator).Transform()
-			       select invalidValue;
 		}
 
 		private bool IsValidationNeededByTags(ICollection<object> activeTags, ICollection<object> validatorTags)
@@ -626,7 +612,34 @@ namespace NHibernate.Validator.Engine
 			{
 				throw new ArgumentException("not an instance of: " + entity.GetType());
 			}
-			return MembersInvalidValues(entity, propertyName, tags != null ? new HashSet<object>(tags) : null);
+
+			var activeTags = tags != null ? new HashSet<object>(tags) : null;
+
+			return MembersInvalidValues(entity, propertyName, activeTags)
+						.Concat(GetChildrenInvalidValues(entity, propertyName, NewCircularStateSet(), activeTags));
+		}
+
+		private IEnumerable<InvalidValue> MembersInvalidValues(object entity, string memberName, ICollection<object> activeTags)
+		{
+			// Property & Field Validation
+			var membersValidators =
+				membersToValidate.Where(mtv => memberName == null || mtv.Getter.Name.Equals(memberName)).ToArray();
+			if (memberName != null && membersValidators.Length == 0 && TypeUtils.GetPropertyOrField(entityType, memberName) == null)
+			{
+				throw new TargetException(
+					string.Format("The property or field '{0}' was not found in class {1}", memberName, entityType.FullName));
+			}
+		    
+			return from mtv in membersValidators
+				   let member = mtv.Getter
+				   where NHibernateUtil.IsPropertyInitialized(entity, member.Name)
+				   let value = TypeUtils.GetMemberValue(entity, member)
+				   where IsValidationNeededByTags(activeTags, mtv.ValidatorDef.Tags) && NHibernateUtil.IsInitialized(value)
+				   let validator = mtv.ValidatorDef.Validator
+				   let constraintContext = new ConstraintValidatorContext(member.Name, defaultInterpolator.GetAttributeMessage(validator))
+				   where !validator.IsValid(value, constraintContext)
+				   from invalidValue in new InvalidMessageTransformer(constraintContext, activeTags, entityType, member.Name, value, entity, mtv.ValidatorDef, defaultInterpolator, userInterpolator).Transform()
+				   select invalidValue;
 		}
 
 		public IEnumerable<InvalidValue> GetPotentialInvalidValues(string propertyName, object value, params object[] tags)
