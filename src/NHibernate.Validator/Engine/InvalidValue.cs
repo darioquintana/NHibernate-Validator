@@ -43,7 +43,13 @@ namespace NHibernate.Validator.Engine
 		public void AddParentEntity(object parentEntity, string propertyName)
 		{
 			RootEntity = parentEntity;
-			PropertyPath = propertyName + "." + PropertyPath;
+
+			if (PropertyPath == null) //NHV-93
+				PropertyPath = propertyName;
+			else
+			{
+				PropertyPath = propertyName + "." + PropertyPath;
+			}
 		}
 
 		public override string ToString()
