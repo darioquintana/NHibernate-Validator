@@ -6,7 +6,7 @@ using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.Specifics.NHV98
 {
-	public class FixtureNvh98
+	public class FixtureNhv98
 	{
 		[Test]
 		public void MaxLengthWorks()

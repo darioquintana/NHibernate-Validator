@@ -217,7 +217,7 @@
     <Compile Include="Specifics\NHV90\Model.cs" />
     <Compile Include="Specifics\NHV91\Model.cs" />
     <Compile Include="Specifics\NHV91\NestedComponentsFixture.cs" />
-    <Compile Include="Specifics\NHV98\FixtureNvh98.cs" />
+    <Compile Include="Specifics\NHV98\FixtureNhv98.cs" />
     <Compile Include="ThreadSafe\Foo.cs" />
     <Compile Include="ThreadSafe\ThreadSafeFixture.cs" />
     <Compile Include="Utils\AttributeUtilsFixture.cs" />
