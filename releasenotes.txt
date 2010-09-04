@@ -10,7 +10,24 @@ Release Notes - NHibernate.Validator - Version 1.2.0
 	* The interface NHibernate.Validator.Engine.IMessageInterpolator and implementations had changed the signature. See [NHV-40]
 	* Using IClassValidator all invalid states methods now return IEnumerable<InvalidValue> instead InvalidValue[]
 
-	
+Release Notes - NHibernate.Validator - Version 1.2.0GA
+
+** Bug
+    * [NHV-85] - Validating transient objects in unitialized lazy collection
+    * [NHV-87] - Fix for NHV-71 has broken nest components
+    * [NHV-88] - Not expected result when using IsValid()
+    * [NHV-91] - Nested Components - NullReferenceException when initializing validation infrastructure.
+    * [NHV-93] - PropertyPath has trailing dot with Loquacious ValidateInstance
+    * [NHV-98] - MaxLength doesn't work when combined with MinLength
+
+** Improvement
+    * [NHV-84] - Public methods in ValidatorEngine is not overridable
+
+
+** Patch
+    * [NHV-83] - Engine.InvalidMessageTransformer.GetEfectiveValidatorMatchTags throws exception when running in medium trust
+    * [NHV-86] - Croatian (Hr) language resources for default validation messages and Specific validator for Croatian Personal Identification Number (OIB)
+
 Release Notes - NHibernate.Validator - Version 1.2.0CR1
 
 ** Bug
