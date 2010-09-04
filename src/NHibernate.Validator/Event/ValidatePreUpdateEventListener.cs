@@ -18,7 +18,7 @@ namespace NHibernate.Validator.Event
 
 		public bool OnPreUpdate(PreUpdateEvent @event)
 		{
-			Validate(@event.Entity, @event.Source.EntityMode);
+			Validate(@event.Entity, @event.Session.EntityMode);
 			return false;
 		}
 
