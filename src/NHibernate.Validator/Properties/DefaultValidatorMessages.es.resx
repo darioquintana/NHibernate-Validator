@@ -141,6 +141,9 @@
   <data name="validator.iban" xml:space="preserve">
     <value>IBAN no válido</value>
   </data>
+  <data name="validator.ipaddress" xml:space="preserve">
+    <value>debe ser una dirección IP válida</value>
+  </data>
   <data name="validator.length" xml:space="preserve">
     <value>la longitud debe ser entre {Min} y {Max}</value>
   </data>
