@@ -155,6 +155,9 @@
     <Compile Include="Engine\Tagging\InvalidValuesTags.cs" />
     <Compile Include="Engine\Tagging\ValidatorEngineTaggingLoquacious.cs" />
     <Compile Include="Engine\Tagging\ValidatorEngineTaggingXml.cs" />
+    <Compile Include="GraphNavigation\ChildEntityWithAttributeRules.cs" />
+    <Compile Include="GraphNavigation\ChildEntityWithAttributeRulesDef.cs" />
+    <Compile Include="GraphNavigation\ParentEntityWithAttributeRules.cs" />
     <Compile Include="Integration\AnEntity.cs" />
     <Compile Include="Integration\DefaultEntityTypeInspectorFixture.cs" />
     <Compile Include="Engine\ValidatableElementFixture.cs" />

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using log4net.Config;
+using NHibernate.Validator.Cfg.Loquacious;
 using NHibernate.Validator.Engine;
 using NUnit.Framework;
 
@@ -81,6 +83,23 @@ namespace NHibernate.Validator.Tests.GraphNavigation
 			john.LastName = "Doe";
 			constraintViolations = validator.Validate(john);
 			Assert.AreEqual(0, constraintViolations.Length, "Wrong number of constraints");
+		}
+        
+		[Test]
+		public void RuleInBothAttributesAndValidationDefsAppliedToChildOfRootEntity()
+		{
+			var configuration = new FluentConfiguration();
+			configuration.SetDefaultValidatorMode(ValidatorMode.OverrideAttributeWithExternal).Register(
+				new[] { typeof(ChildEntityWithAttributeRulesDef) });
+			var engine = new ValidatorEngine();
+			engine.Configure(configuration);
+
+			var child = new ChildEntityWithAttributeRules { NotNullProperty = null, IsWordMonkeyAllowedInName = false, Name = "the monkey, monkey, monkey, monkety monk" };
+			var parent = new ParentEntityWithAttributeRules { Child = child };
+
+			var invalidValues = engine.Validate(parent);
+			Assert.That(invalidValues.SingleOrDefault(i => i.Message == ChildEntityWithAttributeRulesDef.Message), Is.Not.Null, "Rule in def not applied");
+			Assert.That(invalidValues.SingleOrDefault(i => i.PropertyName == "NotNullProperty"), Is.Not.Null, "Rule on attribute not applied");
 		}
 	}
 }

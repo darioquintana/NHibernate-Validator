@@ -70,8 +70,18 @@ namespace NHibernate.Validator.Engine
 
 		public override void GetChildValidator(IClassValidatorImplementor parentValidator, System.Type childType)
 		{
-			// TODO : Add an existing validators to child of the parent validator
-			new ClassValidator(childType, ConstraintValidatorFactory, parentValidator.ChildClassValidators, this);
+				IClassValidator childValidator;
+				if (validators.TryGetValue(childType, out childValidator))
+				{
+					lock (syncRoot)
+					{
+						parentValidator.ChildClassValidators.Add(childType, childValidator);
+					}
+				}
+				else
+				{
+					new ClassValidator(childType, ConstraintValidatorFactory, parentValidator.ChildClassValidators, this);
+				}
 		}
 
 		public IDictionary<System.Type, IClassValidator> Validators
