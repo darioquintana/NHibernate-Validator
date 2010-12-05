@@ -4,6 +4,7 @@ using NHibernate.Validator.Engine;
 using NHibernate.Validator.Event;
 using NHibernate.Validator.Exceptions;
 using NUnit.Framework;
+using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.Specifics.NHV90
 {
@@ -72,7 +73,7 @@ namespace NHibernate.Validator.Tests.Specifics.NHV90
 				Assert.False(vtor.IsValid(loadedParent));
 
 				// this currently fails.
-				Assert.Throws(typeof (InvalidStateException), tx.Commit);
+				tx.Executing(t => t.Commit()).Throws<InvalidStateException>();
 			}
 		}
 	}
