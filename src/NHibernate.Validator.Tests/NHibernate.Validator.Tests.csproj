@@ -201,6 +201,7 @@
     <Compile Include="Serialization\RuleArgsSerializationFixture.cs" />
     <Compile Include="Serialization\ValidatorEngineSerializationFixture.cs" />
     <Compile Include="Serialization\ValidatorsSerializationFixture.cs" />
+    <Compile Include="Specifics\NHV92\FluentValidationWithAttributesBugTest.cs" />
     <Compile Include="Specifics\NHV25\XmlDictionaryValueKeyFixture.cs" />
     <Compile Include="Specifics\NHV25\DictionaryValueKeyFixture.cs" />
     <Compile Include="Specifics\NHV25\Show.cs" />
