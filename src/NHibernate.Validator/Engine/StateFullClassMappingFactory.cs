@@ -11,7 +11,7 @@ namespace NHibernate.Validator.Engine
 			@"Duplicated external definition for class {0}.
 Possible causes:
 - There are more than one definitions for the class.
-- You are more than one time the same mapping.
+- You have more than one time the same mapping.
 Note: 'external' mean XML or any other mapping source than Attribute.";
 
 		private static readonly ILog log = LogManager.GetLogger(typeof(StateFullClassMappingFactory));
