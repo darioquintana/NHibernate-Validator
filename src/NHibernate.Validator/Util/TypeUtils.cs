@@ -132,7 +132,7 @@ namespace NHibernate.Validator.Util
 		{
 			if (expression.Body.NodeType != ExpressionType.MemberAccess)
 			{
-				if ((expression.Body.NodeType == ExpressionType.Convert) && (expression.Body.Type == typeof (object)))
+				if ((expression.Body.NodeType == ExpressionType.Convert) && (expression.Body.Type == typeof(TResult)))
 				{
 					return ((MemberExpression) ((UnaryExpression) expression.Body).Operand).Member;
 				}
