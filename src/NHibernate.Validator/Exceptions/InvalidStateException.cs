@@ -3,9 +3,10 @@ using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Exceptions
 {
+	[Serializable]
 	public class InvalidStateException : HibernateException
 	{
-		private static InvalidValue[] _invalidValues;
+		private readonly InvalidValue[] _invalidValues;
 
 		public InvalidStateException(string message, Exception inner) : base(message, inner) { }
 
