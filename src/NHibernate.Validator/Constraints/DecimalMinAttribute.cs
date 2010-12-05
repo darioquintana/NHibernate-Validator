@@ -16,6 +16,11 @@ namespace NHibernate.Validator.Constraints
 
 		public DecimalMinAttribute () { }
 
+		public DecimalMinAttribute(double min)
+		{
+			Value = (decimal) min;
+		}
+
 		public DecimalMinAttribute(decimal min)
 		{
 			Value = min;

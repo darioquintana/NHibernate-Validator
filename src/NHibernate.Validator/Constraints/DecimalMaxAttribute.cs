@@ -16,6 +16,11 @@ namespace NHibernate.Validator.Constraints
 
 		public DecimalMaxAttribute() { }
 
+		public DecimalMaxAttribute(double max)
+		{
+			Value = (decimal)max;
+		}
+
 		public DecimalMaxAttribute(decimal max)
 		{
 			Value = max;
