@@ -124,7 +124,7 @@
     <value>asserzione fallita</value>
   </data>
   <data name="validator.creditCard" xml:space="preserve">
-    <value>invalid credit card number</value>
+    <value>numero della carta di credito non valido</value>
   </data>
   <data name="validator.digits" xml:space="preserve">
     <value>Valore numerico fuori dai limiti (atteso &lt;{integerDigits} cifre&gt;.&lt;{fractionalDigits} cifre&gt;)</value>
@@ -133,13 +133,19 @@
     <value>EAN invalido</value>
   </data>
   <data name="validator.email" xml:space="preserve">
-    <value>not a well-formed email address</value>
+    <value>email non formattata correttamente</value>
+  </data>
+  <data name="validator.fileExists" xml:space="preserve">
+    <value>Il file deve esistere</value>
   </data>
   <data name="validator.future" xml:space="preserve">
     <value>deve essere una data futura</value>
   </data>
   <data name="validator.iban" xml:space="preserve">
     <value>IBAN non valido</value>
+  </data>
+  <data name="validator.ipaddress" xml:space="preserve">
+    <value>deve essere un indirizzo IP valido</value>
   </data>
   <data name="validator.length" xml:space="preserve">
     <value>la lunghezza deve essere tra {Min} e {Max}</value>

@@ -135,6 +135,9 @@
   <data name="validator.email" xml:space="preserve">
     <value>not a well-formed email address</value>
   </data>
+  <data name="validator.fileExists" xml:space="preserve">
+    <value>The file must exists.</value>
+  </data>
   <data name="validator.future" xml:space="preserve">
     <value>must be a future date</value>
   </data>

@@ -8,7 +8,7 @@ namespace NHibernate.Validator.Constraints
 	[ValidatorClass(typeof (CreditCardNumberValidator))]
 	public class CreditCardNumberAttribute : EmbeddedRuleArgsAttribute, IRuleArgs
 	{
-		private string message = "{validator.creditCardNumber}";
+		private string message = "{validator.creditCard}";
 
 		#region IRuleArgs Members
 
