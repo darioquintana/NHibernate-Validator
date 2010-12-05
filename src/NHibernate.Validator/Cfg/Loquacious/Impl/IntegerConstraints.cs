@@ -11,9 +11,14 @@ namespace NHibernate.Validator.Cfg.Loquacious.Impl
 
 		#region Implementation of IIntegerConstraints
 
-		public IRuleArgsOptions Digits(int digits)
+		public IRuleArgsOptions Digits(int maxIntegerDigits)
 		{
-			return AddWithFinalRuleArgOptions(new DigitsAttribute(digits));
+			return AddWithFinalRuleArgOptions(new DigitsAttribute(maxIntegerDigits));
+		}
+
+		public IRuleArgsOptions Digits(int maxIntegerDigits, int maxFractionalDigits)
+		{
+			return AddWithFinalRuleArgOptions(new DigitsAttribute(maxIntegerDigits, maxFractionalDigits));
 		}
 
 		public IRuleArgsOptions LessThanOrEqualTo(long maxValue)

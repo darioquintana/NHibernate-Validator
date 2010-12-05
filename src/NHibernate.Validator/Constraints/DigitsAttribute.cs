@@ -34,14 +34,14 @@ namespace NHibernate.Validator.Constraints
 		private string message = "{validator.digits}";
 		public DigitsAttribute() {}
 
-		public DigitsAttribute(int integerDigits)
+		public DigitsAttribute(int maxIntegerDigits)
 		{
-			IntegerDigits = integerDigits;
+			IntegerDigits = maxIntegerDigits;
 		}
 
-		public DigitsAttribute(int integerDigits, int fractionalDigits) : this(integerDigits)
+		public DigitsAttribute(int maxIntegerDigits, int maxFractionalDigits) : this(maxIntegerDigits)
 		{
-			FractionalDigits = fractionalDigits;
+			FractionalDigits = maxFractionalDigits;
 		}
 
 		public int IntegerDigits { get; set; }
