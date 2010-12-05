@@ -82,14 +82,14 @@ namespace NHibernate.Validator.Cfg.Loquacious.Impl
 			return AddWithFinalRuleArgOptions(new CreditCardNumberAttribute());
 		}
 
-		public IRuleArgsOptions Digits(int integerDigits)
+		public IRuleArgsOptions Digits(int maxIntegerDigits)
 		{
-			return AddWithFinalRuleArgOptions(new DigitsAttribute(integerDigits));
+			return AddWithFinalRuleArgOptions(new DigitsAttribute(maxIntegerDigits));
 		}
 
-		public IRuleArgsOptions Digits(int integerDigits, int fractionalDigits)
+		public IRuleArgsOptions Digits(int maxIntegerDigits, int maxFractionalDigits)
 		{
-			return AddWithFinalRuleArgOptions(new DigitsAttribute(integerDigits, fractionalDigits));
+			return AddWithFinalRuleArgOptions(new DigitsAttribute(maxIntegerDigits, maxFractionalDigits));
 		}
 
 		public IRuleArgsOptions FilePathExists()

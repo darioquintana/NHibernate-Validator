@@ -16,11 +16,6 @@ namespace NHibernate.Validator.Cfg.Loquacious.Impl
 			return AddWithFinalRuleArgOptions(new DigitsAttribute(maxIntegerDigits));
 		}
 
-		public IRuleArgsOptions Digits(int maxIntegerDigits, int maxFractionalDigits)
-		{
-			return AddWithFinalRuleArgOptions(new DigitsAttribute(maxIntegerDigits, maxFractionalDigits));
-		}
-
 		public IRuleArgsOptions LessThanOrEqualTo(long maxValue)
 		{
 			return AddWithFinalRuleArgOptions(new MaxAttribute(maxValue));

@@ -18,8 +18,8 @@ namespace NHibernate.Validator.Cfg.Loquacious
 		IRuleArgsOptions IsEAN();
 		IRuleArgsOptions IsIBAN();
 		IRuleArgsOptions IsCreditCardNumber();
-		IRuleArgsOptions Digits(int integerDigits);
-		IRuleArgsOptions Digits(int integerDigits, int fractionalDigits);
+		IRuleArgsOptions Digits(int maxIntegerDigits);
+		IRuleArgsOptions Digits(int maxIntegerDigits, int maxFractionalDigits);
 		IRuleArgsOptions FilePathExists();
 	}
 }

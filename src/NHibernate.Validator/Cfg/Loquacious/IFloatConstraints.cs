@@ -2,8 +2,8 @@ namespace NHibernate.Validator.Cfg.Loquacious
 {
 	public interface IFloatConstraints
 	{
-		IRuleArgsOptions Digits(int integerDigits);
-		IRuleArgsOptions Digits(int integerDigits, int fractionalDigits);
+		IRuleArgsOptions Digits(int maxIntegerDigits);
+		IRuleArgsOptions Digits(int maxIntegerDigits, int maxFractionalDigits);
 		IRuleArgsOptions LessThanOrEqualTo(long maxValue);
 		IRuleArgsOptions LessThanOrEqualTo(decimal maxValue);
 		IRuleArgsOptions GreaterThanOrEqualTo(long minValue);
