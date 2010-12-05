@@ -1,3 +1,4 @@
+using System;
 using NHibernate.Event;
 
 namespace NHibernate.Validator.Event
@@ -12,6 +13,7 @@ namespace NHibernate.Validator.Event
 	/// ValidatePreInsertEventListener by NH.
 	/// This give us better performance on NH startup.
 	/// </remarks>
+	[Serializable]
 	public class ValidatePreUpdateEventListener : ValidateEventListener, IPreUpdateEventListener
 	{
 		#region IPreUpdateEventListener Members

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NHibernate.Cfg;
@@ -20,6 +21,7 @@ namespace NHibernate.Validator.Event
 	/// ValidatePreInsertEventListener by NH.
 	/// This give us better performance on NH startup.
 	/// </remarks>
+	[Serializable]
 	public class ValidatePreInsertEventListener : ValidateEventListener, IPreInsertEventListener, IInitializable
 	{
 		private bool isInitialized;
