@@ -10,6 +10,7 @@
 			<generator class="hilo"/>
 		</id>
 
+    <property name="SomethingElse"/>
 		<component name="Name">
 			<property name="FirstName"/>
 			<property name="LastName"/>

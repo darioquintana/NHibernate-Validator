@@ -30,7 +30,7 @@ namespace NHibernate.Validator.Tests.Specifics.NHV82
 			return cfg;
 		}
 
-		[Test, Ignore("Not fixed yet")]
+		[Test]
 		public void ChangeLengthConstraintsForComponents()
 		{
 			var configuration = ConfigureNHibernate();

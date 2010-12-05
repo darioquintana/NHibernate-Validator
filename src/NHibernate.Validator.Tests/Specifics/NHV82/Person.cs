@@ -4,6 +4,7 @@ namespace NHibernate.Validator.Tests.Specifics.NHV82
 {
 	public class Person
 	{
+		public string SomethingElse { get; set; }
 		public Name Name { get; set; }
 	}
 
@@ -26,6 +27,7 @@ namespace NHibernate.Validator.Tests.Specifics.NHV82
 	{
 		public PersonValidation()
 		{
+			Define(person => person.SomethingElse).MaxLength(30);
 			Define(person => person.Name).IsValid();
 		}
 	}

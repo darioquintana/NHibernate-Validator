@@ -586,6 +586,57 @@ namespace NHibernate.Validator.Engine
 						pc.Apply(property);
 				}
 			}
+			foreach (var childGetter in childGetters)
+			{
+				// TODO: this implementation does not supports nested-components
+				Property property = FindPropertyByName(persistentClass, childGetter.Name);
+				if (property != null && property.IsComposite && !property.BackRef)
+				{
+					Component component = (Component) property.Value;
+					if (component.IsEmbedded)
+					{
+						return;
+					}
+					System.Type propertyOrFieldType = GetPropertyOrFieldType(childGetter);
+					IClassValidator componentValidator;
+					if (childClassValidators.TryGetValue(propertyOrFieldType, out componentValidator))
+					{
+						var componentClassValidator = componentValidator as ClassValidator;
+						if(componentClassValidator != null)
+						{
+							componentClassValidator.Apply(component.PropertyIterator);
+						}
+					}
+				}
+			}
+		}
+
+		protected void Apply(IEnumerable<Property> persistentProperties)
+		{
+			foreach (Member member in membersToValidate)
+			{
+				var pc = member.ValidatorDef.Validator as IPropertyConstraint;
+				if (pc != null)
+				{
+					Property property = persistentProperties.FirstOrDefault(p=> p.Name == member.Getter.Name);
+					if (property != null)
+						pc.Apply(property);
+				}
+			}
+		}
+
+		public static System.Type GetPropertyOrFieldType(MemberInfo propertyOrField)
+		{
+			if (propertyOrField.MemberType == MemberTypes.Property)
+			{
+				return ((PropertyInfo)propertyOrField).PropertyType;
+			}
+
+			if (propertyOrField.MemberType == MemberTypes.Field)
+			{
+				return ((FieldInfo)propertyOrField).FieldType;
+			}
+			throw new ArgumentOutOfRangeException("propertyOrField", "Expected PropertyInfo or FieldInfo; found :" + propertyOrField.MemberType);
 		}
 
 		public IEnumerable<Attribute> GetMemberConstraints(string propertyName)
