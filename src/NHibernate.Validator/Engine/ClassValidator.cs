@@ -586,10 +586,15 @@ namespace NHibernate.Validator.Engine
 						pc.Apply(property);
 				}
 			}
+			IEnumerable<Property> properties = persistentClass.PropertyClosureIterator;
+			ApplyToChildrenComponentsValidators(properties);
+		}
+
+		protected void ApplyToChildrenComponentsValidators(IEnumerable<Property> properties)
+		{
 			foreach (var childGetter in childGetters)
 			{
-				// TODO: this implementation does not supports nested-components
-				Property property = FindPropertyByName(persistentClass, childGetter.Name);
+				Property property = properties.FirstOrDefault(p=> p.Name == childGetter.Name);
 				if (property != null && property.IsComposite && !property.BackRef)
 				{
 					Component component = (Component) property.Value;
@@ -604,7 +609,9 @@ namespace NHibernate.Validator.Engine
 						var componentClassValidator = componentValidator as ClassValidator;
 						if(componentClassValidator != null)
 						{
-							componentClassValidator.Apply(component.PropertyIterator);
+							IEnumerable<Property> persistentProperties = component.PropertyIterator;
+							componentClassValidator.Apply(persistentProperties);
+							componentClassValidator.ApplyToChildrenComponentsValidators(persistentProperties);
 						}
 					}
 				}
