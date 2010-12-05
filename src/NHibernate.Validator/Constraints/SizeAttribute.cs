@@ -68,13 +68,26 @@ namespace NHibernate.Validator.Constraints
 				return true;
 			}
 
+			int count = 0;
 			var collection = value as ICollection;
-			if (collection == null)
+			if (collection != null)
 			{
-				return false;
+				count = collection.Count;
 			}
-
-			return collection.Count >= Min && collection.Count <= Max;
+			else
+			{
+				var enumerable = value as IEnumerable;
+				if (ReferenceEquals(null, enumerable))
+				{
+					return false;
+				}
+				var enumerator = enumerable.GetEnumerator();
+				while (enumerator.MoveNext() && count <= Max)
+				{
+					count++;
+				}
+			}
+			return count >= Min && count <= Max;
 		}
 
 		#endregion
