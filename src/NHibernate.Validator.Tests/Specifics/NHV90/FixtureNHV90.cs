@@ -8,7 +8,7 @@ using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.Specifics.NHV90
 {
-	[TestFixture,Ignore("Not fixed yet")]
+	[TestFixture]
 	public class FixtureNHV90 : PersistenceTest
 	{
 		#region Setup/Teardown
@@ -66,6 +66,8 @@ namespace NHibernate.Validator.Tests.Specifics.NHV90
 			{
 				loadedParent = s.CreateQuery("from TheParent p where p.Name = 'x'")
 					.UniqueResult<TheParent>();
+
+				loadedParent.Children.Should().Not.Be.Empty();
 
 				loadedParent.ClearChildren();
 

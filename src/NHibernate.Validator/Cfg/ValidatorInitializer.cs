@@ -79,6 +79,8 @@ namespace NHibernate.Validator.Cfg
 				                 cfg.EventListeners.PreInsertEventListeners.Concat(new[] {new ValidatePreInsertEventListener()}).ToArray());
 				cfg.SetListeners(ListenerType.PreUpdate,
 												 cfg.EventListeners.PreUpdateEventListeners.Concat(new[] { new ValidatePreUpdateEventListener() }).ToArray());
+				cfg.SetListeners(ListenerType.PreCollectionUpdate,
+												 cfg.EventListeners.PreCollectionUpdateEventListeners.Concat(new[] { new ValidatePreCollectionUpdateEventListener() }).ToArray());
 			}
 		}
 

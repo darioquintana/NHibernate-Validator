@@ -136,6 +136,7 @@
     <Compile Include="Constraints\EmbeddedRuleArgsAttribute.cs" />
     <Compile Include="Engine\ReferenceEqualityComparer.cs" />
     <Compile Include="Engine\SystemTypeExtensions.cs" />
+    <Compile Include="Event\ValidatePreCollectionUpdateEventListener.cs" />
     <Compile Include="Util\EnumerableExtensions.cs" />
     <Compile Include="Constraints\IsNumericAttribute.cs" />
     <Compile Include="Constraints\WithinAttribute.cs" />
