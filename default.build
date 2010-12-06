@@ -21,9 +21,9 @@
 		Supported versions of .NET Framework, separated by spaces.
 		Used by *-all-frameworks targets.
 	-->
-	<property name="supported.frameworks" value="net-2.0" />
+  <property name="supported.frameworks" value="net-3.5" />
 
-	<fileset id="buildfiles.all" basedir="src">
+  <fileset id="buildfiles.all" basedir="src">
 		<include name="NHibernate.Validator/default.build" />
 		<include name="NHibernate.Validator.Specific/default.build" />
 	</fileset>
@@ -203,7 +203,13 @@
 		</zip>
 	</target>
 
-	<target name="package" depends="init test binaries doc sources-zip binaries-zip "
+  <target name="release" depends="init binaries binaries-zip sources-zip"
+		description="Creates files for the partial (Alpha-Beta-Candidate) Release on SourceForge">
+
+    <echo message="Created a '${project.config}' package in ${build.dir}" />
+  </target>
+
+  <target name="package" depends="init test binaries doc sources-zip binaries-zip "
 		 description="Creates files for the File Release System on SourceForge">
 
 		<property name="dist.output.dir" value="${project::get-base-directory()}/build/" />

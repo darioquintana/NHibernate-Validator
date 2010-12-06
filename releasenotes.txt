@@ -10,6 +10,28 @@ Release Notes - NHibernate.Validator - Version 1.2.0
 	* The interface NHibernate.Validator.Engine.IMessageInterpolator and implementations had changed the signature. See [NHV-40]
 	* Using IClassValidator all invalid states methods now return IEnumerable<InvalidValue> instead InvalidValue[]
 
+Release Notes - NHibernate.Validator - Version 1.3.0 Alpha1
+
+** Bug
+    * [NHV-82] - Cannot affect database schema via validation configuration when NHibernate creates DbSchema.
+    * [NHV-90] - Size constraint is not evaluated when updating an entity
+    * [NHV-92] - ValidAttribute not considered for validators on child entities defined with Loquacious configuration
+    * [NHV-96] - SizeAttribute does not properly validate a HashSet(Of T)
+    * [NHV-102] - DecodeMemberAccessExpression incorrectly assumes Convert members return "object" type.
+    * [NHV-106] - NHibernate.Validator.Exceptions.InvalidStateException has the private field static (InvalidValue[] _invalidValues)
+    * [NHV-107] - Impossible to create [DecimalMin()] and [DecimalMax()] attributes
+
+** Improvement
+    * [NHV-101] - Making event listeners serializable in order to be able to serialize NH's Configuration
+    * [NHV-105] - add all the missing resources and a test to check it
+
+** New Feature
+    * [NHV-104] - message for ipaddress misses from resource
+
+** Patch
+    * [NHV-100] - Patch to build against NH3 Alpha3
+
+
 Release Notes - NHibernate.Validator - Version 1.2.0GA
 
 ** Bug
