@@ -7,19 +7,37 @@ namespace NHibernate.Validator.Tests.Specifics.NHV90
 	{
 		protected TheParent()
 		{
+			children = new List<TheChild>();
 		}
 
-		public TheParent(string name)
+		public TheParent(string name):this()
 		{
-			Children = new List<TheChild>();
 			Name = name;
 		}
 
 		public virtual long Id { get; set; }
 
-		[Size(Min = 1)]
-		public virtual IList<TheChild> Children { get; set; }
+		private IList<TheChild> children;
 
+		[Size(Min = 1)]
+		public virtual IEnumerable<TheChild> Children
+		{
+			get { return children; }
+		}
+
+		public virtual void AddChild(TheChild child)
+		{
+			child.Parent = this;
+			children.Add(child);
+		}
+		public virtual void ClearChildren()
+		{
+			foreach (var child in children)
+			{
+				child.Parent = null;
+			}
+			children.Clear();
+		}
 		public virtual string Name { get; set; }
 	}
 

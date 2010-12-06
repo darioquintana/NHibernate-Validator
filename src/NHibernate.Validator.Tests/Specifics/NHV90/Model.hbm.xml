@@ -10,9 +10,9 @@
             <generator class="hilo"/>
         </id>
 
-        <bag access="property" cascade="all-delete-orphan" inverse="true" name="Children" mutable="true">
+        <bag access="field.camelcase" cascade="all-delete-orphan" inverse="true" name="Children" mutable="true">
             <key foreign-key="FK_ParentHasChildren">
-                <column name="ChildFk" />
+                <column name="TheParentId" />
             </key>
             <one-to-many class="TheChild" />
         </bag>
@@ -27,9 +27,7 @@
             <generator class="hilo"/>
         </id>
 
-        <many-to-one cascade="save-update" class="TheParent" foreign-key="FK_ChildHasAParentAssociated" name="Parent">
-            <column name="ContactFk" />
-        </many-to-one>
+        <many-to-one class="TheParent" foreign-key="FK_ChildHasAParentAssociated" name="Parent" column="TheParentId"/>
 
         <property name="Name" />
 

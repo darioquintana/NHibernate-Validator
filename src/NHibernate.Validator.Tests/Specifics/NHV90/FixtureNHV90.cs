@@ -52,7 +52,7 @@ namespace NHibernate.Validator.Tests.Specifics.NHV90
 		public void When_removing_the_last_child_the_parent_should_not_be_valid()
 		{
 			var p = new TheParent("x");
-			p.Children.Add(new TheChild("kik"));
+			p.AddChild(new TheChild("kik"));
 			using (ISession s = OpenSession())
 			using (ITransaction tx = s.BeginTransaction())
 			{
@@ -67,7 +67,7 @@ namespace NHibernate.Validator.Tests.Specifics.NHV90
 				loadedParent = s.CreateQuery("from TheParent p where p.Name = 'x'")
 					.UniqueResult<TheParent>();
 
-				loadedParent.Children.Clear();
+				loadedParent.ClearChildren();
 
 				// This currently passes.
 				Assert.False(vtor.IsValid(loadedParent));
