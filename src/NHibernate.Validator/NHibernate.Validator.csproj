@@ -232,6 +232,7 @@
     <EmbeddedResource Include="Properties\DefaultValidatorMessages.es.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\DefaultValidatorMessages.fa.resx" />
     <EmbeddedResource Include="Properties\DefaultValidatorMessages.fr.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -244,6 +245,7 @@
     <EmbeddedResource Include="Properties\DefaultValidatorMessages.nl.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\DefaultValidatorMessages.pt-BR.resx" />
     <EmbeddedResource Include="Properties\DefaultValidatorMessages.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
