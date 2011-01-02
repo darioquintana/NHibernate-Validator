@@ -1,13 +1,13 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernate.Validator.Demo.Mvc", "NHibernate.Validator.Demo.Mvc\NHibernate.Validator.Demo.Mvc.csproj", "{2E692B26-EFBE-4FE0-8F7A-2B02BC8717FE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernate.Validator", "..\..\src\NHibernate.Validator\NHibernate.Validator.csproj", "{599516E0-E10D-4F44-B5E1-B7B67EFC931A}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{12C153A1-3282-4C78-8B38-A53F5C9C866D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AspNetMvc.QuickStart", "AspNetMvc.QuickStart", "{623D0E20-EF0F-4EAC-BAF4-356A368363F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernate.Validator.Demo.Mvc", "NHibernate.Validator.Demo.Mvc\NHibernate.Validator.Demo.Mvc.csproj", "{2E692B26-EFBE-4FE0-8F7A-2B02BC8717FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernate.Validator", "..\..\src\NHibernate.Validator\NHibernate.Validator.csproj", "{599516E0-E10D-4F44-B5E1-B7B67EFC931A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
