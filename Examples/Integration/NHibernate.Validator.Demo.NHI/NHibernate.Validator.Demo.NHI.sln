@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{66FC3A70-0B42-409A-90DE-B1AE83B3A984}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NHibernateIntegration.QuickStart", "NHibernateIntegration.QuickStart", "{6E318C15-15DE-4F76-A04E-CCEA22D2A3F7}"

@@ -3,7 +3,7 @@ using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Demo.Model
 {
-	public class PhoneValidator :  IInitializableValidator<PhoneAttribute>
+	public class PhoneValidator : IInitializableValidator<PhoneAttribute>
 	{
 		private Regex regex;
 
