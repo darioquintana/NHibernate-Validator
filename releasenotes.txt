@@ -9,6 +9,16 @@ Release Notes - NHibernate.Validator - Version 1.2.0
     * The class NHibernate.Validator.Cfg.NHVConfiguration was renamed to XmlConfiguration
 	* The interface NHibernate.Validator.Engine.IMessageInterpolator and implementations had changed the signature. See [NHV-40]
 	* Using IClassValidator all invalid states methods now return IEnumerable<InvalidValue> instead InvalidValue[]
+	
+Release Notes - NHibernate.Validator - Version 1.3.0 Beta1
+
+** Improvement
+    * [NHV-108] - Validation messages in pt-BR
+    * [NHV-109] - Examples updated to Visual Studio 2010
+
+** Patch
+    * [NHV-89] - Not applying logic in ValidationDef when validating child members with Valid attribute
+	
 
 Release Notes - NHibernate.Validator - Version 1.3.0 Alpha1
 
