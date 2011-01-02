@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using Castle.Windsor;
 using NHibernate.Validator.Demo.IoC.Windsor.MyValidators;
 using NHibernate.Validator.Engine;
@@ -44,6 +45,8 @@ namespace NHibernate.Validator.Demo.IoC.Windsor
 			                      	};
 
 			Debug.Assert(vtor.Validate(invalidCustomer).Length == 1);
+			Console.WriteLine("Done.");
+			Console.ReadKey(true);
 		}
 	}
 }
