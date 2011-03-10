@@ -119,13 +119,18 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 
 			if (type == null)
 			{
+				type = System.Type.GetType(GetText(attributename), false);
+			}
+
+			if (type == null)
+			{
 				throw new InvalidAttributeNameException(GetText(attributename), entityType);
 			}
 
 			Attribute attribute = (Attribute)Activator.CreateInstance(type);
 			if (attribute is IRuleArgs && attributename.message != null)
 			{
-				((IRuleArgs) attribute).Message = attributename.message;
+				((IRuleArgs)attribute).Message = attributename.message;
 			}
 			return attribute;
 		}
@@ -183,24 +188,24 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			log.Info("The type found for ruleRule = " + type.FullName);
 			Attribute thisattribute = (Attribute)Activator.CreateInstance(type);
 			log.Info("Attribute found = " + thisattribute);
-			
+
 			var tr = thisattribute as ITagableRule;
-			if(tr!=null)
+			if (tr != null)
 			{
 				AssignTagsFromString(tr, ruleRule.tags);
 			}
 
 			if (ruleRule.param == null) return thisattribute; //eager return
-			
+
 			foreach (NhvmParam parameter in ruleRule.param)
 			{
 				PropertyInfo propInfo = type.GetProperty(parameter.name);
 				if (propInfo != null)
 				{
 					log.Info("propInfo value = " + parameter.value);
-					object value = propInfo.PropertyType != typeof (string)
-					               	? Convert.ChangeType(parameter.value, propInfo.PropertyType)
-					               	: parameter.value;
+					object value = propInfo.PropertyType != typeof(string)
+									? Convert.ChangeType(parameter.value, propInfo.PropertyType)
+									: parameter.value;
 					propInfo.SetValue(thisattribute, value, null);
 				}
 				else
@@ -263,7 +268,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 		public static RegexOptions ParsePatternFlags(string xmlValue)
 		{
 			RegexOptions result = RegexOptions.None;
-			string[] tokens = xmlValue.Split(new char[] {'|', ' '}, StringSplitOptions.RemoveEmptyEntries);
+			string[] tokens = xmlValue.Split(new char[] { '|', ' ' }, StringSplitOptions.RemoveEmptyEntries);
 			foreach (string token in tokens)
 			{
 				result |= ParsePatternSingleFlags(token);
@@ -607,7 +612,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			{
 				return;
 			}
-			var tags = tagsAttributeValue.Trim().Split(' ',',',';');
+			var tags = tagsAttributeValue.Trim().Split(' ', ',', ';');
 			Array.ForEach(tags, tag => rule.TagCollection.Add(tag));
 		}
 	}

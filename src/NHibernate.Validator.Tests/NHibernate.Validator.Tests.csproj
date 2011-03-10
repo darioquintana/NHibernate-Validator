@@ -220,6 +220,9 @@
     <Compile Include="Serialization\RuleArgsSerializationFixture.cs" />
     <Compile Include="Serialization\ValidatorEngineSerializationFixture.cs" />
     <Compile Include="Serialization\ValidatorsSerializationFixture.cs" />
+    <Compile Include="Specifics\NHV110\CustomValidator.cs" />
+    <Compile Include="Specifics\NHV110\Fixture.cs" />
+    <Compile Include="Specifics\NHV110\Model.cs" />
     <Compile Include="Specifics\NHV82\DdlForNestedComponentsTest.cs" />
     <Compile Include="Specifics\NHV92\FluentValidationWithAttributesBugTest.cs" />
     <Compile Include="Specifics\NHV25\XmlDictionaryValueKeyFixture.cs" />
@@ -452,6 +455,7 @@
     <EmbeddedResource Include="Engine\DuplicatedAddress.nhv.xml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Specifics\NHV110\Mappings.nhv.xml" />
     <EmbeddedResource Include="Integration\MartianPk.nhv.xml" />
     <EmbeddedResource Include="Integration\MarsAddress.nhv.xml" />
     <EmbeddedResource Include="Base\CreditCard.nhv.xml" />

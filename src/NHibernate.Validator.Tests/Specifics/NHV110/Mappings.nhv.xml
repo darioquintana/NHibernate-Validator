@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<nhv-mapping xmlns="urn:nhibernate-validator-1.0"
+			 namespace="NHibernate.Validator.Tests.Specifics.NHV110"
+			 assembly="NHibernate.Validator.Tests">
+	
+	<class name="FooEntityValidator">
+		<attributename>
+			NHibernate.Validator.Tests.Specifics.NHV110.CustomValidatorAttribute, NHibernate.Validator.Tests
+		</attributename>
+	</class>
+
+	<class name="FooPropertyValidator">
+			<property name="Name" >
+				<rule attribute="NHibernate.Validator.Tests.Specifics.NHV110.CustomValidatorAttribute, NHibernate.Validator.Tests"/>
+			</property>
+	</class>
+	
+</nhv-mapping>
