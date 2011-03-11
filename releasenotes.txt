@@ -1,7 +1,8 @@
 Documentation and examples are available at www.nhforge.org
 Any feedback or issue can be sent to NHibernate user group(http://groups.google.com/group/nhusers) and will be greatly anticipated. 
 
-Release Notes - NHibernate.Validator - Version 1.2.0
+Release Notes - NHibernate.Validator - Version 1.3.0
+
 ** BREAKING CHANGES
     * Target framework .NET 3.5
     * Constraints moved in Constraints namespace.
@@ -9,6 +10,12 @@ Release Notes - NHibernate.Validator - Version 1.2.0
     * The class NHibernate.Validator.Cfg.NHVConfiguration was renamed to XmlConfiguration
 	* The interface NHibernate.Validator.Engine.IMessageInterpolator and implementations had changed the signature. See [NHV-40]
 	* Using IClassValidator all invalid states methods now return IEnumerable<InvalidValue> instead InvalidValue[]
+
+Release Notes - NHibernate.Validator - Version 1.3.0 GA
+
+** Improvement
+    * [NHV-110] - Define a rule in Xml using a .Net Type Name
+    * [NHV-112] - Update to NHibernate 3.1.0 GA
 	
 Release Notes - NHibernate.Validator - Version 1.3.0 Beta1
 
