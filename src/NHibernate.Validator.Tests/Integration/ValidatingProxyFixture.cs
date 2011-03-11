@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using NHibernate.Validator.Cfg.Loquacious;
 using NHibernate.Validator.Engine;
+using NHibernate.Validator.Util;
 using NUnit.Framework;
 
 namespace NHibernate.Validator.Tests.Integration
@@ -74,7 +75,7 @@ namespace NHibernate.Validator.Tests.Integration
 				var proxy = s.Load<SimpleWithRelation>(savedId);
 				Assert.That(engine.IsValid(proxy));
 				Assert.DoesNotThrow(() => engine.AssertValid(proxy));
-				Assert.That(!NHibernateUtil.IsInitialized(proxy), "should not initialize the proxy");
+				Assert.That(!NHibernateHelper.IsInitialized(proxy), "should not initialize the proxy");
 			}
 
 			CleanDb();
@@ -238,7 +239,7 @@ namespace NHibernate.Validator.Tests.Integration
 				var proxy = s.Load<Relation>(savedIdRelation);
 				Assert.That(engine.IsValid(new SimpleWithRelation { Name = "OK", Relation = proxy }));
 				Assert.DoesNotThrow(() => engine.AssertValid(new SimpleWithRelation {Name = "OK", Relation = proxy}));
-				Assert.That(!NHibernateUtil.IsInitialized(proxy), "should not initialize the proxy");
+				Assert.That(!NHibernateHelper.IsInitialized(proxy), "should not initialize the proxy");
 			}
 
 			CleanDb();

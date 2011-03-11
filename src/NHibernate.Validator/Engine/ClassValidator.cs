@@ -285,9 +285,9 @@ namespace NHibernate.Validator.Engine
 		private IEnumerable<InvalidValue> GetChildrenInvalidValues(object entity, string memberName, HashSet<object> circularityState, ICollection<object> activeTags)
 		{
 			return from member in childGetters
-				   where memberName.Equals(member.Name) && NHibernateUtil.IsPropertyInitialized(entity, member.Name)
+				   where memberName.Equals(member.Name) && NHibernateHelper.IsPropertyInitialized(entity, member.Name)
 				   let value = TypeUtils.GetMemberValue(entity, member)
-				   where value != null && (NHibernateUtil.IsInitialized(value) || value is AbstractPersistentCollection)
+				   where value != null && (NHibernateHelper.IsInitialized(value) || value is AbstractPersistentCollection)
 				   from invalidValue in ChildInvalidValues(value, entity, member, circularityState, activeTags)
 				   select invalidValue;
 		}
@@ -295,9 +295,9 @@ namespace NHibernate.Validator.Engine
 		private IEnumerable<InvalidValue> GetChildrenInvalidValues(object entity, HashSet<object> circularityState, ICollection<object> activeTags)
 		{
 			return from member in childGetters
-			       where NHibernateUtil.IsPropertyInitialized(entity, member.Name)
+			       where NHibernateHelper.IsPropertyInitialized(entity, member.Name)
 			       let value = TypeUtils.GetMemberValue(entity, member)
-			       where value != null && (NHibernateUtil.IsInitialized(value) || value is AbstractPersistentCollection)
+			       where value != null && (NHibernateHelper.IsInitialized(value) || value is AbstractPersistentCollection)
 			       from invalidValue in ChildInvalidValues(value, entity, member, circularityState, activeTags)
 			       select invalidValue;
 		}
@@ -328,7 +328,7 @@ namespace NHibernate.Validator.Engine
 		private IEnumerable<InvalidValue> ChildInvalidValues(object value, object entity, MemberInfo member, HashSet<object> circularityState, ICollection<object> activeTags)
 		{
 			var valueEnum = value as IEnumerable;
-			if (!NHibernateUtil.IsInitialized(value) && value is AbstractPersistentCollection)
+			if (!NHibernateHelper.IsInitialized(value) && value is AbstractPersistentCollection)
 			{
 				valueEnum = (value as AbstractPersistentCollection).QueuedAdditionIterator;
 			}
@@ -690,9 +690,9 @@ namespace NHibernate.Validator.Engine
 		    
 			return from mtv in membersValidators
 				   let member = mtv.Getter
-				   where NHibernateUtil.IsPropertyInitialized(entity, member.Name)
+				   where NHibernateHelper.IsPropertyInitialized(entity, member.Name)
 				   let value = TypeUtils.GetMemberValue(entity, member)
-				   where IsValidationNeededByTags(activeTags, mtv.ValidatorDef.Tags) && NHibernateUtil.IsInitialized(value)
+				   where IsValidationNeededByTags(activeTags, mtv.ValidatorDef.Tags) && NHibernateHelper.IsInitialized(value)
 				   let validator = mtv.ValidatorDef.Validator
 				   let constraintContext = new ConstraintValidatorContext(member.Name, defaultInterpolator.GetAttributeMessage(validator))
 				   where !validator.IsValid(value, constraintContext)

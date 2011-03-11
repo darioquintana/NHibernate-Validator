@@ -1,5 +1,6 @@
 using System.Collections;
 using NHibernate.Validator.Engine;
+using NHibernate.Validator.Util;
 using NUnit.Framework;
 
 namespace NHibernate.Validator.Tests.Integration
@@ -30,7 +31,7 @@ namespace NHibernate.Validator.Tests.Integration
 			}
 			var ei = new DefaultEntityTypeInspector();
 			Assert.That(ei.GuessType(proxy), Is.EqualTo(typeof (AnEntity)));
-			Assert.That(!NHibernateUtil.IsInitialized(proxy), "should not initialize the proxy");
+			Assert.That(!NHibernateHelper.IsInitialized(proxy), "should not initialize the proxy");
 		}
 	}
 }

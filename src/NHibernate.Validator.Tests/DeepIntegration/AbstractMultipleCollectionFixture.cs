@@ -2,6 +2,7 @@ using System.Collections;
 using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Engine;
 using NHibernate.Validator.Event;
+using NHibernate.Validator.Util;
 using NUnit.Framework;
 using System.Collections.Generic;
 
@@ -80,13 +81,13 @@ namespace NHibernate.Validator.Tests.DeepIntegration
 
 				// This two lines are not needed for tests because is a NH matter
 				// we use it only to check where the problem really is
-				Assert.IsFalse(NHibernateUtil.IsInitialized(p.Children));
-				Assert.IsFalse(NHibernateUtil.IsInitialized(p.Friends));
+				Assert.IsFalse(NHibernateHelper.IsInitialized(p.Children));
+				Assert.IsFalse(NHibernateHelper.IsInitialized(p.Friends));
 
 				vengine.Validate(p);
 
-				Assert.IsFalse(NHibernateUtil.IsInitialized(p.Children));
-				Assert.IsFalse(NHibernateUtil.IsInitialized(p.Friends));
+				Assert.IsFalse(NHibernateHelper.IsInitialized(p.Children));
+				Assert.IsFalse(NHibernateHelper.IsInitialized(p.Friends));
 			}
 
 			// No initialized many-to-one
@@ -97,11 +98,11 @@ namespace NHibernate.Validator.Tests.DeepIntegration
 
 				// This line are not needed for tests because is a NH matter
 				// we use it only to check where the problem really is
-				Assert.IsFalse(NHibernateUtil.IsInitialized(p.Parent));
+				Assert.IsFalse(NHibernateHelper.IsInitialized(p.Parent));
 
 				vengine.Validate(p);
 
-				Assert.IsFalse(NHibernateUtil.IsInitialized(p.Parent));
+				Assert.IsFalse(NHibernateHelper.IsInitialized(p.Parent));
 			}
 
 			// No initialized the proxie it self
@@ -109,11 +110,11 @@ namespace NHibernate.Validator.Tests.DeepIntegration
 			{
 				Person p = s.Load<Person>(savedId);
 
-				Assert.IsFalse(NHibernateUtil.IsInitialized(p));
+				Assert.IsFalse(NHibernateHelper.IsInitialized(p));
 
 				vengine.Validate(p);
 
-				Assert.IsFalse(NHibernateUtil.IsInitialized(p));
+				Assert.IsFalse(NHibernateHelper.IsInitialized(p));
 			}
 
 			CleanUp();
