@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Reflection;
-using log4net;
+
 using log4net.Config;
 using NHibernate.Engine;
 using NHibernate.Tool.hbm2ddl;
@@ -14,7 +14,7 @@ namespace NHibernate.Validator.Tests
 		protected NHibernate.Cfg.Configuration cfg;
 		protected ISessionFactory sessions;
 
-		private static readonly ILog log = LogManager.GetLogger(typeof(PersistenceTest));
+		private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof(PersistenceTest));
 
 		protected Dialect.Dialect Dialect
 		{

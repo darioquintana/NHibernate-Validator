@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.XPath;
-using log4net;
+
 using NHibernate.Validator.Exceptions;
 
 namespace NHibernate.Validator.Cfg
@@ -15,7 +15,7 @@ namespace NHibernate.Validator.Cfg
 	/// </summary>
 	public class XmlConfiguration : INHVConfiguration
 	{
-		private static readonly ILog log = LogManager.GetLogger(typeof (XmlConfiguration));
+		private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof (XmlConfiguration));
 
 		private const string CfgSchemaResource = "NHibernate.Validator.Cfg.nhv-configuration.xsd";
 		private readonly XmlSchema config = ReadXmlSchemaFromEmbeddedResource(CfgSchemaResource);

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using log4net;
 using NHibernate.Util;
 using NHibernate.Validator.Cfg.MappingSchema;
 using NHibernate.Validator.Exceptions;
@@ -11,7 +10,7 @@ namespace NHibernate.Validator.Mappings
 {
 	public class XmlClassMapping : AbstractClassMapping
 	{
-		private static readonly ILog log = LogManager.GetLogger(typeof (XmlClassMapping));
+		private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof (XmlClassMapping));
 		private readonly NhvmClass meta;
 
 		public XmlClassMapping(NhvmClass meta)

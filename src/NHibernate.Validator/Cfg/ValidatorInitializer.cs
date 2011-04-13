@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using log4net;
+
 using NHibernate.Cfg;
 using NHibernate.Event;
 using NHibernate.Mapping;
@@ -14,7 +14,7 @@ namespace NHibernate.Validator.Cfg
 	/// </summary>
 	public static class ValidatorInitializer
 	{
-		private static readonly ILog log = LogManager.GetLogger(typeof(ValidatorInitializer));
+		private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof(ValidatorInitializer));
 
 		/// <summary>
 		/// Initialize NHibernate's events and/or DLL.

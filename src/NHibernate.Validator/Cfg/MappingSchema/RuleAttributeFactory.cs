@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using log4net;
+
 using NHibernate.Util;
 using System.Collections.Generic;
 using NHibernate.Validator.Constraints;
@@ -12,7 +12,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 {
 	public class RuleAttributeFactory
 	{
-		private static readonly ILog log = LogManager.GetLogger(typeof(RuleAttributeFactory));
+		private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof(RuleAttributeFactory));
 
 		private static readonly Dictionary<System.Type, ConvertSchemaRule> wellKnownRules =
 			new Dictionary<System.Type, ConvertSchemaRule>();

@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using log4net;
+
 using NHibernate.Validator.Util;
 
 namespace NHibernate.Validator.Mappings
 {
 	public class OpenClassMapping<T> : IClassMapping where T : class
 	{
-		private static readonly ILog log = LogManager.GetLogger("NHibernate.Validator.Mappings.OpenClassMapping");
+		private static readonly IInternalLogger log = LoggerProvider.LoggerFor("NHibernate.Validator.Mappings.OpenClassMapping");
 		protected List<Attribute> classAttributes = new List<Attribute>(5);
 
 		protected Dictionary<MemberInfo, List<Attribute>> membersAttributesDictionary =

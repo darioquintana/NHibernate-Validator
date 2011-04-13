@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Xml;
-using log4net;
+
 using NHibernate.Validator.Cfg.MappingSchema;
 using NHibernate.Validator.Exceptions;
 using NHibernate.Validator.Mappings;
@@ -14,7 +14,7 @@ namespace NHibernate.Validator.Cfg
 	{
 		public const string MappingFileDefaultExtension = ".nhv.xml";
 
-		private static readonly ILog log = LogManager.GetLogger(typeof(XmlMappingLoader));
+		private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof(XmlMappingLoader));
 		private readonly List<NhvMapping> mappings= new List<NhvMapping>();
 
 		public void LoadMappings(IList<MappingConfiguration> configurationMappings)

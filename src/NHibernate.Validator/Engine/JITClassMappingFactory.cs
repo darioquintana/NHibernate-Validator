@@ -1,4 +1,4 @@
-using log4net;
+
 using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Cfg.MappingSchema;
 using NHibernate.Validator.Mappings;
@@ -13,7 +13,7 @@ namespace NHibernate.Validator.Engine
 	/// </remarks>
 	internal class JITClassMappingFactory : IClassMappingFactory
 	{
-		private static readonly ILog log = LogManager.GetLogger(typeof(JITClassMappingFactory));
+		private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof(JITClassMappingFactory));
 
 		#region IClassMappingFactory Members
 

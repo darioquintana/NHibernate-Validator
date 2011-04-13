@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using log4net;
+
 
 namespace NHibernate.Validator.Mappings
 {
@@ -11,7 +11,7 @@ namespace NHibernate.Validator.Mappings
 			BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
 			| BindingFlags.Static;
 
-		private static readonly ILog log = LogManager.GetLogger(typeof (ReflectionClassMapping));
+		private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof (ReflectionClassMapping));
 
 		public ReflectionClassMapping(System.Type clazz)
 		{

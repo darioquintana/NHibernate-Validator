@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using log4net;
+
 using NHibernate.Util;
 using NHibernate.Validator.Engine;
 
@@ -72,7 +72,7 @@ namespace NHibernate.Validator.Cfg
 		/// </remarks>
 		public const string SharedEngineClass = "shared_engine_provider";
 
-		private static readonly ILog log = LogManager.GetLogger(typeof(Environment));
+		private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof(Environment));
 
 		private static readonly Dictionary<string, string> GlobalProperties = new Dictionary<string, string>();
 

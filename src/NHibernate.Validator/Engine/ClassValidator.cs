@@ -6,7 +6,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Resources;
 using System.Runtime.Serialization;
-using log4net;
+
 using NHibernate.Mapping;
 using NHibernate.Properties;
 using NHibernate.Validator.Constraints;
@@ -31,7 +31,7 @@ namespace NHibernate.Validator.Engine
 			public ValidatorDef ValidatorDef { get; set; }
 			public MemberInfo Getter { get; set; }
 		}
-		private static readonly ILog log = LogManager.GetLogger(typeof(ClassValidator));
+		private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof(ClassValidator));
 		private readonly System.Type entityType;
 		private readonly IConstraintValidatorFactory constraintValidatorFactory;
 

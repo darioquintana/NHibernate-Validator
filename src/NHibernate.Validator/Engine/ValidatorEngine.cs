@@ -6,7 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Resources;
 using System.Xml;
-using log4net;
+
 using NHibernate.Mapping;
 using NHibernate.Util;
 using NHibernate.Validator.Cfg;
@@ -30,7 +30,7 @@ namespace NHibernate.Validator.Engine
 	[Serializable]
 	public class ValidatorEngine
 	{
-		private static readonly ILog log = LogManager.GetLogger(typeof(ValidatorEngine));
+		private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof(ValidatorEngine));
 
 		private StateFullClassValidatorFactory factory;
 		private IMessageInterpolator interpolator;

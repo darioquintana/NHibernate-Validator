@@ -1,6 +1,6 @@
 using System;
 using System.Runtime.Serialization;
-using log4net;
+
 
 namespace NHibernate.Validator.Exceptions
 {
@@ -18,7 +18,7 @@ namespace NHibernate.Validator.Exceptions
 		public AssertionFailureException()
 			: base(string.Empty)
 		{
-			LogManager.GetLogger(typeof (AssertionFailureException)).Error(defMessage);
+			LoggerProvider.LoggerFor(typeof (AssertionFailureException)).Error(defMessage);
 		}
 
 		/// <summary>
@@ -28,7 +28,7 @@ namespace NHibernate.Validator.Exceptions
 		public AssertionFailureException(string message)
 			: base(message)
 		{
-			LogManager.GetLogger(typeof (AssertionFailureException)).Error(defMessage, this);
+			LoggerProvider.LoggerFor(typeof (AssertionFailureException)).Error(defMessage, this);
 		}
 
 		/// <summary>
@@ -43,7 +43,7 @@ namespace NHibernate.Validator.Exceptions
 		public AssertionFailureException(string message, Exception innerException)
 			: base(message, innerException)
 		{
-			LogManager.GetLogger(typeof (AssertionFailureException)).Error(defMessage, innerException);
+			LoggerProvider.LoggerFor(typeof (AssertionFailureException)).Error(defMessage, innerException);
 		}
 
 		/// <summary>

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using log4net;
+
 using NHibernate.Validator.Mappings;
 
 namespace NHibernate.Validator.Engine
@@ -14,7 +14,7 @@ Possible causes:
 - You have more than one time the same mapping.
 Note: 'external' mean XML or any other mapping source than Attribute.";
 
-		private static readonly ILog log = LogManager.GetLogger(typeof(StateFullClassMappingFactory));
+		private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof(StateFullClassMappingFactory));
 
 		private readonly Dictionary<System.Type, IClassMapping> definitions = new Dictionary<System.Type, IClassMapping>();
 

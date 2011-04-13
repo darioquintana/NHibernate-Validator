@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
-using log4net;
+
 using NHibernate.Validator.Exceptions;
 using NHibernate.Validator.Mappings;
 
@@ -10,7 +10,7 @@ namespace NHibernate.Validator.Cfg.Loquacious
 {
 	public class FluentMappingLoader : IMappingLoader
 	{
-		private static readonly ILog log = LogManager.GetLogger(typeof (FluentMappingLoader));
+		private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof (FluentMappingLoader));
 		private readonly List<IClassMapping> classMappings = new List<IClassMapping>();
 
 		public void LoadMappings(IList<MappingConfiguration> configurationMappings)

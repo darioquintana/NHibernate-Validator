@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using NHibernate.Validator.Engine;
 using NUnit.Framework;
-using log4net;
+
 using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.XmlAndAttributesMix
@@ -11,7 +11,7 @@ namespace NHibernate.Validator.Tests.XmlAndAttributesMix
 	[TestFixture]
 	public class OverrideAttributeWithXmlFixture : BaseValidatorFixture
 	{
-		private static ILog log = LogManager.GetLogger(typeof(OverrideAttributeWithXmlFixture));
+		private static IInternalLogger log = LoggerProvider.LoggerFor(typeof(OverrideAttributeWithXmlFixture));
 
 		public override IClassValidator GetClassValidator(System.Type type)
 		{
