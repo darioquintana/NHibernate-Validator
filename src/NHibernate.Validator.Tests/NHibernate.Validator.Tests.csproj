@@ -475,7 +475,9 @@
     </Content>
     <EmbeddedResource Include="Specifics\NHV82\Pperson.hbm.xml" />
     <EmbeddedResource Include="Specifics\NHV91\Model.hbm.xml" />
-    <EmbeddedResource Include="Specifics\NHV90\Model.hbm.xml" />
+    <EmbeddedResource Include="Specifics\NHV90\Model.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Specifics\NHV82\Person.hbm.xml" />
     <EmbeddedResource Include="Specifics\NHV85\Model.hbm.xml" />
     <EmbeddedResource Include="Specifics\NHV71\Customer.hbm.xml" />
