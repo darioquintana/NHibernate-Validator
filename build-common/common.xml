@@ -46,7 +46,7 @@
 		<delete file="_revision.xml" failonerror="false" />
 	</if>
 	
-	<property name="project.version" value="1.3.0.GA" overwrite="false" />
+	<property name="project.version" value="1.3.1.GA" overwrite="false" />
 
 	<!-- Compute short project version (major.minor) using a regex -->
 	<regex input="${project.version}" pattern="^(?'shortversion'\d+\.\d+)" />
