@@ -194,6 +194,13 @@
 				<include name="*" />
 			</fileset>
 		</copy>
+		
+		<copy todir="${build.nuget.dir}">
+			<fileset basedir="${build.dir}/schema">
+				<include name="*" />
+			</fileset>
+		</copy>	
+		
 		<delete>
 			<fileset basedir="${build.nuget.dir}">
 				<include name="nunit*" />
