@@ -186,6 +186,27 @@
 			</fileset>
 		</copy-->
 	</target>
+	
+	<target name="nugetdeploy" depends="init build">
+		
+		<copy todir="${build.nuget.dir}">
+			<fileset basedir="${bin.dir}">
+				<include name="*" />
+			</fileset>
+		</copy>
+		<delete>
+			<fileset basedir="${build.nuget.dir}">
+				<include name="nunit*" />
+				<include name="SharpTestsEx*"  />
+				<include name="log4net*"  />
+				<include name="*test*" />
+				<include name="Castle.Core*" />
+				<include name="Antlr3.Runtime*" />
+				<include name="LinFu.DynamicProxy*" />
+				<include name="NHibernate.ByteCode*" />		
+			</fileset>
+		</delete>
+	</target>
 
 	<target name="binaries-zip" depends="init binaries copy-release-notes">
 		<zip zipfile="${build.dir}/bin/NHibernate.Validator-${project.version}-bin.zip">

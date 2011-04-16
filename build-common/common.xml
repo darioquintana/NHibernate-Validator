@@ -133,6 +133,7 @@
 		<call target="set-${project.config}-project-configuration" />
 
 		<property name="build.root.dir" value="${root.dir}/build/${build.name}" />
+		<property name="build.nuget.dir" value="${root.dir}/build/NuGetDeploy" />
 		<property name="build.dir" value="${build.root.dir}" />
 		<property name="bin.dir" value="${build.dir}/bin/${nant.settings.currentframework}" dynamic="true" />
 		<property name="testresults.dir" 	value="${bin.dir}/test-results" />
