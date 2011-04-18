@@ -20,6 +20,6 @@
     </dependencies>
   </metadata>
   <files>  
-    <file src="Build\NuGetDeploy\*" target="lib\Net35" />
+    <file src="Build\NuGetDeploy\**\*" target="lib\Net35" />
   </files>
 </package>
