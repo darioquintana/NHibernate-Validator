@@ -191,7 +191,7 @@
 		
 		<copy todir="${build.nuget.dir}">
 			<fileset basedir="${bin.dir}">
-				<include name="*" />
+				<include name="**/*" />
 			</fileset>
 		</copy>
 		
@@ -203,6 +203,7 @@
 		
 		<delete>
 			<fileset basedir="${build.nuget.dir}">
+				<include name="test-results/**/*.*" />
 				<include name="NHibernate.dll" />
 				<include name="NHibernate.xml" />
 				<include name="nunit*" />
