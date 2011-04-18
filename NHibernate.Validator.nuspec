@@ -2,13 +2,17 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>NHibernate.Validator</id>
+	<title>NHibernate Validator</title>
     <version>1.3.1.4000</version>
-    <authors>Author here</authors>
-    <owners>Owner here</owners>
+    <authors>Dario Quintana, Fabio Maulo, Gustavo Ringel</authors>
+    <owners>Dario Quintana</owners>
 	<licenseUrl>http://www.gnu.org/licenses/lgpl.html</licenseUrl>
     <projectUrl>http://nhforge.org</projectUrl>
-    <iconUrl>http://darioquintana.com.ar/files/NHV-logo-white-background.png</iconUrl>
+    <iconUrl>http://darioquintana.com.ar/files/logo-nhv-for-nuget.jpg</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
+	<summary>
+		NHibernate Validator is a powerful and extensible framework to validate objects using the .Net Platform.
+	</summary>
     <description>NHibernate Validator is a powerful and extensible framework to validate objects using the .Net Platform. Born as a port of Hibernate Validator 3.0.0 project at december of 2007. Later on, many improvements and changes were made to the Core and API, and now we can say that NHibernate Validator is more than just a port. NHibernate Validator is entirely written in C#. The first release of NHibernate Validator was entirely developed by Dario Quintana, Gustavo Ringel and Fabio Maulo.</description>
     <tags>NHibernate Validator Validation NHV</tags>
     <dependencies>
