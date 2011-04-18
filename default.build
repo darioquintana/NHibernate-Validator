@@ -203,12 +203,15 @@
 		
 		<delete>
 			<fileset basedir="${build.nuget.dir}">
+				<include name="NHibernate.dll" />
+				<include name="NHibernate.xml" />
 				<include name="nunit*" />
 				<include name="SharpTestsEx*"  />
 				<include name="log4net*"  />
 				<include name="*test*" />
 				<include name="Castle.Core*" />
 				<include name="Antlr3.Runtime*" />
+				<include name="Iesi*" />
 				<include name="LinFu.DynamicProxy*" />
 				<include name="NHibernate.ByteCode*" />		
 			</fileset>
