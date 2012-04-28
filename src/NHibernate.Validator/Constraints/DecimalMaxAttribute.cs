@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Globalization;
 using NHibernate.Mapping;
 using NHibernate.Validator.Engine;
 
@@ -74,7 +75,7 @@ namespace NHibernate.Validator.Constraints
 			IEnumerator ie = property.ColumnIterator.GetEnumerator();
 			ie.MoveNext();
 			var col = (Column)ie.Current;
-			col.CheckConstraint = col.Name + "<=" + Value;
+            col.CheckConstraint = col.Name + "<=" + Convert.ToString(Value, CultureInfo.InvariantCulture);
 		}
 
 		#endregion
