@@ -7,6 +7,7 @@
 	<property name="root.dir" value="." />
 	<include buildfile="${root.dir}/build-common/common.xml" />
 	<property name="lib.dir" value="${root.dir}/lib" />
+	<property name="package.dir" value="${root.dir}/src/packages" />
 	<property name="doc.dir" value="${root.dir}/doc" />
 	<property name="example.dir" value="${root.dir}/examples" />
 
@@ -43,43 +44,26 @@
 	</target>
 
 	<target name="copy-referenced-assemblies">
-		<!-- Copy framework-neutral libraries -->
+		
 		<copy todir="${bin.dir}" >
-			<fileset basedir="${lib.dir}">
-				<!--include name="*.dll" /-->
-				<include name="Antlr3.Runtime.dll" />
-				<include name="NHibernate.ByteCode.LinFu.dll"  />
-				<include name="NHibernate.ByteCode.Castle.dll"  />
-				<include name="LinFu.DynamicProxy.dll" />
-				<include name="Castle.Core.dll"  />
-				<include name="Castle.DynamicProxy2.dll"  />
+			<fileset basedir="${lib.dir}">			
 				<include name="nunit.*.dll"  />
-				<include name="SharpTestsEx*.dll"  />
-				<include name="log4net.dll"  />
-				<include name="Iesi.Collections.dll" />
-				<include name="NHibernate.dll"  />
-
-				<include name="*.xml" />
-				<include name="Castle.Core.xml"  />
-				<include name="Castle.DynamicProxy2.xml"  />
-				<include name="log4net.xml"  />
-				<include name="Iesi.Collections.xml" />
-				<include name="NHibernate.xml"  />
-				<!--include name="*.exe" /-->
-				<!--include name="*.license.txt" /-->
+				<include name="SharpTestsEx*.dll"  />			
+				<include name="*.xml" />			
 			</fileset>
 		</copy>
-
+		
 		<copy file="src/NHibernate.Validator/Cfg/nhv-mapping.xsd" tofile="${build.dir}/schema/nhv-mapping.xsd"/>
-		<copy file="src/NHibernate.Validator/Cfg/nhv-configuration.xsd" tofile="${build.dir}/schema/nhv-configuration.xsd"/>
-
+		<copy file="src/NHibernate.Validator/Cfg/nhv-configuration.xsd" tofile="${build.dir}/schema/nhv-configuration.xsd"/>		
+		<copy file="src/packages/NHibernate.3.3.1.4000/lib/Net35/NHibernate.dll" tofile="${bin.dir}/NHibernate.dll"/>
+		<copy file="src/packages/log4net.2.0.0/lib/net35-full/log4net.dll" tofile="${bin.dir}/log4net.dll"/>
+		<copy file="src/packages/Iesi.Collections.3.3.1.4000/lib/Net35/Iesi.Collections.dll" tofile="${bin.dir}/Iesi.Collections.dll"/>	
 
 	</target>
 
 	<target name="build"
 		depends="init prepare-build-directory"
 		description="Builds NHibernate in the current configuration">
-
 		<nant target="build">
 			<buildfiles refid="buildfiles.all" />
 		</nant>
@@ -117,6 +101,7 @@
 			<fileset>
 				<!-- copy dlls used by this build -->
 				<include name="${lib.dir}/**"  />
+				<include name="${package.dir}/**"  />
 
 				<include name="${example.dir}/**"  />
 
