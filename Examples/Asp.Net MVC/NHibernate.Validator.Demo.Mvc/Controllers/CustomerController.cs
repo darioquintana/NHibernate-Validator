@@ -16,13 +16,9 @@ namespace MvcNhvDemo.Controllers
 			return View();
 		}
 
-		[AcceptVerbs(HttpVerbs.Post)]
-		public ActionResult Manage(FormCollection form)
+		[HttpPost]
+		public ActionResult Manage(Customer customer)
 		{
-			var customer = new Customer();
-
-			UpdateModel(customer);
-			
 			this.Validate(customer);
 
 			if (ModelState.IsValid)
