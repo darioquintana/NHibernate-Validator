@@ -38,3 +38,4 @@ available-test-configurations
 current-test-configuration
 NHibernate.VisualState.xml
 /src/packages
+/src/*.dat
