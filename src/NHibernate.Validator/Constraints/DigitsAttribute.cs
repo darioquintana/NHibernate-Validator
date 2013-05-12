@@ -95,7 +95,7 @@ namespace NHibernate.Validator.Constraints
 				return false;
 			}
 
-			string separator = CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
+			string separator = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
 
 			int pos = stringValue.IndexOf(separator);
 
