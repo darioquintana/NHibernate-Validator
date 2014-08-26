@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace NHibernate.Validator.Engine
 {
@@ -10,9 +11,9 @@ namespace NHibernate.Validator.Engine
 	/// Created by <see cref="ClassValidator"/>. The ctor is public only for test scope.
 	/// </remarks>
 	[Serializable]
-	public class InvalidValue
+	public class InvalidValue : ValidationResult
 	{
-		public InvalidValue(string message, System.Type entityType, string propertyName, object value, object entity, ICollection<object> matchTags)
+		public InvalidValue(string message, System.Type entityType, string propertyName, object value, object entity, ICollection<object> matchTags) : base(message, new[] { propertyName })
 		{
 			Message = message;
 			Value = value;
@@ -30,7 +31,17 @@ namespace NHibernate.Validator.Engine
 
 		public System.Type EntityType { get; private set; }
 
-		public string Message { get; private set; }
+		public string Message
+		{
+			get
+			{
+				return this.ErrorMessage;
+			}
+			private set
+			{
+				this.ErrorMessage = value;
+			}
+		}
 
 		public string PropertyName { get; private set; }
 
