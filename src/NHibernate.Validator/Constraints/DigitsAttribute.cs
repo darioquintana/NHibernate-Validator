@@ -29,34 +29,30 @@ namespace NHibernate.Validator.Constraints
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	public class DigitsAttribute : EmbeddedRuleArgsAttribute, IRuleArgs, IValidator
+	public class DigitsAttribute : EmbeddedRuleArgsAttribute
 	{
-		private string message = "{validator.digits}";
-		public DigitsAttribute() {}
-
-		public DigitsAttribute(int maxIntegerDigits)
+		public DigitsAttribute() : this(0, 0, "{validator.digits}")
 		{
-			IntegerDigits = maxIntegerDigits;
 		}
 
-		public DigitsAttribute(int maxIntegerDigits, int maxFractionalDigits) : this(maxIntegerDigits)
+		public DigitsAttribute(int maxIntegerDigits) : this(maxIntegerDigits, 0, "{validator.digits}")
 		{
-			FractionalDigits = maxFractionalDigits;
+		}
+
+		public DigitsAttribute(int maxIntegerDigits, int maxFractionalDigits) : this(maxIntegerDigits, maxFractionalDigits, "{validator.digits}")
+		{
+		}
+
+		public DigitsAttribute(int maxIntegerDigits, int maxFractionalDigits, string message)
+		{
+			this.FractionalDigits = maxFractionalDigits;
+			this.IntegerDigits = maxIntegerDigits;
+			this.ErrorMessage = message;
 		}
 
 		public int IntegerDigits { get; set; }
 
 		public int FractionalDigits { get; set; }
-
-		#region IRuleArgs Members
-
-		public string Message
-		{
-			get { return message; }
-			set { message = value; }
-		}
-
-		#endregion
 
 		#region IValidator Members
 
@@ -66,7 +62,7 @@ namespace NHibernate.Validator.Constraints
 		/// <param name="value">Object to be validated</param>
 		/// <param name="constraintContext"></param>
 		/// <returns>if the instance is valid</returns>
-		public bool IsValid(object value, IConstraintValidatorContext constraintContext)
+		public override bool IsValid(object value, IConstraintValidatorContext constraintContext)
 		{
 			if (value == null)
 			{

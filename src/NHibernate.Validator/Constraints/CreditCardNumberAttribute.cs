@@ -6,18 +6,16 @@ namespace NHibernate.Validator.Constraints
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 	[ValidatorClass(typeof (CreditCardNumberValidator))]
-	public class CreditCardNumberAttribute : EmbeddedRuleArgsAttribute, IRuleArgs
+	public class CreditCardNumberAttribute : EmbeddedRuleArgsAttribute
 	{
-		private string message = "{validator.creditCard}";
-
-		#region IRuleArgs Members
-
-		public string Message
+		public CreditCardNumberAttribute()
 		{
-			get { return message; }
-			set { message = value; }
+			this.ErrorMessage = "{validator.creditCard}";
 		}
 
-		#endregion
+		public override bool IsValid(object value, IConstraintValidatorContext constraintValidatorContext)
+		{
+			return new CreditCardNumberValidator().IsValid(value, constraintValidatorContext);
+		}
 	}
 }

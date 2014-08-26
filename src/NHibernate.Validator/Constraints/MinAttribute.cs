@@ -10,30 +10,25 @@ namespace NHibernate.Validator.Constraints
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	public class MinAttribute : EmbeddedRuleArgsAttribute, IRuleArgs, IValidator, IPropertyConstraint
+	public class MinAttribute : EmbeddedRuleArgsAttribute, IPropertyConstraint
 	{
-		private string message = "{validator.min}";
-
-		public MinAttribute() {}
-
-		public MinAttribute(long min)
+		public MinAttribute() : this(0, "{validator.min}")
 		{
-			Value = min;
+		}
+
+		public MinAttribute(long min) : this(min, "{validator.min}")
+		{
+		}
+
+		public MinAttribute(long min, string message)
+		{
+			this.Value = min;
+			this.ErrorMessage = message;
 		}
 
 		public long Value { get; set; }
 
-		#region IRuleArgs Members
-
-		public string Message
-		{
-			get { return message; }
-			set { message = value; }
-		}
-
-		#endregion
-
-		public bool IsValid(object value, IConstraintValidatorContext validatorContext)
+		public override bool IsValid(object value, IConstraintValidatorContext validatorContext)
 		{
 			if (value == null)
 			{

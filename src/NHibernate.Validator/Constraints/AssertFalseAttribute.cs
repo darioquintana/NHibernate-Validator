@@ -8,23 +8,16 @@ namespace NHibernate.Validator.Constraints
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	public class AssertFalseAttribute : EmbeddedRuleArgsAttribute, IRuleArgs, IValidator
+	public class AssertFalseAttribute : EmbeddedRuleArgsAttribute
 	{
-		private string message = "{validator.assertFalse}";
-
-		#region IRuleArgs Members
-
-		public string Message
+		public AssertFalseAttribute()
 		{
-			get { return message; }
-			set { message = value; }
+			this.ErrorMessage = "{validator.assertFalse}";
 		}
-
-		#endregion
 
 		#region IValidator Members
 
-		public bool IsValid(object value, IConstraintValidatorContext constraintContext)
+		public override bool IsValid(object value, IConstraintValidatorContext constraintContext)
 		{
 			if (value == null)
 			{

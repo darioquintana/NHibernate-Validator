@@ -9,23 +9,16 @@ namespace NHibernate.Validator.Constraints
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	public class FileExistsAttribute : EmbeddedRuleArgsAttribute, IRuleArgs, IValidator
+	public class FileExistsAttribute : EmbeddedRuleArgsAttribute
 	{
-		private string message = "{validator.fileExists}";
-
-		#region IRuleArgs Members
-
-		public string Message
+		public FileExistsAttribute()
 		{
-			get { return message; }
-			set { message = value; }
+			this.ErrorMessage = "{validator.fileExists}";
 		}
-
-		#endregion
 
 		#region IValidator Members
 
-		public bool IsValid(object value, IConstraintValidatorContext constraintContext)
+		public override bool IsValid(object value, IConstraintValidatorContext constraintContext)
 		{
 			if (value == null)
 			{
@@ -43,6 +36,5 @@ namespace NHibernate.Validator.Constraints
 		}
 
 		#endregion
-
 	}
 }

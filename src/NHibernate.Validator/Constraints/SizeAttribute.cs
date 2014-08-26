@@ -19,16 +19,18 @@ namespace NHibernate.Validator.Constraints
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	public class SizeAttribute : EmbeddedRuleArgsAttribute, IRuleArgs, IValidator
+	public class SizeAttribute : EmbeddedRuleArgsAttribute
 	{
 		private int max = int.MaxValue;
-		private string message = "{validator.size}";
 
 		/// <summary>
 		/// Min = 0
 		/// Max = int.MaxValue
 		/// </summary>
-		public SizeAttribute() {}
+		public SizeAttribute()
+		{
+			this.ErrorMessage = "{validator.size}";
+		}
 
 		/// <summary>
 		/// Min and Max are specified in the parameters.
@@ -49,19 +51,9 @@ namespace NHibernate.Validator.Constraints
 			set { max = value; }
 		}
 
-		#region IRuleArgs Members
-
-		public string Message
-		{
-			get { return message; }
-			set { message = value; }
-		}
-
-		#endregion
-
 		#region Implementation of IValidator
 
-		public bool IsValid(object value, IConstraintValidatorContext validatorContext)
+		public override bool IsValid(object value, IConstraintValidatorContext validatorContext)
 		{
 			if (value == null)
 			{

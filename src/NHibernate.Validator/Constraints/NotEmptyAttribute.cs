@@ -14,23 +14,16 @@ namespace NHibernate.Validator.Constraints
 	/// </remarks>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	public class NotEmptyAttribute : EmbeddedRuleArgsAttribute, IRuleArgs, IValidator
+	public class NotEmptyAttribute : EmbeddedRuleArgsAttribute
 	{
-		private string message = "{validator.notEmpty}";
-
-		#region IRuleArgs Members
-
-		public string Message
+		public NotEmptyAttribute()
 		{
-			get { return message; }
-			set { message = value; }
+			this.ErrorMessage = "{validator.notEmpty}";
 		}
-
-		#endregion
 
 		#region IValidator Members
 
-		public bool IsValid(object value, IConstraintValidatorContext validatorContext)
+		public override bool IsValid(object value, IConstraintValidatorContext validatorContext)
 		{
 			if (value == null)
 			{

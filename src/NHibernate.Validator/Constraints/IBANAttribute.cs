@@ -20,7 +20,7 @@ namespace NHibernate.Validator.Constraints
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	public class IBANAttribute : EmbeddedRuleArgsAttribute, IRuleArgs, IValidator
+	public class IBANAttribute : EmbeddedRuleArgsAttribute
 	{
 		private const int WorldMaxLength = 34;
 
@@ -28,8 +28,6 @@ namespace NHibernate.Validator.Constraints
 		/// Definitions of countries IBAN (Key=Country code as defined in ISO 3166; Value=IbanDefinition)
 		/// </summary>
 		private static readonly Dictionary<string, Regex> defs = new Dictionary<string, Regex>(195);
-
-		private string message = "{validator.iban}";
 
 		static IBANAttribute()
 		{
@@ -79,19 +77,14 @@ namespace NHibernate.Validator.Constraints
 			RegistrDefinition("GB", @"^(GB)(\d{2})([A-Z]{4})(\d{6})(\d{8})$");
 		}
 
-		#region IRuleArgs Members
-
-		public string Message
+		public IBANAttribute()
 		{
-			get { return message; }
-			set { message = value; }
+			this.ErrorMessage = "{validator.iban}";
 		}
-
-		#endregion
 
 		#region IValidator Members
 
-		public bool IsValid(object value, IConstraintValidatorContext constraintContext)
+		public override bool IsValid(object value, IConstraintValidatorContext constraintContext)
 		{
 			if (value == null)
 			{

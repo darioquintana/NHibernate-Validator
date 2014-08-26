@@ -9,59 +9,45 @@ namespace NHibernate.Validator.Constraints
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true)]
-	public class PatternAttribute : EmbeddedRuleArgsAttribute, IRuleArgs, IValidator
+	public class PatternAttribute : EmbeddedRuleArgsAttribute
 	{
-		private RegexOptions flags = RegexOptions.Compiled;
-		private Regex regex;
-		private string message = "{validator.pattern}";
-
-		public PatternAttribute() { }
-
-		public PatternAttribute(string regex)
+		public PatternAttribute() : this(string.Empty, RegexOptions.Compiled, "{validator.pattern}")
 		{
-			Regex = regex;
 		}
 
-		public PatternAttribute(string regex, RegexOptions flags)
-			: this(regex)
+		public PatternAttribute(string regex) : this(regex, RegexOptions.Compiled, "{validator.pattern}")
 		{
-			this.flags = flags;
 		}
 
-		public PatternAttribute(string regex, RegexOptions flags, string message)
-			: this(regex, flags)
+		public PatternAttribute(string regex, RegexOptions flags) : this(regex, flags, "{validator.pattern}")
 		{
-			this.message = message;
+		}
+
+		public PatternAttribute(string regex, RegexOptions flags, string message) : this(regex, flags)
+		{
+			this.Regex = regex;
+			this.Flags = flags;
+			this.ErrorMessage = message;
 		}
 
 		public string Regex { get; set; }
 
 		public RegexOptions Flags
 		{
-			get { return flags; }
-			set { flags = value; }
+			get;
+			set;
 		}
-
-		#region IRuleArgs Members
-
-		public string Message
-		{
-			get { return message; }
-			set { message = value; }
-		}
-
-		#endregion
 
 		#region IInitializableValidator<PatternAttribute> Members
 
-		public virtual bool IsValid(object value, IConstraintValidatorContext validatorContext)
+		public override bool IsValid(object value, IConstraintValidatorContext validatorContext)
 		{
 			return value == null || GetRegex().IsMatch(value.ToString());
 		}
 
 		protected Regex GetRegex()
 		{
-			return regex ?? (regex = new Regex(Regex, Flags));
+			return new Regex(this.Regex, this.Flags);
 		}
 
 		#endregion

@@ -9,23 +9,16 @@ namespace NHibernate.Validator.Constraints
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	public class IPAddressAttribute : EmbeddedRuleArgsAttribute, IRuleArgs, IValidator
+	public class IPAddressAttribute : EmbeddedRuleArgsAttribute
 	{
-		private string message = "{validator.ipaddress}";
-
-		#region IRuleArgs Members
-
-		public string Message
+		public IPAddressAttribute()
 		{
-			get { return message; }
-			set { message = value; }
+			this.ErrorMessage = "{validator.ipaddress}";
 		}
-
-		#endregion
 
 		#region IValidator Members
 
-		public bool IsValid(object value, IConstraintValidatorContext validatorContext)
+		public override bool IsValid(object value, IConstraintValidatorContext validatorContext)
 		{
 			if (value == null)
 			{
@@ -48,6 +41,5 @@ namespace NHibernate.Validator.Constraints
 		}
 
 		#endregion
-
 	}
 }

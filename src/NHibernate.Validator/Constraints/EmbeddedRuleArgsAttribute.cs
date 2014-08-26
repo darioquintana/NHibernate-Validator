@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Constraints
@@ -9,7 +10,7 @@ namespace NHibernate.Validator.Constraints
 	/// Base class for all embedded validators, accepting Tags.
 	/// </summary>
 	[Serializable]
-	public class EmbeddedRuleArgsAttribute: Attribute, ITagableRule
+	public abstract class EmbeddedRuleArgsAttribute: ValidationAttribute, ITagableRule, IRuleArgs, IValidator
 	{
 		private readonly HashSet<object> tagCollection;
 
@@ -64,5 +65,37 @@ namespace NHibernate.Validator.Constraints
 		{
 			get { return tagCollection; }
 		}
+
+		public string Message
+		{
+			get
+			{
+				return (this.ErrorMessage);
+			}
+			set
+			{
+				this.ErrorMessage = value;
+			}
+		}
+
+		protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+		{
+			var result = ValidationResult.Success;
+			var context = new ConstraintValidatorContext(string.Empty, this.Message);
+
+			if (this.IsValid(value, context) == false)
+			{
+				result = new ValidationResult(this.Message, new string[] { validationContext.MemberName });
+			}
+
+			return result;
+		}
+
+		public override bool IsValid(object value)
+		{
+			return this.IsValid(value, new ConstraintValidatorContext(string.Empty, this.Message));
+		}
+
+		public abstract bool IsValid(object value, IConstraintValidatorContext constraintValidatorContext);
 	}
 }
