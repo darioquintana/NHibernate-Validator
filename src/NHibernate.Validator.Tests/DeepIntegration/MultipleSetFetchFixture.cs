@@ -14,24 +14,14 @@ namespace NHibernate.Validator.Tests.DeepIntegration
 			get { return new string[] { "DeepIntegration.PersonSet.hbm.xml" }; }
 		}
 
-		protected override void AddToCollection(ICollection collection, Person person)
-		{
-			((ISet) collection).Add(person);
-		}
-
-		protected override ICollection CreateCollection()
-		{
-			return new HashedSet();
-		}
-
 		protected override void AddToCollection(ICollection<Person> collection, Person person)
 		{
 			collection.Add(person);
 		}
 
-		protected override ICollection<Person> GCreateCollection()
+		protected override ICollection<Person> CreateCollection()
 		{
-			return new HashedSet<Person>();
+			return new HashSet<Person>();
 		}
 	}
 }

@@ -9,18 +9,12 @@ namespace NHibernate.Validator.Constraints
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	public class NotNullAttribute : EmbeddedRuleArgsAttribute, IRuleArgs, IValidator, IPropertyConstraint
+	public class NotNullAttribute : EmbeddedRuleArgsAttribute, IPropertyConstraint
 	{
 		public NotNullAttribute()
 		{
-			Message = "{validator.notNull}";
+			this.ErrorMessage = "{validator.notNull}";
 		}
-
-		#region IRuleArgs Members
-
-		public string Message { get; set; }
-
-		#endregion
 
 		#region IPropertyConstraint Members
 
@@ -40,7 +34,7 @@ namespace NHibernate.Validator.Constraints
 
 		#region IValidator Members
 
-		public virtual bool IsValid(object value, IConstraintValidatorContext validatorContext)
+		public override bool IsValid(object value, IConstraintValidatorContext validatorContext)
 		{
 			return value != null;
 		}

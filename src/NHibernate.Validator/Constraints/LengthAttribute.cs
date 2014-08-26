@@ -10,41 +10,34 @@ namespace NHibernate.Validator.Constraints
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	public class LengthAttribute : EmbeddedRuleArgsAttribute, IRuleArgs, IValidator, IPropertyConstraint
+	public class LengthAttribute : EmbeddedRuleArgsAttribute, IPropertyConstraint
 	{
-		private string message = "{validator.length}";
-
-		public LengthAttribute(int min, int max) : this(max)
+		public LengthAttribute(int min, int max, string message)
 		{
-			Min = min;
+			this.Min = min;
+			this.Max = max;
+			this.ErrorMessage = message;
 		}
 
-		public LengthAttribute(int max)
+		public LengthAttribute(int min, int max) : this(min, max, "{validator.length}")
 		{
-			Max = max;
 		}
 
-		public LengthAttribute()
+		public LengthAttribute(int max) : this(0, max, "{validator.length}")
 		{
-			Max = int.MaxValue;
 		}
+
+		public LengthAttribute() : this(0, int.MaxValue, "{validator.length}")
+		{
+		}
+
 		public int Min { get; set; }
 
 		public int Max { get; set; }
 
-		#region IRuleArgs Members
-
-		public string Message
-		{
-			get { return message; }
-			set { message = value; }
-		}
-
-		#endregion
-
 		#region IValidator Members
 
-		public bool IsValid(object value, IConstraintValidatorContext validatorContext)
+		public override bool IsValid(object value, IConstraintValidatorContext validatorContext)
 		{
 			if (value == null)
 			{

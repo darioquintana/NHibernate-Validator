@@ -9,27 +9,22 @@ namespace NHibernate.Validator.Constraints
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	public class IsNumericAttribute : EmbeddedRuleArgsAttribute, IRuleArgs, IValidator
+	public class IsNumericAttribute : EmbeddedRuleArgsAttribute
 	{
 		public IsNumericAttribute()
 		{
-			Message = "{validator.numeric}";
+			this.ErrorMessage = "{validator.numeric}";
 		}
-
-		#region Implementation of IRuleArgs
-
-		public string Message { get; set; }
-
-		#endregion
 
 		#region Implementation of IValidator
 
-		public bool IsValid(object value, IConstraintValidatorContext validatorContext)
+		public override bool IsValid(object value, IConstraintValidatorContext validatorContext)
 		{
 			return value == null || (value is string && IsNumeric(value));
 		}
 
 		#endregion
+
 		private static bool IsNumeric(object Expression)
 		{
 			double retNum;

@@ -10,32 +10,27 @@ namespace NHibernate.Validator.Constraints
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	public class MaxAttribute : EmbeddedRuleArgsAttribute, IRuleArgs, IValidator, IPropertyConstraint
+	public class MaxAttribute : EmbeddedRuleArgsAttribute, IPropertyConstraint
 	{
-		private string message = "{validator.max}";
-
-		public MaxAttribute() {}
-
-		public MaxAttribute(long max)
+		public MaxAttribute() : this(0, "{validator.max}")
 		{
-			Value = max;
+		}
+
+		public MaxAttribute(long max) : this(max, "{validator.max}")
+		{
+		}
+
+		public MaxAttribute(long max, string message)
+		{
+			this.Value = max;
+			this.ErrorMessage = message;
 		}
 
 		public long Value { get; set; }
 
-		#region IRuleArgs Members
-
-		public string Message
-		{
-			get { return message; }
-			set { message = value; }
-		}
-
-		#endregion
-
 		#region Implementation of IValidator
 
-		public bool IsValid(object value, IConstraintValidatorContext validatorContext)
+		public override bool IsValid(object value, IConstraintValidatorContext validatorContext)
 		{
 			if (value == null)
 			{

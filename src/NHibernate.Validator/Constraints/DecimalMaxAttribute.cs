@@ -11,37 +11,37 @@ namespace NHibernate.Validator.Constraints
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	public class DecimalMaxAttribute : EmbeddedRuleArgsAttribute, IRuleArgs, IValidator, IPropertyConstraint
+	public class DecimalMaxAttribute : EmbeddedRuleArgsAttribute, IPropertyConstraint
 	{
-		private string message = "{validator.max}";
-
-		public DecimalMaxAttribute() { }
-
-		public DecimalMaxAttribute(double max)
+		public DecimalMaxAttribute() : this(0D, "{validator.max}")
 		{
-			Value = (decimal)max;
 		}
 
-		public DecimalMaxAttribute(decimal max)
+		public DecimalMaxAttribute(double max) : this(max, "{validator.max}")
 		{
-			Value = max;
+		}
+
+		public DecimalMaxAttribute(decimal max) : this(max, "{validator.max}")
+		{
+		}
+
+		public DecimalMaxAttribute(decimal max, string message)
+		{
+			this.Value = max;
+			this.ErrorMessage = message;
+		}
+
+		public DecimalMaxAttribute(double max, string message)
+		{
+			this.Value = (decimal) max;
+			this.ErrorMessage = message;
 		}
 
 		public decimal Value { get; set; }
 
-		#region IRuleArgs Members
-
-		public string Message
-		{
-			get { return message; }
-			set { message = value; }
-		}
-
-		#endregion
-
 		#region IValidator Members
 
-		public bool IsValid(object value, IConstraintValidatorContext validatorContext)
+		public override bool IsValid(object value, IConstraintValidatorContext validatorContext)
 		{
 			if (value == null)
 			{

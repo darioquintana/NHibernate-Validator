@@ -12,25 +12,19 @@ namespace NHibernate.Validator.Constraints
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	public class EANAttribute : EmbeddedRuleArgsAttribute, IRuleArgs, IValidator
+	public class EANAttribute : EmbeddedRuleArgsAttribute
 	{
 		private const string Pattern = @"\d*$";
 		private static readonly Regex Regex = new Regex(Pattern, RegexOptions.Compiled);
-		private string message = "{validator.ean}";
 
-		#region IRuleArgs Members
-
-		public string Message
+		public EANAttribute()
 		{
-			get { return message; }
-			set { message = value; }
+			this.ErrorMessage = "{validator.ean}";
 		}
-
-		#endregion
 
 		#region IValidator Members
 
-		public bool IsValid(object value, IConstraintValidatorContext constraintContext)
+		public override bool IsValid(object value, IConstraintValidatorContext constraintContext)
 		{
 			if (value == null)
 			{

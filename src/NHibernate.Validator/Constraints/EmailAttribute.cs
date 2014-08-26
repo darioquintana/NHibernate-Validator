@@ -9,7 +9,7 @@ namespace NHibernate.Validator.Constraints
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	public class EmailAttribute : EmbeddedRuleArgsAttribute, IRuleArgs, IValidator
+	public class EmailAttribute : EmbeddedRuleArgsAttribute
 	{
 		private const string ATOM = "[^\\x00-\\x1F^\\(^\\)^\\<^\\>^\\@^\\,^\\;^\\:^\\\\^\\\"^\\.^\\[^\\]^\\s]";
 		private const string DOMAIN = "(" + ATOM + "+(\\." + ATOM + "+)*";
@@ -18,21 +18,14 @@ namespace NHibernate.Validator.Constraints
 		private readonly Regex regex = new Regex(
 			string.Concat("^", ATOM, "+(\\.", ATOM, "+)*@", DOMAIN, "|", IP_DOMAIN, ")$"), RegexOptions.Compiled);
 
-		private string message = "{validator.email}";
-
-		#region IRuleArgs Members
-
-		public string Message
+		public EmailAttribute()
 		{
-			get { return message; }
-			set { message = value; }
+			this.ErrorMessage = "{validator.email}";
 		}
-
-		#endregion
 
 		#region IValidator Members
 
-		public bool IsValid(object value, IConstraintValidatorContext constraintContext)
+		public override bool IsValid(object value, IConstraintValidatorContext constraintContext)
 		{
 			if (value == null)
 			{

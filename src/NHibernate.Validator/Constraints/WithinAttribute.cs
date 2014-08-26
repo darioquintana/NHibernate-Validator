@@ -12,46 +12,30 @@ namespace NHibernate.Validator.Constraints
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	public class WithinAttribute : EmbeddedRuleArgsAttribute, IRuleArgs, IValidator, IPropertyConstraint
+	public class WithinAttribute : EmbeddedRuleArgsAttribute, IPropertyConstraint
 	{
-		private string message = "{validator.within}";
-
-		public WithinAttribute()
+		public WithinAttribute() : this(double.MinValue, double.MaxValue, "{validator.within}")
 		{
-			Max = double.MaxValue;
-			Min = double.MinValue;
 		}
 
-		public WithinAttribute(double min, double max)
+		public WithinAttribute(double min, double max) : this(min, max, "{validator.within}")
 		{
-			Min = min;
-			Max = max;
 		}
 
 		public WithinAttribute(double min, double max, string message)
 		{
-			Min = min;
-			Max = max;
-			this.message = message;
+			this.Min = min;
+			this.Max = max;
+			this.Message = message;
 		}
 
 		public double Min { get; set; }
 
 		public double Max { get; set; }
 
-		#region IRuleArgs Members
-
-		public string Message
-		{
-			get { return message; }
-			set { message = value; }
-		}
-
-		#endregion
-
 		#region Implementation of IValidator
 
-		public bool IsValid(object value, IConstraintValidatorContext constraintValidatorContext)
+		public override bool IsValid(object value, IConstraintValidatorContext constraintValidatorContext)
 		{
 			if (value == null)
 			{

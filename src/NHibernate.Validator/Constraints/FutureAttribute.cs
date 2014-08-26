@@ -8,24 +8,17 @@ namespace NHibernate.Validator.Constraints
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	public class FutureAttribute : EmbeddedRuleArgsAttribute, IRuleArgs, IValidator
+	public class FutureAttribute : EmbeddedRuleArgsAttribute
 	{
 		// TODO : Add tolerance
-		private string message = "{validator.future}";
-
-		#region IRuleArgs Members
-
-		public string Message
+		public FutureAttribute()
 		{
-			get { return message; }
-			set { message = value; }
+			this.ErrorMessage = "{validator.future}";
 		}
-
-		#endregion
 
 		#region IValidator Members
 
-		public bool IsValid(object value, IConstraintValidatorContext constraintContext)
+		public override bool IsValid(object value, IConstraintValidatorContext constraintContext)
 		{
 			if (value == null)
 			{

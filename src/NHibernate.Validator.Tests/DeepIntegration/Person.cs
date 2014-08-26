@@ -7,7 +7,7 @@ namespace NHibernate.Validator.Tests.DeepIntegration
 	public class Person
 	{
 		private ICollection<Person> children;
-		private ICollection friends;
+		private ICollection<Person> friends;
 		private int id;
 		private string name;
 		private Person parent;
@@ -40,7 +40,7 @@ namespace NHibernate.Validator.Tests.DeepIntegration
 		}
 
 		[Valid, Size(Max=5)]
-		public virtual ICollection Friends
+		public virtual ICollection<Person> Friends
 		{
 			get { return friends; }
 			set { friends = value; }

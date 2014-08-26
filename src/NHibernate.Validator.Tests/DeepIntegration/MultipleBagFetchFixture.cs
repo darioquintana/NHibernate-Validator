@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using NHibernate.Collection;
+using NHibernate.Collection.Generic;
 using NUnit.Framework;
 
 namespace NHibernate.Validator.Tests.DeepIntegration
@@ -13,26 +13,16 @@ namespace NHibernate.Validator.Tests.DeepIntegration
 			get { return new string[] { "DeepIntegration.PersonBag.hbm.xml" }; }
 		}
 
-		protected override void AddToCollection(ICollection collection, Person person)
+		protected override void AddToCollection(ICollection<Person> collection, Person person)
 		{
-			PersistentBag concrete = collection as PersistentBag;
+			PersistentGenericBag<Person> concrete = collection as PersistentGenericBag<Person>;
 			if (concrete != null)
 				concrete.Add(person);
 			else
 				((ArrayList)collection).Add(person);
 		}
 
-		protected override ICollection CreateCollection()
-		{
-			return new ArrayList();
-		}
-
-		protected override void AddToCollection(ICollection<Person> collection, Person person)
-		{
-			collection.Add(person);
-		}
-
-		protected override ICollection<Person> GCreateCollection()
+		protected override ICollection<Person> CreateCollection()
 		{
 			return new List<Person>();
 		}

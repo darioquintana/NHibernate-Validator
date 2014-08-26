@@ -6,17 +6,24 @@ namespace NHibernate.Validator.Constraints
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true)]
 	[CLSCompliant(false)]
-	public class DelegatedValidatorAttribute : EmbeddedRuleArgsAttribute, IValidatorInstanceProvider, IRuleArgs
+	public class DelegatedValidatorAttribute : EmbeddedRuleArgsAttribute, IValidatorInstanceProvider
 	{
 		private readonly IValidator validatorInstance;
+
+		public DelegatedValidatorAttribute(System.Type validatorType) : this(Activator.CreateInstance(validatorType) as IValidator)
+		{
+		}
 
 		public DelegatedValidatorAttribute(IValidator validatorInstance)
 		{
 			this.validatorInstance = validatorInstance;
-			Message = "";
+			this.ErrorMessage = "";
 		}
 
-		public string Message { get; set; }
+		public override bool IsValid(object value, IConstraintValidatorContext constraintValidatorContext)
+		{
+			return this.validatorInstance.IsValid(value, constraintValidatorContext);
+		}
 
 		public IValidator Validator
 		{

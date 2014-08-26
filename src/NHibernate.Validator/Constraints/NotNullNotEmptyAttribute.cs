@@ -20,7 +20,7 @@ namespace NHibernate.Validator.Constraints
 	{
 		public NotNullNotEmptyAttribute()
 		{
-			Message = "{validator.notNullNotEmpty}";
+			this.ErrorMessage = "{validator.notNullNotEmpty}";
 		}
 
 		public override bool IsValid(object value, IConstraintValidatorContext validatorContext)

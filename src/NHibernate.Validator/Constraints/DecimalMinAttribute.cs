@@ -11,35 +11,35 @@ namespace NHibernate.Validator.Constraints
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	public class DecimalMinAttribute : EmbeddedRuleArgsAttribute, IRuleArgs, IValidator, IPropertyConstraint
+	public class DecimalMinAttribute : EmbeddedRuleArgsAttribute, IPropertyConstraint
 	{
-		private string message = "{validator.min}";
-
-		public DecimalMinAttribute () { }
-
-		public DecimalMinAttribute(double min)
+		public DecimalMinAttribute() : this(0D, "{validator.min}")
 		{
-			Value = (decimal) min;
 		}
 
-		public DecimalMinAttribute(decimal min)
+		public DecimalMinAttribute(double min) : this(min, "{validator.min}")
+		{
+		}
+
+		public DecimalMinAttribute(decimal min) : this(min, "{validator.min}")
+		{
+		}
+
+		public DecimalMinAttribute(decimal min, string message)
 		{
 			Value = min;
+			this.ErrorMessage = message;
+		}
+
+		public DecimalMinAttribute(double min, string message)
+		{
+			Value = (decimal) min;
+			this.ErrorMessage = message;
 		}
 
 		public decimal Value { get; set; }
 
-		#region IRuleArgs Members
-
-		public string Message
-		{
-			get { return message; }
-			set { message = value; }
-		}
-
-		#endregion
-
-		public bool IsValid(object value, IConstraintValidatorContext validatorContext)
+		public override bool IsValid(object value, IConstraintValidatorContext validatorContext)
 		{
 			if (value == null)
 			{

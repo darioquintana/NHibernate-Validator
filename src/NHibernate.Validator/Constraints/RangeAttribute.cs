@@ -11,52 +11,38 @@ namespace NHibernate.Validator.Constraints
 	/// </summary>
 	[Serializable]
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	public class RangeAttribute : EmbeddedRuleArgsAttribute, IRuleArgs, IValidator, IPropertyConstraint
+	public class RangeAttribute : EmbeddedRuleArgsAttribute, IPropertyConstraint
 	{
-		private long max = long.MaxValue;
-		private string message = "{validator.range}";
-		private long min = long.MinValue;
-
-		public RangeAttribute(long min, long max)
+		public RangeAttribute(long min, long max) : this(min, max, "{validator.range}")
 		{
-			this.min = min;
-			this.max = max;
 		}
 
 		public RangeAttribute(long min, long max, string message)
 		{
-			this.min = min;
-			this.max = max;
-			this.message = message;
+			this.Min = min;
+			this.Max = max;
+			this.ErrorMessage = message;
 		}
 
-		public RangeAttribute() {}
+		public RangeAttribute() : this(long.MinValue, long.MaxValue, "{validator.range}")
+		{
+		}
 
 		public long Min
 		{
-			get { return min; }
-			set { min = value; }
+			get;
+			set;
 		}
 
 		public long Max
 		{
-			get { return max; }
-			set { max = value; }
+			get;
+			set;
 		}
-
-		#region IRuleArgs Members
-
-		public string Message
-		{
-			get { return message; }
-			set { message = value; }
-		}
-
-		#endregion
 
 		#region Implementation of IValidator
 
-		public bool IsValid(object value, IConstraintValidatorContext validatorContext)
+		public override bool IsValid(object value, IConstraintValidatorContext validatorContext)
 		{
 			if (value == null)
 			{
@@ -66,14 +52,14 @@ namespace NHibernate.Validator.Constraints
 			try
 			{
 				double cvalue = Convert.ToDouble(value);
-				return cvalue >= min && cvalue <= max;
+				return cvalue >= this.Min && cvalue <= this.Max;
 			}
 			catch (InvalidCastException)
 			{
 				if (value is char)
 				{
 					int i = Convert.ToInt32(value);
-					return i >= min && i <= max;
+					return i >= this.Min && i <= this.Max;
 				}
 				return false;
 			}
@@ -87,7 +73,6 @@ namespace NHibernate.Validator.Constraints
 			}
 		}
 
-
 		#endregion
 
 		#region Implementation of IPropertyConstraint
@@ -99,17 +84,17 @@ namespace NHibernate.Validator.Constraints
 			var col = (Column)ie.Current;
 
 			String check = "";
-			if (min != long.MinValue)
+			if (this.Min != long.MinValue)
 			{
-				check += col.Name + ">=" + min;
+				check += col.Name + ">=" + this.Min;
 			}
-			if (max != long.MaxValue && min != long.MinValue)
+			if (this.Max != long.MaxValue && this.Min != long.MinValue)
 			{
 				check += " and ";
 			}
-			if (max != long.MaxValue)
+			if (this.Max != long.MaxValue)
 			{
-				check += col.Name + "<=" + max;
+				check += col.Name + "<=" + this.Max;
 			}
 			col.CheckConstraint = check;
 		}
