@@ -10,6 +10,10 @@ namespace NHibernate.Validator.Constraints
 	{
 		private readonly IValidator validatorInstance;
 
+		public DelegatedValidatorAttribute(System.Type validatorType) : this(Activator.CreateInstance(validatorType) as IValidator)
+		{
+		}
+
 		public DelegatedValidatorAttribute(IValidator validatorInstance)
 		{
 			this.validatorInstance = validatorInstance;

@@ -16,6 +16,7 @@ using NHibernate.Validator.Mappings;
 using NHibernate.Validator.Util;
 using Environment=NHibernate.Validator.Cfg.Environment;
 using NHibernate.Collection;
+using System.Security;
 
 namespace NHibernate.Validator.Engine
 {
@@ -838,6 +839,7 @@ namespace NHibernate.Validator.Engine
 		//}
 
 
+		[SecurityCritical]
 		public void GetObjectData(SerializationInfo info, StreamingContext context)
 		{
 			info.AddValue("interpolator", userInterpolatorType);
