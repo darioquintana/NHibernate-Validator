@@ -22,7 +22,7 @@
 		Supported versions of .NET Framework, separated by spaces.
 		Used by *-all-frameworks targets.
 	-->
-  <property name="supported.frameworks" value="net-3.5" />
+  <property name="supported.frameworks" value="net-4.5" />
 
   <fileset id="buildfiles.all" basedir="src">
 		<include name="NHibernate.Validator/default.build" />
@@ -55,9 +55,9 @@
 		
 		<copy file="src/NHibernate.Validator/Cfg/nhv-mapping.xsd" tofile="${build.dir}/schema/nhv-mapping.xsd"/>
 		<copy file="src/NHibernate.Validator/Cfg/nhv-configuration.xsd" tofile="${build.dir}/schema/nhv-configuration.xsd"/>		
-		<copy file="src/packages/NHibernate.3.3.1.4000/lib/Net35/NHibernate.dll" tofile="${bin.dir}/NHibernate.dll"/>
-		<copy file="src/packages/log4net.2.0.0/lib/net35-full/log4net.dll" tofile="${bin.dir}/log4net.dll"/>
-		<copy file="src/packages/Iesi.Collections.3.3.1.4000/lib/Net35/Iesi.Collections.dll" tofile="${bin.dir}/Iesi.Collections.dll"/>	
+		<copy file="src/packages/NHibernate.4.0.1.4000/lib/Net40/NHibernate.dll" tofile="${bin.dir}/NHibernate.dll"/>
+		<copy file="src/packages/log4net.2.0.3/lib/net40-full/log4net.dll" tofile="${bin.dir}/log4net.dll"/>
+		<copy file="src/packages/Iesi.Collections.4.0.1.4000/lib/Net40/Iesi.Collections.dll" tofile="${bin.dir}/Iesi.Collections.dll"/>	
 
 	</target>
 

@@ -130,7 +130,7 @@
 				<attribute type="AssemblyInformationalVersionAttribute" value="${assembly.version.informational}" />
 				<attribute type="AssemblyFileVersionAttribute" value="${assembly.version.file}" /> 
 				<attribute type="AssemblyDelaySignAttribute" value="false" />
-				<attribute type="AssemblyKeyFileAttribute" value="..\..\..\..\src\NHibernate.Validator.snk" />
+				<!--<attribute type="AssemblyKeyFileAttribute" value="..\..\..\..\src\NHibernate.Validator.snk" />-->
 				
 				<!-- For some reason, NAnt doesn't detect that APTCA has a public no-argument constructor -->
 				<attribute asis="true" type="AllowPartiallyTrustedCallersAttribute" if="${assembly.allow-partially-trusted-callers}" />
