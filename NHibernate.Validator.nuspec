@@ -8,7 +8,7 @@
     <owners>Dario Quintana, Fabio Maulo, Gustavo Ringel</owners>
 	<licenseUrl>http://www.gnu.org/licenses/lgpl.html</licenseUrl>
     <projectUrl>https://github.com/nhibernate/nhibernate-validator</projectUrl>
-    <iconUrl>http://darioquintana.com.ar/files/logo-nhv-for-nuget.jpg</iconUrl>
+    <iconUrl>https://github.com/nhibernate/NHibernate-Validator/blob/master/art/logo-nhv-for-nuget.jpg</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
 	<summary>
 		NHibernate Validator is a powerful and extensible framework to validate objects using the .Net Platform.
