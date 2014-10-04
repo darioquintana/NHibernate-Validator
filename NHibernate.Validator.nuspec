@@ -7,7 +7,7 @@
     <authors>Dario Quintana, Fabio Maulo, Gustavo Ringel</authors>
     <owners>Dario Quintana, Fabio Maulo, Gustavo Ringel</owners>
 	<licenseUrl>http://www.gnu.org/licenses/lgpl.html</licenseUrl>
-    <projectUrl>https://github.com/nhibernate/nhivernate-validator</projectUrl>
+    <projectUrl>https://github.com/nhibernate/nhibernate-validator</projectUrl>
     <iconUrl>http://darioquintana.com.ar/files/logo-nhv-for-nuget.jpg</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
 	<summary>
