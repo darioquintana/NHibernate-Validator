@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EB94F7F7-51F2-4D8A-B0BD-427586AA4BB0}"
 	ProjectSection(SolutionItems) = preProject
 		..\releasenotes.txt = ..\releasenotes.txt
@@ -15,6 +17,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernate.Validator.Specific", "NHibernate.Validator.Specific\NHibernate.Validator.Specific.csproj", "{F23C735C-50FE-4932-9C10-F48FCECC0DCF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernate.Validator.Specific.Tests", "NHibernate.Validator.Specific.Tests\NHibernate.Validator.Specific.Tests.csproj", "{36608B70-0854-42CE-9A18-AB97D42C543B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9DD4DDE6-81FA-4FC1-9252-D2B0CE46D309}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

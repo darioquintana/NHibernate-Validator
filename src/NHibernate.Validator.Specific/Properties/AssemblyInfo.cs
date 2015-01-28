@@ -19,10 +19,6 @@ using System.Security;
 [assembly: AssemblyCompanyAttribute("NHibernate Community - www.nhforge.org")]
 [assembly: AssemblyProductAttribute("NHibernate.Validator.Specific")]
 [assembly: AssemblyCopyrightAttribute("Licensed under LGPL.")]
-[assembly: AssemblyVersionAttribute("1.3.2.4000")]
-[assembly: AssemblyInformationalVersionAttribute("1.3.2.4000")]
-[assembly: AssemblyFileVersionAttribute("1.3.2.4000")]
-[assembly: AssemblyDelaySignAttribute(false)]
-[assembly: AssemblyKeyFileAttribute("..\\..\\..\\..\\src\\NHibernate.Validator.snk")]
-[assembly: AllowPartiallyTrustedCallersAttribute()]
-
+[assembly: AssemblyVersionAttribute("1.4.3.4000")]
+[assembly: AssemblyInformationalVersionAttribute("1.4.3.4000")]
+[assembly: AssemblyFileVersionAttribute("1.4.3.4000")]

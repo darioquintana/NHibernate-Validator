@@ -15,16 +15,16 @@ namespace NHibernate.Validator.Tests.DeepIntegration
 
 		protected override void AddToCollection(ICollection collection, Person person)
 		{
-			PersistentList concrete = collection as PersistentList;
+			var concrete = collection as List<Person>;
 			if (concrete != null)
 				concrete.Add(person);
 			else
 				((ArrayList)collection).Add(person);
 		}
 
-		protected override ICollection CreateCollection()
+		protected override ICollection<Person> CreateCollection()
 		{
-			return new ArrayList();
+			return new List<Person>();
 		}
 
 		protected override void AddToCollection(ICollection<Person> collection, Person person)
