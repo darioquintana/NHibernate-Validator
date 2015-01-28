@@ -12,7 +12,7 @@ namespace NHibernate.Validator.Tests.DeepIntegration
 	{
 		protected abstract void AddToCollection(ICollection collection, Person person);
 		protected abstract void AddToCollection(ICollection<Person> collection, Person person);
-		protected abstract ICollection CreateCollection();
+		protected abstract ICollection<Person> CreateCollection();
 		protected abstract ICollection<Person> GCreateCollection();
 
 		private Person CreateGrandparent()
