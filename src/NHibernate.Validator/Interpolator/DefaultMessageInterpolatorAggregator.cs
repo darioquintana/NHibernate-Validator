@@ -4,6 +4,8 @@ using System.Globalization;
 using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
+using System.Security;
+
 using NHibernate.Validator.Engine;
 using NHibernate.Validator.Exceptions;
 
@@ -92,6 +94,7 @@ namespace NHibernate.Validator.Interpolator
 				info.GetValue("interpolators", typeof(IDictionary<IValidator, DefaultMessageInterpolator>));
 		}
 
+		[SecurityCritical]
 		public void GetObjectData(SerializationInfo info, StreamingContext context)
 		{
 			info.AddValue("interpolators", interpolators);
