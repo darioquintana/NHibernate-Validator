@@ -14,7 +14,6 @@ using NUnit.Framework;
 using System.Reflection;
 using log4net.Core;
 using System;
-using SharpTestsEx;
 using Environment=NHibernate.Validator.Cfg.Environment;
 using NHibernate.Validator.Util;
 
@@ -45,14 +44,14 @@ namespace NHibernate.Validator.Tests.Engine
 		public void IntentWrongNHVConfig()
 		{
 			ValidatorEngine ve = new ValidatorEngine();
-			ActionAssert.Throws<ValidatorConfigurationException>(() => ve.Configure((INHVConfiguration)null));
+			Assert.That(() => ve.Configure((INHVConfiguration)null), Throws.TypeOf<ValidatorConfigurationException>());
 		}
 
 		[Test]
 		public void IntentWrongXmlConfig()
 		{
 			ValidatorEngine ve = new ValidatorEngine();
-			ActionAssert.Throws<ValidatorConfigurationException>(() => ve.Configure((XmlReader)null));
+			Assert.That(() => ve.Configure((XmlReader)null), Throws.TypeOf<ValidatorConfigurationException>());
 		}
 
 		[Test]
@@ -318,8 +317,8 @@ namespace NHibernate.Validator.Tests.Engine
 			}
 			catch(ValidatorConfigurationException e)
 			{
-				Assert.That(e.Message, Text.Contains("Public constructor was not found"));
-				Assert.That(e.Message, Text.Contains(typeof (NoDefConstructorInterpolator).AssemblyQualifiedName));
+				Assert.That(e.Message, Does.Contain("Public constructor was not found"));
+				Assert.That(e.Message, Does.Contain(typeof (NoDefConstructorInterpolator).AssemblyQualifiedName));
 			}
 
 			try
@@ -415,8 +414,8 @@ namespace NHibernate.Validator.Tests.Engine
 			}
 			catch (ValidatorConfigurationException e)
 			{
-				Assert.That(e.Message, Text.Contains("Public constructor was not found"));
-				Assert.That(e.Message, Text.Contains(typeof(NoDefConstructorLoader).AssemblyQualifiedName));
+				Assert.That(e.Message, Does.Contain("Public constructor was not found"));
+				Assert.That(e.Message, Does.Contain(typeof(NoDefConstructorLoader).AssemblyQualifiedName));
 			}
 
 			try
@@ -483,7 +482,7 @@ namespace NHibernate.Validator.Tests.Engine
 			var nhvc = new XmlConfiguration();
 			nhvc.Properties[Environment.CustomResourceManager] = "Whatever.Messages, Whatever";
 			var exception = Assert.Throws<ValidatorConfigurationException>(() => ve.Configure(nhvc));
-			Assert.That(exception.Message, Text.Contains("resource manager"));
+			Assert.That(exception.Message, Does.Contain("resource manager"));
 		}
 	}
 }

@@ -1,10 +1,8 @@
 using System;
 using NHibernate.Properties;
 using NHibernate.Validator.Engine;
-using NHibernate.Validator.Exceptions;
 using NHibernate.Validator.Tests.Base;
 using NUnit.Framework;
-using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.Engine
 {
@@ -14,8 +12,8 @@ namespace NHibernate.Validator.Tests.Engine
 		[Test]
 		public void DefCtor()
 		{
-			ActionAssert.Throws<ArgumentNullException>(() => new ValidatableElement(null, null));
-			ActionAssert.Throws<ArgumentNullException>(() => new ValidatableElement(typeof(Address), null));
+			Assert.That(() => new ValidatableElement(null, null), Throws.TypeOf<ArgumentNullException>());
+			Assert.That(() => new ValidatableElement(typeof(Address), null), Throws.TypeOf<ArgumentNullException>());
 		}
 
 		[Test]

@@ -18,8 +18,8 @@ namespace NHibernate.Validator.Tests.Engine
 		[Test]
 		public void CreationOfValidatorForSystemTypeShouldThrow()
 		{
-			ActionAssert.Throws<ArgumentOutOfRangeException>(() => new ClassValidator(typeof (string)))
-				.ActualValue.Should().Be.EqualTo(typeof (string));
+			Assert.That(() => new ClassValidator(typeof(string)), Throws.TypeOf<ArgumentOutOfRangeException>());
+				//.ActualValue.Should().Be.EqualTo(typeof(string));
 		}
 
 		[Test]
@@ -28,7 +28,7 @@ namespace NHibernate.Validator.Tests.Engine
 			IClassValidator cv = GetClassValidator(typeof(Address));
 			cv.GetInvalidValues(null).Should().Be.Empty();
 
-			ActionAssert.Throws<ArgumentException>(()=>	cv.GetInvalidValues(new Suricato()));
+			Assert.That(() => cv.GetInvalidValues(new Suricato()), Throws.TypeOf<ArgumentException>());
 		}
 
 		[Test]
@@ -36,14 +36,14 @@ namespace NHibernate.Validator.Tests.Engine
 		{
 			IClassValidator cv = GetClassValidator(typeof(Address));
 			cv.GetInvalidValues(null, "blacklistedZipCode").Should().Be.Empty();
-			ActionAssert.Throws<ArgumentException>(() => cv.GetInvalidValues(new Suricato(), "blacklistedZipCode"));
+			Assert.That(() => cv.GetInvalidValues(new Suricato(), "blacklistedZipCode"), Throws.TypeOf<ArgumentException>());
 		}
 
 		[Test]
 		public void CrazyUseOrNHVFault()
 		{
 			// In case of NHV we are prevent unecessary validations
-			ActionAssert.Throws<ArgumentOutOfRangeException>(() => new ClassValidator(typeof(string)));
+			Assert.That(() => new ClassValidator(typeof(string)), Throws.TypeOf<ArgumentOutOfRangeException>());
 		}
 
 		[Test]

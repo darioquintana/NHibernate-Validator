@@ -10,7 +10,7 @@ namespace NHibernate.Validator.Tests.Engine.Tagging
 	[TestFixture]
 	public class EmbeddedRulesTaggingTest
 	{
-		public IEnumerable<System.Type> Rules
+		public static IEnumerable<System.Type> Rules
 		{
 			get
 			{
@@ -20,7 +20,7 @@ namespace NHibernate.Validator.Tests.Engine.Tagging
 		}
 
 		[Test]
-		public void AllRuleArgs_SupportsTags([ValueSource("Rules")]System.Type attribute)
+		public void AllRuleArgs_SupportsTags([ValueSource(nameof(Rules))]System.Type attribute)
 		{
 			typeof (ITagableRule).Should().Be.AssignableFrom(attribute);
 		}

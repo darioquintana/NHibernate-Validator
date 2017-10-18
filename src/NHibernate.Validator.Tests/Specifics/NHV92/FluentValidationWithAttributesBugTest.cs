@@ -65,8 +65,8 @@ namespace NHibernate.Validator.Tests.Specifics.NHV92
 			_entity = new Entity
 			{
 				SubEntities = new List<SubEntity>{
-                    new SubEntity()
-                }
+					new SubEntity()
+				}
 			};
 		}
 
@@ -98,9 +98,9 @@ namespace NHibernate.Validator.Tests.Specifics.NHV92
 			var engine = new ValidatorEngine();
 			var cfg = new FluentConfiguration();
 			cfg.Register(new[]{
-                typeof(SubEntityValidation),
-                typeof(EntityValidation) // Here is the workaround
-            });
+				typeof(SubEntityValidation),
+				typeof(EntityValidation) // Here is the workaround
+			});
 			cfg.SetDefaultValidatorMode(ValidatorMode.OverrideExternalWithAttribute);
 			engine.Configure(cfg);
 

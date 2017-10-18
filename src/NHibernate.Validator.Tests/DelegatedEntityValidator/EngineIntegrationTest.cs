@@ -30,7 +30,8 @@ namespace NHibernate.Validator.Tests.DelegatedEntityValidator
 			var ve = new ValidatorEngine();
 
 			ve.Configure(configure);
-			ActionAssert.NotThrow(()=>ve.IsValid(new Range { Start = 1, End = 4 }));
+
+			Assert.That(() => ve.IsValid(new Range { Start = 1, End = 4 }), Throws.Nothing);
 		}
 
 		[Test]

@@ -68,7 +68,7 @@ namespace NHibernate.Validator.Tests.ConstraintFactory
 		}
 	}
 
-    public class ConstraintFactoryFixtureUsingAttributesAndEnvironment : ConstraintFactoryFixtureUsingAttributes
+	public class ConstraintFactoryFixtureUsingAttributesAndEnvironment : ConstraintFactoryFixtureUsingAttributes
 	{
 		public override ValidatorEngine GetValidatorEngine()
 		{
