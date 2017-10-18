@@ -325,7 +325,6 @@ namespace NHibernate.Validator.Tests.Integration
 			{
 				// Ok
 			}
-			EventCrack.ValidateCrack(a, EntityMode.Xml); // don't throw exception
 			EventCrack.ValidateCrack(a, EntityMode.Map); // don't throw exception
 		}
 	}
