@@ -1,5 +1,6 @@
-Documentation and examples are available at www.nhforge.org
-Any feedback or issue can be sent to NHibernate user group(http://groups.google.com/group/nhusers) and will be greatly anticipated. 
+Documentation and examples are available at http://nhibernate.info/
+Any feedback can be sent to NHibernate user group at http://groups.google.com/group/nhusers and will be greatly appreciated.
+Issues are tracked on Jira at https://nhibernate.jira.com/projects/NHV/issues
 
 Release Notes - NHibernate.Validator - Version 4.0.1 GA
 
