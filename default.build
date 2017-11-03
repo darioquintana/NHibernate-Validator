@@ -22,9 +22,9 @@
 		Supported versions of .NET Framework, separated by spaces.
 		Used by *-all-frameworks targets.
 	-->
-  <property name="supported.frameworks" value="net-4.5" />
+	<property name="supported.frameworks" value="net-4.5" />
 
-  <fileset id="buildfiles.all" basedir="src">
+	<fileset id="buildfiles.all" basedir="src">
 		<include name="NHibernate.Validator/default.build" />
 		<include name="NHibernate.Validator.Specific/default.build" />
 	</fileset>
@@ -40,34 +40,32 @@
 	<target name="prepare-build-directory" depends="init">
 		<mkdir dir="${bin.dir}" />
 		<mkdir dir="${testresults.dir}" />
-		<call target="copy-referenced-assemblies" />
+		<call target="copy-referenced-files" />
 	</target>
 
-	<target name="copy-referenced-assemblies">
-		
-		<copy todir="${bin.dir}" >
-			<fileset basedir="${lib.dir}">			
-				<include name="nunit.*.dll"  />
-				<include name="SharpTestsEx*.dll"  />			
-				<include name="*.xml" />			
-			</fileset>
-		</copy>
-		
+	<target name="copy-referenced-files">
 		<copy file="src/NHibernate.Validator/Cfg/nhv-mapping.xsd" tofile="${build.dir}/schema/nhv-mapping.xsd"/>
-		<copy file="src/NHibernate.Validator/Cfg/nhv-configuration.xsd" tofile="${build.dir}/schema/nhv-configuration.xsd"/>		
-		<copy file="src/packages/NHibernate.4.0.1.4000/lib/Net40/NHibernate.dll" tofile="${bin.dir}/NHibernate.dll"/>
-		<copy file="src/packages/log4net.2.0.3/lib/net40-full/log4net.dll" tofile="${bin.dir}/log4net.dll"/>
-		<copy file="src/packages/Iesi.Collections.4.0.1.4000/lib/Net40/Iesi.Collections.dll" tofile="${bin.dir}/Iesi.Collections.dll"/>	
-
+		<copy file="src/NHibernate.Validator/Cfg/nhv-configuration.xsd" tofile="${build.dir}/schema/nhv-configuration.xsd"/>
 	</target>
 
 	<target name="build"
-		depends="init prepare-build-directory"
+		depends="init clean prepare-build-directory common.nuget-restore common.solution-restore"
 		description="Builds NHibernate in the current configuration">
 		<nant target="build">
 			<buildfiles refid="buildfiles.all" />
 		</nant>
-
+		<exec program="${path::combine(tools.dir, 'msbuild.cmd')}" verbose="true">
+			<arg value="${root.dir}/src/NHibernate.Validator.sln" />
+			<arg value="/p:OutputPath=&quot;${path::get-full-path(bin.dir)}&quot;" />
+			<arg value="/p:Platform=&quot;Any CPU&quot;" />
+			<arg value="/p:Configuration=&quot;Debug&quot;" if="${build.release == 'false'}" />
+			<arg value="/p:Configuration=&quot;Release&quot;" if="${build.release == 'true'}" />
+			<arg value="/p:NoWarn=&quot;1591&quot;" />
+			<arg value="/t:Restore" />
+			<arg value="/t:Rebuild" />
+			<arg value="/v:q" />
+			<arg value="/m" />
+		</exec>
 	</target>
 
 	<target name="test-report" if="${nunit2report.installed}">
@@ -80,30 +78,25 @@
 	</target>
 
 	<target name="test" depends="init build" description="Runs all NHibernate.Validator tests for the current framework" unless="${skip.tests}">
-
 		<nant target="test">
 			<buildfiles refid="buildfiles.tests" />
 		</nant>
-
-
 	</target>
-
 
 	<target name="doc" depends="init binaries"
 		description="Builds the Help Documentation and the API documentation">
 		<!-- <nant buildfile="doc/documentation.build" target="api manual" /> -->
 	</target>
 
-
 	<target name="sources" depends="binaries">
-		<property name="source.tmpdir" value="${build.dir}/tmp-src"  />
+		<property name="source.tmpdir" value="${build.dir}/tmp-src" />
 		<copy todir="${source.tmpdir}">
 			<fileset>
 				<!-- copy dlls used by this build -->
-				<include name="${lib.dir}/**"  />
-				<include name="${package.dir}/**"  />
+				<include name="${lib.dir}/**" />
+				<include name="${package.dir}/**" />
 
-				<include name="${example.dir}/**"  />
+				<include name="${example.dir}/**" />
 
 				<!-- copy all of the NHibernate source -->
 				<include name="src/NHibernate*/**" />
@@ -113,10 +106,9 @@
 
 				<include name="*.build" />
 				<include name="*.bat" />
-				<include name="gfdl.txt" />
-				<include name="lgpl.txt" />
+				<include name="License.txt" />
 				<include name="releasenotes.txt" />
-				<include name="readme.html" />
+				<include name="readme.md" />
 
 				<!-- exclude ReSharper stuff -->
 				<exclude name="**/_ReSharper*/**" />
@@ -143,15 +135,16 @@
 
 	<target name="copy-release-notes" depends="init">
 		<copy file="releasenotes.txt" todir="${build.dir}" />
+		<copy file="LICENSE.txt" todir="${build.dir}" />
+		<copy file="readme.md" todir="${build.dir}" />
 	</target>
 
 	<target name="binaries" depends="init build">
-		<!--copy file="lgpl.txt" tofile="${bin.dir}/NHibernate.Validator.license.txt"  /-->
 		<copy todir="${bin.dir}../../../testsbins">
 			<fileset basedir="${bin.dir}">
 				<include name="*Test*dll" />
 				<include name="nunit.*.dll" />
-				<include name="SharpTestsEx*.dll"  />
+				<include name="SharpTestsEx*.dll" />
 				<include name="nhvalidator.cfg.xml"/>
 				<include name="*.config"/>
 			</fileset>
@@ -161,20 +154,15 @@
 			<fileset basedir="${bin.dir}">
 				<include name="nhvalidator.cfg.xml"/>
 				<include name="nunit.*.dll" />
-				<include name="SharpTestsEx*.dll"  />
+				<include name="SharpTestsEx*.dll" />
 				<include name="*.Test*" />
 			</fileset>
 		</delete>
-		<!--copy todir="${example.dir}/lib">
-			<fileset basedir="${bin.dir}">
-				<include name="*" />
-			</fileset>
-		</copy-->
 	</target>
 	
 	<target name="nugetdeploy" depends="init build">
 		
-		<copy todir="${build.nuget.dir}">
+		<copy todir="${build.nuget.dir}/bin">
 			<fileset basedir="${bin.dir}">
 				<include name="**/*" />
 			</fileset>
@@ -184,30 +172,42 @@
 			<fileset basedir="${build.dir}/schema">
 				<include name="*" />
 			</fileset>
-		</copy>	
-		
+		</copy>
+
+		<copy file="LICENSE.txt" todir="${build.nuget.dir}" />
+		<copy file="releasenotes.txt" todir="${build.nuget.dir}" />
+		<copy file="readme.md" todir="${build.nuget.dir}" />
+
 		<delete>
-			<fileset basedir="${build.nuget.dir}">
+			<fileset basedir="${build.nuget.dir}/bin">
 				<include name="test-results/**/*.*" />
 				<include name="NHibernate.dll" />
 				<include name="NHibernate.xml" />
 				<include name="nunit*" />
-				<include name="SharpTestsEx*"  />
-				<include name="log4net*"  />
+				<include name="SharpTestsEx*" />
+				<include name="log4net*" />
 				<include name="*test*" />
 				<include name="Castle.Core*" />
 				<include name="Antlr3.Runtime*" />
 				<include name="Iesi*" />
 				<include name="LinFu.DynamicProxy*" />
-				<include name="NHibernate.ByteCode*" />		
+				<include name="NHibernate.ByteCode*" />
+				<include name="Remotion*" />
 			</fileset>
 		</delete>
+
+		<exec basedir="${tools.dir}" workingdir="${root.dir}/build" program="NuGet.exe">
+			<arg value="pack" />
+			<arg value="../NHibernate.Validator.nuspec" />
+		</exec>
 	</target>
 
 	<target name="binaries-zip" depends="init binaries copy-release-notes">
 		<zip zipfile="${build.dir}/bin/NHibernate.Validator-${project.version}-bin.zip">
 			<fileset basedir="${build.dir}">
 				<include name="releasenotes.txt" />
+				<include name="LICENSE.txt" />
+				<include name="readme.md" />
 				<include name="*.xsd" />
 				<include name="bin/**" />
 				<include name="schema/**" />
@@ -220,13 +220,13 @@
 		</zip>
 	</target>
 
-  <target name="release" depends="init binaries binaries-zip sources-zip"
+	<target name="release" depends="init binaries binaries-zip sources-zip"
 		description="Creates files for the partial (Alpha-Beta-Candidate) Release on SourceForge">
 
-    <echo message="Created a '${project.config}' package in ${build.dir}" />
-  </target>
+		<echo message="Created a '${project.config}' package in ${build.dir}" />
+	</target>
 
-  <target name="package" depends="init test binaries doc sources-zip binaries-zip "
+	<target name="package" depends="init test binaries doc sources-zip binaries-zip "
 		 description="Creates files for the File Release System on SourceForge">
 
 		<property name="dist.output.dir" value="${project::get-base-directory()}/build/" />

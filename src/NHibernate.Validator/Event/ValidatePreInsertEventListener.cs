@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using NHibernate.Cfg;
 using NHibernate.Event;
 using NHibernate.Mapping;
 using NHibernate.Properties;
 using NHibernate.Validator.Constraints;
 using NHibernate.Validator.Engine;
-using Environment=NHibernate.Validator.Cfg.Environment;
+using Environment = NHibernate.Validator.Cfg.Environment;
 
 namespace NHibernate.Validator.Event
 {
@@ -44,7 +46,7 @@ namespace NHibernate.Validator.Event
 				Engine = Environment.SharedEngineProvider.GetEngine();
 			}
 
-            IEnumerable<PersistentClass> classes = cfg.ClassMappings.Where(clazz => clazz.ClassName != null).Where(clazz => !clazz.ClassName.StartsWith("NHibernate.Envers"));
+			IEnumerable<PersistentClass> classes = cfg.ClassMappings.Where(clazz => clazz.ClassName != null).Where(clazz => !clazz.ClassName.StartsWith("NHibernate.Envers"));
 
 			foreach (PersistentClass clazz in classes)
 			{
@@ -58,9 +60,15 @@ namespace NHibernate.Validator.Event
 
 		#region IPreInsertEventListener Members
 
+		public Task<bool> OnPreInsertAsync(PreInsertEvent @event, CancellationToken cancellationToken)
+		{
+			OnPreInsert(@event);
+			return Task.FromResult(false);
+		}
+
 		public bool OnPreInsert(PreInsertEvent @event)
 		{
-			Validate(@event.Entity, @event.Session.EntityMode);
+			Validate(@event.Entity, @event.Persister.EntityMode);
 			return false;
 		}
 
@@ -95,7 +103,7 @@ namespace NHibernate.Validator.Event
 			{
 				if (property != null && property.IsComposite && !property.BackRef)
 				{
-					Component component = (Component) property.Value;
+					Component component = (Component)property.Value;
 					if (component.IsEmbedded)
 					{
 						return;

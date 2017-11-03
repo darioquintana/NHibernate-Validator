@@ -7,7 +7,6 @@ using NHibernate.Validator.Exceptions;
 using NUnit.Framework;
 using System.Collections;
 using log4net.Core;
-using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.Configuration
 {
@@ -87,13 +86,13 @@ namespace NHibernate.Validator.Tests.Configuration
 			XmlDocument cfgXml = new XmlDocument();
 			cfgXml.LoadXml(xml);
 			XmlTextReader xtr = new XmlTextReader(xml, XmlNodeType.Document, null);
-			ActionAssert.Throws<ValidatorConfigurationException>(() => new XmlConfiguration(xtr));
+			Assert.That(() => new XmlConfiguration(xtr), Throws.TypeOf<ValidatorConfigurationException>());
 		}
 
 		[Test]
 		public void NullReader()
 		{
-			ActionAssert.Throws<ValidatorConfigurationException>(() => new XmlConfiguration(null));
+			Assert.That(() => new XmlConfiguration(null), Throws.TypeOf<ValidatorConfigurationException>());
 		}
 
 		[Test]
@@ -106,7 +105,7 @@ namespace NHibernate.Validator.Tests.Configuration
 			XmlDocument cfgXml = new XmlDocument();
 			cfgXml.LoadXml(xml);
 			XmlTextReader xtr = new XmlTextReader(xml, XmlNodeType.Document, null);
-			ActionAssert.Throws<ValidatorConfigurationException>(() =>new XmlConfiguration(xtr));
+			Assert.That(() => new XmlConfiguration(xtr), Throws.TypeOf<ValidatorConfigurationException>());
 		}
 
 		[Test]

@@ -88,7 +88,7 @@ namespace NHibernate.Validator.Tests.Integration
 		[Test]
 		public void InvalidInitializer()
 		{
-			ActionAssert.Throws<ArgumentNullException>(() => ValidatorInitializer.Initialize(null));
+			Assert.That(() => ValidatorInitializer.Initialize(null), Throws.TypeOf<ArgumentNullException>());
 		}
 
 		[Test]
@@ -325,7 +325,6 @@ namespace NHibernate.Validator.Tests.Integration
 			{
 				// Ok
 			}
-			EventCrack.ValidateCrack(a, EntityMode.Xml); // don't throw exception
 			EventCrack.ValidateCrack(a, EntityMode.Map); // don't throw exception
 		}
 	}

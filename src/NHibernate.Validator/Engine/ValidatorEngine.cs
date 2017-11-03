@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
@@ -40,8 +41,8 @@ namespace NHibernate.Validator.Engine
 		private bool autoRegisterListeners;
 		private IEntityTypeInspector entityTypeInspector;
 
-		private readonly ThreadSafeDictionary<System.Type, ValidatableElement> validators =
-			new ThreadSafeDictionary<System.Type, ValidatableElement>(new Dictionary<System.Type, ValidatableElement>());
+		private readonly ConcurrentDictionary<System.Type, ValidatableElement> validators =
+			new ConcurrentDictionary<System.Type, ValidatableElement>(new Dictionary<System.Type, ValidatableElement>());
 		private static readonly ValidatableElement AlwaysValidPlaceHolder = new ValidatableElement(typeof (object), new EmptyClassValidator());
 
 		private class EmptyClassValidator: IClassValidator

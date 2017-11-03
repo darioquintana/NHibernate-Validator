@@ -35,7 +35,7 @@ namespace NHibernate.Validator.Demo.Winforms
 			//NOTE...IMPORTANT!:
 			//This is an example of how-to-change-the-configuration.
 			//You should maintain in your code just 1 (one) ValidatorEngine, 
-			//see SharedEngine: http://nhforge.org/blogs/nhibernate/archive/2009/02/26/diving-in-nhibernate-validator.aspx
+			//see SharedEngine: http://nhibernate.info/blog/2009/02/26/diving-in-nhibernate-validator.html
 			
 			ValidatorEngine ve = vvtor.ValidatorEngine;
 			ve.Clear();

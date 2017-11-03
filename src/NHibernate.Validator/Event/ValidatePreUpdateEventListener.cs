@@ -1,4 +1,6 @@
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using NHibernate.Event;
 
 namespace NHibernate.Validator.Event
@@ -18,9 +20,15 @@ namespace NHibernate.Validator.Event
 	{
 		#region IPreUpdateEventListener Members
 
+		public Task<bool> OnPreUpdateAsync(PreUpdateEvent @event, CancellationToken cancellationToken)
+		{
+			OnPreUpdate(@event);
+			return Task.FromResult(false);
+		}
+
 		public bool OnPreUpdate(PreUpdateEvent @event)
 		{
-			Validate(@event.Entity, @event.Session.EntityMode);
+			Validate(@event.Entity, @event.Persister.EntityMode);
 			return false;
 		}
 
