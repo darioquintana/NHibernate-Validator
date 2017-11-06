@@ -88,6 +88,8 @@ namespace NHibernate.Validator.Cfg
 		{
 			try
 			{
+				if (!persistentClass.HasPocoRepresentation)
+					return;
 				IClassValidator classValidator = ve.GetClassValidator(persistentClass.MappedClass);
 				classValidator.Apply(persistentClass);
 			}

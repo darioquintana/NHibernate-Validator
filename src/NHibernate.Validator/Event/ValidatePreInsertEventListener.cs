@@ -46,7 +46,7 @@ namespace NHibernate.Validator.Event
 				Engine = Environment.SharedEngineProvider.GetEngine();
 			}
 
-			IEnumerable<PersistentClass> classes = cfg.ClassMappings.Where(clazz => clazz.ClassName != null).Where(clazz => !clazz.ClassName.StartsWith("NHibernate.Envers"));
+			var classes = cfg.ClassMappings.Where(clazz => clazz.HasPocoRepresentation);
 
 			foreach (PersistentClass clazz in classes)
 			{

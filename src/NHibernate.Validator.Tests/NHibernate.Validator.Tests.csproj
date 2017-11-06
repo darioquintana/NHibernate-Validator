@@ -72,6 +72,10 @@
       <HintPath>..\packages\NHibernate.5.0.0\lib\net461\NHibernate.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="NHibernate.Envers, Version=5.0.1.0, Culture=neutral, PublicKeyToken=e2c5b946037fb7f8, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHibernate.Envers.5.0.1\lib\net461\NHibernate.Envers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="nunit.framework, Version=3.8.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.8.1\lib\net45\nunit.framework.dll</HintPath>
       <Private>True</Private>
@@ -178,6 +182,7 @@
     <Compile Include="GraphNavigation\User.cs" />
     <Compile Include="GraphNavigation\Address.cs" />
     <Compile Include="Inheritance\LoquaciousInheritanceFixture.cs" />
+    <Compile Include="Integration\EnversIntegrationFixture.cs" />
     <Compile Include="Integration\IntegrationOwnEngineFixture.cs" />
     <Compile Include="Integration\SimpleWithRelation.cs" />
     <Compile Include="Integration\ValidateEventsFixture.cs" />
