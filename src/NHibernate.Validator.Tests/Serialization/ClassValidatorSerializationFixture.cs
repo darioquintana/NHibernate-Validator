@@ -7,7 +7,6 @@ using NHibernate.Validator.Engine;
 using NHibernate.Validator.Tests.Base;
 using NHibernate.Validator.Tests.Integration;
 using NUnit.Framework;
-using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.Serialization
 {
@@ -54,18 +53,18 @@ namespace NHibernate.Validator.Tests.Serialization
 			a.State = "Vic";
 			a.Line1 = "Karbarook Ave";
 			a.Id = 3;
-			var validationMessages = cv.GetInvalidValues(a);
+			var validationMessages = cv.GetInvalidValues(a).ToArray();
 
 			// All work before serialization
-			validationMessages.Should().Have.Count.EqualTo(2); //static field is tested also
-			validationMessages.Select(iv => iv.Message).Satisfy(vm => vm.All(m => m.StartsWith("prefix_")));
+			Assert.That(validationMessages, Has.Length.EqualTo(2)); //static field is tested also
+			Assert.That(validationMessages, Has.All.Message.StartsWith("prefix_"));
 
 			// Serialize and deserialize
 			ClassValidator cvAfter = (ClassValidator)SerializationHelper.Deserialize(SerializationHelper.Serialize(cv));
-			validationMessages = cvAfter.GetInvalidValues(a);
+			validationMessages = cvAfter.GetInvalidValues(a).ToArray();
 			// Now test after
-			validationMessages.Should().Have.Count.EqualTo(2); //static field is tested also
-			validationMessages.Select(iv => iv.Message).Satisfy(vm => vm.All(m => m.StartsWith("prefix_")));
+			Assert.That(validationMessages, Has.Length.EqualTo(2)); //static field is tested also
+			Assert.That(validationMessages, Has.All.Message.StartsWith("prefix_"));
 		}
 	}
 }

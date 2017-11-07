@@ -47,7 +47,9 @@ namespace NHibernate.Validator.Specific.Tests.Uy
 		public class Persona
 		{
 			[CedulaIdentidad]
+#pragma warning disable 414
 			private string cedulaField = "27526962";
+#pragma warning restore 414
 			private string cedula;
 
 			[CedulaIdentidad]

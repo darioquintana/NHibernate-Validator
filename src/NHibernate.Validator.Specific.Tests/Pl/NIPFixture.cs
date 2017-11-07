@@ -19,7 +19,9 @@ namespace NHibernate.Validator.Specific.Tests.Pl
 		public class Person
 		{
 			private string nip;
+#pragma warning disable 414
 			[NIP] private string nipField = "77-92-125-257";
+#pragma warning restore 414
 
 			[NIP]
 			public string NIP

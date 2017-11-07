@@ -95,6 +95,7 @@ namespace NHibernate.Validator.Cfg.Loquacious
 			}
 		}
 
+		[CLSCompliant(false)]
 		public void AddClassDefinition<TDef, T>() where TDef : IValidationDefinition<T>, new() where T : class
 		{
 			AddClassDefinition(new TDef());

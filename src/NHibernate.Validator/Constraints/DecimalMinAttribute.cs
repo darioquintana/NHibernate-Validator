@@ -17,36 +17,38 @@ namespace NHibernate.Validator.Constraints
 
 		public DecimalMinAttribute () { }
 
-	    public DecimalMinAttribute(int min) : this(new decimal(min))
-	    {
-	    }
+		public DecimalMinAttribute(int min) : this(new decimal(min))
+		{
+		}
 
-	    public DecimalMinAttribute(uint min) : this(new decimal(min))
-	    {
-	    }
-	    
-        public DecimalMinAttribute(long min) : this(new decimal(min))
-	    {
-	    }
+		[CLSCompliant(false)]
+		public DecimalMinAttribute(uint min) : this(new decimal(min))
+		{
+		}
 
-        public DecimalMinAttribute(ulong min) : this(new decimal(min))
-	    {
-	    }
+		public DecimalMinAttribute(long min) : this(new decimal(min))
+		{
+		}
 
-        public DecimalMinAttribute(float min) : this(new decimal(min))
-	    {
-	    }
-       
-        public DecimalMinAttribute(double min) : this(new decimal(min))
-	    {
-	    }
+		[CLSCompliant(false)]
+		public DecimalMinAttribute(ulong min) : this(new decimal(min))
+		{
+		}
 
-	    public DecimalMinAttribute(int lo, int mid, int hi, bool isNegative, byte scale)
-	        : this(new decimal(lo, mid, hi, isNegative, scale))
-	    {
-	    }
+		public DecimalMinAttribute(float min) : this(new decimal(min))
+		{
+		}
 
-	    public DecimalMinAttribute(decimal min)
+		public DecimalMinAttribute(double min) : this(new decimal(min))
+		{
+		}
+
+		public DecimalMinAttribute(int lo, int mid, int hi, bool isNegative, byte scale)
+			: this(new decimal(lo, mid, hi, isNegative, scale))
+		{
+		}
+
+		public DecimalMinAttribute(decimal min)
 		{
 			Value = min;
 		}
@@ -96,7 +98,7 @@ namespace NHibernate.Validator.Constraints
 			IEnumerator ie = property.ColumnIterator.GetEnumerator();
 			ie.MoveNext();
 			var col = (Column)ie.Current;
-            col.CheckConstraint = col.Name + ">=" + Convert.ToString(Value, CultureInfo.InvariantCulture);
+			col.CheckConstraint = col.Name + ">=" + Convert.ToString(Value, CultureInfo.InvariantCulture);
 		}
 	}
 }

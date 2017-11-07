@@ -12,7 +12,9 @@ namespace NHibernate.Validator.Specific.Tests.Br
 	{
 		public class Usuario
 		{
+#pragma warning disable 414
 			[CPF] private string cpfField = "11111111111";
+#pragma warning restore 414
 
 			[CPF]
 			public string Cpf { get; set; }

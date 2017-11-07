@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using NHibernate.Validator.Engine;
 using NHibernate.Validator.Event;
 using NHibernate.Validator.Exceptions;
@@ -164,8 +163,8 @@ namespace NHibernate.Validator.Tests.Integration
 			{
 				//success
 				var invalidValues = e.GetInvalidValues();
-				invalidValues.Should().Have.Count.EqualTo(2);
-				invalidValues.Satisfy("Environment.MESSAGE_INTERPOLATOR_CLASS does not work", ivs => ivs.All(iv => iv.Message.StartsWith("prefix_")));
+				Assert.That(invalidValues, Has.Length.EqualTo(2));
+				Assert.That(invalidValues, Has.All.Message.StartsWith("prefix_"), "Environment.MESSAGE_INTERPOLATOR_CLASS does not work");
 			}
 			finally
 			{

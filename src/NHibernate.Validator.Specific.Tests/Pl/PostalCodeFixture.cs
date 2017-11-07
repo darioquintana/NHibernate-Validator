@@ -16,7 +16,9 @@ namespace NHibernate.Validator.Specific.Tests.Pl
 		public class Person
 		{
 			private string postalCode;
+#pragma warning disable 414
 			[PostalCode] private string postalCodeField = "12-345";
+#pragma warning restore 414
 
 			[PostalCode]
 			public string PostalCode

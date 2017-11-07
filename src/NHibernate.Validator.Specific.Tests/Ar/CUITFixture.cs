@@ -53,7 +53,9 @@ namespace NHibernate.Validator.Specific.Tests.Ar
 		public class Cliente
 		{
 			[CUIT]
+#pragma warning disable 414
 			private string cuitField = "20-00108345-8";
+#pragma warning restore 414
 			private string cuit;
 			private string customCuit;
 

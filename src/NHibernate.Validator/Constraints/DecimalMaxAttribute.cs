@@ -21,14 +21,16 @@ namespace NHibernate.Validator.Constraints
 		{
 		}
 
+		[CLSCompliant(false)]
 		public DecimalMaxAttribute(uint min) : this(new decimal(min))
 		{
 		}
-		
+
 		public DecimalMaxAttribute(long min) : this(new decimal(min))
 		{
 		}
 
+		[CLSCompliant(false)]
 		public DecimalMaxAttribute(ulong min) : this(new decimal(min))
 		{
 		}
@@ -36,7 +38,7 @@ namespace NHibernate.Validator.Constraints
 		public DecimalMaxAttribute(float min) : this(new decimal(min))
 		{
 		}
-	   
+
 		public DecimalMaxAttribute(double min) : this(new decimal(min))
 		{
 		}

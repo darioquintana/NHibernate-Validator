@@ -19,7 +19,9 @@ namespace NHibernate.Validator.Specific.Tests.Pl
 		public class Person
 		{
 			private string regon;
+#pragma warning disable 414
 			[REGON] private string regonField = "590096454";
+#pragma warning restore 414
 
 			[REGON]
 			public string REGON

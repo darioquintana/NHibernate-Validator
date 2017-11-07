@@ -157,7 +157,9 @@ namespace NHibernate.Validator.Tests.Engine
 
 		private class AnyClass
 		{
+#pragma warning disable 649
 			public int aprop;
+#pragma warning restore 649
 		}
 		[Test]
 		public void ValidateAnyClass()

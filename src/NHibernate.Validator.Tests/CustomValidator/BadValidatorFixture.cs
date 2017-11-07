@@ -10,13 +10,17 @@ namespace NHibernate.Validator.Tests.CustomValidator
 		public class Foo
 		{
 			[BadValidator]
+#pragma warning disable 169
 			private string SomeField;
+#pragma warning restore 169
 		}
 
 		public class Foo2
 		{
 			[BadValidatorMessageIsNull]
+#pragma warning disable 169
 			private string SomeField;
+#pragma warning restore 169
 		}
 
 
