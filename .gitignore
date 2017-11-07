@@ -32,7 +32,6 @@ _ReSharper*/
 *.[Pp]ublish.xml
 NHibernate.dll
 build/
-AssemblyInfo.cs
 hibernate.cfg.xml
 available-test-configurations
 current-test-configuration
@@ -45,7 +44,7 @@ NHibernate.VisualState.xml
 # except build/, which is used as an MSBuild target.
 !**/packages/build/
 # If using the old MSBuild-Integrated Package Restore, uncomment this:
-#!**/packages/repositories.config
+!**/packages/repositories.config
 
 # Visual Studio user settings directory
 .vs
