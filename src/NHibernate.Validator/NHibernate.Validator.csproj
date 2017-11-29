@@ -95,6 +95,7 @@
     <Compile Include="Cfg\IMappingsProvider.cs" />
     <Compile Include="Cfg\Loquacious\AllDefinitions.cs" />
     <Compile Include="Cfg\Loquacious\FluentConfiguration.cs" />
+    <Compile Include="Cfg\Loquacious\IEnumConstraints.cs" />
     <Compile Include="Cfg\Loquacious\IFluentConfiguration.cs" />
     <Compile Include="Cfg\Loquacious\IGuidConstraints.cs" />
     <Compile Include="Cfg\Loquacious\IInstanceConstraints.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Cfg\Loquacious\Impl\BooleanConstraints.cs" />
     <Compile Include="Cfg\Loquacious\Impl\CollectionConstraints.cs" />
     <Compile Include="Cfg\Loquacious\Impl\DateTimeConstraints.cs" />
+    <Compile Include="Cfg\Loquacious\Impl\EnumConstraints.cs" />
     <Compile Include="Cfg\Loquacious\Impl\GuidConstraints.cs" />
     <Compile Include="Cfg\Loquacious\ISatisfier.cs" />
     <Compile Include="Constraints\DelegatedSimpleConstraint.cs" />
@@ -149,6 +151,7 @@
     <Compile Include="Constraints\EANAttribute.cs" />
     <Compile Include="Constraints\EmailAttribute.cs" />
     <Compile Include="Constraints\EmbeddedRuleArgsAttribute.cs" />
+    <Compile Include="Constraints\EnumAttribute.cs" />
     <Compile Include="Engine\ReferenceEqualityComparer.cs" />
     <Compile Include="Engine\SystemTypeExtensions.cs" />
     <Compile Include="Event\ValidatePreCollectionUpdateEventListener.cs" />

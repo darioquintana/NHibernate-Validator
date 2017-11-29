@@ -51,7 +51,7 @@ namespace NHibernate.Validator.Tests.Mappings
 		{
 			ReflectionClassMapping rm = new ReflectionClassMapping(typeof (Address));
 			List<MemberInfo> mi = new List<MemberInfo>(rm.GetMembers());
-			Assert.AreEqual(16, mi.Count);
+			Assert.AreEqual(20, mi.Count);
 
 			rm = new ReflectionClassMapping(typeof(Polimorphism.DerivatedClass));
 			mi = new List<MemberInfo>(rm.GetMembers());

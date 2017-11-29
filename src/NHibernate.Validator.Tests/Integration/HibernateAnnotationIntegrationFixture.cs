@@ -78,7 +78,7 @@ namespace NHibernate.Validator.Tests.Integration
 		public virtual void EnsureSharedEngine()
 		{
 			Assert.IsTrue(ReferenceEquals(fortest, Cfg.Environment.SharedEngineProvider),
-			              "some process change the shared engine instance");
+						  "some process change the shared engine instance");
 			// Have something initialized before and after lister initialization
 			Assert.IsNotNull(fortest.GetEngine().GetValidator<AnyClass>());
 			Assert.IsNotNull(fortest.GetEngine().GetValidator<Address>());
@@ -136,6 +136,22 @@ namespace NHibernate.Validator.Tests.Integration
 			Assert.IsTrue(serialColumn.IsNullable, "Notnull should not be applied on single tables");
 		}
 
+		[Test]
+		public void ApplyOnEnumColumn()
+		{
+			PersistentClass classMapping = cfg.GetClassMapping(typeof(Address));
+			IEnumerator ie = classMapping.GetProperty("AddressType").ColumnIterator.GetEnumerator();
+			ie.MoveNext();
+			Column serialColumn = (Column)ie.Current;
+			Assert.AreEqual("AddressType in (0, 1)", serialColumn.CheckConstraint , "Validator annotation shout generate valid check for Enums");
+
+			ie = classMapping.GetProperty("AddressFlags").ColumnIterator.GetEnumerator();
+			ie.MoveNext();
+			serialColumn = (Column)ie.Current;
+
+			Assert.That(serialColumn.CheckConstraint, Is.Null.Or.Empty, "Validator annotation should not generate check for [Flag]ed Enums");
+		}
+
 		/// <summary>
 		/// Test pre-update/save events and custom interpolator
 		/// </summary>
@@ -151,6 +167,8 @@ namespace NHibernate.Validator.Tests.Integration
 			a.Line1 = "Line 1";
 			a.Zip = "nonnumeric";
 			a.State = "NY";
+			a.AddressType = (AddressType) 42;
+			a.AddressFlags = AddressFlag.Flag1 | AddressFlag.Flag2 | (AddressFlag)66;
 			s = OpenSession();
 			tx = s.BeginTransaction();
 			s.Save(a);
@@ -163,7 +181,7 @@ namespace NHibernate.Validator.Tests.Integration
 			{
 				//success
 				var invalidValues = e.GetInvalidValues();
-				Assert.That(invalidValues, Has.Length.EqualTo(2));
+				Assert.That(invalidValues, Has.Length.EqualTo(4));
 				Assert.That(invalidValues, Has.All.Message.StartsWith("prefix_"), "Environment.MESSAGE_INTERPOLATOR_CLASS does not work");
 			}
 			finally
@@ -182,6 +200,8 @@ namespace NHibernate.Validator.Tests.Integration
 			a.State = "NY";
 			s.Save(a);
 			a.State = "TOOLONG";
+			a.AddressType = AddressType.Mailing;
+			a.AddressFlags = AddressFlag.Flag1 | AddressFlag.Flag2 | AddressFlag.Flag4; 
 			try 
 			{
 				s.Flush();

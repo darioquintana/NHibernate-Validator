@@ -62,7 +62,7 @@ namespace NHibernate.Validator.Tests.Mappings
 		{
 			XmlClassMapping rm = new XmlClassMapping(GetNhvClassFor(typeof(Address)));
 			List<MemberInfo> mi = new List<MemberInfo>(rm.GetMembers());
-			Assert.AreEqual(8, mi.Count);
+			Assert.AreEqual(10, mi.Count);
 		}
 
 		[Test]

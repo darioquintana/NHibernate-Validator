@@ -40,5 +40,13 @@
 		<property name="InternalValid">	
 				<asserttrue />
 		</property>
+		
+		<property name="AddressType">
+			<enum />
+		</property>
+
+		<property name="AddressFlags">
+			<enum />
+		</property>
 	</class>
 </nhv-mapping>
