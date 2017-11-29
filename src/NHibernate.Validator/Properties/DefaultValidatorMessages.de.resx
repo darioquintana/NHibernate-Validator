@@ -130,7 +130,7 @@
     <value>numeric value out of bounds (&lt;{integerDigits} digits&gt;.&lt;{fractionalDigits} digits&gt; expected)</value>
   </data>
   <data name="validator.ean" xml:space="preserve">
-    <value>invalid EAN</value>
+    <value>Ungültige EAN</value>
   </data>
   <data name="validator.email" xml:space="preserve">
     <value>not a well-formed email address</value>
@@ -142,7 +142,7 @@
     <value>muss in der Zukunft liegen</value>
   </data>
   <data name="validator.iban" xml:space="preserve">
-    <value>Invalid IBAN</value>
+    <value>Ungültige IBAN</value>
   </data>
   <data name="validator.length" xml:space="preserve">
     <value>muss zwischen {Min} und {Max} lang sein</value>
