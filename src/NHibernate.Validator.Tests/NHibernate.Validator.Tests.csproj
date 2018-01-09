@@ -214,6 +214,7 @@
     <Compile Include="SerializationHelper.cs" />
     <Compile Include="Serialization\ClassValidatorSerializationFixture.cs" />
     <Compile Include="Serialization\EventsSerializationFixture.cs" />
+    <Compile Include="Serialization\ExceptionSerializationFixture.cs" />
     <Compile Include="Serialization\RuleArgsSerializationFixture.cs" />
     <Compile Include="Serialization\ValidatorEngineSerializationFixture.cs" />
     <Compile Include="Serialization\ValidatorsSerializationFixture.cs" />

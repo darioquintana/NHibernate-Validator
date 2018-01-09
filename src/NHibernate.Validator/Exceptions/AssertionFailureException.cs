@@ -7,6 +7,7 @@ namespace NHibernate.Validator.Exceptions
 	/// <summary>
 	/// Indicates failure of an assertion: a possible bug in NHibernate.Validator
 	/// </summary>
+	// 6.0 TODO: cease deriving from ApplicationException
 	[Serializable]
 	public class AssertionFailureException : ApplicationException
 	{
