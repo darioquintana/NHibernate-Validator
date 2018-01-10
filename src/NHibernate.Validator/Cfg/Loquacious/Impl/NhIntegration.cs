@@ -28,6 +28,18 @@ namespace NHibernate.Validator.Cfg.Loquacious.Impl
 			return this;
 		}
 
+		public INhIntegration ApplyingGenerationFromMapping()
+		{
+			configuration.Properties[Environment.AutoGenerateFromMapping] = "true";
+			return this;
+		}
+
+		public INhIntegration AvoidingGenerationFromMapping()
+		{
+			configuration.Properties[Environment.AutoGenerateFromMapping] = "false";
+			return this;
+		}
+
 		public void RegisteringListeners()
 		{
 			configuration.Properties[Environment.AutoregisterListeners] = "true";

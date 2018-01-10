@@ -182,6 +182,8 @@
     <Compile Include="GraphNavigation\User.cs" />
     <Compile Include="GraphNavigation\Address.cs" />
     <Compile Include="Inheritance\LoquaciousInheritanceFixture.cs" />
+    <Compile Include="Integration\FromNhibMetadata.cs" />
+    <Compile Include="Integration\FromNhibMetadataFixture.cs" />
     <Compile Include="Integration\EnversIntegrationFixture.cs" />
     <Compile Include="Integration\IntegrationOwnEngineFixture.cs" />
     <Compile Include="Integration\SimpleWithRelation.cs" />
@@ -473,6 +475,7 @@
     <EmbeddedResource Include="Integration\SimpleWithRelation.hbm.xml" />
     <EmbeddedResource Include="Integration\AnEntity.hbm.xml" />
     <EmbeddedResource Include="Engine\Tagging\EntityXml.nhv.xml" />
+    <EmbeddedResource Include="Integration\FromNhibMetadata.hbm.xml" />
     <Content Include="nhvalidator.cfg.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

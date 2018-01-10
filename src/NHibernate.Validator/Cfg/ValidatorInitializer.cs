@@ -63,6 +63,19 @@ namespace NHibernate.Validator.Cfg
 		/// </remarks>
 		public static void Initialize(this Configuration cfg, ValidatorEngine ve)
 		{
+			if (ve.AutoGenerateFromMapping || ve.ApplyToDDL)
+			{
+				cfg.BuildMappings();
+			}
+
+			if (ve.AutoGenerateFromMapping)
+			{
+				foreach (PersistentClass persistentClazz in cfg.ClassMappings)
+				{
+					ConfigureValidatorFromDDL(persistentClazz, ve);
+				}
+			}
+			
 			//Apply To DDL
 			if (ve.ApplyToDDL)
 			{
@@ -78,9 +91,9 @@ namespace NHibernate.Validator.Cfg
 				cfg.SetListeners(ListenerType.PreInsert,
 				                 cfg.EventListeners.PreInsertEventListeners.Concat(new[] {new ValidatePreInsertEventListener()}).ToArray());
 				cfg.SetListeners(ListenerType.PreUpdate,
-												 cfg.EventListeners.PreUpdateEventListeners.Concat(new[] { new ValidatePreUpdateEventListener() }).ToArray());
+				                 cfg.EventListeners.PreUpdateEventListeners.Concat(new[] { new ValidatePreUpdateEventListener() }).ToArray());
 				cfg.SetListeners(ListenerType.PreCollectionUpdate,
-												 cfg.EventListeners.PreCollectionUpdateEventListeners.Concat(new[] { new ValidatePreCollectionUpdateEventListener() }).ToArray());
+				                 cfg.EventListeners.PreCollectionUpdateEventListeners.Concat(new[] { new ValidatePreCollectionUpdateEventListener() }).ToArray());
 			}
 		}
 
@@ -97,6 +110,21 @@ namespace NHibernate.Validator.Cfg
 			{
 				log.Warn(
 					string.Format("Unable to apply constraints on DDL for [MappedClass={0}]", persistentClass.MappedClass.FullName), ex);
+			}
+		}
+	
+		private static void ConfigureValidatorFromDDL(PersistentClass persistentClass, ValidatorEngine ve)
+		{
+			try
+			{
+				if (persistentClass.MappedClass == null) return;
+				IClassValidator classValidator = ve.GetClassValidator(persistentClass.MappedClass);
+				classValidator.ConfigureFrom(persistentClass.PropertyClosureIterator);
+			}
+			catch (Exception ex)
+			{
+				log.Warn(
+					string.Format("Unable to auto generate validators from mapping for [MappedClass={0}]", persistentClass.MappedClass.FullName), ex);
 			}
 		}
 	}

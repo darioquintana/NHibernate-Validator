@@ -157,7 +157,7 @@ namespace NHibernate.Validator.Tests.Engine.Tagging
 		[Test]
 		public void WhenTagIsSpecified_ValidateRelationForGivenTags()
 		{
-			// specifying [Valid] the relation is always analized
+			// specifying [Valid] the relation is always analyzed
 			IClassValidator cv = new ClassValidator(typeof(EntityWithReletion));
 			cv.GetInvalidValues(new EntityWithReletion { Reference = new Entity() }, typeof(Error)).Should().Have.Count.EqualTo(1);
 			cv.GetInvalidValues(new EntityWithReletion { Reference = new Entity() }, typeof(Error), null).Should().Have.Count.EqualTo(2);
@@ -166,7 +166,7 @@ namespace NHibernate.Validator.Tests.Engine.Tagging
 		[Test]
 		public void WhenTagIsSpecified_ValidateCollectionForGivenTags()
 		{
-			// specifying [Valid] the collection is always analized
+			// specifying [Valid] the collection is always analyzed
 			IClassValidator cv = new ClassValidator(typeof(EntityWithCollection));
 			cv.GetInvalidValues(new EntityWithCollection { Entities = new List<Entity> { new Entity(), new Entity() } }, typeof(Error)).Should().Have.Count.EqualTo(2);
 			cv.GetInvalidValues(new EntityWithCollection { Entities = new List<Entity> { new Entity(), new Entity() } }, typeof(Error), null).Should().Have.Count.EqualTo(4);

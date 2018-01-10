@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   namespace="NHibernate.Validator.Tests.Integration"
+                   assembly="NHibernate.Validator.Tests"
+                   default-access="property"
+                   default-lazy="false">
+
+  <class name="FromNhibMetadata">
+
+    <id name="Id">
+      <generator class="assigned"/>
+    </id>
+
+    <property name="DateNotNull" not-null="true" />
+    <property name="StrValue" type="String" column="str" length="5"/>
+    <property name="Dec" type="Decimal" precision="5" scale="2"/>
+    <property name="EnumV"/>
+
+    <component name="Cmp" class="Cmp1">
+      <property name="CEnumV"/>
+      <property name="CStrValue" type="String" length="3"/>
+    </component>
+
+    <set name="Cmps2" table="FromNhibMetadata_cmps2" lazy="true">
+      <key column="cmpsid"/>
+      <composite-element class="Cmp2">
+        <property name="CEnumV1"/>
+        <property name="CStrValue1" type="String" length="5"/>
+      </composite-element>
+    </set>
+
+  </class>
+</hibernate-mapping>
