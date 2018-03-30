@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using NHibernate.Validator.Engine;
 using NUnit.Framework;
 
@@ -11,8 +8,6 @@ namespace NHibernate.Validator.Tests.XmlAndAttributesMix
 	[TestFixture]
 	public class OverrideAttributeWithXmlFixture : BaseValidatorFixture
 	{
-		private static IInternalLogger log = LoggerProvider.LoggerFor(typeof(OverrideAttributeWithXmlFixture));
-
 		public override IClassValidator GetClassValidator(System.Type type)
 		{
 			return UtilValidatorFactory.GetValidatorForOverrideAttributeWithExternal(type);

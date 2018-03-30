@@ -77,9 +77,13 @@ namespace NHibernate.Validator.Cfg
 		/// </remarks>
 		public const string SharedEngineClass = "shared_engine_provider";
 
+#if NETFX
 		private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof(Environment));
+#else
+		private static readonly INHibernateLogger Log = NHibernateLogger.For(typeof(Environment));
+#endif
 
-		private static readonly Dictionary<string, string> GlobalProperties = new Dictionary<string, string>();
+		private static readonly Dictionary<string, string> GlobalProperties;
 
 		private static ISharedEngineProvider sharedEngineProviderInstance;
 
@@ -93,7 +97,11 @@ namespace NHibernate.Validator.Cfg
 
 			if (sharedEngineProviderInstance != null)
 			{
+#if NETFX
 				log.Info("Using shared engine provider:" + sharedEngineProviderInstance.GetType().AssemblyQualifiedName);
+#else
+				Log.Info("Using shared engine provider: {0}", sharedEngineProviderInstance.GetType().AssemblyQualifiedName);
+#endif
 			}
 		}
 

@@ -11,7 +11,11 @@ namespace NHibernate.Validator.Mappings
 			BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
 			| BindingFlags.Static;
 
-		private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof (ReflectionClassMapping));
+#if NETFX
+		private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof(ReflectionClassMapping));
+#else
+		private static readonly INHibernateLogger Log = NHibernateLogger.For(typeof(ReflectionClassMapping));
+#endif
 
 		public ReflectionClassMapping(System.Type clazz)
 		{
@@ -24,8 +28,13 @@ namespace NHibernate.Validator.Mappings
 
 			foreach (Attribute memberAttribute in memberAttributes)
 			{
+#if NETFX
 				log.Debug(string.Format("For class {0} Adding member {1} to dictionary with attribute {2}", clazz.FullName,
 				                        member.Name, memberAttribute));
+#else
+				Log.Debug("For class {0} Adding member {1} to dictionary with attribute {2}", clazz.FullName,
+				          member.Name, memberAttribute);
+#endif
 				if (!membersAttributesDictionary.ContainsKey(member))
 				{
 					membersAttributesDictionary.Add(member, new List<Attribute>());

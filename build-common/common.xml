@@ -1,99 +1,12 @@
 <?xml version="1.0" ?>
 <project xmlns="http://nant.sf.net/release/0.85-rc3/nant.xsd">
-
- 
-
-	<!-- Generating AssemblyInfo files for Visual Studio -->
-	<property name="visual-studio" value="false" overwrite="false" />
  
 	<property name="framework.family" value="${framework::get-family(framework::get-target-framework())}"/>
 	<property name="framework.version" value="${framework::get-version(framework::get-target-framework())}"/>
 
-    <property name="NHibernate.lib" value="../../lib/${framework.family}/${framework.version}" />
-  
-	<!-- 
-		These are used to set the correct attributes in AssemblyInfo.cs.  
-	-->
-	<property name="project.company" value="NHibernate Community - http://nhibernate.info/" />
+	<property name="NHibernate.lib" value="../../lib/${framework.family}/${framework.version}" />
 
-	<!--
-		Version number computation
-		
-		JBoss product versioning guidelines (http://wiki.jboss.org/wiki/Wiki.jsp?page=JBossProductVersioning)
-		say we are supposed to use version numbers formatted like major.minor.patch.qualifier, where
-		qualifier is alphanumeric (Alpha#, Beta#, CR#, GA, SP#), and the numeric part may be anything, e.g.
-		a time/date stamp, a SVN revision number and so on.
-		
-		I'm only going to use simple sequential numbers for now and the script below is used to translate
-		the alphanumeric version into a numeric assembly version: x.y.z.qN is translated into x.y.z.(base+N)
-		where base is 1000 for Alpha, 2000 for Beta, 3000 for CR, and 4000 for both GA and SP (so GA is
-		effectively SP0).
-	-->
-
-	<property name="project.version" value="5.0.0.GA" overwrite="false" />
-
-	<!-- Compute short project version (major.minor) using a regex -->
-	<regex input="${project.version}" pattern="^(?'shortversion'\d+\.\d+)" />
-	<property name="project.version.short" value="${shortversion}" />
-
-	<!-- Compute and set project.version.numeric from project.version if it hasn't been set already -->
-	<if test="${not property::exists('project.version.numeric')}">
-
-		<script language="C#">
-			<code><![CDATA[
-				public const int BaseAlpha = 4000;
-				public const int BaseBeta  = 1000;
-				public const int BaseCR    = 0000;
-				public const int BaseGA    = 4000;
-				// SP is same as GA because GA has no number and SP's start with 1.
-				public const int BaseSP    = 4000;
-
-				public static void ScriptMain(Project project)
-				{
-					project.Properties["project.version.numeric"] = ToNumericVersion(
-						project.Properties["project.version"]);
-				}
-
-				public static string ToNumericVersion(string version)
-				{
-					int qualifierStart = version.LastIndexOf('.') + 1;
-					int qualifierNumberStart = version.IndexOfAny(
-						"0123456789".ToCharArray(),
-						qualifierStart);
-
-					if (qualifierNumberStart < 0) qualifierNumberStart = version.Length;
-
-					string qualifier = version.Substring(qualifierStart, qualifierNumberStart - qualifierStart);
-					int qualifierNumber = qualifierNumberStart < version.Length
-						? int.Parse(version.Substring(qualifierNumberStart))
-						: 0;
-
-					int revisionBase;
-
-					switch (qualifier)
-					{
-						case "Alpha": revisionBase = BaseAlpha; break;
-						case "Beta":  revisionBase = BaseBeta; break;
-						case "CR":    revisionBase = BaseCR; break;
-						case "GA":    revisionBase = BaseGA; break;
-						case "SP":    revisionBase = BaseSP; break;
-
-						default: throw new BuildException("Unknown version qualifier " + qualifier);
-					}
-
-					string revisionNumber = (revisionBase + qualifierNumber).ToString();
-
-					return version.Substring(0, qualifierStart) + revisionNumber;
-				}
-			]]></code>
-		</script>
-	</if>
-
-	<!-- debug|release -->
-	<property name="build.defines" value="" />
-
-	<!-- platform specific properties. These are the defaults -->
-	<property name="current.build.defines" value="${build.defines}" />
+	<property name="project.version" value="5.0.0" overwrite="false" />
  
 	<!-- named project configurations -->
 	<target name="set-debug-project-configuration" description="Perform a 'debug' build">
@@ -101,6 +14,7 @@
 		<property name="build.optimize" value="false" />
 		<property name="build.name" value="NHibernate.Validator-${project.version}-${project.config}" />
 		<property name="build.release" value="false" />
+		<property name="build.config" value="Debug" />
 	</target>
 	
 	<target name="set-release-project-configuration" description="Perform a 'release' build">
@@ -108,6 +22,7 @@
 		<property name="build.optimize" value="true" />
 		<property name="build.name" value="NHibernate.Validator-${project.version}" />
 		<property name="build.release" value="true" />
+		<property name="build.config" value="Release" />
 	</target>
 
 	<target name="set-project-configuration">
@@ -122,7 +37,7 @@
 		<property name="build.nuget.dir" value="${root.dir}/build/NuGetDeploy" />
 		<property name="build.dir" value="${build.root.dir}" />
 		<property name="bin.dir" value="${build.dir}/bin/${nant.settings.currentframework}" dynamic="true" />
-		<property name="testresults.dir" value="${bin.dir}/test-results" />
+		<property name="testresults.dir" value="${build.dir}/test-results" />
 		<property name="tools.dir" value="${root.dir}/Tools"/>
 	</target>
 

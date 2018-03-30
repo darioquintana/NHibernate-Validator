@@ -46,6 +46,7 @@ namespace NHibernate.Validator.Tests.Serialization
 		[Test]
 		public void InvalidStateException()
 		{
+			TestsContext.AssumeSystemTypeIsSerializable();
 			var state = new[] { new InvalidValue("blah", typeof(ExceptionSerializationFixture), "prop", null, null, null) };
 			var ex = new InvalidStateException(state);
 			var dex = default(InvalidStateException);

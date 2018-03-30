@@ -13,7 +13,11 @@ namespace NHibernate.Validator.Engine
 	/// </remarks>
 	internal class JITClassMappingFactory : IClassMappingFactory
 	{
+#if NETFX
 		private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof(JITClassMappingFactory));
+#else
+		private static readonly INHibernateLogger Log = NHibernateLogger.For(typeof(JITClassMappingFactory));
+#endif
 
 		#region IClassMappingFactory Members
 
@@ -29,7 +33,11 @@ namespace NHibernate.Validator.Engine
 					result = GetExternalDefinitionFor(clazz);
 					if (result == null)
 					{
+#if NETFX
 						log.Warn(string.Format("External definition not foud for class {0} in ValidatorMode.UseExternal mode.", clazz.FullName));
+#else
+						Log.Warn("External definition not foud for class {0} in ValidatorMode.UseExternal mode.", clazz.FullName);
+#endif
 						return null; // <<<<<===
 					}
 					break;
@@ -37,7 +45,11 @@ namespace NHibernate.Validator.Engine
 					externalDefinition = GetExternalDefinitionFor(clazz);
 					if (externalDefinition != null)
 					{
+#if NETFX
 						log.Debug("XmlOverAttribute applied for " + clazz.FullName);
+#else
+						Log.Debug("XmlOverAttribute applied for {0}", clazz.FullName);
+#endif
 						result = new XmlOverAttributeClassMapping(externalDefinition);
 					}
 					break;
@@ -45,7 +57,11 @@ namespace NHibernate.Validator.Engine
 					externalDefinition = GetExternalDefinitionFor(clazz);
 					if (externalDefinition != null)
 					{
+#if NETFX
 						log.Debug("AttributeOverXml applied for " + clazz.FullName);
+#else
+						Log.Debug("AttributeOverXml applied for {0}", clazz.FullName);
+#endif
 						result = new AttributeOverXmlClassMapping(externalDefinition);
 					}
 					break;
@@ -56,7 +72,11 @@ namespace NHibernate.Validator.Engine
 			}
 			else
 			{
+#if NETFX
 				log.Debug("Reflection applied for " + clazz.FullName);
+#else
+				Log.Debug("Reflection applied for {0}", clazz.FullName);
+#endif
 				return new ReflectionClassMapping(clazz);
 			}
 		}
@@ -65,7 +85,11 @@ namespace NHibernate.Validator.Engine
 
 		protected virtual IClassMapping GetExternalDefinitionFor(System.Type type)
 		{
+#if NETFX
 			log.Debug("XML convention applied for " + type.FullName);
+#else
+			Log.Debug("XML convention applied for {0}", type.FullName);
+#endif
 			NhvMapping mapp = XmlMappingLoader.GetXmlMappingFor(type);
 			if (mapp != null && mapp.@class.Length > 0)
 			{

@@ -15,11 +15,15 @@ namespace NHibernate.Validator.Cfg
 	/// </summary>
 	public class XmlConfiguration : INHVConfiguration
 	{
-		private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof (XmlConfiguration));
+#if NETFX
+		private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof(XmlConfiguration));
+#else
+		private static readonly INHibernateLogger Log = NHibernateLogger.For(typeof(XmlConfiguration));
+#endif
 
 		private const string CfgSchemaResource = "NHibernate.Validator.Cfg.nhv-configuration.xsd";
 		private readonly XmlSchema config = ReadXmlSchemaFromEmbeddedResource(CfgSchemaResource);
-		private readonly HashSet<System.Type> entityTypeInspectors = new HashSet<System.Type>();
+		private readonly HashSet<System.Type> entityTypeInspectors;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="XmlConfiguration"/> class.
@@ -137,8 +141,12 @@ namespace NHibernate.Validator.Cfg
 
 				if (!fromAppConfig && !string.IsNullOrEmpty(SharedEngineProviderClass))
 				{
-					log.Warn(string.Format("{0} propety is ignored out of application configuration file.",
+#if NETFX
+					log.Warn(string.Format("{0} property is ignored out of application configuration file.",
 					                       Environment.SharedEngineClass));
+#else
+					Log.Warn("{0} property is ignored out of application configuration file.", Environment.SharedEngineClass);
+#endif
 				}
 			}
 		}

@@ -14,7 +14,11 @@ namespace NHibernate.Validator.Cfg
 	/// </summary>
 	public static class ValidatorInitializer
 	{
+#if NETFX
 		private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof(ValidatorInitializer));
+#else
+		private static readonly INHibernateLogger Log = NHibernateLogger.For(typeof(ValidatorInitializer));
+#endif
 
 		/// <summary>
 		/// Initialize NHibernate's events and/or DLL.
@@ -108,8 +112,12 @@ namespace NHibernate.Validator.Cfg
 			}
 			catch (Exception ex)
 			{
+#if NETFX
 				log.Warn(
 					string.Format("Unable to apply constraints on DDL for [MappedClass={0}]", persistentClass.MappedClass.FullName), ex);
+#else
+				Log.Warn(ex, "Unable to apply constraints on DDL for [MappedClass={0}]", persistentClass.MappedClass.FullName);
+#endif
 			}
 		}
 	
@@ -123,8 +131,12 @@ namespace NHibernate.Validator.Cfg
 			}
 			catch (Exception ex)
 			{
+#if NETFX
 				log.Warn(
 					string.Format("Unable to auto generate validators from mapping for [MappedClass={0}]", persistentClass.MappedClass.FullName), ex);
+#else
+				Log.Warn(ex, "Unable to auto generate validators from mapping for [MappedClass={0}]", persistentClass.MappedClass.FullName);
+#endif
 			}
 		}
 	}

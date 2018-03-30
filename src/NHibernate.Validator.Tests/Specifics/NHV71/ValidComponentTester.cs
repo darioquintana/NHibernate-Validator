@@ -61,7 +61,7 @@ namespace NHibernate.Validator.Tests.Specifics.NHV71
 				}
 				catch (InvalidStateException ex)
 				{
-					var invalidValues = ex.GetInvalidValues();
+					var invalidValues = ex.InvalidValues;
 					invalidValues.Should().Have.Count.EqualTo(2);
 				}
 			}

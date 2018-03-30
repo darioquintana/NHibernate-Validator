@@ -32,7 +32,11 @@ namespace NHibernate.Validator.Engine
 			public ValidatorDef ValidatorDef { get; set; }
 			public MemberInfo Getter { get; set; }
 		}
+#if NETFX
 		private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof(ClassValidator));
+#else
+		private static readonly INHibernateLogger Log = NHibernateLogger.For(typeof(ClassValidator));
+#endif
 		private readonly System.Type entityType;
 		private readonly IConstraintValidatorFactory constraintValidatorFactory;
 
@@ -188,7 +192,11 @@ namespace NHibernate.Validator.Engine
 				if (mapping != null)
 					classesMaps.Add(mapping);
 				else
+#if NETFX
 					log.Warn("Validator not found in mode " + validatorMode + " for class " + clazz.AssemblyQualifiedName);
+#else
+					Log.Warn("Validator not found in mode {0} for class {1}", validatorMode, clazz.AssemblyQualifiedName);
+#endif
 			}
 
 			//Check on all selected classes
@@ -227,7 +235,11 @@ namespace NHibernate.Validator.Engine
 
 		private void AddAttributeToMember(MemberInfo currentMember, Attribute thisattribute)
 		{
+#if NETFX
 			log.Info(string.Format("Adding member {0} to dictionary with attribute {1}", currentMember.Name, thisattribute));
+#else
+			Log.Info("Adding member {0} to dictionary with attribute {1}", currentMember.Name, thisattribute);
+#endif
 			if (!membersAttributesDictionary.ContainsKey(currentMember))
 			{
 				membersAttributesDictionary.Add(currentMember, new List<Attribute>());

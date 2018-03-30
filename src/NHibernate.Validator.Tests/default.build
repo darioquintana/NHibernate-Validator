@@ -13,7 +13,4 @@
 	</target>
 
 	<target name="test" depends="init common.run-tests" />
-
-	<!-- Intentionally empty -->
-	<target name="generate-assemblyinfo" />
 </project>

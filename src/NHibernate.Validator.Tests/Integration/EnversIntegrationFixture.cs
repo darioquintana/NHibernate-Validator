@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿// TODO: enable test for .Net Core once Envers Core is available
+#if NETFX
+using System.Collections;
 
 using NHibernate.Cfg;
 using NHibernate.Envers.Configuration.Fluent;
@@ -19,7 +21,7 @@ namespace NHibernate.Validator.Tests.Integration
 		{
 			get
 			{
-				return new string[]
+				return new []
 				{
 					"Integration.Address.hbm.xml",
 				};
@@ -96,7 +98,7 @@ namespace NHibernate.Validator.Tests.Integration
 			}
 			catch (InvalidStateException e)
 			{
-				e.GetInvalidValues().Should().Not.Be.Empty();
+				e.InvalidValues.Should().Not.Be.Empty();
 			}
 
 			try
@@ -135,3 +137,4 @@ namespace NHibernate.Validator.Tests.Integration
 		}
 	}
 }
+#endif

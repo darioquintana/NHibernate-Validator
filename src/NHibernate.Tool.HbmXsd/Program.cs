@@ -6,7 +6,7 @@ namespace NHibernate.Tool.NhvXsd
 	{
 		private static void Main(string[] args)
 		{
-			// For debugging: ..\..\..\NHibernate.Validator\Cfg\MappingSchema\Validator.GeneratedSchema.cs
+			// For debugging: ..\..\..\..\NHibernate.Validator\Cfg\MappingSchema\Validator.GeneratedSchema.cs
 
 			if (args.Length == 1)
 				new NhvCodeGenerator().Execute(args[0]);

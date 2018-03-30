@@ -3,7 +3,7 @@
   <metadata>
     <id>NHibernate.Validator</id>
     <title>NHibernate Validator</title>
-    <version>5.0.0.4000</version>
+    <version>5.0.0</version>
     <authors>Dario Quintana, Fabio Maulo, Gustavo Ringel, NHibernate community</authors>
     <owners>Dario Quintana, Fabio Maulo, Gustavo Ringel</owners>
     <licenseUrl>https://raw.githubusercontent.com/nhibernate/NHibernate-Validator/master/LICENSE.txt</licenseUrl>
@@ -16,14 +16,19 @@
     <description>NHibernate Validator is a powerful and extensible framework to validate objects using the .Net Platform. Born as a port of Hibernate Validator 3.0.0 project at december of 2007. Later on, many improvements and changes were made to the Core and API, and now we can say that NHibernate Validator is more than just a port. NHibernate Validator is entirely written in C#. The first release of NHibernate Validator was entirely developed by Dario Quintana, Gustavo Ringel and Fabio Maulo.</description>
     <tags>NHibernate Validator Validation NHV</tags>
     <dependencies>
-      <group targetFramework=".NETFramework4.6.1">
+      <group targetFramework="net461">
         <dependency id="Iesi.Collections" version="4.0.2" exclude="Build,Analyzers" />
         <dependency id="NHibernate" version="5.0.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="netstandard2.0">
+        <dependency id="Iesi.Collections" version="4.0.4" exclude="Build,Analyzers" />
+        <dependency id="NHibernate" version="5.1.0" exclude="Build,Analyzers" />
       </group>
     </dependencies>
   </metadata>
   <files>
-    <file src="Build\NuGetDeploy\bin\**\*" target="lib\net461" />
+    <file src="Build\NuGetDeploy\bin\net461\**\*" target="lib\net461" />
+    <file src="Build\NuGetDeploy\bin\netstandard2.0\**\*" target="lib\netstandard2.0" />
     <file src="Build\NuGetDeploy\*" target="." />
   </files>
 </package>

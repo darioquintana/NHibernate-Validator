@@ -22,13 +22,15 @@ namespace NHibernate.Validator.Tests.Serialization
 		[Test]
 		public void CanBeSerialized()
 		{
+			TestsContext.AssumeSystemTypeIsSerializable();
 			ClassValidator cv = new ClassValidator(typeof(Address));
-			Assert.That(cv, Is.BinarySerializable);
+			NHAssert.IsSerializable(cv);
 		}
 
 		[Test]
 		public void WorkAfterDeserialization()
 		{
+			TestsContext.AssumeSystemTypeIsSerializable();
 			PrefixMessageInterpolator pmi = new PrefixMessageInterpolator();
 
 			ClassValidator cv = new ClassValidator(typeof(Address),

@@ -8,12 +8,7 @@
 	<property name="root.dir" value="../.." />
 	<include buildfile="${root.dir}/build-common/common-project.xml" />
 
-	<target name="init" depends="common.init">
-		<property name="assembly.description" value="NHibernate Validator: Validators country specific." />
-		<property name="assembly.allow-partially-trusted-callers" value="true" />
-	</target>
+	<target name="init" depends="common.init" />
 
-	<target name="generate-assemblyinfo" depends="init common.generate-assemblyinfo" />
-
-	<target name="build" description="Build NHibernate.Validator" depends="generate-assemblyinfo" />
+	<target name="build" description="Build NHibernate.Validator" depends="common.init" />
 </project>

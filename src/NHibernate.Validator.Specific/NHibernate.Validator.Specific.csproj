@@ -1,137 +1,27 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../build-common/NHibernate.Validator.props" />
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{F23C735C-50FE-4932-9C10-F48FCECC0DCF}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NHibernate.Validator.Specific</RootNamespace>
-    <AssemblyName>NHibernate.Validator.Specific</AssemblyName>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\NHibernate.Validator.snk</AssemblyOriginatorKeyFile>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\NHibernate.Validator.Specific.xml</DocumentationFile>
-    <WarningsAsErrors>
-    </WarningsAsErrors>
+    <Product>NHibernate.Validator.Specific</Product>
+    <Title>NHibernate.Validator.Specific</Title>
+    <Description>NHibernate Validator, country specific validators</Description>
+    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
     <NoWarn>1591</NoWarn>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\NHibernate.Validator.snk</AssemblyOriginatorKeyFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageReleaseNotes>
+    </PackageReleaseNotes>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\Release\NHibernate.Validator.Specific.XML</DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net461'">
+    <DefineConstants>NETFX;$(DefineConstants)</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Ar\CUITAttribute.cs" />
-    <Compile Include="Ar\CUITValidator.cs" />
-    <Compile Include="Br\CEPAttribute.cs" />
-    <Compile Include="Br\CEPValidator.cs" />
-    <Compile Include="Br\CPFAttribute.cs" />
-    <Compile Include="Br\CPFValidator.cs" />
-    <Compile Include="Hr\OIBAttribute.cs" />
-    <Compile Include="Hr\OIBValidator.cs" />
-    <Compile Include="It\CodiceFiscaleAttribute.cs" />
-    <Compile Include="It\CodiceFiscaleValidator.cs" />
-    <Compile Include="It\Extensions.cs" />
-    <Compile Include="It\PartitaIvaAttribute.cs" />
-    <Compile Include="It\PartitaIvaValidator.cs" />
-    <Compile Include="Pl\NIPAttribute.cs" />
-    <Compile Include="Pl\NIPValidator.cs" />
-    <Compile Include="Pl\PESELAttribute.cs" />
-    <Compile Include="Pl\PESELValidator.cs" />
-    <Compile Include="Pl\PostalCodeAttribute.cs" />
-    <Compile Include="Pl\PostalCodeValidator.cs" />
-    <Compile Include="Pl\REGONAttribute.cs" />
-    <Compile Include="Pl\REGONValidator.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Uy\CedulaIdentidadAttribute.cs" />
-    <Compile Include="Uy\CedulaIdentidadValidator.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
-  </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
-      <Visible>False</Visible>
-      <ProductName>Windows Installer 3.1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
+    <None Include="..\NHibernate.Validator.snk" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NHibernate.Validator\NHibernate.Validator.csproj">
-      <Project>{599516E0-E10D-4F44-B5E1-B7B67EFC931A}</Project>
+      <Project>{599516e0-e10d-4f44-b5e1-b7b67efc931a}</Project>
       <Name>NHibernate.Validator</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\NHibernate.Validator.snk">
-      <Link>NHibernate.Validator.snk</Link>
-    </None>
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

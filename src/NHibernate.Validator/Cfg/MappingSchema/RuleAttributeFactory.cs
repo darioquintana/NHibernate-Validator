@@ -12,7 +12,12 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 {
 	public class RuleAttributeFactory
 	{
+// 6.0 TODO: migrate to INHibernateLogger and remove pragma
+#if NETFX
 		private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof(RuleAttributeFactory));
+#else
+		private static readonly INHibernateLogger Log = NHibernateLogger.For(typeof(RuleAttributeFactory));
+#endif
 
 		private static readonly Dictionary<System.Type, ConvertSchemaRule> wellKnownRules =
 			new Dictionary<System.Type, ConvertSchemaRule>();
@@ -54,7 +59,11 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			if (minRule.valueSpecified)
 				value = minRule.value;
 
+#if NETFX
 			log.Info(string.Format("Converting to DecimalMin attribute with value {0}", value));
+#else
+			Log.Info("Converting to DecimalMin attribute with value {0}", value);
+#endif
 			DecimalMinAttribute thisAttribute = new DecimalMinAttribute();
 			thisAttribute.Value = value;
 
@@ -74,7 +83,11 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			if (maxRule.valueSpecified)
 				value = maxRule.value;
 
+#if NETFX
 			log.Info(string.Format("Converting to DecimalMax attribute with value {0}", value));
+#else
+			Log.Info("Converting to DecimalMax attribute with value {0}", value);
+#endif
 			DecimalMaxAttribute thisAttribute = new DecimalMaxAttribute();
 			thisAttribute.Value = value;
 
@@ -160,7 +173,11 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			int intDigits = digitsRule.integerDigits;
 
 			DigitsAttribute thisAttribute = new DigitsAttribute(digitsRule.integerDigits, digitsRule.fractionalDigits);
+#if NETFX
 			log.Info(string.Format("Converting to Digits attribute with integer digits {0}, fractional digits {1}", intDigits, fractionalDigits));
+#else
+			Log.Info("Converting to Digits attribute with integer digits {0}, fractional digits {1}", intDigits, fractionalDigits);
+#endif
 
 			if (digitsRule.message != null)
 			{
@@ -186,9 +203,17 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 				TypeNameParser.Parse(attribute, rule.defaultNameSpace, rule.defaultAssembly);
 
 			System.Type type = ReflectHelper.ClassForFullName(fullClassName.ToString());
+#if NETFX
 			log.Info("The type found for ruleRule = " + type.FullName);
+#else
+			Log.Info("The type found for ruleRule = {0}", type.FullName);
+#endif
 			Attribute thisattribute = (Attribute)Activator.CreateInstance(type);
+#if NETFX
 			log.Info("Attribute found = " + thisattribute);
+#else
+			Log.Info("Attribute found = {0}", thisattribute);
+#endif
 
 			var tr = thisattribute as ITagableRule;
 			if (tr != null)
@@ -203,7 +228,11 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 				PropertyInfo propInfo = type.GetProperty(parameter.name);
 				if (propInfo != null)
 				{
+#if NETFX
 					log.Info("propInfo value = " + parameter.value);
+#else
+					Log.Info("propInfo value = {0}", parameter.value);
+#endif
 					object value = propInfo.PropertyType != typeof(string)
 									? Convert.ChangeType(parameter.value, propInfo.PropertyType)
 									: parameter.value;
@@ -233,7 +262,11 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			if (rangeRule.maxSpecified)
 				max = rangeRule.max;
 
+#if NETFX
 			log.Info(string.Format("Converting to Range attribute with min {0}, max {1}", min, max));
+#else
+			Log.Info("Converting to Range attribute with min {0}, max {1}", min, max);
+#endif
 			RangeAttribute thisAttribute = new RangeAttribute();
 			thisAttribute.Min = min;
 			thisAttribute.Max = max;
@@ -250,7 +283,11 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 		{
 			NhvmPattern patternRule = (NhvmPattern)rule.schemaRule;
 
+#if NETFX
 			log.Info("Converting to Pattern attribute");
+#else
+			Log.Info("Converting to Pattern attribute");
+#endif
 			PatternAttribute thisAttribute = new PatternAttribute();
 			thisAttribute.Regex = patternRule.regex;
 			if (!string.IsNullOrEmpty(patternRule.regexoptions))
@@ -312,7 +349,11 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 		private static Attribute ConvertToIPAddress(XmlNhvmRuleConverterArgs rule)
 		{
 			NhvmIpaddress ipAddressRule = (NhvmIpaddress)rule.schemaRule;
+#if NETFX
 			log.Info("Converting to IP Address attribute");
+#else
+			Log.Info("Converting to IP Address attribute");
+#endif
 			IPAddressAttribute thisAttribute = new IPAddressAttribute();
 
 			if (ipAddressRule.message != null)
@@ -328,7 +369,11 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 		{
 			NhvmAsserttrue assertTrueRule = (NhvmAsserttrue)rule.schemaRule;
 
+#if NETFX
 			log.Info("Converting to AssertTrue attribute");
+#else
+			Log.Info("Converting to AssertTrue attribute");
+#endif
 			AssertTrueAttribute thisAttribute = new AssertTrueAttribute();
 			if (assertTrueRule.message != null)
 			{
@@ -343,7 +388,11 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 		{
 			NhvmAssertfalse assertTrueRule = (NhvmAssertfalse)rule.schemaRule;
 
+#if NETFX
 			log.Info("Converting to AssertFalse attribute");
+#else
+			Log.Info("Converting to AssertFalse attribute");
+#endif
 			AssertFalseAttribute thisAttribute = new AssertFalseAttribute();
 			if (assertTrueRule.message != null)
 			{
@@ -362,7 +411,11 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			if (minRule.valueSpecified)
 				value = minRule.value;
 
+#if NETFX
 			log.Info(string.Format("Converting to Min attribute with value {0}", value));
+#else
+			Log.Info("Converting to Min attribute with value {0}", value);
+#endif
 			MinAttribute thisAttribute = new MinAttribute();
 			thisAttribute.Value = value;
 
@@ -383,7 +436,11 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			if (maxRule.valueSpecified)
 				value = maxRule.value;
 
+#if NETFX
 			log.Info(string.Format("Converting to Max attribute with value {0}", value));
+#else
+			Log.Info("Converting to Max attribute with value {0}", value);
+#endif
 			MaxAttribute thisAttribute = new MaxAttribute();
 			thisAttribute.Value = value;
 
@@ -399,7 +456,11 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 		private static Attribute ConvertToEmail(XmlNhvmRuleConverterArgs rule)
 		{
 			NhvmEmail emailRule = (NhvmEmail)rule.schemaRule;
+#if NETFX
 			log.Info("Converting to Email attribute");
+#else
+			Log.Info("Converting to Email attribute");
+#endif
 			EmailAttribute thisAttribute = new EmailAttribute();
 			if (emailRule.message != null)
 			{
@@ -413,7 +474,11 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 		private static Attribute ConvertToPast(XmlNhvmRuleConverterArgs rule)
 		{
 			NhvmPast pastRule = (NhvmPast)rule.schemaRule;
+#if NETFX
 			log.Info("Converting to Past attribute");
+#else
+			Log.Info("Converting to Past attribute");
+#endif
 			PastAttribute thisAttribute = new PastAttribute();
 			if (pastRule.message != null)
 			{
@@ -427,7 +492,11 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 		private static Attribute ConvertToFuture(XmlNhvmRuleConverterArgs rule)
 		{
 			NhvmFuture futureRule = (NhvmFuture)rule.schemaRule;
+#if NETFX
 			log.Info("Converting to future attribute");
+#else
+			Log.Info("Converting to future attribute");
+#endif
 			FutureAttribute thisAttribute = new FutureAttribute();
 			if (futureRule.message != null)
 			{
@@ -450,7 +519,11 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			if (sizeRule.maxSpecified)
 				max = sizeRule.max;
 
+#if NETFX
 			log.Info(string.Format("Converting to Size attribute with min {0}, max {1}", min, max));
+#else
+			Log.Info("Converting to Size attribute with min {0}, max {1}", min, max);
+#endif
 			SizeAttribute thisAttribute = new SizeAttribute();
 			thisAttribute.Min = min;
 			thisAttribute.Max = max;
@@ -475,7 +548,11 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 			if (lengthRule.maxSpecified)
 				max = lengthRule.max;
 			LengthAttribute thisAttribute = new LengthAttribute(lengthRule.min, lengthRule.max);
+#if NETFX
 			log.Info(string.Format("Converting to Length attribute with min {0}, max {1}", min, max));
+#else
+			Log.Info("Converting to Length attribute with min {0}, max {1}", min, max);
+#endif
 
 			if (lengthRule.message != null)
 			{
@@ -490,7 +567,11 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 		{
 			NhvmNotEmpty notEmptyRule = (NhvmNotEmpty)rule.schemaRule;
 			NotEmptyAttribute thisAttribute = new NotEmptyAttribute();
+#if NETFX
 			log.Info("Converting to NotEmptyAttribute");
+#else
+			Log.Info("Converting to NotEmptyAttribute");
+#endif
 
 			if (notEmptyRule.message != null)
 			{
@@ -505,7 +586,11 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 		{
 			NhvmNotnullNotempty notNullOrEmptyRule = (NhvmNotnullNotempty)rule.schemaRule;
 			NotNullNotEmptyAttribute thisAttribute = new NotNullNotEmptyAttribute();
-			log.Info("Converting to NotEmptyAttribute");
+#if NETFX
+			log.Info("Converting to NotNullNotEmptyAttribute");
+#else
+			Log.Info("Converting to NotNullNotEmptyAttribute");
+#endif
 
 			if (notNullOrEmptyRule.message != null)
 			{
@@ -520,7 +605,11 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 		{
 			NhvmCreditcardnumber creditCardNumberRule = (NhvmCreditcardnumber)rule.schemaRule;
 			CreditCardNumberAttribute thisAttribute = new CreditCardNumberAttribute();
+#if NETFX
 			log.Info("Converting to CreditCardNumberAttribute");
+#else
+			Log.Info("Converting to CreditCardNumberAttribute");
+#endif
 
 			if (creditCardNumberRule.message != null)
 			{
@@ -535,7 +624,11 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 		{
 			NhvmEan eanRule = (NhvmEan)rule.schemaRule;
 			EANAttribute thisAttribute = new EANAttribute();
+#if NETFX
 			log.Info("Converting to EANAttribute");
+#else
+			Log.Info("Converting to EANAttribute");
+#endif
 
 			if (eanRule.message != null)
 			{
@@ -550,7 +643,11 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 		{
 			NhvmNotNull notNullRule = (NhvmNotNull)rule.schemaRule;
 			NotNullAttribute thisAttribute = new NotNullAttribute();
+#if NETFX
 			log.Info("Converting to NotNullAttribute");
+#else
+			Log.Info("Converting to NotNullAttribute");
+#endif
 
 			if (notNullRule.message != null)
 			{
@@ -564,7 +661,11 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 		private static Attribute ConvertToFileExists(XmlNhvmRuleConverterArgs rule)
 		{
 			NhvmFileexists fileExistsRule = (NhvmFileexists)rule.schemaRule;
+#if NETFX
 			log.Info("Converting to file exists attribute");
+#else
+			Log.Info("Converting to file exists attribute");
+#endif
 			FileExistsAttribute thisAttribute = new FileExistsAttribute();
 			if (fileExistsRule.message != null)
 			{
@@ -578,7 +679,11 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 		private static Attribute ConvertToIBAN(XmlNhvmRuleConverterArgs rule)
 		{
 			NhvmIban ibanRule = (NhvmIban)rule.schemaRule;
+#if NETFX
 			log.Info("Converting to IBAN attribute");
+#else
+			Log.Info("Converting to IBAN attribute");
+#endif
 			IBANAttribute thisAttribute = new IBANAttribute();
 
 			if (ibanRule.message != null)
@@ -594,7 +699,11 @@ namespace NHibernate.Validator.Cfg.MappingSchema
 		{
 			NhvmEnum notNullRule = (NhvmEnum)rule.schemaRule;
 			EnumAttribute thisAttribute = new EnumAttribute();
+#if NETFX
 			log.Info("Converting to EnumAttribute");
+#else
+			Log.Info("Converting to EnumAttribute");
+#endif
 
 			if (notNullRule.message != null)
 			{

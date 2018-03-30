@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Reflection;
-
-using log4net.Config;
+using log4net;
 using NHibernate.Engine;
 using NHibernate.Tool.hbm2ddl;
 using NUnit.Framework;
@@ -14,7 +13,7 @@ namespace NHibernate.Validator.Tests
 		protected NHibernate.Cfg.Configuration cfg;
 		protected ISessionFactory sessions;
 
-		private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof(PersistenceTest));
+		private static readonly ILog log = LogManager.GetLogger(typeof(PersistenceTest));
 
 		protected Dialect.Dialect Dialect
 		{
@@ -34,12 +33,6 @@ namespace NHibernate.Validator.Tests
 		protected virtual string MappingsAssembly
 		{
 			get { return "NHibernate.Validator.Tests"; }
-		}
-
-		static PersistenceTest()
-		{
-			// Configure log4net here since configuration through an attribute doesn't always work.
-			XmlConfigurator.Configure();
 		}
 
 		[OneTimeSetUp]

@@ -61,7 +61,6 @@ namespace NHibernate.Validator.Tests.Specifics.NHV92
 		[SetUp]
 		public void SetUp()
 		{
-			XmlConfigurator.Configure();
 			_entity = new Entity
 			{
 				SubEntities = new List<SubEntity>{

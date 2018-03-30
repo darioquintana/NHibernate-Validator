@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml;
-using log4net.Config;
 using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Constraints;
 using NHibernate.Validator.Engine;
@@ -119,7 +118,6 @@ namespace NHibernate.Validator.Tests.Engine
 		[Test]
 		public void DuplicateClassDef()
 		{
-			XmlConfigurator.Configure();
 			ValidatorEngine ve = new ValidatorEngine();
 			XmlConfiguration nhvc = new XmlConfiguration();
 			nhvc.Properties[Environment.ApplyToDDL] = "false";
@@ -128,7 +126,7 @@ namespace NHibernate.Validator.Tests.Engine
 			string an = Assembly.GetExecutingAssembly().FullName;
 			nhvc.Mappings.Add(new MappingConfiguration(an, "NHibernate.Validator.Tests.Base.Address.nhv.xml"));
 			nhvc.Mappings.Add(new MappingConfiguration(an, "NHibernate.Validator.Tests.Engine.DuplicatedAddress.nhv.xml"));
-			using (LoggerSpy ls = new LoggerSpy("NHibernate.Validator.Engine.StateFullClassMappingFactory", Level.Warn))
+			using (LoggerSpy ls = new LoggerSpy(typeof(IClassMappingFactory).Assembly, "NHibernate.Validator.Engine.StateFullClassMappingFactory", Level.Warn))
 			{
 				ve.Configure(nhvc);
 				int found =

@@ -31,8 +31,6 @@ namespace NHibernate.Validator.Engine
 	[Serializable]
 	public class ValidatorEngine
 	{
-		private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof(ValidatorEngine));
-
 		private StateFullClassValidatorFactory factory;
 		private IMessageInterpolator interpolator;
 		private ValidatorMode defaultMode;
