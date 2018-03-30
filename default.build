@@ -147,6 +147,7 @@
 				<include name="SharpTestsEx*.dll" />
 				<include name="nhvalidator.cfg.xml"/>
 				<include name="*.config"/>
+				<include name="NHibernate.Envers.*" />
 			</fileset>
 		</copy>
 
@@ -156,6 +157,7 @@
 				<include name="nunit.*.dll" />
 				<include name="SharpTestsEx*.dll" />
 				<include name="*.Test*" />
+				<include name="NHibernate.Envers.*" />
 			</fileset>
 		</delete>
 	</target>
