@@ -2,6 +2,24 @@ Documentation and examples are available at http://nhibernate.info/
 Any feedback can be sent to NHibernate user group at http://groups.google.com/group/nhusers and will be greatly appreciated.
 Issues are tracked on Jira at https://nhibernate.jira.com/projects/NHV/issues
 
+Release notes - NHibernate.Validator - Version 5.1.0
+
+** Patch
+    * [NHV-118] - bugfix to make InvalidStateException correctly serializable and to use the correct className in the message
+
+** Bug
+    * [NHV-117] - Using Validator and Envers together
+    * [NHV-133] - Fix bad translations
+    * [NHV-135] - Exception serialization is not valid
+
+** New Feature
+    * [NHV-132] - Validation for enum properties
+    * [NHV-134] - To be able generate validators from NHib metadata, if no validators defined explicitly
+    * [NHV-136] - Support .Net Core
+
+** Improvement
+    * [NHV-131] - Fix warnings
+
 Release Notes - NHibernate.Validator - Version 5.0.0 GA
 
     * Update to NHibernate 5.0.0 GA

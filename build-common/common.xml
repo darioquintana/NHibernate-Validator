@@ -6,7 +6,7 @@
 
 	<property name="NHibernate.lib" value="../../lib/${framework.family}/${framework.version}" />
 
-	<property name="project.version" value="5.0.0" overwrite="false" />
+	<property name="project.version" value="5.1.0" overwrite="false" />
  
 	<!-- named project configurations -->
 	<target name="set-debug-project-configuration" description="Perform a 'debug' build">
