@@ -2,7 +2,7 @@
   <Import Project="../../build-common/NHibernate.Validator.props" />
   <PropertyGroup>
     <Product>NHibernate.Validator.Specific.Tests</Product>
-    <Description>Unit tests of country specific validators</Description>
+    <Description>Unit tests of NHibernate Validator</Description>
     <TargetFrameworks>net461;netcoreapp2.0</TargetFrameworks>
     <IsTestProject>true</IsTestProject>
   </PropertyGroup>
