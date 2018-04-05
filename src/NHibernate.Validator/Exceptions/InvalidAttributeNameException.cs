@@ -1,34 +1,49 @@
 using System;
+using System.Runtime.Serialization;
+using System.Security;
 
 namespace NHibernate.Validator.Exceptions
 {
 	[Serializable]
 	public class InvalidAttributeNameException : ValidatorConfigurationException
 	{
-		private readonly string attributeName;
-		private readonly System.Type clazz;
-
-		public InvalidAttributeNameException(string attributeName, System.Type clazz)
+		public InvalidAttributeNameException(string attributeName, System.Type @class)
 			: base(
 				string.Format(
-					@"Attribute '{0}' was not found for the class {1}; 
+					@"Attribute '{0}' was not found for the class {1};
 Cause:
 - typo
 - Wrong namespace (the attribute must stay in the same namespace of the related class)",
-					attributeName, clazz.FullName))
+					attributeName,
+					@class.FullName))
 		{
-			this.attributeName = attributeName;
-			this.clazz = clazz;
+			AttributeName = attributeName;
+			Class = @class;
 		}
 
-		public string AttributeName
+		protected InvalidAttributeNameException(SerializationInfo info, StreamingContext context)
+			: base(info, context)
 		{
-			get { return attributeName; }
+			AttributeName = info.GetString(nameof(InvalidAttributeNameException) + "." + nameof(AttributeName));
+			var className = info.GetString(nameof(InvalidAttributeNameException) + "." + nameof(Class));
+			if (!string.IsNullOrEmpty(className))
+				Class = System.Type.GetType(className, true);
 		}
 
-		public System.Type Clazz
+		[SecurityCritical]
+		public override void GetObjectData(SerializationInfo info, StreamingContext context)
 		{
-			get { return clazz; }
+			base.GetObjectData(info, context);
+			info.AddValue(
+				nameof(InvalidAttributeNameException) + "." + nameof(AttributeName),
+				AttributeName);
+			info.AddValue(
+				nameof(InvalidAttributeNameException) + "." + nameof(Class),
+				Class?.AssemblyQualifiedName);
 		}
+
+		public string AttributeName { get; }
+
+		public System.Type Class { get; }
 	}
 }

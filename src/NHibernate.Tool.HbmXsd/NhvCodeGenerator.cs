@@ -1,3 +1,4 @@
+using System;
 using System.CodeDom;
 using System.IO;
 using System.Xml.Schema;
@@ -16,9 +17,11 @@ namespace NHibernate.Tool.NhvXsd
 		/// <param name="outputFileName">The file to which the generated code is written.</param>
 		public void Execute(string outputFileName)
 		{
-			using (Stream stream = GetType().Assembly.GetManifestResourceStream(MappingSchemaResourceName))
+			using (var stream = GetType().Assembly.GetManifestResourceStream(MappingSchemaResourceName))
 			{
-				XmlSchema schema = XmlSchema.Read(stream, null);
+				if (stream == null)
+					throw new InvalidOperationException($"Resource {MappingSchemaResourceName} not found");
+				var schema = XmlSchema.Read(stream, null);
 				Execute(outputFileName, GeneratedCodeNamespace, schema);
 			}
 		}

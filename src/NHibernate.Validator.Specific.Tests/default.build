@@ -10,44 +10,7 @@
 
 	<target name="init" depends="common.init">
 		<property name="clover.instrument" value="false" />
-		<assemblyfileset id="project.references" basedir="${bin.dir}">
-			<include name="System.dll" />
-			<include name="System.Data.dll" />
-			<include name="System.XML.dll" />
-			<include name="NHibernate.Validator.dll" />
-			<include name="NHibernate.Validator.Specific.dll" />
-			<include name="NHibernate.Validator.Tests.dll" />
-			<include name="NHibernate.dll" />
-			<include name="nunit.framework.dll" />
-			<include name="SharpTestsEx.NUnit.dll" />
-			<include name="log4net.dll" />
-			<include name="Iesi.Collections.dll" />
-		</assemblyfileset>
-		
-		<resourcefileset id="project.resources" prefix="NHibernate.Validator.Specific.Tests" dynamicprefix="true">
-			
-			<include name="**/*.resx"/>	
-			<include name="**/*.xsd" />
-			<include name="**/*.xml" />			
-			
-			<exclude name="**/_ReSharper*/**"/>
-			<exclude name="**/*.resharper" />
-			<exclude name="bin/**/*.xml" />
-			<exclude name="obj/**" />
-			
-		</resourcefileset>
-		
-		<fileset id="project.sources">
-			<include name="**/*.cs" />
-		</fileset>
-		
 	</target>
 	
-	<target name="build" depends="init common.compile-tests" >	
-	</target>
-	
-	<target name="test" depends="init build common.run-tests" />
-
-	<!-- Intentionally empty -->
-	<target name="generate-assemblyinfo" />
+	<target name="test" depends="init common.run-tests" />
 </project>

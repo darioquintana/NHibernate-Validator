@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Iesi.Collections;
-using Iesi.Collections.Generic;
 using NUnit.Framework;
 
 namespace NHibernate.Validator.Tests.DeepIntegration
@@ -14,16 +12,6 @@ namespace NHibernate.Validator.Tests.DeepIntegration
 			get { return new string[] { "DeepIntegration.PersonSet.hbm.xml" }; }
 		}
 
-		protected override void AddToCollection(ICollection collection, Person person)
-		{
-			((ISet) collection).Add(person);
-		}
-
-		protected override ICollection CreateCollection()
-		{
-			return new HashedSet();
-		}
-
 		protected override void AddToCollection(ICollection<Person> collection, Person person)
 		{
 			collection.Add(person);
@@ -31,7 +19,7 @@ namespace NHibernate.Validator.Tests.DeepIntegration
 
 		protected override ICollection<Person> GCreateCollection()
 		{
-			return new HashedSet<Person>();
+			return new HashSet<Person>();
 		}
 	}
 }

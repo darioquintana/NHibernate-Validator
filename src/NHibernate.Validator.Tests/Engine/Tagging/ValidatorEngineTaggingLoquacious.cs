@@ -36,7 +36,7 @@ namespace NHibernate.Validator.Tests.Engine.Tagging
 		private object notEmptyTypeId = (new NotEmptyAttribute()).TypeId;
 		private ValidatorEngine ve;
 
-		[TestFixtureSetUp]
+		[OneTimeSetUp]
 		public void CreateEngine()
 		{
 			var conf = new FluentConfiguration();

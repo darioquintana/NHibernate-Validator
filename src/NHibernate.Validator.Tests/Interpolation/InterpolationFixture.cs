@@ -2,7 +2,6 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Resources;
-using NHibernate.Validator.Constraints;
 using NHibernate.Validator.Engine;
 using NHibernate.Validator.Exceptions;
 using NHibernate.Validator.Interpolator;
@@ -36,7 +35,7 @@ namespace NHibernate.Validator.Tests.Interpolation
 		public void InterpolatingValues()
 		{
 			var info = new InterpolationInfo(typeof(Foo), new Foo { Number = 82 }, "Number", new RangeAttribute(), null,
-			                                 "The value of foo is ${Number} + {Number}");
+											 "The value of foo is ${Number} + {Number}");
 			var result = GetInitializedInterpolator().Interpolate(info);
 			Assert.AreEqual("The value of foo is 82 + 12", result);
 		}
@@ -46,9 +45,8 @@ namespace NHibernate.Validator.Tests.Interpolation
 		{
 			var info = new InterpolationInfo(typeof(Foo), new Foo { Number = 82 }, "Number", new RangeAttribute(), null,
 																		 "The value of foo is ${WrongMember}.");
-			ActionAssert.Throws<InvalidPropertyNameException>(
-				() =>
-				GetInitializedInterpolator().Interpolate(info));
+
+			Assert.That(() => GetInitializedInterpolator().Interpolate(info), Throws.TypeOf<InvalidPropertyNameException>());
 		}
 
 		public IMessageInterpolator GetInitializedInterpolator()
@@ -61,7 +59,7 @@ namespace NHibernate.Validator.Tests.Interpolation
 			interpolator.Initialize(new RangeAttribute(2, 10));
 			return interpolator;
 		}
-        
+
 		public class Foo
 		{
 			public int Number { get; set; }

@@ -14,7 +14,11 @@ namespace NHibernate.Validator.Cfg
 	/// </summary>
 	public static class ValidatorInitializer
 	{
+#if NETFX
 		private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof(ValidatorInitializer));
+#else
+		private static readonly INHibernateLogger Log = NHibernateLogger.For(typeof(ValidatorInitializer));
+#endif
 
 		/// <summary>
 		/// Initialize NHibernate's events and/or DLL.
@@ -63,6 +67,19 @@ namespace NHibernate.Validator.Cfg
 		/// </remarks>
 		public static void Initialize(this Configuration cfg, ValidatorEngine ve)
 		{
+			if (ve.AutoGenerateFromMapping || ve.ApplyToDDL)
+			{
+				cfg.BuildMappings();
+			}
+
+			if (ve.AutoGenerateFromMapping)
+			{
+				foreach (PersistentClass persistentClazz in cfg.ClassMappings)
+				{
+					ConfigureValidatorFromDDL(persistentClazz, ve);
+				}
+			}
+			
 			//Apply To DDL
 			if (ve.ApplyToDDL)
 			{
@@ -78,9 +95,9 @@ namespace NHibernate.Validator.Cfg
 				cfg.SetListeners(ListenerType.PreInsert,
 				                 cfg.EventListeners.PreInsertEventListeners.Concat(new[] {new ValidatePreInsertEventListener()}).ToArray());
 				cfg.SetListeners(ListenerType.PreUpdate,
-												 cfg.EventListeners.PreUpdateEventListeners.Concat(new[] { new ValidatePreUpdateEventListener() }).ToArray());
+				                 cfg.EventListeners.PreUpdateEventListeners.Concat(new[] { new ValidatePreUpdateEventListener() }).ToArray());
 				cfg.SetListeners(ListenerType.PreCollectionUpdate,
-												 cfg.EventListeners.PreCollectionUpdateEventListeners.Concat(new[] { new ValidatePreCollectionUpdateEventListener() }).ToArray());
+				                 cfg.EventListeners.PreCollectionUpdateEventListeners.Concat(new[] { new ValidatePreCollectionUpdateEventListener() }).ToArray());
 			}
 		}
 
@@ -88,13 +105,38 @@ namespace NHibernate.Validator.Cfg
 		{
 			try
 			{
+				if (!persistentClass.HasPocoRepresentation)
+					return;
 				IClassValidator classValidator = ve.GetClassValidator(persistentClass.MappedClass);
 				classValidator.Apply(persistentClass);
 			}
 			catch (Exception ex)
 			{
+#if NETFX
 				log.Warn(
 					string.Format("Unable to apply constraints on DDL for [MappedClass={0}]", persistentClass.MappedClass.FullName), ex);
+#else
+				Log.Warn(ex, "Unable to apply constraints on DDL for [MappedClass={0}]", persistentClass.MappedClass.FullName);
+#endif
+			}
+		}
+	
+		private static void ConfigureValidatorFromDDL(PersistentClass persistentClass, ValidatorEngine ve)
+		{
+			try
+			{
+				if (persistentClass.MappedClass == null) return;
+				IClassValidator classValidator = ve.GetClassValidator(persistentClass.MappedClass);
+				classValidator.ConfigureFrom(persistentClass.PropertyClosureIterator);
+			}
+			catch (Exception ex)
+			{
+#if NETFX
+				log.Warn(
+					string.Format("Unable to auto generate validators from mapping for [MappedClass={0}]", persistentClass.MappedClass.FullName), ex);
+#else
+				Log.Warn(ex, "Unable to auto generate validators from mapping for [MappedClass={0}]", persistentClass.MappedClass.FullName);
+#endif
 			}
 		}
 	}

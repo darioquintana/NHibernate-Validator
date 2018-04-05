@@ -14,21 +14,33 @@ Possible causes:
 - You have more than one time the same mapping.
 Note: 'external' mean XML or any other mapping source than Attribute.";
 
+#if NETFX
 		private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof(StateFullClassMappingFactory));
+#else
+		private static readonly INHibernateLogger Log = NHibernateLogger.For(typeof(StateFullClassMappingFactory));
+#endif
 
 		private readonly Dictionary<System.Type, IClassMapping> definitions = new Dictionary<System.Type, IClassMapping>();
 
 		public void AddClassExternalDefinition(IClassMapping definition)
 		{
 			System.Type type = definition.EntityType;
+#if NETFX
 			log.Debug("Adding external definition for " + type.FullName);
+#else
+			Log.Debug("Adding external definition for {0}", type.FullName);
+#endif
 			try
 			{
 				definitions.Add(type, definition);
 			}
 			catch (ArgumentException)
 			{
+#if NETFX
 				log.Warn(string.Format(duplicationWarnMessageTemplate, type.AssemblyQualifiedName));
+#else
+				Log.Warn(duplicationWarnMessageTemplate, type.AssemblyQualifiedName);
+#endif
 			}
 		}
 

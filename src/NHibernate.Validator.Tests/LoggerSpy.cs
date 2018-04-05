@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using log4net;
 using log4net.Appender;
 using log4net.Core;
@@ -22,8 +23,8 @@ namespace NHibernate.Validator.Tests
 		{
 		}
 
-		public LoggerSpy(string loggerName, Level level)
-			: this(LogManager.GetLogger(loggerName), level)
+		public LoggerSpy(Assembly repositoryAssembly, string loggerName, Level level)
+			: this(LogManager.GetLogger(repositoryAssembly, loggerName), level)
 		{
 		}
 

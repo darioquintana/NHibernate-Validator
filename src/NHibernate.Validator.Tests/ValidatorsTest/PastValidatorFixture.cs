@@ -11,15 +11,17 @@ namespace NHibernate.Validator.Tests.ValidatorsTest
 		public void IsValid()
 		{
 			var v = new PastAttribute();
-			Assert.IsTrue(v.IsValid(DateTime.Now.AddMilliseconds(-1), null));
-			Assert.IsTrue(v.IsValid(new DateTime?(), null));
-			Assert.IsTrue(v.IsValid(new DateTime?(DateTime.Now.AddDays(-1)), null));
-			Assert.IsTrue(v.IsValid(null, null));
-			Assert.IsTrue(v.IsValid(new DateTime(), null));
-			Assert.IsFalse(v.IsValid(DateTime.Now, null));
-			Assert.IsFalse(v.IsValid(DateTime.Now.AddMilliseconds(+1), null));
-			Assert.IsFalse(v.IsValid(DateTime.Now.ToString(), null));
-			Assert.IsFalse(v.IsValid(123456, null));
+			Assert.That(v.IsValid(DateTime.Now.AddMilliseconds(-1), null), Is.True, "One ms in past");
+			Assert.That(v.IsValid(new DateTime?(), null), Is.True, "null nullable date");
+			Assert.That(v.IsValid(new DateTime?(DateTime.Now.AddDays(-1)), null), Is.True, "One day in past as nullable");
+			Assert.That(v.IsValid(null, null), Is.True, "null");
+			Assert.That(v.IsValid(new DateTime(), null), Is.True, "Min date");
+			// Below test relies on execution to be fast enough for checking the attribute before the next tick...
+			// So that is a flaky test, forget it.
+			//Assert.That(v.IsValid(DateTime.Now, null), Is.False, "Now");
+			Assert.That(v.IsValid(DateTime.Now.AddMilliseconds(+1), null), Is.False, "One ms in future");
+			Assert.That(v.IsValid(DateTime.Now.ToString(), null), Is.False, "string");
+			Assert.That(v.IsValid(123456, null), Is.False, "int");
 		}
 	}
 }

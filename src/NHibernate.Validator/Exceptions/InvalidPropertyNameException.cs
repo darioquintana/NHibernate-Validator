@@ -1,33 +1,54 @@
 using System;
+using System.Runtime.Serialization;
+using System.Security;
 
 namespace NHibernate.Validator.Exceptions
 {
 	[Serializable]
 	public class InvalidPropertyNameException : ValidatorConfigurationException
 	{
-		private readonly string propertyName;
-		private readonly System.Type clazz;
-
-		public InvalidPropertyNameException(string propertyName, System.Type clazz)
-			: this(string.Format("Property or field \"{0}\" was not found in the class: \"{1}\" ", propertyName, clazz.FullName), propertyName, clazz)
+		public InvalidPropertyNameException(string propertyName, System.Type @class)
+			: this(
+				string.Format("Property or field \"{0}\" was not found in the class: \"{1}\" ", propertyName, @class.FullName),
+				propertyName,
+				@class)
 		{
 		}
 
-		public InvalidPropertyNameException(string message, string propertyName, System.Type clazz)
+		public InvalidPropertyNameException(string message, string propertyName, System.Type @class)
 			: base(message)
 		{
-			this.propertyName = propertyName;
-			this.clazz = clazz;
+			PropertyName = propertyName;
+			Class = @class;
 		}
 
-		public string PropertyName
+		protected InvalidPropertyNameException(SerializationInfo info, StreamingContext context)
+			: base(info, context)
 		{
-			get { return propertyName; }
+			PropertyName = info.GetString(nameof(InvalidPropertyNameException) + "." + nameof(PropertyName));
+			var className = info.GetString(nameof(InvalidPropertyNameException) + "." + nameof(Class));
+			if (!string.IsNullOrEmpty(className))
+				Class = System.Type.GetType(className, true);
 		}
 
-		public System.Type Clazz
+		[SecurityCritical]
+		public override void GetObjectData(SerializationInfo info, StreamingContext context)
 		{
-			get { return clazz; }
+			base.GetObjectData(info, context);
+			info.AddValue(
+				nameof(InvalidPropertyNameException) + "." + nameof(PropertyName),
+				PropertyName);
+			info.AddValue(
+				nameof(InvalidPropertyNameException) + "." + nameof(Class),
+				Class?.AssemblyQualifiedName);
 		}
+
+		public string PropertyName { get; }
+
+		public System.Type Class { get; }
+
+		// Since v5.1
+		[Obsolete("Please use Class instead.")]
+		public System.Type Clazz => Class;
 	}
 }

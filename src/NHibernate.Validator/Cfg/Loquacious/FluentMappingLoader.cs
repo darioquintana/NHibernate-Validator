@@ -10,7 +10,11 @@ namespace NHibernate.Validator.Cfg.Loquacious
 {
 	public class FluentMappingLoader : IMappingLoader
 	{
-		private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof (FluentMappingLoader));
+#if NETFX
+		private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof(FluentMappingLoader));
+#else
+		private static readonly INHibernateLogger Log = NHibernateLogger.For(typeof(FluentMappingLoader));
+#endif
 		private readonly List<IClassMapping> classMappings = new List<IClassMapping>();
 
 		public void LoadMappings(IList<MappingConfiguration> configurationMappings)
@@ -24,25 +28,42 @@ namespace NHibernate.Validator.Cfg.Loquacious
 			{
 				if (!string.IsNullOrEmpty(mc.Assembly) && string.IsNullOrEmpty(mc.Resource))
 				{
+#if NETFX
 					log.Debug("Assembly " + mc.Assembly);
+#else
+					Log.Info("Assembly {0}", mc.Assembly);
+#endif
 					AddAssembly(mc.Assembly);
 				}
 				else if (!string.IsNullOrEmpty(mc.Assembly) && !string.IsNullOrEmpty(mc.Resource))
 				{
+#if NETFX
 					log.Debug("Class " + mc.Resource + " in " + mc.Assembly);
+#else
+					Log.Debug("Class {0} in {1}", mc.Resource, mc.Assembly);
+#endif
 					AddClassDefinition(Assembly.Load(mc.Assembly), mc.Resource);
 				}
 				else
 				{
+#if NETFX
 					log.Warn(string.Format("Mapping configuration ignored: Assembly>{0}< Resource>{1}< File>{2}<", mc.Assembly,
 					                       mc.Resource, mc.File));
+#else
+					Log.Warn("Mapping configuration ignored: Assembly >{0}< Resource >{1}< File >{2}<", mc.Assembly,
+					         mc.Resource, mc.File);
+#endif
 				}
 			}
 		}
 
 		public void AddAssembly(string assemblyName)
 		{
+#if NETFX
 			log.Info("Searching for mapped documents in assembly: " + assemblyName);
+#else
+			Log.Info("Searching for mapped documents in assembly: {0}", assemblyName);
+#endif
 
 			Assembly assembly;
 			try
@@ -95,6 +116,7 @@ namespace NHibernate.Validator.Cfg.Loquacious
 			}
 		}
 
+		[CLSCompliant(false)]
 		public void AddClassDefinition<TDef, T>() where TDef : IValidationDefinition<T>, new() where T : class
 		{
 			AddClassDefinition(new TDef());
@@ -132,7 +154,7 @@ namespace NHibernate.Validator.Cfg.Loquacious
 			var ms = definition as IMappingSource;
 			if(ms == null)
 			{
-				throw new ArgumentException("The argument is not an implementation of " + typeof(IMappingSource).FullName, "definition");				
+				throw new ArgumentException("The argument is not an implementation of " + typeof(IMappingSource).FullName, "definition");
 			}
 			classMappings.Add(ms.GetMapping());
 		}

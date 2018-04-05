@@ -2,7 +2,6 @@ using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Engine;
 using NHibernate.Validator.Exceptions;
 using NUnit.Framework;
-using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.Configuration
 {
@@ -23,7 +22,7 @@ namespace NHibernate.Validator.Tests.Configuration
 		[Test]
 		public void InvalidValidatorMode()
 		{
-			ActionAssert.Throws<ValidatorConfigurationException>(()=>CfgXmlHelper.ValidatorModeConvertFrom("Not supported"));
+			Assert.That(() => CfgXmlHelper.ValidatorModeConvertFrom("Not supported"), Throws.TypeOf<ValidatorConfigurationException>());
 		}
 	}
 }

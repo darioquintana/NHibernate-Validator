@@ -60,7 +60,9 @@ namespace NHibernate.Validator.Specific.Tests.It
 		public class Cliente
 		{
 			[PartitaIva]
+#pragma warning disable 414
 			private string pivaField = "01636120634";
+#pragma warning restore 414
 			private string piva;
 
 			[PartitaIva]

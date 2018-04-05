@@ -19,6 +19,7 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
         [System.Xml.Serialization.XmlElementAttribute("digits", typeof(NhvmDigits))]
         [System.Xml.Serialization.XmlElementAttribute("ean", typeof(NhvmEan))]
         [System.Xml.Serialization.XmlElementAttribute("email", typeof(NhvmEmail))]
+        [System.Xml.Serialization.XmlElementAttribute("enum", typeof(NhvmEnum))]
         [System.Xml.Serialization.XmlElementAttribute("fileexists", typeof(NhvmFileexists))]
         [System.Xml.Serialization.XmlElementAttribute("future", typeof(NhvmFuture))]
         [System.Xml.Serialization.XmlElementAttribute("iban", typeof(NhvmIban))]
@@ -204,6 +205,24 @@ namespace NHibernate.Validator.Cfg.MappingSchema {
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-1.0")]
     [System.Xml.Serialization.XmlRootAttribute("email", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
     public partial class NhvmEmail {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string message;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string tags;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("NhvXsd", "0.0.0.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:nhibernate-validator-1.0")]
+    [System.Xml.Serialization.XmlRootAttribute("enum", Namespace="urn:nhibernate-validator-1.0", IsNullable=false)]
+    public partial class NhvmEnum {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]

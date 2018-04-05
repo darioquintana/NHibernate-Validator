@@ -20,12 +20,13 @@ namespace NHibernate.Validator.Tests.Serialization
 		[Test]
 		public void AllRuleArgsCanBeSerialized()
 		{
+			TestsContext.AssumeSystemTypeIsSerializable();
 			// Test that can be serialized after creation and test default constructor
 			var implementors = GetValidatorImplementors();
 			foreach (var implementor in implementors)
 			{
 				object validatorInstance = Activator.CreateInstance(implementor);
-				Assert.That(validatorInstance, Is.BinarySerializable);
+				NHAssert.IsSerializable(validatorInstance);
 			}
 		}
 
@@ -53,8 +54,9 @@ namespace NHibernate.Validator.Tests.Serialization
 		[Test]
 		public void DelegatedEntityValidatorAttributeIsSerializable()
 		{
+			TestsContext.AssumeSystemTypeIsSerializable();
 			var attributeInstance = new DelegatedValidatorAttribute(new DelegatedConstraint<Dummy>((i, c) => i.Value > 0));
-			Assert.That(attributeInstance, Is.BinarySerializable);
+			NHAssert.IsSerializable(attributeInstance);
 		}
 	}
 }

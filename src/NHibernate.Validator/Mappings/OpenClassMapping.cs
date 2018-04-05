@@ -8,7 +8,11 @@ namespace NHibernate.Validator.Mappings
 {
 	public class OpenClassMapping<T> : IClassMapping where T : class
 	{
+#if NETFX
 		private static readonly IInternalLogger log = LoggerProvider.LoggerFor("NHibernate.Validator.Mappings.OpenClassMapping");
+#else
+		private static readonly INHibernateLogger Log = NHibernateLogger.For("NHibernate.Validator.Mappings.OpenClassMapping");
+#endif
 		protected List<Attribute> classAttributes = new List<Attribute>(5);
 
 		protected Dictionary<MemberInfo, List<Attribute>> membersAttributesDictionary =
@@ -95,14 +99,24 @@ namespace NHibernate.Validator.Mappings
 			Attribute found = constraints.Find(x => x.TypeId.Equals(attribute.TypeId));
 			if (found == null || AttributeUtils.AttributeAllowsMultiple(attribute))
 			{
+#if NETFX
 				log.Debug(string.Format("For class {0} Adding member {1} to dictionary with attribute {2}", EntityType.FullName,
 																member.Name, attribute));
+#else
+				Log.Debug("For class {0} Adding member {1} to dictionary with attribute {2}", EntityType.FullName,
+				          member.Name, attribute);
+#endif
 				membersAttributesDictionary[member].Add(attribute);
 			}
 			else
 			{
-				log.Debug("Duplicated Attribute avoided: Class:" + typeof (T).FullName + " Member:" + member.Name + " Attribute:"
+#if NETFX
+				log.Debug("Duplicated Attribute avoided: Class:" + typeof(T).FullName + " Member:" + member.Name + " Attribute:"
 				          + attribute);
+#else
+				Log.Debug("Duplicated Attribute avoided: Class: {0} Member: {1} Attribute: {2}", typeof(T).FullName,
+				          member.Name, attribute);
+#endif
 			}
 		}
 	}

@@ -4,6 +4,55 @@ using NHibernate.Mapping;
 
 namespace NHibernate.Validator.Engine
 {
+	// 6.0 TODO: move to IClassValidator.
+	public static class ClassValidatorExtension
+	{
+#if NETFX
+		private static readonly IInternalLogger Log = LoggerProvider.LoggerFor(typeof(ClassValidatorExtension));
+#else
+		private static readonly INHibernateLogger Log = NHibernateLogger.For(typeof(ClassValidatorExtension));
+#endif
+
+		/// <summary>
+		/// Create validators based on hibernate metadata if an appropriative validator is not defined explicitly.
+		/// </summary>
+		/// <param name="validator">The validator to configure.</param>
+		/// <param name="properties">Hibernate metadata to analyze.</param>
+		public static void ConfigureFrom(this IClassValidator validator, IEnumerable<Property> properties)
+		{
+			switch (validator)
+			{
+				case null:
+					throw new ArgumentNullException(nameof(validator));
+				case ClassValidator cv:
+					cv.ConfigureFrom(properties);
+					break;
+				case ValidatorEngine.EmptyClassValidator ecv:
+					ecv.ConfigureFrom(properties);
+					break;
+				default:
+					// Allow external implementations support by reflection
+					var validatorType = validator.GetType();
+					var configure =
+						validatorType.GetMethod(nameof(ConfigureFrom), new [] { typeof(IEnumerable<Property>) });
+					if (configure == null)
+#if NETFX
+						Log.WarnFormat(
+							"Found a class validator of type {0} which does not implement {1}, ignoring.",
+							validatorType,
+							nameof(ConfigureFrom));
+#else
+						Log.Warn("Found a class validator of type {0} which does not implement {1}, ignoring.",
+						         validatorType,
+						         nameof(ConfigureFrom));
+#endif
+					else
+						configure.Invoke(validator, new object[] { properties });
+					break;
+			}
+		}
+	}
+
 	public interface IClassValidator
 	{
 		/// <summary>

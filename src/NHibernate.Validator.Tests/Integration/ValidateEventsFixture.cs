@@ -97,7 +97,7 @@ namespace NHibernate.Validator.Tests.Integration
 			}
 			catch (InvalidStateException e)
 			{
-				e.GetInvalidValues().Should().Have.Count.EqualTo(1);
+				e.InvalidValues.Should().Have.Count.EqualTo(1);
 			}
 
 			try
@@ -145,7 +145,7 @@ namespace NHibernate.Validator.Tests.Integration
 			}
 			catch (InvalidStateException e)
 			{
-				e.GetInvalidValues().Should().Have.Count.EqualTo(2);
+				e.InvalidValues.Should().Have.Count.EqualTo(2);
 			}
 			finally
 			{

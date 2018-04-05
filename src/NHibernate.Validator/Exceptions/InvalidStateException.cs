@@ -1,4 +1,6 @@
 using System;
+using System.Runtime.Serialization;
+using System.Security;
 using NHibernate.Validator.Engine;
 
 namespace NHibernate.Validator.Exceptions
@@ -6,24 +8,45 @@ namespace NHibernate.Validator.Exceptions
 	[Serializable]
 	public class InvalidStateException : HibernateException
 	{
-		private readonly InvalidValue[] _invalidValues;
-
-		public InvalidStateException(string message, Exception inner) : base(message, inner) { }
+		public InvalidStateException(string message, Exception inner) : base(message, inner)
+		{
+		}
 
 		public InvalidStateException(InvalidValue[] invalidValues)
-			: this(invalidValues, invalidValues[0].GetType().Name)
+			: this(invalidValues, invalidValues[0].EntityType.Name)
 		{
 		}
 
-		public InvalidStateException(InvalidValue[] invalidValues, String className)
+		public InvalidStateException(InvalidValue[] invalidValues, string className)
 			: base("validation failed for: " + className)
 		{
-			_invalidValues = invalidValues;
+			InvalidValues = invalidValues;
 		}
-        
-		public InvalidValue[] GetInvalidValues() 
+
+		protected InvalidStateException(SerializationInfo info, StreamingContext context)
+			: base(info, context)
 		{
-			return _invalidValues;
+			InvalidValues = (InvalidValue[]) info.GetValue(
+				nameof(InvalidStateException) + "." + nameof(InvalidValues),
+				typeof(InvalidValue[]));
+		}
+
+		[SecurityCritical]
+		public override void GetObjectData(SerializationInfo info, StreamingContext context)
+		{
+			base.GetObjectData(info, context);
+			info.AddValue(
+				nameof(InvalidStateException) + "." + nameof(InvalidValues),
+				InvalidValues);
+		}
+
+		public InvalidValue[] InvalidValues { get; }
+
+		// Since 5.1
+		[Obsolete("Use InvalidValues property instead.")]
+		public InvalidValue[] GetInvalidValues()
+		{
+			return InvalidValues;
 		}
 	}
 }

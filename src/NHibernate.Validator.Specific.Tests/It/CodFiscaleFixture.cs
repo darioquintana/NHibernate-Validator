@@ -61,7 +61,9 @@ namespace NHibernate.Validator.Specific.Tests.It
 		public class Cliente
 		{
 			[CodiceFiscale]
+#pragma warning disable 414
 			private string codFiscaleField = "BRTLSS45H06L840X";
+#pragma warning restore 414
 			private string codFiscale;
 
 			[CodiceFiscale]

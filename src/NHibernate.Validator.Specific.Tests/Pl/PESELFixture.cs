@@ -20,7 +20,9 @@ namespace NHibernate.Validator.Specific.Tests.Pl
 		public class Person
 		{
 			private string pesel;
+#pragma warning disable 414
 			[PESEL] private string peselField = "49040501580";
+#pragma warning restore 414
 
 			[PESEL]
 			public string PESEL

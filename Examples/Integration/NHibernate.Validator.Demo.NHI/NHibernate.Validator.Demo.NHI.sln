@@ -1,9 +1,15 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernate.Validator.Demo.NHI", "NHibernate.Validator.Demo.NHI\NHibernate.Validator.Demo.NHI.csproj", "{87D14A6E-AA14-46EA-A364-1146713671F6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernate.Validator.Demo.Model", "NHibernate.Validator.Demo.Model\NHibernate.Validator.Demo.Model.csproj", "{363B2AB7-7C5E-4B21-84E4-9F30BCF48314}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernate.Validator", "..\..\..\src\NHibernate.Validator\NHibernate.Validator.csproj", "{599516E0-E10D-4F44-B5E1-B7B67EFC931A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernate.Validator.Specific", "..\..\..\src\NHibernate.Validator.Specific\NHibernate.Validator.Specific.csproj", "{F23C735C-50FE-4932-9C10-F48FCECC0DCF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,6 +25,14 @@ Global
 		{363B2AB7-7C5E-4B21-84E4-9F30BCF48314}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{363B2AB7-7C5E-4B21-84E4-9F30BCF48314}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{363B2AB7-7C5E-4B21-84E4-9F30BCF48314}.Release|Any CPU.Build.0 = Release|Any CPU
+		{599516E0-E10D-4F44-B5E1-B7B67EFC931A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{599516E0-E10D-4F44-B5E1-B7B67EFC931A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{599516E0-E10D-4F44-B5E1-B7B67EFC931A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{599516E0-E10D-4F44-B5E1-B7B67EFC931A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F23C735C-50FE-4932-9C10-F48FCECC0DCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F23C735C-50FE-4932-9C10-F48FCECC0DCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F23C735C-50FE-4932-9C10-F48FCECC0DCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F23C735C-50FE-4932-9C10-F48FCECC0DCF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

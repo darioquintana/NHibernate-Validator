@@ -14,7 +14,11 @@ namespace NHibernate.Validator.Cfg
 	{
 		public const string MappingFileDefaultExtension = ".nhv.xml";
 
+#if NETFX
 		private static readonly IInternalLogger log = LoggerProvider.LoggerFor(typeof(XmlMappingLoader));
+#else
+		private static readonly INHibernateLogger Log = NHibernateLogger.For(typeof(XmlMappingLoader));
+#endif
 		private readonly List<NhvMapping> mappings= new List<NhvMapping>();
 
 		public void LoadMappings(IList<MappingConfiguration> configurationMappings)
@@ -26,30 +30,52 @@ namespace NHibernate.Validator.Cfg
 			{
 				if (!string.IsNullOrEmpty(mc.Assembly) && string.IsNullOrEmpty(mc.Resource))
 				{
-					log.Debug("Assembly " + mc.Assembly);
+#if NETFX
+					log.DebugFormat("Assembly {0}", mc.Assembly);
+#else
+					Log.Debug("Assembly {0}", mc.Assembly);
+#endif
 					AddAssembly(mc.Assembly);
 				}
 				else if (!string.IsNullOrEmpty(mc.Assembly) && !string.IsNullOrEmpty(mc.Resource))
 				{
-					log.Debug("Resource " + mc.Resource + " in " + mc.Assembly);
+#if NETFX
+					log.DebugFormat("Resource {0} in {1}", mc.Resource, mc.Assembly);
+#else
+					Log.Debug("Resource {0} in {1}", mc.Resource, mc.Assembly);
+#endif
 					AddResource(Assembly.Load(mc.Assembly), mc.Resource);
 				}
 				else if (!string.IsNullOrEmpty(mc.File))
 				{
-					log.Debug("File " + mc.File);
+#if NETFX
+					log.DebugFormat("File {0}", mc.File);
+#else
+					Log.Debug("File {0}", mc.File);
+#endif
 					AddFile(mc.File);
 				}
 				else
 				{
-					log.Warn(string.Format("Mapping configuration ignored: Assembly>{0}< Resource>{1}< File>{2}<", mc.Assembly,
-					                       mc.Resource, mc.File));
+#if NETFX
+					log.WarnFormat(
+						"Mapping configuration ignored: Assembly>{0}< Resource>{1}< File>{2}<",
+						mc.Assembly, mc.Resource, mc.File);
+#else
+					Log.Warn("Mapping configuration ignored: Assembly >{0}< Resource >{1}< File >{2}<",
+					         mc.Assembly, mc.Resource, mc.File);
+#endif
 				}
 			}
 		}
 
 		public void AddAssembly(string assemblyName)
 		{
-			log.Info("Searching for mapped documents in assembly: " + assemblyName);
+#if NETFX
+			log.InfoFormat("Searching for mapped documents in assembly: {0}", assemblyName);
+#else
+			Log.Info("Searching for mapped documents in assembly: {0}", assemblyName);
+#endif
 
 			Assembly assembly;
 			try
@@ -93,10 +119,23 @@ namespace NHibernate.Validator.Cfg
 
 		public void AddResource(Assembly assembly, string resource)
 		{
-			log.Info("Mapping resource: " + resource);
+			AddResourceImpl(assembly, resource, true);
+		}
+
+		private bool AddResourceImpl(Assembly assembly, string resource, bool throwIfNoStream)
+		{
+#if NETFX
+			log.InfoFormat("Mapping resource: {0}", resource);
+#else
+			Log.Info("Mapping resource: {0}", resource);
+#endif
 			Stream stream = assembly.GetManifestResourceStream(resource);
 			if (stream == null)
-				throw new ValidatorConfigurationException("Resource " + resource + " not found in assembly " + assembly.FullName);
+			{
+				if (throwIfNoStream)
+					throw new ValidatorConfigurationException("Resource " + resource + " not found in assembly " + assembly.FullName);
+				return false;
+			}
 
 			try
 			{
@@ -106,6 +145,8 @@ namespace NHibernate.Validator.Cfg
 			{
 				stream.Close();
 			}
+
+			return true;
 		}
 
 		public void AddInputStream(Stream xmlInputStream, string fileName)
@@ -130,7 +171,7 @@ namespace NHibernate.Validator.Cfg
 			{
 				AddMapping(parser.Parse(reader));
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				throw new ValidatorConfigurationException("Could not load file " + fileName, e);
 			}
@@ -147,7 +188,11 @@ namespace NHibernate.Validator.Cfg
 
 		public void AddFile(string filePath)
 		{
-			log.Info("Mapping file: " + filePath);
+#if NETFX
+			log.InfoFormat("Mapping file: {0}", filePath);
+#else
+			Log.Info("Mapping file: {0}", filePath);
+#endif
 			XmlTextReader textReader = null;
 			try
 			{
@@ -178,15 +223,10 @@ namespace NHibernate.Validator.Cfg
 		{
 			string resourceName = type.FullName + MappingFileDefaultExtension;
 			var ml = new XmlMappingLoader();
-			try
-			{
-				ml.AddResource(type.Assembly, resourceName);
-			}
-			catch (ValidatorConfigurationException)
-			{
-				return null;
-			}
-			return ml.Mappings[0];
+
+			return !ml.AddResourceImpl(type.Assembly, resourceName, false) 
+				? null 
+				: ml.Mappings[0];
 		}
 
 		public NhvMapping[] Mappings

@@ -17,9 +17,35 @@ namespace NHibernate.Validator.Constraints
 
 		public DecimalMaxAttribute() { }
 
-		public DecimalMaxAttribute(double max)
+		public DecimalMaxAttribute(int min) : this(new decimal(min))
 		{
-			Value = (decimal)max;
+		}
+
+		[CLSCompliant(false)]
+		public DecimalMaxAttribute(uint min) : this(new decimal(min))
+		{
+		}
+
+		public DecimalMaxAttribute(long min) : this(new decimal(min))
+		{
+		}
+
+		[CLSCompliant(false)]
+		public DecimalMaxAttribute(ulong min) : this(new decimal(min))
+		{
+		}
+
+		public DecimalMaxAttribute(float min) : this(new decimal(min))
+		{
+		}
+
+		public DecimalMaxAttribute(double min) : this(new decimal(min))
+		{
+		}
+
+		public DecimalMaxAttribute(int lo, int mid, int hi, bool isNegative, byte scale)
+			: this(new decimal(lo, mid, hi, isNegative, scale))
+		{
 		}
 
 		public DecimalMaxAttribute(decimal max)
@@ -75,7 +101,7 @@ namespace NHibernate.Validator.Constraints
 			IEnumerator ie = property.ColumnIterator.GetEnumerator();
 			ie.MoveNext();
 			var col = (Column)ie.Current;
-            col.CheckConstraint = col.Name + "<=" + Convert.ToString(Value, CultureInfo.InvariantCulture);
+			col.CheckConstraint = col.Name + "<=" + Convert.ToString(Value, CultureInfo.InvariantCulture);
 		}
 
 		#endregion

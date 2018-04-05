@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="validator.assertFalse" xml:space="preserve">
     <value>nicht garantiert</value>
@@ -130,16 +130,19 @@
     <value>numeric value out of bounds (&lt;{integerDigits} digits&gt;.&lt;{fractionalDigits} digits&gt; expected)</value>
   </data>
   <data name="validator.ean" xml:space="preserve">
-    <value>invalid EAN</value>
+    <value>Ungültige EAN</value>
   </data>
   <data name="validator.email" xml:space="preserve">
     <value>not a well-formed email address</value>
+  </data>
+  <data name="validator.enum" xml:space="preserve">
+    <value>muss der Enumerationsdefinition entsprechen</value>
   </data>
   <data name="validator.future" xml:space="preserve">
     <value>muss in der Zukunft liegen</value>
   </data>
   <data name="validator.iban" xml:space="preserve">
-    <value>Invalid IBAN</value>
+    <value>Ungültige IBAN</value>
   </data>
   <data name="validator.length" xml:space="preserve">
     <value>muss zwischen {Min} und {Max} lang sein</value>

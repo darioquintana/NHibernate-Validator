@@ -7,6 +7,7 @@ namespace NHibernate.Validator.Exceptions
 	/// <summary>
 	/// Indicates failure of an assertion: a possible bug in NHibernate.Validator
 	/// </summary>
+	// 6.0 TODO: cease deriving from ApplicationException
 	[Serializable]
 	public class AssertionFailureException : ApplicationException
 	{
@@ -18,7 +19,11 @@ namespace NHibernate.Validator.Exceptions
 		public AssertionFailureException()
 			: base(string.Empty)
 		{
-			LoggerProvider.LoggerFor(typeof (AssertionFailureException)).Error(defMessage);
+#if NETFX
+			LoggerProvider.LoggerFor(typeof(AssertionFailureException)).Error(defMessage);
+#else
+			NHibernateLogger.For(typeof(AssertionFailureException)).Error(defMessage);
+#endif
 		}
 
 		/// <summary>
@@ -28,7 +33,11 @@ namespace NHibernate.Validator.Exceptions
 		public AssertionFailureException(string message)
 			: base(message)
 		{
-			LoggerProvider.LoggerFor(typeof (AssertionFailureException)).Error(defMessage, this);
+#if NETFX
+			LoggerProvider.LoggerFor(typeof(AssertionFailureException)).Error(defMessage);
+#else
+			NHibernateLogger.For(typeof(AssertionFailureException)).Error(defMessage);
+#endif
 		}
 
 		/// <summary>
@@ -43,7 +52,11 @@ namespace NHibernate.Validator.Exceptions
 		public AssertionFailureException(string message, Exception innerException)
 			: base(message, innerException)
 		{
-			LoggerProvider.LoggerFor(typeof (AssertionFailureException)).Error(defMessage, innerException);
+#if NETFX
+			LoggerProvider.LoggerFor(typeof (AssertionFailureException)).Error(defMessage);
+#else
+			NHibernateLogger.For(typeof(AssertionFailureException)).Error(defMessage);
+#endif
 		}
 
 		/// <summary>
@@ -54,7 +67,7 @@ namespace NHibernate.Validator.Exceptions
 		/// data about the exception being thrown.
 		/// </param>
 		/// <param name="context">
-		/// The <see cref="StreamingContext"/> that contains contextual information about the source or destination.
+		/// The <c>StreamingContext</c> that contains contextual information about the source or destination.
 		/// </param>
 		protected AssertionFailureException(SerializationInfo info, StreamingContext context)
 			: base(info, context)

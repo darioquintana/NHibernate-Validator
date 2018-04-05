@@ -12,7 +12,9 @@ namespace NHibernate.Validator.Specific.Tests.Br
 	{
 		public class Usuario
 		{
+#pragma warning disable 414
 			[CEP] private string cepField = "40280902";
+#pragma warning restore 414
 
 			[CEP]
 			public string Cep { get; set; }

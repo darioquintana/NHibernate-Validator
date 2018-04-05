@@ -1,6 +1,6 @@
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
-using Iesi.Collections.Generic;
 using NHibernate.Validator.Binding.Util;
 using NHibernate.Validator.Engine;
 
@@ -8,7 +8,7 @@ namespace NHibernate.Validator.Binding
 {
 	public class ViewValidator
 	{
-		protected ISet<BinderItem> binders = new HashedSet<BinderItem>();
+		protected ISet<BinderItem> binders = new HashSet<BinderItem>();
 		private ErrorProvider errorProvider;
 		private ValidatorControlResolver resolver = new ValidatorControlResolver();
 		private ValidatorEngine validatorEngine;

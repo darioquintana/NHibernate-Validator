@@ -26,13 +26,15 @@ namespace NHibernate.Validator.Tests.Serialization
 		[Test]
 		public void CanBeSerialized()
 		{
+			TestsContext.AssumeSystemTypeIsSerializable();
 			ValidatorEngine ve = new ValidatorEngine();
-			Assert.That(ve, Is.BinarySerializable);
+			NHAssert.IsSerializable(ve);
 		}
 
 		[Test]
 		public void WorkAfterDeserialization()
 		{
+			TestsContext.AssumeSystemTypeIsSerializable();
 			ValidatorEngine ve = new ValidatorEngine();
 			XmlConfiguration nhvc = new XmlConfiguration();
 			

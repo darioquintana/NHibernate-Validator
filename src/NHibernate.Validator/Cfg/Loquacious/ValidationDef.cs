@@ -171,6 +171,11 @@ namespace NHibernate.Validator.Cfg.Loquacious
 			return new RelationshipConstraints(this, DecodeMemberAccessExpression(property));
 		}
 
+		public IEnumConstraints Define(Expression<Func<T, Enum>> property)
+		{
+			return new EnumConstraints(this, DecodeMemberAccessExpression(property));
+		}
+		
 		public void Add(MemberInfo member, Attribute ruleArgs)
 		{
 			classMap.AddMemberConstraint(member, ruleArgs);

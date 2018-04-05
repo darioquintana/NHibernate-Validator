@@ -20,12 +20,13 @@ namespace NHibernate.Validator.Tests.Serialization
 		[Test]
 		public void AllValidatorsCanBeSerialized()
 		{
+			TestsContext.AssumeSystemTypeIsSerializable();
 			// Test that can be serialized after creation and test default constructor
 			var implementors = GetValidatorImplementors();
 			foreach (var implementor in implementors)
 			{
 				object validatorInstance = Activator.CreateInstance(implementor);
-				Assert.That(validatorInstance, Is.BinarySerializable);
+				NHAssert.IsSerializable(validatorInstance);
 			}
 		}
 
@@ -59,8 +60,9 @@ namespace NHibernate.Validator.Tests.Serialization
 		[Test]
 		public void DelegatedConstraintIsSerializable()
 		{
+			TestsContext.AssumeSystemTypeIsSerializable();
 			var validatorInstance = new DelegatedConstraint<Dummy>((i, c) => i.Value > 0);
-			Assert.That(validatorInstance, Is.BinarySerializable);
+			NHAssert.IsSerializable(validatorInstance);
 		}
 	}
 }

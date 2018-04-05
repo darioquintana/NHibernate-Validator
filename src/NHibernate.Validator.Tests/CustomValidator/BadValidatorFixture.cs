@@ -1,7 +1,6 @@
 using NHibernate.Validator.Engine;
 using NHibernate.Validator.Exceptions;
 using NUnit.Framework;
-using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.CustomValidator
 {
@@ -11,20 +10,24 @@ namespace NHibernate.Validator.Tests.CustomValidator
 		public class Foo
 		{
 			[BadValidator]
+#pragma warning disable 169
 			private string SomeField;
+#pragma warning restore 169
 		}
 
 		public class Foo2
 		{
 			[BadValidatorMessageIsNull]
+#pragma warning disable 169
 			private string SomeField;
+#pragma warning restore 169
 		}
 
 
 		[Test]
 		public void ExceptionMustBeThrown()
 		{
-			ActionAssert.Throws<HibernateValidatorException>(() => new ClassValidator(typeof (Foo)));
+			Assert.That(() => new ClassValidator(typeof(Foo)), Throws.TypeOf<HibernateValidatorException>());
 		}
 
 		/// <summary>
@@ -33,7 +36,7 @@ namespace NHibernate.Validator.Tests.CustomValidator
 		[Test]
 		public void MessageNull()
 		{
-			ActionAssert.Throws<HibernateValidatorException>(() => new ClassValidator(typeof(Foo2)));
+			Assert.That(() => new ClassValidator(typeof(Foo2)), Throws.TypeOf<HibernateValidatorException>());
 		}
 	}
 }

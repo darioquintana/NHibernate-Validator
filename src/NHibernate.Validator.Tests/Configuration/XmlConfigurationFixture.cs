@@ -1,13 +1,11 @@
 using System;
 using System.Linq;
 using System.Xml;
-using log4net.Config;
 using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Exceptions;
 using NUnit.Framework;
 using System.Collections;
 using log4net.Core;
-using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.Configuration
 {
@@ -38,8 +36,6 @@ namespace NHibernate.Validator.Tests.Configuration
 		[Test]
 		public void WellFormedConfiguration()
 		{
-			XmlConfigurator.Configure();
-
 			string xml =
 				@"<nhv-configuration xmlns='urn:nhv-configuration-1.0'>
 		<property name='apply_to_ddl'>false</property>
@@ -60,7 +56,7 @@ namespace NHibernate.Validator.Tests.Configuration
 			using (LoggerSpy ls = new LoggerSpy(typeof(XmlConfiguration), Level.Warn))
 			{
 				cfg = new XmlConfiguration(xtr);
-				int found = ls.GetOccurenceContaining(NHibernate.Validator.Cfg.Environment.SharedEngineClass + " propety is ignored out of application configuration file.");
+				int found = ls.GetOccurenceContaining(Cfg.Environment.SharedEngineClass + " property is ignored out of application configuration file.");
 				Assert.AreEqual(1, found);
 			}
 			Assert.AreEqual("MySharedEngineProvider", cfg.SharedEngineProviderClass);
@@ -87,13 +83,13 @@ namespace NHibernate.Validator.Tests.Configuration
 			XmlDocument cfgXml = new XmlDocument();
 			cfgXml.LoadXml(xml);
 			XmlTextReader xtr = new XmlTextReader(xml, XmlNodeType.Document, null);
-			ActionAssert.Throws<ValidatorConfigurationException>(() => new XmlConfiguration(xtr));
+			Assert.That(() => new XmlConfiguration(xtr), Throws.TypeOf<ValidatorConfigurationException>());
 		}
 
 		[Test]
 		public void NullReader()
 		{
-			ActionAssert.Throws<ValidatorConfigurationException>(() => new XmlConfiguration(null));
+			Assert.That(() => new XmlConfiguration(null), Throws.TypeOf<ValidatorConfigurationException>());
 		}
 
 		[Test]
@@ -106,7 +102,7 @@ namespace NHibernate.Validator.Tests.Configuration
 			XmlDocument cfgXml = new XmlDocument();
 			cfgXml.LoadXml(xml);
 			XmlTextReader xtr = new XmlTextReader(xml, XmlNodeType.Document, null);
-			ActionAssert.Throws<ValidatorConfigurationException>(() =>new XmlConfiguration(xtr));
+			Assert.That(() => new XmlConfiguration(xtr), Throws.TypeOf<ValidatorConfigurationException>());
 		}
 
 		[Test]
@@ -234,8 +230,6 @@ namespace NHibernate.Validator.Tests.Configuration
 		[Test]
 		public void CanReadCustomResourceManager()
 		{
-			XmlConfigurator.Configure();
-
 			string xml =
 				@"<nhv-configuration xmlns='urn:nhv-configuration-1.0'>
 		<property name='resource_manager'>YourFullNameSpace.TheBaseNameOfTheResourceFileWithoutExtensionNorCulture, YourAssembly</property>

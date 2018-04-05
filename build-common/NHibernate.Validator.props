@@ -1,0 +1,27 @@
+<Project>
+  <PropertyGroup>
+    <VersionMajor Condition="'$(VersionMajor)' == ''">5</VersionMajor>
+    <VersionMinor Condition="'$(VersionMinor)' == ''">1</VersionMinor>
+    <VersionPatch Condition="'$(VersionPatch)' == ''">0</VersionPatch>
+    <VersionSuffix Condition="'$(VersionSuffix)' == ''"></VersionSuffix>
+
+    <VersionPrefix>$(VersionMajor).$(VersionMinor).$(VersionPatch)</VersionPrefix>
+    <AssemblyVersion>$(VersionMajor).$(VersionMinor).0.0</AssemblyVersion>
+    <FileVersion>$(VersionPrefix).0</FileVersion>
+
+    <Company>NHibernate.info</Company>
+    <Copyright>Licensed under LGPL.</Copyright>
+    <Authors>Dario Quintana, Fabio Maulo, Gustavo Ringel, NHibernate community</Authors>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <PackageIconUrl>https://raw.githubusercontent.com/nhibernate/NHibernate-Validator/master/art/logo-nhv-for-nuget.jpg</PackageIconUrl>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/nhibernate/NHibernate-Validator/master/LICENSE.txt</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/nhibernate/nhibernate-validator</PackageProjectUrl>
+    <PackageTags>NHibernate; Validator; Validation; NHV</PackageTags>
+    <RepositoryUrl>https://github.com/nhibernate/NHibernate-Validator.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <TreatSpecificWarningsAsErrors />
+  </PropertyGroup>
+</Project>

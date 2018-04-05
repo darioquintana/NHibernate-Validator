@@ -112,28 +112,28 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="validator.assertFalse" xml:space="preserve">
-    <value>verifica��o falhou</value>
+    <value>verificação falhou</value>
   </data>
   <data name="validator.assertTrue" xml:space="preserve">
-    <value>verifica��o falhou</value>
+    <value>verificação falhou</value>
   </data>
   <data name="validator.creditCard" xml:space="preserve">
-    <value>N�mero de cart�o de cr�dito inv�lido</value>
+    <value>Número de cartão de crédito inválido</value>
   </data>
   <data name="validator.digits" xml:space="preserve">
-    <value>Valor num�rico fora dos limites (&lt;{integerDigits} d�gitos&gt;.&lt;{fractionalDigits} d�gitos&gt; esperados)</value>
+    <value>Valor numérico fora dos limites (&lt;{integerDigits} dígitos&gt;.&lt;{fractionalDigits} dígitos&gt; esperados)</value>
   </data>
   <data name="validator.ean" xml:space="preserve">
-    <value>EAN inv�lido</value>
+    <value>EAN inválido</value>
   </data>
   <data name="validator.email" xml:space="preserve">
-    <value>n�o � um endere�o de email v�lido</value>
+    <value>não é um endereço de email válido</value>
   </data>
   <data name="validator.fileExists" xml:space="preserve">
     <value>O arquivo deve existir.</value>
@@ -142,10 +142,10 @@
     <value>deve ser uma data futura</value>
   </data>
   <data name="validator.iban" xml:space="preserve">
-    <value>IBAN inv�lido</value>
+    <value>IBAN inválido</value>
   </data>
   <data name="validator.ipaddress" xml:space="preserve">
-    <value>deve ser um endere�o IP v�lido</value>
+    <value>deve ser um endereço IP válido</value>
   </data>
   <data name="validator.length" xml:space="preserve">
     <value>tamanho deve estar entre {Min} e {Max}</value>
@@ -157,16 +157,16 @@
     <value>deve ser maior ou igual a {Value}</value>
   </data>
   <data name="validator.notEmpty" xml:space="preserve">
-    <value>n�o pode ser vazio</value>
+    <value>não pode ser vazio</value>
   </data>
   <data name="validator.notNull" xml:space="preserve">
-    <value>n�o pode ser nulo</value>
+    <value>não pode ser nulo</value>
   </data>
   <data name="validator.notNullNotEmpty" xml:space="preserve">
-    <value>n�o pode ser nulo ou vazio</value>
+    <value>não pode ser nulo ou vazio</value>
   </data>
   <data name="validator.numeric" xml:space="preserve">
-    <value>deve ser um valor num�rico.</value>
+    <value>deve ser um valor numérico.</value>
   </data>
   <data name="validator.past" xml:space="preserve">
     <value>deve ser uma data no passado</value>

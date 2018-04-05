@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" 
-				   namespace="NHibernate.Validator.Tests.Base" 
-				   assembly="NHibernate.Validator.Tests"
-				   default-lazy="false">
+					 namespace="NHibernate.Validator.Tests.Base" 
+					 assembly="NHibernate.Validator.Tests"
+					 default-lazy="false">
 
 	<class name="Address">
 
@@ -16,5 +16,7 @@
 		<property name="Line1" />
 		<property name="Line2" />
 		<property name ="floor" access="field"/>
+		<property name="AddressType" />
+		<property name="AddressFlags" />
 	</class>
 </hibernate-mapping>

@@ -1,5 +1,6 @@
 using System.Reflection;
-using log4net.Config;
+using System.Threading;
+using System.Threading.Tasks;
 using log4net.Core;
 using NHibernate.Event;
 using NHibernate.Validator.Cfg;
@@ -42,7 +43,6 @@ namespace NHibernate.Validator.Tests.Integration
 		[Test]
 		public void ApplyWrongConstraint()
 		{
-			XmlConfigurator.Configure();
 			NHibernate.Cfg.Configuration cfg = new NHibernate.Cfg.Configuration();
 			if (TestConfigurationHelper.hibernateConfigFile != null)
 				cfg.Configure(TestConfigurationHelper.hibernateConfigFile);
@@ -91,6 +91,11 @@ namespace NHibernate.Validator.Tests.Integration
 		{
 			#region Implementation of IPreInsertEventListener
 
+			public Task<bool> OnPreInsertAsync(PreInsertEvent @event, CancellationToken cancellationToken)
+			{
+				return Task.FromResult(true);
+			}
+
 			public bool OnPreInsert(PreInsertEvent @event)
 			{
 				return true;
@@ -99,6 +104,11 @@ namespace NHibernate.Validator.Tests.Integration
 			#endregion
 
 			#region Implementation of IPreUpdateEventListener
+
+			public Task<bool> OnPreUpdateAsync(PreUpdateEvent @event, CancellationToken cancellationToken)
+			{
+				return Task.FromResult(true);
+			}
 
 			public bool OnPreUpdate(PreUpdateEvent @event)
 			{

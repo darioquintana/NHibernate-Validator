@@ -27,6 +27,7 @@
 					<xs:element ref="fileexists" />
 					<xs:element ref="valid" />
 					<xs:element ref="iban" />
+					<xs:element ref="enum" />
 				</xs:choice>
 			</xs:sequence>
 			<xs:attribute name="name" type="xs:string" use="required" />
@@ -259,6 +260,13 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="iban">
+		<xs:complexType>
+			<xs:sequence />
+			<xs:attribute name="message" type="xs:string" use="optional" />
+			<xs:attribute name="tags" type="xs:string" use="optional" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="enum">
 		<xs:complexType>
 			<xs:sequence />
 			<xs:attribute name="message" type="xs:string" use="optional" />

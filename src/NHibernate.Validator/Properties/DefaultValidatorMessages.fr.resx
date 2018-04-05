@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="validator.assertFalse" xml:space="preserve">
     <value>l'assertion a échoué</value>
@@ -133,13 +133,22 @@
     <value>EAN invalide</value>
   </data>
   <data name="validator.email" xml:space="preserve">
-    <value>Address email mal formée</value>
+    <value>Adresse email mal formée</value>
+  </data>
+  <data name="validator.enum" xml:space="preserve">
+    <value>doit correspondre à la définition de l'énumération</value>
+  </data>
+  <data name="validator.fileExists" xml:space="preserve">
+    <value>Le fichier doit exister.</value>
   </data>
   <data name="validator.future" xml:space="preserve">
     <value>doit être dans le futur</value>
   </data>
   <data name="validator.iban" xml:space="preserve">
-    <value>Invalid IBAN</value>
+    <value>IBAN invalide</value>
+  </data>
+  <data name="validator.ipaddress" xml:space="preserve">
+    <value>doit être une adresse IP valide</value>
   </data>
   <data name="validator.length" xml:space="preserve">
     <value>la longueur doit être entre {Min} et {Max}</value>
@@ -173,5 +182,8 @@
   </data>
   <data name="validator.size" xml:space="preserve">
     <value>le nombre d'éléments doit être entre {Min} et {Max}</value>
+  </data>
+  <data name="validator.within" xml:space="preserve">
+    <value>doit être entre {Min} exclu et {Max} exclu</value>
   </data>
 </root>

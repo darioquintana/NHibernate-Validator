@@ -7,7 +7,6 @@ using NHibernate.Validator.Cfg;
 using NHibernate.Validator.Cfg.MappingSchema;
 using NHibernate.Validator.Exceptions;
 using NUnit.Framework;
-using SharpTestsEx;
 
 namespace NHibernate.Validator.Tests.Configuration
 {
@@ -18,7 +17,7 @@ namespace NHibernate.Validator.Tests.Configuration
 		public void LoadMappingsNull()
 		{
 			XmlMappingLoader ml = new XmlMappingLoader();
-			ActionAssert.Throws<ArgumentNullException>(() => ml.LoadMappings(null));
+			Assert.That(() => ml.LoadMappings(null), Throws.TypeOf<ArgumentNullException>());
 		}
 
 		[Test]
@@ -85,7 +84,7 @@ namespace NHibernate.Validator.Tests.Configuration
 			XmlTextReader xtr = new XmlTextReader(xml, XmlNodeType.Document, null);
 			XmlConfiguration cfg = new XmlConfiguration(xtr);
 			XmlMappingLoader ml = new XmlMappingLoader();
-			ActionAssert.Throws<ValidatorConfigurationException>(() => ml.LoadMappings(cfg.Mappings));
+			Assert.That(() => ml.LoadMappings(cfg.Mappings), Throws.TypeOf<ValidatorConfigurationException>());
 		}
 
 		[Test]
@@ -127,7 +126,7 @@ namespace NHibernate.Validator.Tests.Configuration
 			XmlMappingLoader ml = new XmlMappingLoader();
 			using (StreamReader sr = new StreamReader(tmpf))
 			{
-				ActionAssert.Throws<ValidatorConfigurationException>(() => ml.AddInputStream(sr.BaseStream, tmpf));
+				Assert.That(() => ml.AddInputStream(sr.BaseStream, tmpf), Throws.TypeOf<ValidatorConfigurationException>());
 			}
 		}
 
@@ -163,7 +162,7 @@ namespace NHibernate.Validator.Tests.Configuration
 				sw.Flush();
 			}
 			XmlMappingLoader ml = new XmlMappingLoader();
-			ActionAssert.Throws<ValidatorConfigurationException>(() =>ml.AddFile(tmpf));
+			Assert.That(() => ml.AddFile(tmpf), Throws.TypeOf<ValidatorConfigurationException>());
 		}
 
 		[Test]
@@ -260,7 +259,7 @@ namespace NHibernate.Validator.Tests.Configuration
 		{
 			// here we test only the exception since the other tests are included in MappingLoader
 			MappingDocumentParser mdp = new MappingDocumentParser();
-			ActionAssert.Throws<ArgumentNullException>(() => mdp.Parse(null));
+			Assert.That(() => mdp.Parse(null), Throws.TypeOf<ArgumentNullException>());
 		}
 	}
 }

@@ -1,505 +1,54 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../build-common/NHibernate.Validator.props" />
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{3B96A3A6-685A-43CF-B746-4F2EB69D2D49}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NHibernate.Validator.Tests</RootNamespace>
-    <AssemblyName>NHibernate.Validator.Tests</AssemblyName>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <Product>NHibernate.Validator.Specific.Tests</Product>
+    <Description>Unit tests of NHibernate Validator</Description>
+    <TargetFrameworks>net461;netcoreapp2.0</TargetFrameworks>
+    <IsTestProject>true</IsTestProject>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net461'">
+    <DefineConstants>NETFX;$(DefineConstants)</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0'">
+    <OutputType>Exe</OutputType>
+    <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Iesi.Collections.3.3.1.4000\lib\Net35\Iesi.Collections.dll</HintPath>
-    </Reference>
-    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\log4net.2.0.0\lib\net35-full\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NHibernate.3.3.1.4000\lib\Net35\NHibernate.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpTestsEx.NUnit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8c60d8070630b1c1, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\SharpTestsEx.NUnit.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.configuration" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <None Remove="**\*.hbm.xml" />
+    <None Remove="**\*.nhv.xml" />
+    <None Remove="**\*.whbm.xml" />
+    <None Remove="nhvalidator.cfg.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base\Address.cs" />
-    <Compile Include="Base\Animal.cs" />
-    <Compile Include="Base\AssertAnimalAttribute.cs" />
-    <Compile Include="BaseValidatorFixture.cs" />
-    <Compile Include="Base\Composition.cs" />
-    <Compile Include="Base\Boo.cs" />
-    <Compile Include="Base\Brother.cs" />
-    <Compile Include="Base\Building.cs" />
-    <Compile Include="Base\Car.cs" />
-    <Compile Include="Base\CarEngine.cs" />
-    <Compile Include="Base\CompositionFixture.cs" />
-    <Compile Include="Base\CreditCard.cs" />
-    <Compile Include="Base\ValidatorFixtureLoquacious.cs" />
-    <Compile Include="Base\LuhnTest.cs" />
-    <Compile Include="Base\LuhnTestXml.cs" />
-    <Compile Include="Base\WebImage.cs" />
-    <Compile Include="Base\WebImageFixture.cs" />
-    <Compile Include="Base\WebImageFixtureXml.cs" />
-    <Compile Include="Collections\CollectionFixtureLoquacious.cs" />
-    <Compile Include="Collections\Simple.cs" />
-    <Compile Include="Collections\XmlCollectionFixture.cs" />
-    <Compile Include="Configuration\ACustomAttribute.cs" />
-    <Compile Include="Configuration\ACustomValidator.cs" />
-    <Compile Include="Configuration\Loquacious\FluentConfigurationFixture.cs" />
-    <Compile Include="Configuration\Loquacious\FluentMappingLoaderFixture.cs" />
-    <Compile Include="Configuration\Loquacious\FueltMappings.cs" />
-    <Compile Include="Configuration\Loquacious\IntegrationFixture.cs" />
-    <Compile Include="Configuration\Loquacious\KnownRules.cs" />
-    <Compile Include="Configuration\Loquacious\KnownRulesSimpleValidationDef.cs" />
-    <Compile Include="Configuration\XmlMappingLoaderFixture.cs" />
-    <Compile Include="Configuration\RuleAttributeFactoryFixture.cs" />
-    <Compile Include="Configuration\WellKnownRules.cs" />
-    <Compile Include="ConstraintContextMock.cs" />
-    <Compile Include="ConstraintContext\ConstraintValidatorContextFixture.cs" />
-    <Compile Include="ConstraintContext\ConstraintContextIntegrationFixture.cs" />
-    <Compile Include="ConstraintContext\MemberValidation\MembershipInfo.cs" />
-    <Compile Include="ConstraintContext\EntityValidation\MembershipInfo2.cs" />
-    <Compile Include="ConstraintContext\EntityValidation\Password2Attribute.cs" />
-    <Compile Include="ConstraintContext\MemberValidation\PasswordAttribute.cs" />
-    <Compile Include="ConstraintContext\MemberValidation\PasswordValidator.cs" />
-    <Compile Include="ConstraintContext\EntityValidation\PasswordValidator2.cs" />
-    <Compile Include="ConstraintContext\Messages.cs" />
-    <Compile Include="ConstraintFactory\ConstraintFactoryFixture.cs" />
-    <Compile Include="ConstraintFactory\Model\FooDef.cs" />
-    <Compile Include="ConstraintFactory\Model\Foo.cs" />
-    <Compile Include="ConstraintFactory\Model\MyValidator.cs" />
-    <Compile Include="ConstraintFactory\TestConstraintValidatorFactory.cs" />
-    <Compile Include="CustomValidator\ValidatorClassFixture.cs" />
-    <Compile Include="CustomValidator\IsOneValidator.cs" />
-    <Compile Include="DeepIntegration\AbstractMultipleCollectionFixture.cs" />
-    <Compile Include="DeepIntegration\DynaEntity.cs" />
-    <Compile Include="DeepIntegration\DynamicComponentFixture.cs" />
-    <Compile Include="DeepIntegration\MultipleBagFetchFixture.cs" />
-    <Compile Include="DeepIntegration\MultipleListFetchFixture.cs" />
-    <Compile Include="DeepIntegration\MultipleSetFetchFixture.cs" />
-    <Compile Include="DeepIntegration\Person.cs" />
-    <Compile Include="DelegatedEntityValidator\EngineIntegrationTest.cs" />
-    <Compile Include="DelegatedEntityValidator\Range.cs" />
-    <Compile Include="EmbeddedResources\ValidatorsMessagesTest.cs" />
-    <Compile Include="Engine\AttributeAsValidatorTest.cs" />
-    <Compile Include="Engine\ClassValidatorFixture.cs" />
-    <Compile Include="Engine\EngineMocking.cs" />
-    <Compile Include="Engine\ReferenceEqualityComparerTests.cs" />
-    <Compile Include="Engine\Tagging\ClassValidatorTagging.cs" />
-    <Compile Include="Engine\MultiEntityTypeInspectorFixture.cs" />
-    <Compile Include="Engine\Tagging\EmbeddedRulesTaggingTest.cs" />
-    <Compile Include="Engine\Tagging\InvalidValuesTags.cs" />
-    <Compile Include="Engine\Tagging\ValidatorEngineTaggingLoquacious.cs" />
-    <Compile Include="Engine\Tagging\ValidatorEngineTaggingXml.cs" />
-    <Compile Include="GraphNavigation\ChildEntityWithAttributeRules.cs" />
-    <Compile Include="GraphNavigation\ChildEntityWithAttributeRulesDef.cs" />
-    <Compile Include="GraphNavigation\ParentEntityWithAttributeRules.cs" />
-    <Compile Include="Integration\AnEntity.cs" />
-    <Compile Include="Integration\DefaultEntityTypeInspectorFixture.cs" />
-    <Compile Include="Engine\ValidatableElementFixture.cs" />
-    <Compile Include="GraphNavigation\Fixture.cs" />
-    <Compile Include="GraphNavigation\OrderLine.cs" />
-    <Compile Include="GraphNavigation\Order.cs" />
-    <Compile Include="GraphNavigation\User.cs" />
-    <Compile Include="GraphNavigation\Address.cs" />
-    <Compile Include="Inheritance\LoquaciousInheritanceFixture.cs" />
-    <Compile Include="Integration\IntegrationOwnEngineFixture.cs" />
-    <Compile Include="Integration\SimpleWithRelation.cs" />
-    <Compile Include="Integration\ValidateEventsFixture.cs" />
-    <Compile Include="Integration\ValidatingProxyFixture.cs" />
-    <Compile Include="Integration\WrongClass.cs" />
-    <Compile Include="Integration\WrongConstraint.cs" />
-    <Compile Include="Integration\ValidatorInitializerFixture.cs" />
-    <Compile Include="Interpolation\InterpolatingValuesFixture.cs" />
-    <Compile Include="Interpolation\DefaultMessageInterpolatorAggregatorFixture.cs" />
-    <Compile Include="Interpolation\InterpolationFixture.cs" />
-    <Compile Include="Configuration\Loquacious\ValidationDefFixture.cs" />
-    <Compile Include="Interpolation\MessageTranslatorTest.cs" />
-    <Compile Include="Mappings\A.cs" />
-    <Compile Include="Mappings\AssertAnimalAttribute.cs" />
-    <Compile Include="Mappings\CleanAddress.cs" />
-    <Compile Include="Mappings\OpenClassMappingFixture.cs" />
-    <Compile Include="Mappings\OtherValidator.cs" />
-    <Compile Include="Mappings\MixAddress.cs" />
-    <Compile Include="Mappings\MixedClassMappingFixture.cs" />
-    <Compile Include="Mappings\ReflectionClassMappingFixture.cs" />
-    <Compile Include="Mappings\MixSuricato.cs" />
-    <Compile Include="Mappings\XmlClassMappingFixture.cs" />
-    <Compile Include="LoggerSpy.cs" />
-    <Compile Include="Satisfier\CollectionConstraintsTests.cs" />
-    <Compile Include="Satisfier\DateTimeConstraintsTests.cs" />
-    <Compile Include="Satisfier\FloatConstraintsTests.cs" />
-    <Compile Include="Satisfier\IntegerConstraintsTests.cs" />
-    <Compile Include="Satisfier\StringConstraintsTests.cs" />
-    <Compile Include="SerializationHelper.cs" />
-    <Compile Include="Serialization\ClassValidatorSerializationFixture.cs" />
-    <Compile Include="Serialization\EventsSerializationFixture.cs" />
-    <Compile Include="Serialization\RuleArgsSerializationFixture.cs" />
-    <Compile Include="Serialization\ValidatorEngineSerializationFixture.cs" />
-    <Compile Include="Serialization\ValidatorsSerializationFixture.cs" />
-    <Compile Include="Specifics\NHV110\CustomValidator.cs" />
-    <Compile Include="Specifics\NHV110\Fixture.cs" />
-    <Compile Include="Specifics\NHV110\Model.cs" />
-    <Compile Include="Specifics\NHV82\DdlForNestedComponentsTest.cs" />
-    <Compile Include="Specifics\NHV92\FluentValidationWithAttributesBugTest.cs" />
-    <Compile Include="Specifics\NHV25\XmlDictionaryValueKeyFixture.cs" />
-    <Compile Include="Specifics\NHV25\DictionaryValueKeyFixture.cs" />
-    <Compile Include="Specifics\NHV25\Show.cs" />
-    <Compile Include="Specifics\NHV25\Tv.cs" />
-    <Compile Include="Specifics\NHV29\CustomValidator.cs" />
-    <Compile Include="Specifics\NHV29\Fixture.cs" />
-    <Compile Include="Specifics\NHV29\Foo.cs" />
-    <Compile Include="Specifics\NHV41\Model.cs" />
-    <Compile Include="Specifics\NHV41\FixtureNHV40.cs" />
-    <Compile Include="Specifics\NHV62\Fixture.cs" />
-    <Compile Include="Specifics\NHV62\Model.cs" />
-    <Compile Include="Specifics\NHV71\Customer.cs" />
-    <Compile Include="Specifics\NHV71\ValidComponentTester.cs" />
-    <Compile Include="Specifics\NHV79\Cat.cs" />
-    <Compile Include="Specifics\NHV79\Fixture.cs" />
-    <Compile Include="Specifics\NHV82\DdlForComponents.cs" />
-    <Compile Include="Specifics\NHV82\Person.cs" />
-    <Compile Include="Specifics\NHV85\FixtureNHV85.cs" />
-    <Compile Include="Specifics\NHV85\Model.cs" />
-    <Compile Include="Specifics\NHV88\Fixture.cs" />
-    <Compile Include="Specifics\NHV88\Group.cs" />
-    <Compile Include="Specifics\NHV88\GroupValidation.cs" />
-    <Compile Include="Specifics\NHV88\User.cs" />
-    <Compile Include="Specifics\NHV88\UserValidation.cs" />
-    <Compile Include="Specifics\NHV90\FixtureNHV90.cs" />
-    <Compile Include="Specifics\NHV90\Model.cs" />
-    <Compile Include="Specifics\NHV91\Model.cs" />
-    <Compile Include="Specifics\NHV91\NestedComponentsFixture.cs" />
-    <Compile Include="Specifics\NHV93\FullPathTest.cs" />
-    <Compile Include="Specifics\NHV95\FixtureNhv95.cs" />
-    <Compile Include="Specifics\NHV98\FixtureNhv98.cs" />
-    <Compile Include="ThreadSafe\Foo.cs" />
-    <Compile Include="ThreadSafe\ThreadSafeFixture.cs" />
-    <Compile Include="Utils\AttributeUtilsFixture.cs" />
-    <Compile Include="Utils\TypeUtilsFixture.cs" />
-    <Compile Include="UtilValidatorFactory.cs" />
-    <Compile Include="Collections\CollectionFixture.cs" />
-    <Compile Include="Collections\HasArrayWithValid.cs" />
-    <Compile Include="Collections\HasCollection.cs" />
-    <Compile Include="Collections\HasShowCollection.cs" />
-    <Compile Include="Collections\Movie.cs" />
-    <Compile Include="Collections\Presenter.cs" />
-    <Compile Include="Collections\Show.cs" />
-    <Compile Include="Collections\Tv.cs" />
-    <Compile Include="Configuration\CfgXmlHelperFixture.cs" />
-    <Compile Include="Configuration\XmlConfigurationFixture.cs" />
-    <Compile Include="Base\Contact.cs" />
-    <Compile Include="CustomValidator\BadValidator.cs" />
-    <Compile Include="CustomValidator\BadValidatorFixture.cs" />
-    <Compile Include="CustomValidator\Controller.cs" />
-    <Compile Include="CustomValidator\IPSubnetAttribute.cs" />
-    <Compile Include="CustomValidator\IPSubnetFixture.cs" />
-    <Compile Include="CustomValidator\IPSubnetValidator.cs" />
-    <Compile Include="Base\DigitsFixture.cs" />
-    <Compile Include="Base\DigitsFixtureXml.cs" />
-    <Compile Include="EmailTests\EmailFixture.cs" />
-    <Compile Include="Engine\ValidatorEngineFixture.cs" />
-    <Compile Include="Inheritance\Dog.cs" />
-    <Compile Include="Inheritance\IBoneEater.cs" />
-    <Compile Include="Inheritance\IEater.cs" />
-    <Compile Include="Inheritance\Animal.cs" />
-    <Compile Include="Inheritance\IName.cs" />
-    <Compile Include="Inheritance\InheritanceFixture.cs" />
-    <Compile Include="Inheritance\XmlInheritanceFixture.cs" />
-    <Compile Include="Integration\CreditCard.cs" />
-    <Compile Include="Integration\MarsAddress.cs" />
-    <Compile Include="Integration\Martian.cs" />
-    <Compile Include="Integration\MartianPk.cs" />
-    <Compile Include="Integration\Music.cs" />
-    <Compile Include="Integration\HibernateAnnotationIntegrationFixture.cs" />
-    <Compile Include="Integration\PrefixMessageInterpolator.cs" />
-    <Compile Include="Integration\Rock.cs" />
-    <Compile Include="Integration\User.cs" />
-    <Compile Include="Integration\XmlHibernateAnnotationIntegrationFixture.cs" />
-    <Compile Include="IPFixture\Computer.cs" />
-    <Compile Include="IPFixture\IPAddressFixture.cs" />
-    <Compile Include="IPFixture\XmlIPAddressFixture.cs" />
-    <Compile Include="PersistenceTest.cs" />
-    <Compile Include="Polimorphism\BaseClass.cs" />
-    <Compile Include="Polimorphism\PolimorphismFixture.cs" />
-    <Compile Include="Polimorphism\IContract.cs" />
-    <Compile Include="ResourceFixture\ResourcesTest.cs" />
-    <Compile Include="Serialization\XmlSerializationFixture.cs" />
-    <Compile Include="Base\Suricato.cs" />
-    <Compile Include="TestConfigurationHelper.cs" />
-    <Compile Include="Base\Tv.cs" />
-    <Compile Include="Base\TvOwner.cs" />
-    <Compile Include="Base\User.cs" />
-    <Compile Include="Base\ValidatorFixture.cs" />
-    <Compile Include="Base\ValidatorFixtureXml.cs" />
-    <Compile Include="ValidatorsTest\AssertFalseFixture.cs" />
-    <Compile Include="ValidatorsTest\CreditCardNumberFixture.cs" />
-    <Compile Include="ValidatorsTest\DecimalMaxValidatorFixture.cs" />
-    <Compile Include="ValidatorsTest\DecimalMinValidatorFixture.cs" />
-    <Compile Include="ValidatorsTest\DigitsValidatorFixture.cs" />
-    <Compile Include="ValidatorsTest\EANValidatorFixture.cs" />
-    <Compile Include="ValidatorsTest\EmailValidatorFixture.cs" />
-    <Compile Include="ValidatorsTest\FileExistsValidatorFixture.cs" />
-    <Compile Include="ValidatorsTest\FooDate.cs" />
-    <Compile Include="ValidatorsTest\FooLength.cs" />
-    <Compile Include="ValidatorsTest\FooNotEmpty.cs" />
-    <Compile Include="ValidatorsTest\FutureValidatorFixture.cs" />
-    <Compile Include="ValidatorsTest\IBANFixture.cs" />
-    <Compile Include="ValidatorsTest\IPAddressValidatorFixture.cs" />
-    <Compile Include="ValidatorsTest\IsNumericValidatorFixture.cs" />
-    <Compile Include="ValidatorsTest\LengthValidatorFixture.cs" />
-    <Compile Include="ValidatorsTest\MaxValidatorFixture.cs" />
-    <Compile Include="ValidatorsTest\MinValidatorFixture.cs" />
-    <Compile Include="ValidatorsTest\NotEmptyValidatorFixture.cs" />
-    <Compile Include="ValidatorsTest\NotNullNotEmptyValidatorFixture.cs" />
-    <Compile Include="ValidatorsTest\PastValidatorFixture.cs" />
-    <Compile Include="ValidatorsTest\PatternValidatorFixture.cs" />
-    <Compile Include="ValidatorsTest\RangeValidatorFixture.cs" />
-    <Compile Include="ValidatorsTest\SizeValidatorFixture.cs" />
-    <Compile Include="ValidatorsTest\ValidatorsFixture.cs" />
-    <Compile Include="ValidatorsTest\WithinValidatorFixture.cs" />
-    <Compile Include="ValidatorsTest\XmlValidatorFixture.cs" />
-    <Compile Include="ValidTests\Address.cs" />
-    <Compile Include="ValidTests\Author.cs" />
-    <Compile Include="ValidTests\Blog.cs" />
-    <Compile Include="ValidTests\Form.cs" />
-    <Compile Include="ValidTests\Member.cs" />
-    <Compile Include="ValidTests\ValidTestCase.cs" />
-    <Compile Include="ValidTests\XmlValidTest.cs" />
-    <Compile Include="EmailTests\XmlEmailFixture.cs" />
-    <Compile Include="XmlAndAttributesMix\OverrideAtributeWithXml.cs" />
-    <Compile Include="XmlAndAttributesMix\Person.cs" />
-    <Compile Include="XmlAndAttributesMix\OverrideXmlWithAttributeFixture.cs" />
+    <EmbeddedResource Include="**\*.hbm.xml" />
+    <EmbeddedResource Include="**\*.nhv.xml" />
+    <EmbeddedResource Include="**\*.whbm.xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resource\Messages.en.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Integration\Address.hbm.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Integration\Tv.hbm.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Integration\TvOwner.hbm.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Integration\Music.hbm.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Integration\Martian.hbm.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ValidTests\Address.nhv.xml" />
-    <EmbeddedResource Include="ValidTests\Blog.nhv.xml" />
-    <EmbeddedResource Include="ValidTests\Form.nhv.xml" />
-    <EmbeddedResource Include="ValidTests\Member.nhv.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ValidTests\Author.nhv.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Collections\Movie.nhv.xml" />
-    <EmbeddedResource Include="Collections\Presenter.nhv.xml" />
-    <EmbeddedResource Include="Collections\Show.nhv.xml" />
-    <EmbeddedResource Include="Collections\Tv.nhv.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Collections\HasArrayWithValid.nhv.xml" />
-    <EmbeddedResource Include="Collections\HasCollection.nhv.xml" />
-    <EmbeddedResource Include="Collections\HasShowCollection.nhv.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Inheritance\Dog.nhv.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Inheritance\IBoneEater.nhv.xml" />
-    <EmbeddedResource Include="Inheritance\IEater.nhv.xml" />
-    <EmbeddedResource Include="Inheritance\IName.nhv.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Base\Address.nhv.xml" />
-    <EmbeddedResource Include="Base\Brother.nhv.xml" />
-    <EmbeddedResource Include="Base\Suricato.nhv.xml" />
-    <EmbeddedResource Include="Base\Tv.nhv.xml" />
-    <EmbeddedResource Include="Base\TvOwner.nhv.xml" />
-    <EmbeddedResource Include="Base\User.nhv.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="CustomValidator\Controller.nhv.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="XmlAndAttributesMix\Person.nhv.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Base\Boo.nhv.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ValidatorsTest\FooDate.nhv.xml" />
-    <EmbeddedResource Include="ValidatorsTest\FooLength.nhv.xml" />
-    <EmbeddedResource Include="ValidatorsTest\FooNotEmpty.nhv.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="IPFixture\Computer.nhv.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Base\Car.nhv.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Base\CarEngine.nhv.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Mappings\MixAddress.nhv.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Mappings\MixSuricato.nhv.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Mappings\A.nhv.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Configuration\WellKnownRules.nhv.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Engine\DuplicatedAddress.nhv.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Specifics\NHV110\Mappings.nhv.xml" />
-    <EmbeddedResource Include="Integration\MartianPk.nhv.xml" />
-    <EmbeddedResource Include="Integration\MarsAddress.nhv.xml" />
-    <EmbeddedResource Include="Base\CreditCard.nhv.xml" />
-    <EmbeddedResource Include="Integration\WrongClass.whbm.xml" />
-    <EmbeddedResource Include="DeepIntegration\PersonBag.hbm.xml" />
-    <EmbeddedResource Include="DeepIntegration\PersonList.hbm.xml" />
-    <EmbeddedResource Include="DeepIntegration\PersonSet.hbm.xml" />
-    <EmbeddedResource Include="DeepIntegration\DynaEntity.hbm.xml" />
-    <EmbeddedResource Include="Collections\Simple.nhv.xml" />
-    <EmbeddedResource Include="Base\WebImage.nhv.xml" />
-    <EmbeddedResource Include="ConstraintFactory\Model\Foo.nhv.xml" />
-    <EmbeddedResource Include="Integration\SimpleWithRelation.hbm.xml" />
-    <EmbeddedResource Include="Integration\AnEntity.hbm.xml" />
-    <EmbeddedResource Include="Engine\Tagging\EntityXml.nhv.xml" />
     <Content Include="nhvalidator.cfg.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="Specifics\NHV82\Pperson.hbm.xml" />
-    <EmbeddedResource Include="Specifics\NHV91\Model.hbm.xml" />
-    <EmbeddedResource Include="Specifics\NHV90\Model.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Specifics\NHV82\Person.hbm.xml" />
-    <EmbeddedResource Include="Specifics\NHV85\Model.hbm.xml" />
-    <EmbeddedResource Include="Specifics\NHV71\Customer.hbm.xml" />
-    <EmbeddedResource Include="Resource\Messages.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Specifics\NHV29\Mappings.nhv.xml" />
-    <EmbeddedResource Include="Specifics\NHV25\Show.nhv.xml" />
-    <EmbeddedResource Include="Specifics\NHV25\Tv.nhv.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
-      <Visible>False</Visible>
-      <ProductName>Windows Installer 3.1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NHibernate.Validator\NHibernate.Validator.csproj">
-      <Project>{599516E0-E10D-4F44-B5E1-B7B67EFC931A}</Project>
+      <Project>{599516e0-e10d-4f44-b5e1-b7b67efc931a}</Project>
       <Name>NHibernate.Validator</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
-  <PropertyGroup>
-    <PostBuildEvent>if exist hibernate.cfg.xml (del hibernate.cfg.xml)
-if exist "$(ProjectDir)hibernate.cfg.xml" (copy "$(ProjectDir)hibernate.cfg.xml" "hibernate.cfg.xml")</PostBuildEvent>
-  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="NUnit" Version="3.9.0" />
+    <PackageReference Include="SharpTestsEx" Version="2.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.6.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.9.0" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)'=='net461'">
+    <PackageReference Include="Iesi.Collections" Version="4.0.2" />
+    <PackageReference Include="NHibernate.Envers" Version="5.0.1" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp2.0'">
+    <PackageReference Include="Iesi.Collections" Version="4.0.4" />
+    <PackageReference Include="NUnitLite" Version="3.9.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.4.3" />
+  </ItemGroup>
 </Project>

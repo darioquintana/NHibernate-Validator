@@ -17,8 +17,8 @@ namespace NHibernate.Validator.Tests.Serialization
 		[Test]
 		public void AllEventsCanBeSerialized()
 		{
-			(new ValidatePreInsertEventListener()).Should().Be.BinarySerializable();
-			(new ValidatePreUpdateEventListener()).Should().Be.BinarySerializable();
+			NHAssert.IsSerializable(new ValidatePreInsertEventListener());
+			NHAssert.IsSerializable(new ValidatePreUpdateEventListener());
 		}
 	}
 }
